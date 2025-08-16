@@ -18,29 +18,37 @@ export default function Footer() {
         {/* Informações principais em linha */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {/* Telefone e Email */}
-          <div className="text-center">
-            <Phone className="text-brand-yellow mx-auto mb-3" size={24} />
-            <p className="text-white/80 mb-4">+351 930 682 725</p>
-            <Mail className="text-brand-turquoise mx-auto mb-3" size={24} />
-            <p className="text-white/80">carloscruz@domrealce.com</p>
+          <div className="text-left">
+            <div className="flex items-center mb-4">
+              <Phone className="text-brand-yellow mr-3" size={20} />
+              <p className="text-white/80">+351 930 682 725</p>
+            </div>
+            <div className="flex items-center">
+              <Mail className="text-brand-turquoise mr-3" size={20} />
+              <p className="text-white/80">carloscruz@domrealce.com</p>
+            </div>
           </div>
 
           {/* Morada */}
-          <div className="text-center">
-            <MapPin className="text-brand-coral mx-auto mb-3" size={24} />
-            <p className="text-white/80">
-              Rua de Rebolido, 42<br />
-              4580-402 Gondalães, Paredes
-            </p>
+          <div className="text-left">
+            <div className="flex items-start">
+              <MapPin className="text-brand-coral mr-3 mt-1" size={20} />
+              <p className="text-white/80">
+                Rua de Rebolido, 42<br />
+                4580-402 Gondalães, Paredes
+              </p>
+            </div>
           </div>
 
           {/* Horário */}
-          <div className="text-center">
-            <Clock className="text-brand-yellow mx-auto mb-3" size={24} />
-            <div className="text-white/80 text-sm">
-              <p>Segunda-Sexta: 9h00-18h00</p>
-              <p>Sábado: 9h00-13h00</p>
-              <p>Domingo: Encerrado</p>
+          <div className="text-left">
+            <div className="flex items-start">
+              <Clock className="text-brand-yellow mr-3 mt-1" size={20} />
+              <div className="text-white/80 text-sm">
+                <p>Segunda-Sexta: 9h00-18h00</p>
+                <p>Sábado: 9h00-13h00</p>
+                <p>Domingo: Encerrado</p>
+              </div>
             </div>
           </div>
         </div>
