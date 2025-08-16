@@ -20,7 +20,7 @@ const services = [
     title: "Fachadas e Letreiros",
     description: "Sinalização exterior profissional para seu negócio.",
     color: "from-brand-blue to-brand-coral",
-    titleColor: "text-brand-blue"
+    titleColor: "text-brand-turquoise"
   },
   {
     icon: Car,

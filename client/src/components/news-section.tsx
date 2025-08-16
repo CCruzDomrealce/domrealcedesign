@@ -67,7 +67,7 @@ export default function NewsSection() {
                 </p>
                 <Button 
                   variant="link" 
-                  className="text-brand-blue hover:text-brand-turquoise font-semibold transition-colors p-0"
+                  className="text-brand-turquoise hover:text-brand-turquoise font-semibold transition-colors p-0"
                 >
                   Ler mais <ArrowRight className="ml-2" size={16} />
                 </Button>

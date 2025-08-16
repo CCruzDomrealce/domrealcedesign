@@ -61,7 +61,7 @@ export default function Navigation() {
             </button>
             <button 
               onClick={() => handleNavClick("#noticias")} 
-              className="text-white hover:text-brand-blue transition-colors duration-300 font-medium"
+              className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
             >
               Notícias
             </button>
@@ -102,7 +102,7 @@ export default function Navigation() {
               </button>
               <button 
                 onClick={() => handleNavClick("#noticias")} 
-                className="text-white hover:text-brand-blue transition-colors duration-300 font-medium py-2 text-left"
+                className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
               >
                 Notícias
               </button>

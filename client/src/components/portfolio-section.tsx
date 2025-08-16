@@ -20,7 +20,7 @@ const portfolioItems = [
     title: "Quadros Decorativos",
     description: "Personalização completa para ambientes únicos",
     price: "A partir de €15",
-    titleColor: "text-brand-blue"
+    titleColor: "text-brand-turquoise"
   },
   {
     image: "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
@@ -76,7 +76,7 @@ export default function PortfolioSection() {
                   <span className="text-brand-coral font-semibold">{item.price}</span>
                   <Button 
                     variant="link" 
-                    className="text-brand-blue hover:text-brand-turquoise transition-colors p-0"
+                    className="text-brand-turquoise hover:text-brand-turquoise transition-colors p-0"
                   >
                     Ver Mais
                   </Button>
