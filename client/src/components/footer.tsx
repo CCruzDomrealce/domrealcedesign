@@ -10,11 +10,10 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <img 
-                src="@assets/icon DOMREALCE_1755337082794.png" 
+                src="@assets/LOGO DOMREALCE_1755363285699.png" 
                 alt="DOMREALCE Logo" 
-                className="w-12 h-12 rounded-full"
+                className="h-12 w-auto"
               />
-              <h1 className="text-2xl font-heading font-bold text-brand-yellow">DOMREALCE</h1>
             </div>
             <p className="text-white/80 mb-6 max-w-md">
               Especialistas em comunicação visual e impressão digital. Transformamos suas ideias em realidade com qualidade e criatividade.
