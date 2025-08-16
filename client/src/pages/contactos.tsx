@@ -7,7 +7,7 @@ export default function Contactos() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-20 pb-10 bg-black">
+      <section className="pt-28 pb-6 bg-black">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-heading font-bold mb-6">
             <span className="text-brand-yellow">Contacto</span>
@@ -19,20 +19,20 @@ export default function Contactos() {
       </section>
 
       {/* Contact Information */}
-      <section className="py-10 bg-black/90">
+      <section className="py-6 bg-black/90">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center p-6">
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
+            <div className="text-center p-4">
               <h3 className="text-xl font-semibold mb-3 text-brand-yellow">Telefone</h3>
               <p className="text-white/80">+351 930 682 725</p>
             </div>
 
-            <div className="text-center p-6">
+            <div className="text-center p-4">
               <h3 className="text-xl font-semibold mb-3 text-brand-turquoise">Email</h3>
               <p className="text-white/80">carloscruz@domrealce.com</p>
             </div>
 
-            <div className="text-center p-6">
+            <div className="text-center p-4">
               <h3 className="text-xl font-semibold mb-3 text-brand-coral">Horário</h3>
               <p className="text-white/80">
                 Segunda-Sexta: 9h00-18h00<br />
@@ -45,7 +45,7 @@ export default function Contactos() {
       </section>
 
       {/* Simple Contact Form */}
-      <section className="py-10 bg-black">
+      <section className="py-6 bg-black">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl font-heading font-bold mb-6 text-center">
