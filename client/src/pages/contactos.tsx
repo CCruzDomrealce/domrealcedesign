@@ -21,7 +21,7 @@ export default function Contactos() {
       {/* Contact Information */}
       <section className="py-6 bg-black/90">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-6 mb-10">
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
             <div className="text-center p-4">
               <h3 className="text-xl font-semibold mb-3 text-brand-yellow">Telefone</h3>
               <p className="text-white/80">+351 930 682 725</p>
@@ -30,6 +30,14 @@ export default function Contactos() {
             <div className="text-center p-4">
               <h3 className="text-xl font-semibold mb-3 text-brand-turquoise">Email</h3>
               <p className="text-white/80">carloscruz@domrealce.com</p>
+            </div>
+
+            <div className="text-center p-4">
+              <h3 className="text-xl font-semibold mb-3 text-brand-coral">Morada</h3>
+              <p className="text-white/80">
+                Rua de Rebolido, 42<br />
+                4580-264 Gondalães, Paredes
+              </p>
             </div>
 
           </div>
@@ -111,29 +119,18 @@ export default function Contactos() {
             </p>
           </div>
           
-          {/* Informações de Contacto em duas colunas */}
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-black/30 rounded-lg p-6">
-              <h3 className="text-2xl font-semibold text-brand-turquoise mb-6 text-center">DOMREALCE</h3>
-              
-              <div className="text-center mb-6">
-                <h4 className="text-white font-semibold mb-3">📍 Morada</h4>
-                <p className="text-white/80">
-                  Rua de Rebolido, 42<br />
-                  4580-264 Gondalães, Paredes
-                </p>
-              </div>
-              
-              <div className="flex justify-center">
-                <a 
-                  href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full max-w-sm px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-center"
-                >
-                  💬 Contactar via WhatsApp
-                </a>
-              </div>
+          {/* WhatsApp Contact */}
+          <div className="max-w-md mx-auto">
+            <div className="bg-black/30 rounded-lg p-6 text-center">
+              <h3 className="text-xl font-semibold text-brand-turquoise mb-4">Contacto Direto</h3>
+              <a 
+                href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
+              >
+                💬 Contactar via WhatsApp
+              </a>
             </div>
           </div>
         </div>
