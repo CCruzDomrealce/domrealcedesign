@@ -153,23 +153,14 @@ export default function Contactos() {
                 </div>
               </div>
               
-              <div className="grid md:grid-cols-2 gap-3">
+              <div className="flex justify-center">
                 <a 
                   href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-center"
+                  className="block w-full max-w-sm px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-center"
                 >
                   💬 Contactar via WhatsApp
-                </a>
-                
-                <a 
-                  href="https://www.google.com/maps/dir//Rua+de+Rebolido,+42,+4580-264+Gondalães,+Paredes"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full px-6 py-3 bg-brand-blue hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors text-center"
-                >
-                  🗺️ Abrir no Google Maps
                 </a>
               </div>
             </div>
