@@ -77,7 +77,7 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-start text-white/80">
                 <MapPin className="text-brand-yellow mr-3 mt-1 flex-shrink-0" size={16} />
-                <span>Rua Principal, 123<br />4000-000 Porto, Portugal</span>
+                <span>Rua de Rebolido 42<br />4580-402 Gondalães Paredes</span>
               </div>
               <div className="flex items-center text-gray-300">
                 <Phone className="text-brand-turquoise mr-3 flex-shrink-0" size={16} />
@@ -85,7 +85,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center text-white/80">
                 <Mail className="text-brand-coral mr-3 flex-shrink-0" size={16} />
-                <span>info@domrealce.pt</span>
+                <span>geral@domrealce.com</span>
               </div>
             </div>
           </div>
