@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(0, 0%, 100%);
+  --card: hsl(240, 4%, 16%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --popover: hsl(240, 4%, 16%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --primary: hsl(203, 88%, 53%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(240, 4%, 16%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(240, 4%, 16%);
+  --muted-foreground: hsl(240, 5%, 64%);
+  --accent: hsl(240, 4%, 16%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(240, 6%, 20%);
+  --input: hsl(240, 6%, 20%);
+  --ring: hsl(203, 88%, 53%);
+  --chart-1: hsl(203, 88%, 53%);
+  --chart-2: hsl(159, 100%, 36%);
+  --chart-3: hsl(42, 93%, 56%);
+  --chart-4: hsl(147, 79%, 42%);
+  --chart-5: hsl(341, 75%, 51%);
+  --sidebar: hsl(240, 4%, 16%);
+  --sidebar-foreground: hsl(0, 0%, 100%);
+  --sidebar-primary: hsl(203, 88%, 53%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(240, 4%, 16%);
+  --sidebar-accent-foreground: hsl(0, 0%, 100%);
+  --sidebar-border: hsl(240, 6%, 20%);
+  --sidebar-ring: hsl(203, 88%, 53%);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Poppins', system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 0.75rem;
+  
+  /* DOMREALCE Brand Colors */
+  --brand-yellow: hsl(51, 100%, 50%);
+  --brand-turquoise: hsl(174, 72%, 56%);
+  --brand-blue: hsl(211, 100%, 50%);
+  --brand-coral: hsl(6, 100%, 69%);
+  --brand-dark: hsl(0, 0%, 0%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(0, 0%, 100%);
+  --card: hsl(240, 4%, 16%);
+  --card-foreground: hsl(0, 0%, 100%);
+  --popover: hsl(240, 4%, 16%);
+  --popover-foreground: hsl(0, 0%, 100%);
+  --primary: hsl(203, 88%, 53%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(240, 4%, 16%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(240, 4%, 16%);
+  --muted-foreground: hsl(240, 5%, 64%);
+  --accent: hsl(240, 4%, 16%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(240, 6%, 20%);
+  --input: hsl(240, 6%, 20%);
+  --ring: hsl(203, 88%, 53%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-sans);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer utilities {
+  .gradient-border {
+    background: linear-gradient(45deg, var(--brand-yellow), var(--brand-turquoise), var(--brand-blue), var(--brand-coral));
+    padding: 2px;
+    border-radius: 12px;
+  }
+  
+  .gradient-border-inner {
+    background: var(--brand-dark);
+    border-radius: 10px;
+    height: 100%;
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, 
+      hsla(51, 100%, 50%, 0.1) 0%, 
+      hsla(174, 72%, 56%, 0.1) 25%, 
+      hsla(211, 100%, 50%, 0.1) 50%, 
+      hsla(6, 100%, 69%, 0.1) 100%);
+  }
+  
+  .text-brand-yellow {
+    color: var(--brand-yellow);
+  }
+  
+  .text-brand-turquoise {
+    color: var(--brand-turquoise);
+  }
+  
+  .text-brand-blue {
+    color: var(--brand-blue);
+  }
+  
+  .text-brand-coral {
+    color: var(--brand-coral);
+  }
+  
+  .bg-brand-yellow {
+    background-color: var(--brand-yellow);
+  }
+  
+  .bg-brand-turquoise {
+    background-color: var(--brand-turquoise);
+  }
+  
+  .bg-brand-blue {
+    background-color: var(--brand-blue);
+  }
+  
+  .bg-brand-coral {
+    background-color: var(--brand-coral);
+  }
+  
+  .border-brand-yellow {
+    border-color: var(--brand-yellow);
+  }
+  
+  .border-brand-turquoise {
+    border-color: var(--brand-turquoise);
+  }
+  
+  .border-brand-blue {
+    border-color: var(--brand-blue);
+  }
+  
+  .border-brand-coral {
+    border-color: var(--brand-coral);
+  }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(50px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.8s ease-out forwards;
+}
