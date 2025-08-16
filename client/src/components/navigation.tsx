@@ -41,7 +41,7 @@ export default function Navigation() {
             <img 
               src={domrealceLogo} 
               alt="DOMREALCE Logo" 
-              className="h-10 w-auto"
+              className="h-14 w-auto"
             />
           </div>
           

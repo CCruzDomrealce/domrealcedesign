@@ -13,7 +13,7 @@ export default function Footer() {
               <img 
                 src={domrealceLogo} 
                 alt="DOMREALCE Logo" 
-                className="h-12 w-auto"
+                className="h-16 w-auto"
               />
             </div>
             <p className="text-white/80 mb-6 max-w-md">
