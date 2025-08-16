@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import domrealceLogo from "@/assets/domrealce-logo.png";
 
@@ -19,15 +19,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {/* Telefone e Email */}
           <div className="text-center">
-            <h4 className="text-lg font-heading font-semibold text-brand-yellow mb-3">Telefone</h4>
+            <Phone className="text-brand-yellow mx-auto mb-3" size={24} />
             <p className="text-white/80 mb-4">+351 930 682 725</p>
-            <h4 className="text-lg font-heading font-semibold text-brand-turquoise mb-3">Email</h4>
+            <Mail className="text-brand-turquoise mx-auto mb-3" size={24} />
             <p className="text-white/80">carloscruz@domrealce.com</p>
           </div>
 
           {/* Morada */}
           <div className="text-center">
-            <h4 className="text-lg font-heading font-semibold text-brand-coral mb-3">Morada</h4>
+            <MapPin className="text-brand-coral mx-auto mb-3" size={24} />
             <p className="text-white/80">
               Rua de Rebolido, 42<br />
               4580-402 Gondalães, Paredes
@@ -36,7 +36,7 @@ export default function Footer() {
 
           {/* Horário */}
           <div className="text-center">
-            <h4 className="text-lg font-heading font-semibold text-brand-yellow mb-3">Horário</h4>
+            <Clock className="text-brand-yellow mx-auto mb-3" size={24} />
             <div className="text-white/80 text-sm">
               <p>Segunda-Sexta: 9h00-18h00</p>
               <p>Sábado: 9h00-13h00</p>
