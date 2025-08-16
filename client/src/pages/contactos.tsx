@@ -116,25 +116,12 @@ export default function Contactos() {
             <div className="bg-black/30 rounded-lg p-6">
               <h3 className="text-2xl font-semibold text-brand-turquoise mb-6 text-center">DOMREALCE</h3>
               
-              <div className="grid md:grid-cols-3 gap-6 mb-6">
-                <div>
-                  <h4 className="text-white font-semibold mb-1">📍 Morada:</h4>
-                  <p className="text-white/80">
-                    Rua de Rebolido, 42<br />
-                    4580-264 Gondalães, Paredes
-                  </p>
-                </div>
-                
-                <div>
-                  <h4 className="text-white font-semibold mb-1">📞 Telefone:</h4>
-                  <p className="text-white/80">+351 930 682 725</p>
-                </div>
-                
-                <div>
-                  <h4 className="text-white font-semibold mb-1">✉️ Email:</h4>
-                  <p className="text-white/80">carloscruz@domrealce.com</p>
-                </div>
-                
+              <div className="text-center mb-6">
+                <h4 className="text-white font-semibold mb-3">📍 Morada</h4>
+                <p className="text-white/80">
+                  Rua de Rebolido, 42<br />
+                  4580-264 Gondalães, Paredes
+                </p>
               </div>
               
               <div className="flex justify-center">
