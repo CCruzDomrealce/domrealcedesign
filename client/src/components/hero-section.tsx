@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 export default function HeroSection() {
   return (
     <section className="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      <div className="absolute inset-0 bg-black/75"></div>
+      <div className="absolute inset-0 bg-black/65"></div>
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')"
+          backgroundImage: "url('https://images.unsplash.com/photo-1551677779-ca334b419171?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')"
         }}
       ></div>
       
