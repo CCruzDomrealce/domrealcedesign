@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <img 
-                src="@assets/LOGO DOMREALCE_1755363285699.png" 
+                src="@assets/domrealce-logo.png" 
                 alt="DOMREALCE Logo" 
                 className="h-12 w-auto"
               />

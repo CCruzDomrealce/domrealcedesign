@@ -38,7 +38,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
-              src="@assets/LOGO DOMREALCE_1755363285699.png" 
+              src="@assets/domrealce-logo.png" 
               alt="DOMREALCE Logo" 
               className="h-10 w-auto"
             />
