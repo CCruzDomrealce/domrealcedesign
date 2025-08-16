@@ -24,7 +24,7 @@ export default function Footer() {
               <p className="text-white/80">+351 930 682 725</p>
             </div>
             <div className="flex items-center">
-              <Mail className="text-brand-turquoise mr-3" size={20} />
+              <Mail className="text-brand-turquoise mr-3 flex-shrink-0" size={20} />
               <p className="text-white/80">carloscruz@domrealce.com</p>
             </div>
           </div>
