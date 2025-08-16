@@ -21,7 +21,7 @@ export default function Contactos() {
       {/* Contact Information */}
       <section className="py-6 bg-black/90">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
             <div className="text-center p-4">
               <h3 className="text-xl font-semibold mb-3 text-brand-yellow">Telefone</h3>
               <p className="text-white/80">+351 930 682 725</p>
@@ -32,14 +32,6 @@ export default function Contactos() {
               <p className="text-white/80">carloscruz@domrealce.com</p>
             </div>
 
-            <div className="text-center p-4">
-              <h3 className="text-xl font-semibold mb-3 text-brand-coral">Horário</h3>
-              <p className="text-white/80">
-                Segunda-Sexta: 9h00-18h00<br />
-                Sábado: 9h00-13h00<br />
-                Domingo: Encerrado
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -124,7 +116,7 @@ export default function Contactos() {
             <div className="bg-black/30 rounded-lg p-6">
               <h3 className="text-2xl font-semibold text-brand-turquoise mb-6 text-center">DOMREALCE</h3>
               
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="grid md:grid-cols-3 gap-6 mb-6">
                 <div>
                   <h4 className="text-white font-semibold mb-1">📍 Morada:</h4>
                   <p className="text-white/80">
@@ -143,14 +135,6 @@ export default function Contactos() {
                   <p className="text-white/80">carloscruz@domrealce.com</p>
                 </div>
                 
-                <div>
-                  <h4 className="text-white font-semibold mb-1">🕒 Horário:</h4>
-                  <p className="text-white/80">
-                    Segunda-Sexta: 9h00-18h00<br />
-                    Sábado: 9h00-13h00<br />
-                    Domingo: Encerrado
-                  </p>
-                </div>
               </div>
               
               <div className="flex justify-center">
