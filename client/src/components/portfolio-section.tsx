@@ -47,20 +47,20 @@ const portfolioItems = [
 
 export default function PortfolioSection() {
   return (
-    <section id="portfolio" className="py-20 bg-gray-900/50">
+    <section id="portfolio" className="py-20 bg-black/80">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
             <span className="text-brand-turquoise">Produtos</span> <span className="text-white">de Destaque</span>
           </h3>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-white/80 max-w-3xl mx-auto">
             Conheça alguns dos nossos produtos mais procurados com qualidade excepcional
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {portfolioItems.map((item, index) => (
-            <div key={index} className="group relative overflow-hidden rounded-2xl bg-gray-800">
+            <div key={index} className="group relative overflow-hidden rounded-2xl bg-black">
               <img 
                 src={item.image} 
                 alt={item.title} 
@@ -71,7 +71,7 @@ export default function PortfolioSection() {
                 <h4 className={`text-xl font-heading font-semibold mb-2 ${item.titleColor}`}>
                   {item.title}
                 </h4>
-                <p className="text-gray-300 mb-3">{item.description}</p>
+                <p className="text-white/80 mb-3">{item.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-brand-coral font-semibold">{item.price}</span>
                   <Button 

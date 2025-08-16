@@ -47,13 +47,13 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section id="servicos" className="py-20 bg-gray-900/50">
+    <section id="servicos" className="py-20 bg-black/90">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
             <span className="text-brand-yellow">Nossos</span> <span className="text-white">Serviços</span>
           </h3>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-white/80 max-w-3xl mx-auto">
             Soluções completas em comunicação visual para destacar sua marca no mercado
           </p>
         </div>
@@ -68,7 +68,7 @@ export default function ServicesSection() {
                 <h4 className={`text-xl font-heading font-semibold mb-3 ${service.titleColor}`}>
                   {service.title}
                 </h4>
-                <p className="text-gray-300">{service.description}</p>
+                <p className="text-white/80">{service.description}</p>
               </div>
             </div>
           ))}

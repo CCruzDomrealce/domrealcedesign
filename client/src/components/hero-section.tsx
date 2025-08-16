@@ -19,7 +19,7 @@ export default function HeroSection() {
             com <span className="text-brand-turquoise">criatividade</span><br />
             <span className="text-white">e alta definição</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl">
+          <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl">
             Transformamos ideias em comunicação visual impactante. Especialistas em impressão digital, corte de vinil e soluções personalizadas para comércios.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">

@@ -39,14 +39,14 @@ export default function NewsSection() {
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
             <span className="text-brand-coral">Notícias</span> <span className="text-white">Mais Recentes</span>
           </h3>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-white/80 max-w-3xl mx-auto">
             Fique por dentro das últimas novidades e tendências em comunicação visual
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {newsArticles.map((article, index) => (
-            <article key={index} className="bg-gray-800 rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
+            <article key={index} className="bg-black rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
               <img 
                 src={article.image} 
                 alt={article.title} 
@@ -57,12 +57,12 @@ export default function NewsSection() {
                   <span className={`${article.categoryColor} px-3 py-1 rounded-full text-sm font-semibold`}>
                     {article.category}
                   </span>
-                  <span className="text-gray-400 text-sm ml-3">{article.date}</span>
+                  <span className="text-white/60 text-sm ml-3">{article.date}</span>
                 </div>
                 <h4 className={`text-xl font-heading font-semibold mb-3 text-white ${article.titleHoverColor} transition-colors cursor-pointer`}>
                   {article.title}
                 </h4>
-                <p className="text-gray-300 mb-4">
+                <p className="text-white/80 mb-4">
                   {article.description}
                 </p>
                 <Button 
