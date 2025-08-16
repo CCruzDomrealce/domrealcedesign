@@ -1,5 +1,6 @@
-import { Printer, Scissors, Store, Car, Eye, Sparkles } from "lucide-react";
+import { Printer, Scissors, Store, Car, Eye, Sparkles, ArrowRight } from "lucide-react";
 import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
 
 const services = [
   {
@@ -112,7 +113,14 @@ export default function ServicesSection() {
                   <h4 className={`text-xl font-heading font-semibold mb-3 ${service.titleColor} ${isHovered ? 'animate-glow' : ''}`}>
                     {service.title}
                   </h4>
-                  <p className="text-white/80">{service.description}</p>
+                  <p className="text-white/80 mb-4">{service.description}</p>
+                  
+                  <Button 
+                    variant="link" 
+                    className="text-brand-turquoise hover:text-brand-turquoise font-semibold transition-colors p-0 hover-lift group"
+                  >
+                    Ver mais <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={16} />
+                  </Button>
                   
                   {/* Hover accent */}
                   {isHovered && (
