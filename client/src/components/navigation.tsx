@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "wouter";
 import domrealceLogo from "@/assets/domrealce-logo.png";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [location] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,13 +39,13 @@ export default function Navigation() {
     }`}>
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+          <Link href="/" className="flex items-center space-x-3">
             <img 
               src={domrealceLogo} 
               alt="DOMREALCE Logo" 
               className="h-14 w-auto"
             />
-          </div>
+          </Link>
           
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
@@ -77,12 +79,13 @@ export default function Navigation() {
             >
               Loja
             </button>
-            <button 
-              onClick={() => handleNavClick("#contactos")} 
+            <Link 
+              href="/contactos" 
               className="text-white hover:text-brand-coral transition-colors duration-300 font-medium"
+              onClick={() => setIsMenuOpen(false)}
             >
               Contactos
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -130,12 +133,13 @@ export default function Navigation() {
               >
                 Loja
               </button>
-              <button 
-                onClick={() => handleNavClick("#contactos")} 
+              <Link 
+                href="/contactos" 
                 className="text-white hover:text-brand-coral transition-colors duration-300 font-medium py-2 text-left"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Contactos
-              </button>
+              </Link>
             </div>
           </div>
         )}
