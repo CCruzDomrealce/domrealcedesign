@@ -70,11 +70,10 @@ export default function Contactos() {
             }}
           >
             <h1 className="text-5xl md:text-6xl font-heading font-bold mb-6 leading-tight">
-              <span className="text-brand-yellow animate-pulse-brand">Entre em</span><br />
-              <span className="text-white">Contacto</span>
+              <span className="text-brand-yellow animate-pulse-brand">Contacto</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Estamos aqui para transformar as suas ideias em realidade. Fale connosco e descubra como podemos ajudar o seu negócio.
+              Entre em contacto connosco. Estamos aqui para ajudar com o seu projeto de comunicação visual.
             </p>
           </div>
         </div>
@@ -105,7 +104,7 @@ export default function Contactos() {
                 </div>
                 <h3 className="text-xl font-heading font-semibold mb-3 text-brand-turquoise">Telefone</h3>
                 <p className="text-white/80">+351 930 682 725</p>
-                <p className="text-white/60 text-sm mt-2">Segunda a Sexta<br />9h00 - 18h00</p>
+                <p className="text-white/60 text-sm mt-2">Resposta rápida<br />via WhatsApp</p>
               </div>
             </div>
 
@@ -115,7 +114,7 @@ export default function Contactos() {
                   <Mail className="text-black text-2xl" size={24} />
                 </div>
                 <h3 className="text-xl font-heading font-semibold mb-3 text-brand-blue">Email</h3>
-                <p className="text-white/80">geral@domrealce.com</p>
+                <p className="text-white/80">carloscruz@domrealce.com</p>
                 <p className="text-white/60 text-sm mt-2">Resposta em<br />24 horas</p>
               </div>
             </div>
@@ -127,10 +126,10 @@ export default function Contactos() {
                 </div>
                 <h3 className="text-xl font-heading font-semibold mb-3 text-brand-coral">Horário</h3>
                 <p className="text-white/80">
-                  Segunda - Sexta<br />
-                  9h00 - 18h00
+                  Segunda - Sexta: 9h00 - 18h00<br />
+                  Sábado: 9h00 - 13h00<br />
+                  Domingo: Encerrado
                 </p>
-                <p className="text-white/60 text-sm mt-2">Sábado sob<br />marcação</p>
               </div>
             </div>
           </div>
@@ -148,6 +147,7 @@ export default function Contactos() {
                   <h2 className="text-3xl font-heading font-bold mb-6">
                     <span className="text-brand-turquoise">Envie-nos</span> <span className="text-white">uma Mensagem</span>
                   </h2>
+                  <p className="text-white/80 mb-6">Preencha o formulário e entraremos em contacto brevemente.</p>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
@@ -162,7 +162,7 @@ export default function Contactos() {
                           value={formData.nome}
                           onChange={handleInputChange}
                           className="bg-black/50 border-brand-yellow text-white placeholder:text-white/50 focus:border-brand-turquoise"
-                          placeholder="O seu nome"
+                          placeholder="Nome Completo"
                           required
                         />
                       </div>
@@ -227,7 +227,7 @@ export default function Contactos() {
                         value={formData.mensagem}
                         onChange={handleInputChange}
                         className="bg-black/50 border-brand-yellow text-white placeholder:text-white/50 focus:border-brand-turquoise min-h-[120px]"
-                        placeholder="Descreva o seu projeto ou questão..."
+                        placeholder="Descreva o seu projeto..."
                         required
                       />
                     </div>
@@ -249,8 +249,9 @@ export default function Contactos() {
               <div className="bg-black/50 rounded-2xl p-8 gradient-border">
                 <div className="gradient-border-inner p-6">
                   <h2 className="text-3xl font-heading font-bold mb-6">
-                    <span className="text-brand-coral">Como nos</span> <span className="text-white">Encontrar</span>
+                    <span className="text-brand-coral">Informações</span> <span className="text-white">de Contacto</span>
                   </h2>
+                  <p className="text-white/80 mb-6">Pode contactar-nos através dos seguintes meios.</p>
                   
                   <div className="space-y-6">
                     <div className="flex items-start space-x-4 p-4 bg-black/30 rounded-lg hover-lift">
@@ -258,9 +259,8 @@ export default function Contactos() {
                       <div>
                         <h3 className="text-lg font-semibold text-white mb-2">Endereço</h3>
                         <p className="text-white/80">
-                          Rua de Rebolido 42<br />
-                          4580-402 Gondalães<br />
-                          Paredes, Portugal
+                          Rua de Rebolido, 42<br />
+                          4580-402 Gondalães, Paredes
                         </p>
                       </div>
                     </div>
@@ -271,7 +271,7 @@ export default function Contactos() {
                         <h3 className="text-lg font-semibold text-white mb-2">Horário de Funcionamento</h3>
                         <div className="text-white/80 space-y-1">
                           <p><strong>Segunda a Sexta:</strong> 9h00 - 18h00</p>
-                          <p><strong>Sábado:</strong> Sob marcação</p>
+                          <p><strong>Sábado:</strong> 9h00 - 13h00</p>
                           <p><strong>Domingo:</strong> Encerrado</p>
                         </div>
                       </div>
@@ -280,16 +280,123 @@ export default function Contactos() {
                     <div className="flex items-start space-x-4 p-4 bg-black/30 rounded-lg hover-lift">
                       <MessageSquare className="text-brand-coral mt-1 flex-shrink-0 animate-pulse-brand" size={24} />
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-2">Resposta Rápida</h3>
+                        <h3 className="text-lg font-semibold text-white mb-2">Atendimento Personalizado</h3>
                         <p className="text-white/80 mb-3">
-                          Para atendimento imediato, contacte-nos via WhatsApp
+                          Com 40 anos de experiência, oferecemos um atendimento personalizado focado na qualidade, pontualidade e honestidade.
                         </p>
-                        <Button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg hover-lift">
-                          <MessageSquare className="mr-2" size={16} />
-                          WhatsApp
+                        <Button 
+                          variant="link" 
+                          className="text-brand-turquoise hover:text-brand-turquoise transition-colors p-0 hover-lift"
+                        >
+                          Conhecer a Nossa História
                         </Button>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contacto Direto Section */}
+      <section className="py-16 bg-black/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center scroll-animate">
+            <h2 className="text-4xl font-heading font-bold mb-6">
+              <span className="text-brand-yellow">Contacto</span> <span className="text-white">Direto</span>
+            </h2>
+            <p className="text-xl text-white/80 mb-8">
+              Contacte-nos diretamente via WhatsApp para respostas mais rápidas.
+            </p>
+            <a 
+              href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-heading font-semibold rounded-lg hover-lift transition-all duration-300 text-lg">
+                <MessageSquare className="mr-3" size={20} />
+                Contactar Agora
+              </Button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Como Chegar Section */}
+      <section className="py-20 bg-black">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 scroll-animate">
+            <h2 className="text-4xl font-heading font-bold mb-6">
+              <span className="text-brand-coral">Como</span> <span className="text-white">Chegar</span>
+            </h2>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Mapa */}
+            <div className="scroll-animate-left">
+              <div className="bg-black/50 rounded-2xl overflow-hidden gradient-border">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.8567891234567!2d-8.3591234567891!3d41.2034567891234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sRua%20de%20Rebolido%2C%2042%2C%204580-402%20Gondalães%2C%20Paredes!5e0!3m2!1spt!2spt!4v1234567890123"
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="rounded-2xl"
+                ></iframe>
+              </div>
+            </div>
+            
+            {/* Informações de Localização */}
+            <div className="scroll-animate-right">
+              <div className="bg-black/50 rounded-2xl p-8 gradient-border">
+                <div className="gradient-border-inner p-6">
+                  <h3 className="text-2xl font-heading font-bold text-brand-turquoise mb-4">DOMREALCE</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-3">
+                      <MapPin className="text-brand-yellow mt-1 flex-shrink-0" size={20} />
+                      <div>
+                        <p className="text-white font-semibold mb-1">Morada:</p>
+                        <p className="text-white/80">
+                          Rua de Rebolido, 42<br />
+                          4580-264 Gondalães, Paredes
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-3">
+                      <Phone className="text-brand-turquoise mt-1 flex-shrink-0" size={20} />
+                      <div>
+                        <p className="text-white font-semibold mb-1">Telefone:</p>
+                        <p className="text-white/80">+351 930 682 725</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-3">
+                      <Mail className="text-brand-coral mt-1 flex-shrink-0" size={20} />
+                      <div>
+                        <p className="text-white font-semibold mb-1">Email:</p>
+                        <p className="text-white/80">carloscruz@domrealce.com</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6">
+                    <a 
+                      href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block w-full"
+                    >
+                      <Button className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg hover-lift transition-all duration-300">
+                        <MessageSquare className="mr-2" size={16} />
+                        Contactar via WhatsApp
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </div>
