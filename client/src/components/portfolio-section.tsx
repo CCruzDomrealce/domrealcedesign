@@ -49,9 +49,9 @@ export default function PortfolioSection() {
   return (
     <section id="portfolio" className="py-20 bg-black/80">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 scroll-animate-right">
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
-            <span className="text-brand-turquoise">Produtos</span> <span className="text-white">de Destaque</span>
+            <span className="text-brand-turquoise animate-pulse-brand">Produtos</span> <span className="text-white">de Destaque</span>
           </h3>
           <p className="text-xl text-white/80 max-w-3xl mx-auto">
             Conheça alguns dos nossos produtos mais procurados com qualidade excepcional
@@ -60,23 +60,23 @@ export default function PortfolioSection() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {portfolioItems.map((item, index) => (
-            <div key={index} className="group relative overflow-hidden rounded-2xl bg-black">
+            <div key={index} className="group relative overflow-hidden rounded-2xl bg-black hover-tilt scroll-animate transform-3d">
               <img 
                 src={item.image} 
                 alt={item.title} 
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-6">
-                <h4 className={`text-xl font-heading font-semibold mb-2 ${item.titleColor}`}>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent group-hover:from-black/60 transition-all duration-300"></div>
+              <div className="absolute bottom-0 left-0 p-6 group-hover:translate-y-0 transition-transform duration-300">
+                <h4 className={`text-xl font-heading font-semibold mb-2 ${item.titleColor} group-hover:animate-pulse-brand`}>
                   {item.title}
                 </h4>
                 <p className="text-white/80 mb-3">{item.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-brand-coral font-semibold">{item.price}</span>
+                  <span className="text-brand-coral font-semibold group-hover:animate-glow">{item.price}</span>
                   <Button 
                     variant="link" 
-                    className="text-brand-turquoise hover:text-brand-turquoise transition-colors p-0"
+                    className="text-brand-turquoise hover:text-brand-turquoise transition-colors p-0 hover-lift"
                   >
                     Ver Mais
                   </Button>
