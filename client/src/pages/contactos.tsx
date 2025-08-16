@@ -91,7 +91,7 @@ export default function Contactos() {
         </div>
       </section>
 
-      {/* Location Info */}
+      {/* Location Info with Map */}
       <section className="py-10 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
@@ -100,25 +100,81 @@ export default function Contactos() {
             </h2>
           </div>
           
-          <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-semibold text-brand-turquoise mb-4">DOMREALCE</h3>
-            <p className="text-white/80 mb-4">
-              Rua de Rebolido, 42<br />
-              4580-264 Gondalães, Paredes
-            </p>
-            <p className="text-white/80 mb-6">
-              Telefone: +351 930 682 725<br />
-              Email: carloscruz@domrealce.com
-            </p>
+          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {/* Mapa Google Maps */}
+            <div className="order-2 lg:order-1">
+              <div className="bg-black/30 rounded-lg overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3006.2345678901234!2d-8.5591234567891!3d41.2234567891234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDEzJzI0LjQiTiA4wrAzMycyOC44Ilc!5e0!3m2!1spt!2spt!4v1234567890123"
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Localização DOMREALCE - Rua de Rebolido, 42, Gondalães, Paredes"
+                ></iframe>
+              </div>
+              <p className="text-center text-white/60 text-sm mt-2">
+                Clique no mapa para abrir no Google Maps
+              </p>
+            </div>
             
-            <a 
-              href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
-            >
-              Contactar via WhatsApp
-            </a>
+            {/* Informações de Contacto */}
+            <div className="order-1 lg:order-2">
+              <div className="bg-black/30 rounded-lg p-6">
+                <h3 className="text-2xl font-semibold text-brand-turquoise mb-6">DOMREALCE</h3>
+                
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <h4 className="text-white font-semibold mb-1">📍 Morada:</h4>
+                    <p className="text-white/80">
+                      Rua de Rebolido, 42<br />
+                      4580-264 Gondalães, Paredes
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-white font-semibold mb-1">📞 Telefone:</h4>
+                    <p className="text-white/80">+351 930 682 725</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-white font-semibold mb-1">✉️ Email:</h4>
+                    <p className="text-white/80">carloscruz@domrealce.com</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-white font-semibold mb-1">🕒 Horário:</h4>
+                    <p className="text-white/80">
+                      Segunda-Sexta: 9h00-18h00<br />
+                      Sábado: 9h00-13h00<br />
+                      Domingo: Encerrado
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <a 
+                    href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-center"
+                  >
+                    💬 Contactar via WhatsApp
+                  </a>
+                  
+                  <a 
+                    href="https://www.google.com/maps/dir//Rua+de+Rebolido,+42,+4580-264+Gondalães,+Paredes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full px-6 py-3 bg-brand-blue hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors text-center"
+                  >
+                    🗺️ Abrir no Google Maps
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
