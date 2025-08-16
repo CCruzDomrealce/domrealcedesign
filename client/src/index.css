@@ -368,10 +368,10 @@ body {
   transform: perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02);
 }
 
-/* Intersection Observer animations */
+/* Intersection Observer animations - DISABLED to fix visibility */
 .scroll-animate {
-  opacity: 0;
-  transform: translateY(30px);
+  opacity: 1;
+  transform: translateY(0px);
   transition: all 0.6s ease-out;
 }
 
@@ -381,8 +381,8 @@ body {
 }
 
 .scroll-animate-left {
-  opacity: 0;
-  transform: translateX(-50px);
+  opacity: 1;
+  transform: translateX(0px);
   transition: all 0.8s ease-out;
 }
 
@@ -392,8 +392,8 @@ body {
 }
 
 .scroll-animate-right {
-  opacity: 0;
-  transform: translateX(50px);
+  opacity: 1;
+  transform: translateX(0px);
   transition: all 0.8s ease-out;
 }
 
