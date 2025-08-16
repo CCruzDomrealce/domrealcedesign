@@ -6,8 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Contactos from "@/pages/contactos";
-import CustomCursor from "@/components/custom-cursor";
-import ScrollAnimations from "@/components/scroll-animations";
+// import CustomCursor from "@/components/custom-cursor";
+// import ScrollAnimations from "@/components/scroll-animations";
 
 function Router() {
   return (
@@ -23,8 +23,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <CustomCursor />
-        <ScrollAnimations />
+        {/* <CustomCursor />
+        <ScrollAnimations /> */}
         <Toaster />
         <Router />
       </TooltipProvider>

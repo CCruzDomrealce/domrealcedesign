@@ -49,12 +49,13 @@ export default function Navigation() {
           
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
-            <button 
-              onClick={() => handleNavClick("#inicio")} 
+            <Link 
+              href="/" 
               className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium"
+              onClick={() => setIsMenuOpen(false)}
             >
               Início
-            </button>
+            </Link>
             <button 
               onClick={() => handleNavClick("#sobre")} 
               className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
@@ -103,12 +104,13 @@ export default function Navigation() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
             <div className="flex flex-col space-y-4">
-              <button 
-                onClick={() => handleNavClick("#inicio")} 
+              <Link 
+                href="/" 
                 className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium py-2 text-left"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Início
-              </button>
+              </Link>
               <button 
                 onClick={() => handleNavClick("#sobre")} 
                 className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
