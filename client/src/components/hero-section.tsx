@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export default function HeroSection() {
   return (
     <section className="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      <div className="absolute inset-0 bg-black/65"></div>
+      <div className="absolute inset-0 bg-black/80"></div>
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
         style={{
@@ -13,7 +13,7 @@ export default function HeroSection() {
       ></div>
       
       <div className="container mx-auto px-4 relative z-10 text-center">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto bg-black/30 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
           <h2 className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight">
             <span className="text-brand-yellow">Realce</span> sua marca com<br />
             <span className="text-brand-yellow">criatividade</span><br />
