@@ -16,15 +16,11 @@ export default function Footer() {
         </div>
 
         {/* Informações principais em linha */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Telefone */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {/* Telefone e Email */}
           <div className="text-center">
             <h4 className="text-lg font-heading font-semibold text-brand-yellow mb-3">Telefone</h4>
-            <p className="text-white/80">+351 930 682 725</p>
-          </div>
-
-          {/* Email */}
-          <div className="text-center">
+            <p className="text-white/80 mb-4">+351 930 682 725</p>
             <h4 className="text-lg font-heading font-semibold text-brand-turquoise mb-3">Email</h4>
             <p className="text-white/80">carloscruz@domrealce.com</p>
           </div>
