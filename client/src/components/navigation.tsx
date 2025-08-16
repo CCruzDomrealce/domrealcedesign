@@ -48,22 +48,34 @@ export default function Navigation() {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
             <button 
-              onClick={() => handleNavClick("#servicos")} 
+              onClick={() => handleNavClick("#inicio")} 
               className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium"
+            >
+              Início
+            </button>
+            <button 
+              onClick={() => handleNavClick("#sobre")} 
+              className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
+            >
+              Sobre
+            </button>
+            <button 
+              onClick={() => handleNavClick("#servicos")} 
+              className="text-white hover:text-brand-coral transition-colors duration-300 font-medium"
             >
               Serviços
             </button>
             <button 
               onClick={() => handleNavClick("#portfolio")} 
-              className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
+              className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium"
             >
               Portfólio
             </button>
             <button 
-              onClick={() => handleNavClick("#noticias")} 
+              onClick={() => handleNavClick("#loja")} 
               className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
             >
-              Notícias
+              Loja
             </button>
             <button 
               onClick={() => handleNavClick("#contactos")} 
@@ -89,22 +101,34 @@ export default function Navigation() {
           <div className="md:hidden mt-4 pb-4">
             <div className="flex flex-col space-y-4">
               <button 
-                onClick={() => handleNavClick("#servicos")} 
+                onClick={() => handleNavClick("#inicio")} 
                 className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium py-2 text-left"
+              >
+                Início
+              </button>
+              <button 
+                onClick={() => handleNavClick("#sobre")} 
+                className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
+              >
+                Sobre
+              </button>
+              <button 
+                onClick={() => handleNavClick("#servicos")} 
+                className="text-white hover:text-brand-coral transition-colors duration-300 font-medium py-2 text-left"
               >
                 Serviços
               </button>
               <button 
                 onClick={() => handleNavClick("#portfolio")} 
-                className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
+                className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium py-2 text-left"
               >
                 Portfólio
               </button>
               <button 
-                onClick={() => handleNavClick("#noticias")} 
+                onClick={() => handleNavClick("#loja")} 
                 className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
               >
-                Notícias
+                Loja
               </button>
               <button 
                 onClick={() => handleNavClick("#contactos")} 
