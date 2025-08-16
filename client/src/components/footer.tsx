@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import domrealceLogo from "@/assets/domrealce-logo.png";
 
 export default function Footer() {
   return (
@@ -10,7 +11,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <img 
-                src="@assets/domrealce-logo.png" 
+                src={domrealceLogo} 
                 alt="DOMREALCE Logo" 
                 className="h-12 w-auto"
               />

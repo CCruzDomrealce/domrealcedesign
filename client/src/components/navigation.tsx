@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import domrealceLogo from "@/assets/domrealce-logo.png";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,7 +39,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <img 
-              src="@assets/domrealce-logo.png" 
+              src={domrealceLogo} 
               alt="DOMREALCE Logo" 
               className="h-10 w-auto"
             />
