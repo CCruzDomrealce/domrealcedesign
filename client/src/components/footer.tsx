@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 import domrealceLogo from "@/assets/domrealce-logo.png";
 
 export default function Footer() {
@@ -116,10 +117,11 @@ export default function Footer() {
           <p className="text-white/60 mb-4 md:mb-0">
             &copy; 2024 DOMREALCE. Todos os direitos reservados.
           </p>
-          <div className="flex space-x-6">
-            <Button variant="link" className="text-white/60 hover:text-brand-yellow transition-colors p-0 h-auto">Política de Privacidade</Button>
-            <Button variant="link" className="text-white/60 hover:text-brand-turquoise transition-colors p-0 h-auto">Termos de Serviço</Button>
-            <Button variant="link" className="text-white/60 hover:text-brand-coral transition-colors p-0 h-auto">Cookies</Button>
+          <div className="flex flex-wrap gap-4 justify-center md:justify-end text-sm">
+            <Link href="/politica-privacidade" className="text-white/60 hover:text-brand-yellow transition-colors">Política de Privacidade</Link>
+            <Link href="/termos-condicoes" className="text-white/60 hover:text-brand-turquoise transition-colors">Termos e Condições</Link>
+            <Link href="/politica-cookies" className="text-white/60 hover:text-brand-coral transition-colors">Política de Cookies</Link>
+            <Link href="/aviso-legal" className="text-white/60 hover:text-brand-yellow transition-colors">Aviso Legal</Link>
           </div>
         </div>
       </div>

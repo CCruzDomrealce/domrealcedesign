@@ -10,6 +10,10 @@ import Sobre from "@/pages/sobre";
 import Loja from "@/pages/loja";
 import Portfolio from "@/pages/portfolio";
 import Servicos from "@/pages/servicos";
+import PoliticaPrivacidade from "@/pages/politica-privacidade";
+import TermosCondicoes from "@/pages/termos-condicoes";
+import PoliticaCookies from "@/pages/politica-cookies";
+import AvisoLegal from "@/pages/aviso-legal";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -22,6 +26,10 @@ function Router() {
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/loja" component={Loja} />
       <Route path="/contactos" component={Contactos} />
+      <Route path="/politica-privacidade" component={PoliticaPrivacidade} />
+      <Route path="/termos-condicoes" component={TermosCondicoes} />
+      <Route path="/politica-cookies" component={PoliticaCookies} />
+      <Route path="/aviso-legal" component={AvisoLegal} />
       <Route component={NotFound} />
     </Switch>
   );
