@@ -59,7 +59,7 @@ export default function Contactos() {
             </h2>
             <p className="text-white/80 mb-4 text-center text-sm">Preencha o formulário e entraremos em contacto brevemente.</p>
             
-            <form className="space-y-4">
+            <form id="formulario" className="space-y-4">
               <div>
                 <label className="text-white/80 mb-1 block text-sm">Nome Completo</label>
                 <input 

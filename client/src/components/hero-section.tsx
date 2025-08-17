@@ -88,7 +88,7 @@ export default function HeroSection() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild className="px-8 py-4 bg-gradient-to-r from-brand-yellow to-brand-coral gradient-animate text-black font-heading font-semibold rounded-lg hover:shadow-xl hover:shadow-yellow-500/25 hover-lift transition-all duration-300">
-              <Link href="/contactos">Peça um orçamento agora</Link>
+              <Link href="/contactos#formulario">Peça um orçamento agora</Link>
             </Button>
             <Button 
               asChild
