@@ -1,6 +1,7 @@
 import { ChevronDown, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { Link } from "wouter";
 
 export default function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -86,14 +87,15 @@ export default function HeroSection() {
             Transformamos ideias em comunicação visual impactante. Especialistas em impressão digital, corte de vinil e soluções personalizadas para comércios.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="px-8 py-4 bg-gradient-to-r from-brand-yellow to-brand-coral gradient-animate text-black font-heading font-semibold rounded-lg hover:shadow-xl hover:shadow-yellow-500/25 hover-lift transition-all duration-300">
-              Peça um orçamento agora
+            <Button asChild className="px-8 py-4 bg-gradient-to-r from-brand-yellow to-brand-coral gradient-animate text-black font-heading font-semibold rounded-lg hover:shadow-xl hover:shadow-yellow-500/25 hover-lift transition-all duration-300">
+              <Link href="/contactos">Peça um orçamento agora</Link>
             </Button>
             <Button 
+              asChild
               variant="outline" 
               className="px-8 py-4 border-2 border-brand-turquoise text-brand-turquoise font-heading font-semibold rounded-lg hover:bg-brand-turquoise hover:text-black hover-lift transition-all duration-300"
             >
-              Ver Portfólio
+              <Link href="/portfolio">Ver Portfólio</Link>
             </Button>
           </div>
         </div>

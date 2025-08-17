@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 const newsArticles = [
   {
@@ -87,10 +88,11 @@ export default function NewsSection() {
 
         <div className="text-center mt-12 scroll-animate">
           <Button 
+            asChild
             variant="outline" 
             className="px-8 py-3 border-2 border-brand-coral text-brand-coral font-heading font-semibold rounded-lg hover:bg-brand-coral hover:text-white hover-lift transition-all duration-300 animate-bounce-subtle"
           >
-            Ver Todas as Notícias
+            <Link href="/">Ver Todas as Notícias</Link>
           </Button>
         </div>
       </div>

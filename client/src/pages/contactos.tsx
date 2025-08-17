@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { insertContactSchema, type InsertContact } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import { Link } from "wouter";
 
 export default function Contactos() {
   return (
@@ -146,9 +147,9 @@ export default function Contactos() {
             <p className="text-white/80 mb-4 text-sm">
               Com 40 anos de experiência, oferecemos um atendimento personalizado focado na qualidade, pontualidade e honestidade.
             </p>
-            <a href="#" className="text-brand-turquoise hover:text-brand-turquoise transition-colors text-sm">
+            <Link href="/sobre" className="text-brand-turquoise hover:text-brand-turquoise transition-colors text-sm">
               Conhecer a Nossa História
-            </a>
+            </Link>
           </div>
         </div>
       </section>
