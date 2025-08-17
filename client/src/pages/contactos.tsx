@@ -1,5 +1,10 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { insertContactSchema, type InsertContact } from "@shared/schema";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Contactos() {
   return (
