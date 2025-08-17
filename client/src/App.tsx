@@ -18,6 +18,8 @@ import AvisoLegal from "@/pages/aviso-legal";
 // import ScrollAnimations from "@/components/scroll-animations";
 
 function Router() {
+  useScrollToTop();
+  
   return (
     <Switch>
       <Route path="/" component={Home} />
