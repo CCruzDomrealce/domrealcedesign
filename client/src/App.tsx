@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Contactos from "@/pages/contactos";
 import Sobre from "@/pages/sobre";
+import Loja from "@/pages/loja";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -15,6 +16,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/sobre" component={Sobre} />
+      <Route path="/loja" component={Loja} />
       <Route path="/contactos" component={Contactos} />
       <Route component={NotFound} />
     </Switch>

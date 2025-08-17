@@ -2,6 +2,12 @@
 
 This is a full-stack web application for DOMREALCE, a Portuguese visual communication and digital printing company. The application serves as a company portfolio and business website showcasing services like digital printing, vinyl cutting, vehicle wrapping, and custom signage. Built with a modern tech stack including React, Express, TypeScript, and PostgreSQL, it follows a monorepo structure with separate client and server directories.
 
+## Recent Changes (August 2025)
+- **Sobre Page**: Created comprehensive about page with Carlos Cruz's history, company values, and approach
+- **Loja Page**: Added e-commerce style shop page with product categories, filtering, and fictional products
+- **Navigation Updates**: Modified navigation to link directly to new standalone pages instead of scroll anchors
+- **Page Spacing**: Standardized top padding (pt-32) across all pages for consistent header clearance
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
