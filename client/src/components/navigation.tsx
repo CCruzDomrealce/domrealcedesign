@@ -56,12 +56,13 @@ export default function Navigation() {
             >
               Início
             </Link>
-            <button 
-              onClick={() => handleNavClick("#sobre")} 
+            <Link 
+              href="/sobre" 
               className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
+              onClick={() => setIsMenuOpen(false)}
             >
               Sobre
-            </button>
+            </Link>
             <button 
               onClick={() => handleNavClick("#servicos")} 
               className="text-white hover:text-brand-coral transition-colors duration-300 font-medium"
@@ -111,12 +112,13 @@ export default function Navigation() {
               >
                 Início
               </Link>
-              <button 
-                onClick={() => handleNavClick("#sobre")} 
+              <Link 
+                href="/sobre" 
                 className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Sobre
-              </button>
+              </Link>
               <button 
                 onClick={() => handleNavClick("#servicos")} 
                 className="text-white hover:text-brand-coral transition-colors duration-300 font-medium py-2 text-left"
