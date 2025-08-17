@@ -9,6 +9,7 @@ import Contactos from "@/pages/contactos";
 import Sobre from "@/pages/sobre";
 import Loja from "@/pages/loja";
 import Portfolio from "@/pages/portfolio";
+import Servicos from "@/pages/servicos";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -17,6 +18,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/sobre" component={Sobre} />
+      <Route path="/servicos" component={Servicos} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/loja" component={Loja} />
       <Route path="/contactos" component={Contactos} />

@@ -1,0 +1,214 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Palette, Printer, Wallpaper, Image, Sticker, Car, Building } from "lucide-react";
+import { Link } from "wouter";
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+
+interface Service {
+  id: string;
+  title: string;
+  description: string;
+  features: string[];
+  icon: React.ReactNode;
+  color: string;
+  detailsLink?: string;
+}
+
+const services: Service[] = [
+  {
+    id: "design-grafico",
+    title: "Design Gráfico",
+    description: "Criação e desenvolvimento de identidade visual completa",
+    features: [
+      "Desenho vectorial",
+      "Maquetes 3D",
+      "Imagem corporativa",
+      "Logótipos únicos",
+      "Tratamento de imagens",
+      "Material publicitário"
+    ],
+    icon: <Palette className="w-8 h-8" />,
+    color: "from-[#FFD700] to-[#FFA500]"
+  },
+  {
+    id: "impressao-digital",
+    title: "Impressão Digital",
+    description: "Impressão de alta qualidade em diversos materiais como vinil e lona",
+    features: [
+      "Vinil adesivo e decorativo",
+      "Lona publicitária",
+      "Impressão em grande formato",
+      "Materiais resistentes",
+      "Acabamentos profissionais"
+    ],
+    icon: <Printer className="w-8 h-8" />,
+    color: "from-[#20B2AA] to-[#4169E1]"
+  },
+  {
+    id: "papel-parede",
+    title: "Papel de Parede",
+    description: "Catálogo interativo com mais de 3000 texturas em 28 categorias",
+    features: [
+      "Mais de 3000 texturas",
+      "28 categorias diferentes",
+      "Visualização em tamanho real",
+      "Seleção múltipla",
+      "Medidas personalizadas"
+    ],
+    icon: <Wallpaper className="w-8 h-8" />,
+    color: "from-[#FF6347] to-[#FFD700]"
+  },
+  {
+    id: "telas-artisticas",
+    title: "Telas Artísticas",
+    description: "Telas canvas personalizadas para decoração e arte",
+    features: [
+      "Canvas de alta qualidade",
+      "Impressão artística",
+      "Diversos tamanhos",
+      "Molduras incluídas",
+      "Resistente ao tempo"
+    ],
+    icon: <Image className="w-8 h-8" />,
+    color: "from-[#9370DB] to-[#FF6347]"
+  },
+  {
+    id: "autocolantes",
+    title: "Autocolantes e Etiquetas",
+    description: "Autocolantes e etiquetas com corte de contorno personalizado",
+    features: [
+      "Corte de contorno preciso",
+      "Materiais duradouros",
+      "Design personalizado",
+      "Aplicação fácil",
+      "Resistentes a intempéries"
+    ],
+    icon: <Sticker className="w-8 h-8" />,
+    color: "from-[#32CD32] to-[#20B2AA]"
+  },
+  {
+    id: "decoracao-viaturas",
+    title: "Decoração de Viaturas",
+    description: "Personalização completa de veículos particulares e comerciais",
+    features: [
+      "Viaturas particulares",
+      "Veículos comerciais",
+      "Máquinas de obras",
+      "Camiões e pesados",
+      "Motociclos",
+      "Viaturas de competição"
+    ],
+    icon: <Car className="w-8 h-8" />,
+    color: "from-[#FFD700] to-[#FF6347]"
+  },
+  {
+    id: "espacos-comerciais",
+    title: "Decoração de Espaços Comerciais",
+    description: "Decoração e sinalização para espaços comerciais e empresariais",
+    features: [
+      "Montras atrativas",
+      "Painéis informativos",
+      "Reclames luminosos",
+      "Bandeiras e totens",
+      "Sinalização interior",
+      "Fachadas comerciais"
+    ],
+    icon: <Building className="w-8 h-8" />,
+    color: "from-[#4169E1] to-[#9370DB]"
+  }
+];
+
+export default function Servicos() {
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <Navigation />
+      
+      {/* Hero Section */}
+      <section className="pt-32 pb-12 px-4">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            Nossos Serviços
+          </h1>
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+            Com 40 anos de experiência, oferecemos soluções completas em comunicação visual e publicidade, 
+            desde impressão digital até decoração de espaços comerciais.
+          </p>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <section className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service, index) => (
+              <Card key={service.id} className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group">
+                <CardContent className="p-8">
+                  <div className="flex items-start gap-6">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-xl flex items-center justify-center text-black flex-shrink-0`}>
+                      {service.icon}
+                    </div>
+                    
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold mb-3 group-hover:text-[#FFD700] transition-colors">
+                        {service.title}
+                      </h3>
+                      
+                      <p className="text-gray-400 mb-4 leading-relaxed">
+                        {service.description}
+                      </p>
+                      
+                      <ul className="space-y-2 mb-6">
+                        {service.features.map((feature, featureIndex) => (
+                          <li key={featureIndex} className="flex items-center text-sm text-gray-300">
+                            <div className="w-1.5 h-1.5 bg-[#FFD700] rounded-full mr-3 flex-shrink-0"></div>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Button asChild className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 transition-opacity">
+                          <Link href="/contactos">Solicitar Orçamento</Link>
+                        </Button>
+                        {service.detailsLink && (
+                          <Button variant="outline" className="border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]">
+                            Saber Mais
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 px-4 bg-[#111111]">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            Pronto para dar vida ao seu projeto?
+          </h2>
+          <p className="text-gray-300 mb-8 text-lg">
+            Entre em contacto connosco e descubra como podemos transformar as suas ideias em realidade.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 transition-opacity">
+              <Link href="/contactos">Iniciar Meu Projeto</Link>
+            </Button>
+            <Button asChild variant="outline" className="border-[#20B2AA] text-[#20B2AA] hover:bg-[#20B2AA] hover:text-black">
+              <Link href="/contactos">Falar com Especialista</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}

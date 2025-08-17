@@ -63,12 +63,13 @@ export default function Navigation() {
             >
               Sobre
             </Link>
-            <button 
-              onClick={() => handleNavClick("#servicos")} 
+            <Link 
+              href="/servicos" 
               className="text-white hover:text-brand-coral transition-colors duration-300 font-medium"
+              onClick={() => setIsMenuOpen(false)}
             >
               Serviços
-            </button>
+            </Link>
             <Link 
               href="/portfolio" 
               className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium"
@@ -121,12 +122,13 @@ export default function Navigation() {
               >
                 Sobre
               </Link>
-              <button 
-                onClick={() => handleNavClick("#servicos")} 
+              <Link 
+                href="/servicos" 
                 className="text-white hover:text-brand-coral transition-colors duration-300 font-medium py-2 text-left"
+                onClick={() => setIsMenuOpen(false)}
               >
                 Serviços
-              </button>
+              </Link>
               <Link 
                 href="/portfolio" 
                 className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium py-2 text-left"
