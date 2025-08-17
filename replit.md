@@ -5,6 +5,7 @@ This is a full-stack web application for DOMREALCE, a Portuguese visual communic
 ## Recent Changes (August 2025)
 - **Sobre Page**: Created comprehensive about page with Carlos Cruz's history, company values, and approach
 - **Loja Page**: Added e-commerce style shop page with product categories, filtering, and fictional products
+- **Portfolio Page**: Created portfolio showcase with project categories, featured projects, and CTA sections
 - **Navigation Updates**: Modified navigation to link directly to new standalone pages instead of scroll anchors
 - **Page Spacing**: Standardized top padding (pt-32) across all pages for consistent header clearance
 
