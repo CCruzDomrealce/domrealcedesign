@@ -82,24 +82,73 @@ export default function TermosCondicoes() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">7. Garantias</h2>
+              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">7. Produtos Personalizados e Trocas</h2>
               <p className="text-gray-300 leading-relaxed mb-4">
-                A DOMREALCE garante a qualidade dos materiais utilizados e da execução dos trabalhos. 
-                Defeitos de fabrico são corrigidos gratuitamente no prazo de 30 dias após a entrega.
+                <strong>IMPORTANTE:</strong> Devido à natureza personalizada dos nossos produtos, aplicam-se as seguintes condições:
+              </p>
+              <ul className="text-gray-300 space-y-3 ml-6 mb-4">
+                <li>• <strong>Produtos personalizados:</strong> Não são aceites trocas ou devoluções de produtos personalizados com logótipos, textos ou designs específicos do cliente</li>
+                <li>• <strong>Papel de parede personalizado:</strong> Uma vez cortado nas medidas solicitadas, não pode ser trocado ou devolvido</li>
+                <li>• <strong>Decoração de viaturas:</strong> Serviços já aplicados não são reversíveis nem reembolsáveis</li>
+                <li>• <strong>Impressões personalizadas:</strong> Produtos com design específico do cliente não podem ser reutilizados</li>
+              </ul>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                O cliente deve verificar cuidadosamente todos os detalhes (medidas, cores, textos, logótipos) 
+                antes da aprovação final para produção.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">8. Responsabilidades</h2>
+              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">8. Garantias e Defeitos</h2>
               <p className="text-gray-300 leading-relaxed mb-4">
-                O cliente é responsável por fornecer informações precisas e completas. 
+                A DOMREALCE garante:
+              </p>
+              <ul className="text-gray-300 space-y-2 ml-6 mb-4">
+                <li>• Qualidade dos materiais utilizados</li>
+                <li>• Execução profissional dos trabalhos</li>
+                <li>• Correção gratuita de defeitos de fabrico no prazo de 30 dias</li>
+                <li>• Substituição gratuita em caso de erro da nossa responsabilidade</li>
+              </ul>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                <strong>Não cobertos pela garantia:</strong> Erros resultantes de informações incorretas 
+                fornecidas pelo cliente ou aprovações de prova final incorretas.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">9. Responsabilidades do Cliente</h2>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                O cliente é responsável por:
+              </p>
+              <ul className="text-gray-300 space-y-2 ml-6 mb-4">
+                <li>• Fornecer informações precisas e completas (medidas, cores, textos)</li>
+                <li>• Verificar e aprovar todas as provas antes da produção</li>
+                <li>• Confirmar que possui direitos de utilização de logótipos e imagens fornecidos</li>
+                <li>• Aceitar que produtos personalizados não podem ser trocados ou devolvidos</li>
+                <li>• Disponibilizar acesso adequado para instalação/aplicação quando necessário</li>
+              </ul>
+              <p className="text-gray-300 leading-relaxed mb-4">
                 A DOMREALCE não se responsabiliza por erros resultantes de informações 
-                incorretas fornecidas pelo cliente.
+                incorretas fornecidas pelo cliente ou por direitos de autor de materiais fornecidos.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">9. Lei Aplicável</h2>
+              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">10. Direito de Retratação</h2>
+              <p className="text-gray-300 leading-relaxed mb-4">
+                De acordo com o Decreto-Lei nº 24/2014, o direito de retratação de 14 dias 
+                <strong>não se aplica</strong> aos seguintes serviços da DOMREALCE:
+              </p>
+              <ul className="text-gray-300 space-y-2 ml-6 mb-4">
+                <li>• Produtos personalizados com especificações do cliente</li>
+                <li>• Papel de parede cortado em medidas específicas</li>
+                <li>• Serviços de aplicação já executados</li>
+                <li>• Produtos com logótipos ou designs personalizados</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">11. Lei Aplicável</h2>
               <p className="text-gray-300 leading-relaxed mb-4">
                 Os presentes termos e condições regem-se pela lei portuguesa. 
                 Qualquer litígio será resolvido pelos tribunais competentes de Portugal.
@@ -107,7 +156,7 @@ export default function TermosCondicoes() {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">10. Contactos</h2>
+              <h2 className="text-2xl font-bold mb-4 text-[#FFD700]">12. Contactos</h2>
               <p className="text-gray-300 leading-relaxed mb-4">
                 Para esclarecimentos sobre estes termos e condições:
               </p>
