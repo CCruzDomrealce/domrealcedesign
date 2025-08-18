@@ -3,6 +3,13 @@
 This is a full-stack web application for DOMREALCE, a Portuguese visual communication and digital printing company. The application serves as a company portfolio and business website showcasing services like digital printing, vinyl cutting, vehicle wrapping, and custom signage. Built with a modern tech stack including React, Express, TypeScript, and PostgreSQL, it follows a monorepo structure with separate client and server directories.
 
 ## Recent Changes (August 2025)
+- **Complete Wallpaper Shop System**: Implemented comprehensive wallpaper category in the main shop (/loja):
+  - 28 subcategories organized in 6 main groups (Natural, Industrial, Luxo, Têxtil, Contemporâneo, Clássico)
+  - Each subcategory contains 3 textures priced at €20.00
+  - Modal visualization system for large texture viewing
+  - Full shopping cart functionality with add/remove items
+  - Clear navigation: Categories → Subcategories → Individual Textures
+  - Responsive grid layout (2-4-6 columns based on screen size)
 - **Service Detail Pages**: Created 7 comprehensive service detail pages with professional layouts:
   - Design Gráfico (/servico-design-grafico)
   - Impressão Digital (/servico-impressao-digital)
