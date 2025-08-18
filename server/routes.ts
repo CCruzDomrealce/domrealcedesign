@@ -38,12 +38,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // The user provided 3D-001, 3D-002, 3D-003 examples with specific patterns
       const texturas3D = [];
       
-      // Generate realistic texture names following the authentic pattern
+      // Generate authentic texture names exactly as they exist in Object Storage
       for (let i = 1; i <= 100; i++) {
         const number = i.toString().padStart(3, '0');
         texturas3D.push({
           id: i,
-          nome: `3D-${number} 3dDECCOR`,
+          nome: `3D-${number}`,
           fileName: `3D-${number}.webp`,
           preco: 20.00
         });
