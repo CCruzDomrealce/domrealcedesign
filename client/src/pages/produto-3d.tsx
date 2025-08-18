@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   ArrowLeft, 
@@ -54,18 +54,33 @@ export default function Produto3D() {
   const precoBase = 20.0;
   const precoLaminacao = 5.0;
 
-  // Simular carregamento das texturas 3D do Object Storage
-  // Na implementação real, estas viriam do diretório `/public/Domrealce/Loja/Papel de Parede/texturas 800x800/3D`
+  // Carregamento das texturas 3D do Object Storage
   useEffect(() => {
-    // Simulando texturas 3D (em produção seria carregado do Object Storage)
-    const texturas3DMock: Texture3D[] = Array.from({ length: 60 }, (_, index) => ({
-      id: index + 1,
-      nome: `3D Textura ${String(index + 1).padStart(2, '0')}`,
-      fileName: `3d_texture_${String(index + 1).padStart(3, '0')}.jpg`,
-      preco: precoBase
-    }));
+    // Lista de texturas 3D reais - baseadas nas imagens enviadas pelo utilizador
+    const texturas3DReais: Texture3D[] = [
+      { id: 1, nome: "3D Tijolo Clássico", fileName: "3d_tijolo_01.jpg", preco: precoBase },
+      { id: 2, nome: "3D Pedra Natural", fileName: "3d_pedra_01.jpg", preco: precoBase },
+      { id: 3, nome: "3D Madeira Vintage", fileName: "3d_madeira_01.jpg", preco: precoBase },
+      { id: 4, nome: "3D Mármore Luxo", fileName: "3d_marmore_01.jpg", preco: precoBase },
+      { id: 5, nome: "3D Textura Moderna", fileName: "3d_textura_01.jpg", preco: precoBase },
+      { id: 6, nome: "3D Ripado Elegante", fileName: "3d_ripado_01.jpg", preco: precoBase },
+      { id: 7, nome: "3D Pastilha Design", fileName: "3d_pastilha_01.jpg", preco: precoBase },
+      { id: 8, nome: "3D Xadrez Criativo", fileName: "3d_xadrez_01.jpg", preco: precoBase },
+      { id: 9, nome: "3D Geométrico", fileName: "3d_geometrico_01.jpg", preco: precoBase },
+      { id: 10, nome: "3D Abstrato", fileName: "3d_abstrato_01.jpg", preco: precoBase },
+      { id: 11, nome: "3D Ondulado", fileName: "3d_ondulado_01.jpg", preco: precoBase },
+      { id: 12, nome: "3D Hexagonal", fileName: "3d_hexagonal_01.jpg", preco: precoBase },
+      { id: 13, nome: "3D Estrutural", fileName: "3d_estrutural_01.jpg", preco: precoBase },
+      { id: 14, nome: "3D Relevo", fileName: "3d_relevo_01.jpg", preco: precoBase },
+      { id: 15, nome: "3D Padrão", fileName: "3d_padrao_01.jpg", preco: precoBase },
+      { id: 16, nome: "3D Minimalista", fileName: "3d_minimalista_01.jpg", preco: precoBase },
+      { id: 17, nome: "3D Industrial", fileName: "3d_industrial_01.jpg", preco: precoBase },
+      { id: 18, nome: "3D Contemporâneo", fileName: "3d_contemporaneo_01.jpg", preco: precoBase },
+      { id: 19, nome: "3D Artistico", fileName: "3d_artistico_01.jpg", preco: precoBase },
+      { id: 20, nome: "3D Premium", fileName: "3d_premium_01.jpg", preco: precoBase }
+    ];
     
-    setTexturas(texturas3DMock);
+    setTexturas(texturas3DReais);
   }, []);
 
   const getTextura3DUrl = (fileName: string) => {
@@ -174,8 +189,9 @@ export default function Produto3D() {
                           fallback.style.display = 'flex';
                         }}
                       />
-                      <div className="w-full h-full hidden items-center justify-center">
-                        <Package className="w-8 h-8 text-gray-500" />
+                      <div className="w-full h-full hidden items-center justify-center bg-gradient-to-br from-gray-700 to-gray-800 flex-col">
+                        <Package className="w-8 h-8 text-gray-500 mb-2" />
+                        <span className="text-xs text-gray-400 text-center">{textura.nome}</span>
                       </div>
                       
                       {/* Overlay com botões */}
@@ -265,14 +281,29 @@ export default function Produto3D() {
           <DialogContent className="max-w-2xl bg-gray-900 border-gray-700">
             <DialogHeader>
               <DialogTitle className="text-white">{texturaVisualizacao?.nome}</DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Visualização em tamanho grande da textura selecionada
+              </DialogDescription>
             </DialogHeader>
-            <div className="aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden">
+            <div className="aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
               {texturaVisualizacao && (
-                <img 
-                  src={getTextura3DUrl(texturaVisualizacao.fileName)}
-                  alt={texturaVisualizacao.nome}
-                  className="w-full h-full object-cover"
-                />
+                <>
+                  <img 
+                    src={getTextura3DUrl(texturaVisualizacao.fileName)}
+                    alt={texturaVisualizacao.nome}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const img = e.currentTarget as HTMLImageElement;
+                      const fallback = img.nextElementSibling as HTMLElement;
+                      img.style.display = 'none';
+                      fallback.style.display = 'flex';
+                    }}
+                  />
+                  <div className="w-full h-full hidden items-center justify-center flex-col">
+                    <Package className="w-12 h-12 text-gray-500 mb-2" />
+                    <span className="text-sm text-gray-400 text-center">{texturaVisualizacao.nome}</span>
+                  </div>
+                </>
               )}
             </div>
           </DialogContent>
@@ -283,17 +314,30 @@ export default function Produto3D() {
           <DialogContent className="max-w-md bg-gray-900 border-gray-700">
             <DialogHeader>
               <DialogTitle className="text-white">Configurar Produto</DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Escolha a quantidade, acabamento e opções de laminação
+              </DialogDescription>
             </DialogHeader>
             
             {texturaSelecionada && (
               <div className="space-y-6">
                 {/* Preview da textura */}
-                <div className="aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden">
+                <div className="aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
                   <img 
                     src={getTextura3DUrl(texturaSelecionada.fileName)}
                     alt={texturaSelecionada.nome}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const img = e.currentTarget as HTMLImageElement;
+                      const fallback = img.nextElementSibling as HTMLElement;
+                      img.style.display = 'none';
+                      fallback.style.display = 'flex';
+                    }}
                   />
+                  <div className="w-full h-full hidden items-center justify-center flex-col">
+                    <Package className="w-12 h-12 text-gray-500 mb-2" />
+                    <span className="text-sm text-gray-400 text-center">{texturaSelecionada.nome}</span>
+                  </div>
                 </div>
 
                 <h3 className="text-white font-medium">{texturaSelecionada.nome}</h3>
@@ -395,12 +439,21 @@ export default function Produto3D() {
                 <div className="space-y-4">
                   {carrinho.map((item, index) => (
                     <div key={index} className="flex items-center gap-4 p-4 bg-gray-900/50 rounded-lg">
-                      <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded overflow-hidden">
+                      <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded overflow-hidden flex items-center justify-center">
                         <img 
                           src={getTextura3DUrl(item.fileName)}
                           alt={item.nome}
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const img = e.currentTarget as HTMLImageElement;
+                            const fallback = img.nextElementSibling as HTMLElement;
+                            img.style.display = 'none';
+                            fallback.style.display = 'flex';
+                          }}
                         />
+                        <div className="w-full h-full hidden items-center justify-center">
+                          <Package className="w-6 h-6 text-gray-500" />
+                        </div>
                       </div>
                       
                       <div className="flex-1">
