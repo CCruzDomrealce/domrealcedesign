@@ -217,99 +217,52 @@ async function scanPortfolioFolders(objectStorageService: ObjectStorageService) 
       }[];
     }[] = [];
 
-    // Define expected portfolio categories
-    const categories = [
-      'design-grafico',
-      'impressao-digital', 
-      'papel-parede',
-      'decoracao-viaturas',
-      'sinaletica',
-      'material-promocional'
-    ];
+    // Try to discover categories dynamically by scanning the portfolio folder
+    const allCategories = new Set([
+      // Include predefined categories
+      'design-grafico', 'impressao-digital', 'papel-parede', 'decoracao-viaturas',
+      'sinaletica', 'material-promocional', 'camioes',
+      // Add any folder names the user might create
+      'portfolio', 'projetos', 'trabalhos', 'obras'
+    ]);
 
-    // Scan each category for subcategories and images
-    for (const category of categories) {
+    // Scan each possible category
+    for (const category of allCategories) {
       const categoryData = {
-        name: category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        name: category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
         subcategories: [] as any[]
       };
 
-      // Try to find subcategories by checking common folder names
+      // Try to find any images directly in the category folder first
+      const categoryPath = `portfolio/${category}`;
+      const directImages = await scanForImages(objectStorageService, categoryPath, category, category);
+      
+      if (directImages.length > 0) {
+        categoryData.subcategories.push({
+          name: "Geral",
+          projects: directImages
+        });
+      }
+
+      // Try to find subcategories
       const possibleSubcategories = [
-        'logotipos', 'branding', 'identidade-visual',
-        'banners', 'folhetos', 'cartazes', 'displays',
-        'texturas', '3d', 'padroes', 'luxo',
-        'viaturas', 'frotas', 'personalizacao',
-        'placas', 'direcionais', 'informativas',
-        'brindes', 'promocional', 'eventos'
+        'logotipos', 'branding', 'identidade-visual', 'geral',
+        'banners', 'folhetos', 'cartazes', 'displays', 'outdoors',
+        'texturas', '3d', 'padroes', 'luxo', 'classico',
+        'viaturas', 'frotas', 'personalizacao', 'decoracao',
+        'placas', 'direcionais', 'informativas', 'exteriores',
+        'brindes', 'promocional', 'eventos', 'corporativo'
       ];
 
       for (const subcategory of possibleSubcategories) {
-        try {
-          // Try to find images in this subcategory path
-          const basePath = `portfolio/${category}/${subcategory}`;
-          
-          // Check for common image extensions
-          const imageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
-          const subcategoryProjects = [];
-
-          // Try to find images with numbered names (common pattern)
-          for (let i = 1; i <= 20; i++) {
-            for (const ext of imageExtensions) {
-              const fileName = `${i}.${ext}`;
-              const fullPath = `${basePath}/${fileName}`;
-              
-              try {
-                const file = await objectStorageService.searchPublicObject(fullPath);
-                if (file) {
-                  subcategoryProjects.push({
-                    id: `${category}-${subcategory}-${i}`,
-                    title: `${subcategory.replace('-', ' ')} ${i}`,
-                    image: fileName,
-                    category: category,
-                    subcategory: subcategory
-                  });
-                }
-              } catch (error) {
-                // Image not found, continue to next
-              }
-            }
-          }
-
-          // Also try common file names
-          const commonNames = ['exemplo', 'amostra', 'demo', 'projeto'];
-          for (const name of commonNames) {
-            for (const ext of imageExtensions) {
-              const fileName = `${name}.${ext}`;
-              const fullPath = `${basePath}/${fileName}`;
-              
-              try {
-                const file = await objectStorageService.searchPublicObject(fullPath);
-                if (file) {
-                  subcategoryProjects.push({
-                    id: `${category}-${subcategory}-${name}`,
-                    title: `${subcategory.replace('-', ' ')} - ${name}`,
-                    image: fileName,
-                    category: category,
-                    subcategory: subcategory
-                  });
-                }
-              } catch (error) {
-                // Image not found, continue to next
-              }
-            }
-          }
-
-          // If we found images in this subcategory, add it
-          if (subcategoryProjects.length > 0) {
-            categoryData.subcategories.push({
-              name: subcategory.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
-              projects: subcategoryProjects
-            });
-          }
-        } catch (error) {
-          // Subcategory folder doesn't exist or error accessing it
-          continue;
+        const subcategoryPath = `portfolio/${category}/${subcategory}`;
+        const subcategoryImages = await scanForImages(objectStorageService, subcategoryPath, category, subcategory);
+        
+        if (subcategoryImages.length > 0) {
+          categoryData.subcategories.push({
+            name: subcategory.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            projects: subcategoryImages
+          });
         }
       }
 
@@ -325,4 +278,64 @@ async function scanPortfolioFolders(objectStorageService: ObjectStorageService) 
     console.error("Error scanning portfolio folders:", error);
     return [];
   }
+}
+
+// Helper function to scan for images in a specific path
+async function scanForImages(objectStorageService: ObjectStorageService, basePath: string, category: string, subcategory: string) {
+  const projects = [];
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'];
+  
+  // Try numbered files (1.jpg, 2.jpg, etc.)
+  for (let i = 1; i <= 50; i++) {
+    for (const ext of imageExtensions) {
+      const fileName = `${i}.${ext}`;
+      const fullPath = `${basePath}/${fileName}`;
+      
+      try {
+        const file = await objectStorageService.searchPublicObject(fullPath);
+        if (file) {
+          projects.push({
+            id: `${category}-${subcategory}-${i}`,
+            title: `${subcategory.replace(/-/g, ' ')} ${i}`,
+            image: fileName,
+            category: category,
+            subcategory: subcategory
+          });
+        }
+      } catch (error) {
+        // Image not found, continue
+      }
+    }
+  }
+
+  // Try common descriptive names
+  const commonNames = [
+    'exemplo', 'amostra', 'demo', 'projeto', 'trabalho', 'obra',
+    'banner', 'cartaz', 'folheto', 'logotipo', 'identidade',
+    'textura', 'padrao', 'viatura', 'camiao', 'placa'
+  ];
+  
+  for (const name of commonNames) {
+    for (const ext of imageExtensions) {
+      const fileName = `${name}.${ext}`;
+      const fullPath = `${basePath}/${fileName}`;
+      
+      try {
+        const file = await objectStorageService.searchPublicObject(fullPath);
+        if (file) {
+          projects.push({
+            id: `${category}-${subcategory}-${name}`,
+            title: `${subcategory.replace(/-/g, ' ')} - ${name}`,
+            image: fileName,
+            category: category,
+            subcategory: subcategory
+          });
+        }
+      } catch (error) {
+        // Image not found, continue
+      }
+    }
+  }
+  
+  return projects;
 }

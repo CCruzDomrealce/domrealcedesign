@@ -76,36 +76,7 @@ export default function Portfolio() {
               Imagens organizadas automaticamente por categorias.
             </p>
             
-            {/* Instruções do Sistema de Pastas */}
-            <div className="bg-gradient-to-r from-[#FFD700]/10 to-[#20B2AA]/10 rounded-2xl p-6 border border-[#333] max-w-4xl mx-auto mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Folder className="w-5 h-5 text-[#FFD700]" />
-                <h3 className="text-lg font-bold text-white">Sistema de Organização Automática</h3>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
-                <div>
-                  <p className="mb-2"><strong>Estrutura de Pastas:</strong></p>
-                  <div className="bg-[#222] p-3 rounded font-mono text-xs">
-                    📁 portfolio/<br/>
-                    &nbsp;&nbsp;📁 design-grafico/<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;📁 logotipos/<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;📁 branding/<br/>
-                    &nbsp;&nbsp;📁 impressao-digital/<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;📁 banners/<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;📁 folhetos/
-                  </div>
-                </div>
-                <div>
-                  <p className="mb-2"><strong>Como Funciona:</strong></p>
-                  <ul className="space-y-1 text-xs">
-                    <li>• Crie pastas no Object Storage</li>
-                    <li>• Organize por categoria → subcategoria</li>
-                    <li>• Adicione imagens nas subpastas</li>
-                    <li>• Sincronização automática</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+
           </div>
         </section>
 
