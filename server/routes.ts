@@ -24,38 +24,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Object storage service
   const objectStorageService = new ObjectStorageService();
 
-  // Priority API route for 3D textures - register before other middlewares
-  app.get("/api/texturas-3d", async (req, res) => {
-    console.log("🎯 Direct API route hit for texturas-3d");
-    
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    
-    try {
-      console.log("🔍 Gerando texturas 3D baseadas nos exemplos autênticos...");
-      
-      // Generate authentic 3D textures based on the pattern from the provided examples
-      // The user provided 3D-001, 3D-002, 3D-003 examples with specific patterns
-      const texturas3D = [];
-      
-      // Generate authentic texture names exactly as they exist in Object Storage
-      for (let i = 1; i <= 100; i++) {
-        const number = i.toString().padStart(3, '0');
-        texturas3D.push({
-          id: i,
-          nome: `3D-${number}`,
-          fileName: `3D-${number}.webp`,
-          preco: 20.00
-        });
-      }
-      
-      console.log(`✅ Generated ${texturas3D.length} authentic 3D textures`);
-      res.json(texturas3D);
-    } catch (error) {
-      console.error("❌ Error generating 3D textures:", error);
-      res.status(500).json({ error: "Failed to generate textures" });
-    }
-  });
+
 
   // Contact form route with rate limiting
   app.post("/api/contact", contactLimiter, async (req, res) => {
