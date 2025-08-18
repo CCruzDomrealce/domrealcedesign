@@ -3,14 +3,19 @@
 This is a full-stack web application for DOMREALCE, a Portuguese visual communication and digital printing company. The application serves as a company portfolio and business website showcasing services like digital printing, vinyl cutting, vehicle wrapping, and custom signage. Built with a modern tech stack including React, Express, TypeScript, and PostgreSQL, it follows a monorepo structure with separate client and server directories.
 
 ## Recent Changes (August 2025)
-- **Sobre Page**: Created comprehensive about page with Carlos Cruz's history, company values, and approach
-- **Loja Page**: Added e-commerce style shop page with product categories, filtering, and fictional products
-- **Portfolio Page**: Created portfolio showcase with project categories, featured projects, and CTA sections
-- **Servicos Page**: Added complete services page showcasing all 7 service categories with detailed features
-- **Navigation Updates**: Modified navigation to link directly to new standalone pages instead of scroll anchors
-- **Page Spacing**: Standardized top padding (pt-32) across all pages for consistent header clearance
-- **Contact Form Enhancement**: Implemented scroll-to-form functionality with #formulario anchor for direct access
-- **Link Optimization**: Updated all "Solicitar Orçamento" and contact buttons across pages to link to /contactos#formulario
+- **Service Detail Pages**: Created 7 comprehensive service detail pages with professional layouts:
+  - Design Gráfico (/servico-design-grafico)
+  - Impressão Digital (/servico-impressao-digital)
+  - Papel de Parede (/servico-papel-parede) 
+  - Telas Artísticas (/servico-telas-artisticas)
+  - Autocolantes (/servico-autocolantes)
+  - Decoração de Viaturas (/servico-decoracao-viaturas)
+  - Espaços Comerciais (/servico-espacos-comerciais)
+- **Enhanced Service Pages**: Each detail page includes hero sections, feature grids, process workflows, specifications, and call-to-action sections
+- **Navigation Integration**: All "Ver Mais" buttons in services page now link to corresponding detail pages
+- **Routing Updates**: Added complete routing system for all service pages in App.tsx
+- **Consistent Design**: Maintained brand color scheme and professional styling across all service pages
+- **Contact Integration**: All service pages include direct links to contact form with WhatsApp integration
 
 # User Preferences
 

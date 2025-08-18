@@ -29,7 +29,8 @@ const services: Service[] = [
       "Material publicitário"
     ],
     icon: <Palette className="w-8 h-8" />,
-    color: "from-[#FFD700] to-[#FFA500]"
+    color: "from-[#FFD700] to-[#FFA500]",
+    detailsLink: "/servico-design-grafico"
   },
   {
     id: "impressao-digital",
@@ -43,7 +44,8 @@ const services: Service[] = [
       "Acabamentos profissionais"
     ],
     icon: <Printer className="w-8 h-8" />,
-    color: "from-[#20B2AA] to-[#4169E1]"
+    color: "from-[#20B2AA] to-[#4169E1]",
+    detailsLink: "/servico-impressao-digital"
   },
   {
     id: "papel-parede",
@@ -57,7 +59,8 @@ const services: Service[] = [
       "Medidas personalizadas"
     ],
     icon: <Wallpaper className="w-8 h-8" />,
-    color: "from-[#FF6347] to-[#FFD700]"
+    color: "from-[#FF6347] to-[#FFD700]",
+    detailsLink: "/servico-papel-parede"
   },
   {
     id: "telas-artisticas",
@@ -71,7 +74,8 @@ const services: Service[] = [
       "Resistente ao tempo"
     ],
     icon: <Image className="w-8 h-8" />,
-    color: "from-[#9370DB] to-[#FF6347]"
+    color: "from-[#9370DB] to-[#FF6347]",
+    detailsLink: "/servico-telas-artisticas"
   },
   {
     id: "autocolantes",
@@ -85,7 +89,8 @@ const services: Service[] = [
       "Resistentes a intempéries"
     ],
     icon: <Sticker className="w-8 h-8" />,
-    color: "from-[#32CD32] to-[#20B2AA]"
+    color: "from-[#32CD32] to-[#20B2AA]",
+    detailsLink: "/servico-autocolantes"
   },
   {
     id: "decoracao-viaturas",
@@ -100,7 +105,8 @@ const services: Service[] = [
       "Viaturas de competição"
     ],
     icon: <Car className="w-8 h-8" />,
-    color: "from-[#FFD700] to-[#FF6347]"
+    color: "from-[#FFD700] to-[#FF6347]",
+    detailsLink: "/servico-decoracao-viaturas"
   },
   {
     id: "espacos-comerciais",
@@ -115,7 +121,8 @@ const services: Service[] = [
       "Fachadas comerciais"
     ],
     icon: <Building className="w-8 h-8" />,
-    color: "from-[#4169E1] to-[#9370DB]"
+    color: "from-[#4169E1] to-[#9370DB]",
+    detailsLink: "/servico-espacos-comerciais"
   }
 ];
 
@@ -171,9 +178,11 @@ export default function Servicos() {
                         <Button asChild className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 transition-opacity">
                           <Link href="/contactos#formulario">Solicitar Orçamento</Link>
                         </Button>
-                        <Button variant="outline" className="border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]">
-                          Ver Mais
-                          <ArrowRight className="w-4 h-4 ml-2" />
+                        <Button asChild variant="outline" className="border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]">
+                          <Link href={service.detailsLink || "#"}>
+                            Ver Mais
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Link>
                         </Button>
                       </div>
                     </div>
