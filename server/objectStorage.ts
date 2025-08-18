@@ -35,63 +35,118 @@ export class ObjectNotFoundError extends Error {
 export class ObjectStorageService {
   constructor() {}
 
-  // Gets the private object directory.
-  getPrivateObjectDir(): string {
-    const dir = process.env.PRIVATE_OBJECT_DIR || "";
-    if (!dir) {
+  // Gets the public object search paths.
+  getPublicObjectSearchPaths(): Array<string> {
+    const pathsStr = process.env.PUBLIC_OBJECT_SEARCH_PATHS || "";
+    const paths = Array.from(
+      new Set(
+        pathsStr
+          .split(",")
+          .map((path) => path.trim())
+          .filter((path) => path.length > 0)
+      )
+    );
+    if (paths.length === 0) {
       throw new Error(
-        "PRIVATE_OBJECT_DIR not set. Create a bucket in 'Object Storage' " +
-          "tool and set PRIVATE_OBJECT_DIR env var."
+        "PUBLIC_OBJECT_SEARCH_PATHS not set. Create a bucket in 'Object Storage' " +
+          "tool and set PUBLIC_OBJECT_SEARCH_PATHS env var (comma-separated paths)."
       );
     }
-    return dir;
+    return paths;
   }
 
-  // Gets the upload URL for an object entity.
+  // Search for a public object from the search paths.
+  async searchPublicObject(filePath: string): Promise<File | null> {
+    for (const searchPath of this.getPublicObjectSearchPaths()) {
+      const fullPath = `${searchPath}/${filePath}`;
+
+      // Full path format: /<bucket_name>/<object_name>
+      const { bucketName, objectName } = parseObjectPath(fullPath);
+      const bucket = objectStorageClient.bucket(bucketName);
+      const file = bucket.file(objectName);
+
+      // Check if file exists
+      const [exists] = await file.exists();
+      if (exists) {
+        return file;
+      }
+    }
+
+    return null;
+  }
+
+  // Downloads an object to the response.
+  async downloadObject(file: File, res: Response, cacheTtlSec: number = 3600) {
+    try {
+      // Get file metadata
+      const [metadata] = await file.getMetadata();
+      
+      // Set appropriate headers
+      res.set({
+        "Content-Type": metadata.contentType || "application/octet-stream",
+        "Content-Length": metadata.size,
+        "Cache-Control": `public, max-age=${cacheTtlSec}`,
+      });
+
+      // Stream the file to the response
+      const stream = file.createReadStream();
+
+      stream.on("error", (err) => {
+        console.error("Stream error:", err);
+        if (!res.headersSent) {
+          res.status(500).json({ error: "Error streaming file" });
+        }
+      });
+
+      stream.pipe(res);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Error downloading file" });
+      }
+    }
+  }
+
+  // List all files in the public directory
+  async listPublicFiles(): Promise<string[]> {
+    const files: string[] = [];
+    for (const searchPath of this.getPublicObjectSearchPaths()) {
+      const { bucketName, objectName } = parseObjectPath(searchPath);
+      const bucket = objectStorageClient.bucket(bucketName);
+      
+      const [fileList] = await bucket.getFiles({
+        prefix: objectName + '/',
+      });
+      
+      fileList.forEach(file => {
+        const relativePath = file.name.replace(objectName + '/', '');
+        if (relativePath && !relativePath.endsWith('/')) {
+          files.push(relativePath);
+        }
+      });
+    }
+    return files;
+  }
+
+  // Get upload URL for object entity (simplified for public uploads)
   async getObjectEntityUploadURL(): Promise<string> {
-    const privateObjectDir = this.getPrivateObjectDir();
-    if (!privateObjectDir) {
-      throw new Error(
-        "PRIVATE_OBJECT_DIR not set. Create a bucket in 'Object Storage' " +
-          "tool and set PRIVATE_OBJECT_DIR env var."
-      );
-    }
-
-    const objectId = randomUUID();
-    const fullPath = `${privateObjectDir}/uploads/${objectId}`;
-
-    const { bucketName, objectName } = parseObjectPath(fullPath);
-
-    // Sign URL for PUT method with TTL
-    return signObjectURL({
-      bucketName,
-      objectName,
-      method: "PUT",
-      ttlSec: 900,
-    });
+    // For public uploads, we'll need a different implementation
+    // This is a placeholder that should be implemented based on your needs
+    throw new Error("Upload functionality not implemented for public storage");
   }
 
+  // Normalize object entity path
   normalizeObjectEntityPath(rawPath: string): string {
-    if (!rawPath.startsWith("https://storage.googleapis.com/")) {
+    // Simple normalization for public files
+    if (rawPath.startsWith('/public-objects/')) {
       return rawPath;
     }
-  
-    // Extract the path from the URL by removing query parameters and domain
-    const url = new URL(rawPath);
-    const rawObjectPath = url.pathname;
-  
-    let objectEntityDir = this.getPrivateObjectDir();
-    if (!objectEntityDir.endsWith("/")) {
-      objectEntityDir = `${objectEntityDir}/`;
+    if (rawPath.startsWith('http')) {
+      // Extract filename from URL
+      const url = new URL(rawPath);
+      return url.pathname;
     }
-  
-    if (!rawObjectPath.startsWith(objectEntityDir)) {
-      return rawObjectPath;
-    }
-  
-    // Extract the entity ID from the path
-    const entityId = rawObjectPath.slice(objectEntityDir.length);
-    return `/objects/${entityId}`;
+    return rawPath;
   }
 }
 
@@ -114,42 +169,4 @@ function parseObjectPath(path: string): {
     bucketName,
     objectName,
   };
-}
-
-async function signObjectURL({
-  bucketName,
-  objectName,
-  method,
-  ttlSec,
-}: {
-  bucketName: string;
-  objectName: string;
-  method: "GET" | "PUT" | "DELETE" | "HEAD";
-  ttlSec: number;
-}): Promise<string> {
-  const request = {
-    bucket_name: bucketName,
-    object_name: objectName,
-    method,
-    expires_at: new Date(Date.now() + ttlSec * 1000).toISOString(),
-  };
-  const response = await fetch(
-    `${REPLIT_SIDECAR_ENDPOINT}/object-storage/signed-object-url`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
-    }
-  );
-  if (!response.ok) {
-    throw new Error(
-      `Failed to sign object URL, errorcode: ${response.status}, ` +
-        `make sure you're running on Replit`
-    );
-  }
-
-  const { signed_url: signedURL } = await response.json();
-  return signedURL;
 }

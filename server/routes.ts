@@ -22,6 +22,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Object storage service
   const objectStorageService = new ObjectStorageService();
 
+  // Serve public images from object storage
+  app.get("/public-objects/:filePath(*)", async (req, res) => {
+    const filePath = req.params.filePath;
+    try {
+      const file = await objectStorageService.searchPublicObject(filePath);
+      if (!file) {
+        return res.status(404).json({ error: "File not found" });
+      }
+      objectStorageService.downloadObject(file, res);
+    } catch (error) {
+      console.error("Error searching for public object:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // API route to list available images for gallery
+  app.get("/api/gallery/images", async (req, res) => {
+    try {
+      const files = await objectStorageService.listPublicFiles();
+      
+      // Filter only image files
+      const imageFiles = files.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+      );
+      
+      res.json({ images: imageFiles });
+    } catch (error) {
+      console.error("Error listing images:", error);
+      res.status(500).json({ error: "Failed to list images" });
+    }
+  });
+
   // File upload endpoint
   app.post("/api/objects/upload", async (req, res) => {
     try {
