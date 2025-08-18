@@ -14,10 +14,10 @@ export default function Portfolio() {
       <section className="bg-gradient-to-br from-brand-yellow/10 via-brand-turquoise/5 to-brand-coral/10 py-20 mt-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
               Nosso <span className="text-brand-yellow">Portfolio</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
               Conheça os nossos trabalhos mais marcantes em comunicação visual. 
               Cada projeto reflete o nosso compromisso com a qualidade e criatividade.
             </p>
