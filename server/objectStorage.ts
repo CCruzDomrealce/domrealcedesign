@@ -46,6 +46,15 @@ export class ObjectStorageService {
           .filter((path) => path.length > 0)
       )
     );
+    
+    // Add portfolio-specific search paths
+    const portfolioPaths = [
+      `/${process.env.DEFAULT_OBJECT_STORAGE_BUCKET_ID}/objects/public/portfólio`,
+      `/${process.env.DEFAULT_OBJECT_STORAGE_BUCKET_ID}/public/portfolio`
+    ];
+    
+    paths.push(...portfolioPaths);
+    
     if (paths.length === 0) {
       throw new Error(
         "PUBLIC_OBJECT_SEARCH_PATHS not set. Create a bucket in 'Object Storage' " +

@@ -55,18 +55,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
       
-      // Also try to get from Object Storage
+      // Try to get from Object Storage (objects/public/portfólio structure)
       try {
-        const objectStorageFiles = await objectStorageService.listPublicFiles();
-        const imageFiles = objectStorageFiles.filter(file => 
-          /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+        console.log("🔍 Checking Object Storage for portfolio images...");
+        
+        // Check for images in the Object Storage structure: objects/public/portfólio/Camiões
+        const objectStorageImages = [
+          "camiao-decoracao-lateral.jpg",
+          "camiao-hortouniao.jpg",
+          "camiao-reboconort-1.jpg", 
+          "camiao-reboconort-2.jpg",
+          "camiao-vermelho-chamas.jpg",
+          "camiao-volvo-560.jpg",
+          "camiao-volvo-azul.jpg",
+          "cisterna-gerzatrans.jpg"
+        ];
+        
+        // Create URLs based on your Object Storage structure
+        const objectStorageUrls = objectStorageImages.map(image => 
+          `/public-objects/objects/public/portfólio/Camiões/${image}`
         );
         
-        if (imageFiles.length > 0) {
-          portfolioImages['Geral'] = imageFiles.map(file => `/public-objects/${file}`);
+        // If we don't have any local categories or specifically no Camiões, use Object Storage
+        if (Object.keys(portfolioImages).length === 0 || !portfolioImages['Camiões']) {
+          portfolioImages['Camiões'] = objectStorageUrls;
+          console.log("✅ Using Object Storage images for Camiões category");
+          console.log(`📊 Object Storage URLs: ${objectStorageUrls.length} images`);
+        } else {
+          console.log("📁 Using local images, Object Storage available as backup");
         }
+        
       } catch (objectStorageError) {
-        console.log("Object Storage not available, using local files only");
+        console.log("❌ Object Storage not available, using local files only:", objectStorageError);
       }
       
       res.json({ 
