@@ -9,6 +9,8 @@ This is a full-stack web application for DOMREALCE, a Portuguese visual communic
 - **Servicos Page**: Added complete services page showcasing all 7 service categories with detailed features
 - **Navigation Updates**: Modified navigation to link directly to new standalone pages instead of scroll anchors
 - **Page Spacing**: Standardized top padding (pt-32) across all pages for consistent header clearance
+- **Contact Form Enhancement**: Implemented scroll-to-form functionality with #formulario anchor for direct access
+- **Link Optimization**: Updated all "Solicitar Orçamento" and contact buttons across pages to link to /contactos#formulario
 
 # User Preferences
 

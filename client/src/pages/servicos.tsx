@@ -199,10 +199,10 @@ export default function Servicos() {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 transition-opacity">
-              <Link href="/contactos">Iniciar Meu Projeto</Link>
+              <Link href="/contactos#formulario">Iniciar Meu Projeto</Link>
             </Button>
             <Button asChild variant="outline" className="border-[#20B2AA] text-[#20B2AA] hover:bg-[#20B2AA] hover:text-black">
-              <Link href="/contactos">Falar com Especialista</Link>
+              <Link href="/contactos#formulario">Falar com Especialista</Link>
             </Button>
           </div>
         </div>
