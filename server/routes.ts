@@ -44,10 +44,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       ];
       
-      // Test many possible image names and extensions
+      // Test extensive list of possible image names
       const testPaths = [];
-      const extensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-      const names = ['1', '2', '3', '4', '5', 'exemplo', 'projeto', 'camiao', 'teste', 'amostra'];
+      const extensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'tiff'];
+      const names = [
+        // Numbered
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+        // Portuguese words
+        'camiao', 'camioes', 'exemplo', 'projeto', 'teste', 'amostra',
+        'trabalho', 'foto', 'imagem', 'decoracao', 'vinil',
+        // Common names
+        'image', 'photo', 'sample', 'demo', 'truck', 'vehicle',
+        // Generic file names
+        'IMG_001', 'IMG_002', 'DSC_001', 'DSC_002', 
+        'photo1', 'photo2', 'image1', 'image2',
+        // Any filename that might exist
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+        'file', 'doc', 'pic', 'picture'
+      ];
       
       for (const name of names) {
         for (const ext of extensions) {
@@ -55,23 +69,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
       
+      console.log(`🔍 Testing ${testPaths.length} possible image paths...`);
+      
+      // Show first few paths being tested
+      console.log("🔍 Sample paths being tested:", testPaths.slice(0, 5));
+      
+      let foundCount = 0;
       for (const testPath of testPaths) {
         try {
           const file = await objectStorageService.searchPublicObject(testPath);
           if (file) {
-            console.log(`✅ Found: ${testPath}`);
+            foundCount++;
+            console.log(`✅ FOUND IMAGE: ${testPath} -> ${file.name}`);
             (testData[0].subcategories[0].projects as any[]).push({
-              id: `camioes-${Date.now()}`,
-              title: `Camião ${testData[0].subcategories[0].projects.length + 1}`,
+              id: `camioes-${Date.now()}-${foundCount}`,
+              title: `Camião ${foundCount}`,
               image: testPath.split('/').pop() || '',
               category: "camioes",
               subcategory: "geral"
             });
           }
         } catch (error) {
-          console.log(`❌ Not found: ${testPath}`);
+          // Only log first few failures to avoid spam
+          if (testPaths.indexOf(testPath) < 10) {
+            console.log(`❌ Not found: ${testPath}`);
+          }
         }
       }
+      
+      console.log(`🔍 Search complete: tested ${testPaths.length} paths, found ${foundCount} images`);
       
       console.log(`📊 Found ${testData[0].subcategories[0].projects.length} images`);
       res.json(testData);
