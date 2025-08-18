@@ -6,8 +6,124 @@ import { useMutation } from "@tanstack/react-query";
 import { insertContactSchema, type InsertContact } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { Link } from "wouter";
+import { ObjectUploader } from "@/components/ObjectUploader";
+import { Button } from "@/components/ui/button";
+import { Shield, Upload, FileText, X } from "lucide-react";
 
 export default function Contactos() {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    telefone: '',
+    empresa: '',
+    mensagem: '',
+    ficheiros: [] as string[]
+  });
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const mutation = useMutation({
+    mutationFn: async (data: InsertContact) => {
+      return await apiRequest('/api/contact', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    },
+    onSuccess: (data: any) => {
+      toast({
+        title: "Sucesso!",
+        description: data.message || "Mensagem enviada com sucesso!",
+        variant: "default",
+      });
+      setFormData({
+        nome: '',
+        email: '',
+        telefone: '',
+        empresa: '',
+        mensagem: '',
+        ficheiros: []
+      });
+      setUploadedFiles([]);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao enviar mensagem. Tente novamente.",
+        variant: "destructive",
+      });
+    },
+    onSettled: () => {
+      setIsSubmitting(false);
+    }
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const dataToSubmit = {
+        ...formData,
+        ficheiros: uploadedFiles
+      };
+      
+      const validatedData = insertContactSchema.parse(dataToSubmit);
+      mutation.mutate(validatedData);
+    } catch (error) {
+      setIsSubmitting(false);
+      toast({
+        title: "Erro de validação",
+        description: "Por favor, verifique os dados inseridos.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFileUpload = async () => {
+    try {
+      const response = await apiRequest('/api/objects/upload', {
+        method: 'POST',
+      });
+      return {
+        method: 'PUT' as const,
+        url: (response as any).uploadURL,
+      };
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Erro ao preparar upload. Tente novamente.",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
+  const handleUploadComplete = (result: any) => {
+    const newFiles = result.successful.map((file: any) => file.uploadURL);
+    setUploadedFiles(prev => [...prev, ...newFiles]);
+    toast({
+      title: "Ficheiros enviados",
+      description: `${result.successful.length} ficheiro(s) enviado(s) com sucesso.`,
+      variant: "default",
+    });
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
@@ -45,111 +161,204 @@ export default function Contactos() {
                 4580-264 Gondalães, Paredes
               </p>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* Simple Contact Form */}
-      <section className="py-4 bg-black">
-        <div className="container mx-auto px-4">
-          <div className="max-w-xl mx-auto">
-            <h2 className="text-2xl font-heading font-bold mb-4 text-center">
-              <span className="text-brand-turquoise">Envie-nos</span> <span className="text-white">uma Mensagem</span>
-            </h2>
-            <p className="text-white/80 mb-4 text-center text-sm">Preencha o formulário e entraremos em contacto brevemente.</p>
-            
-            <form id="formulario" className="space-y-4">
-              <div>
-                <label className="text-white/80 mb-1 block text-sm">Nome Completo</label>
-                <input 
-                  type="text" 
-                  className="w-full p-2 bg-black/50 border border-brand-yellow text-white rounded-lg text-sm"
-                  placeholder="Nome Completo"
-                />
-              </div>
-              
-              <div>
-                <label className="text-white/80 mb-1 block text-sm">Email</label>
-                <input 
-                  type="email" 
-                  className="w-full p-2 bg-black/50 border border-brand-yellow text-white rounded-lg text-sm"
-                  placeholder="seu@email.com"
-                />
-              </div>
-              
-              <div>
-                <label className="text-white/80 mb-1 block text-sm">Mensagem</label>
-                <textarea 
-                  className="w-full p-2 bg-black/50 border border-brand-yellow text-white rounded-lg h-24 text-sm"
-                  placeholder="Descreva o seu projeto..."
-                ></textarea>
-              </div>
-              
-              <button 
-                type="submit"
-                className="w-full px-6 py-3 bg-gradient-to-r from-brand-yellow to-brand-coral text-black font-semibold rounded-lg hover:shadow-xl transition-all duration-300"
-              >
-                Enviar Mensagem
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Location Info with Map */}
-      <section className="py-4 bg-black/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-4">
-            <h2 className="text-2xl font-heading font-bold mb-2">
-              <span className="text-brand-coral">Como</span> <span className="text-white">Chegar</span>
-            </h2>
-          </div>
-          
-          {/* Mapa Google Maps */}
-          <div className="max-w-3xl mx-auto mb-4">
-            <div className="bg-black/30 rounded-lg overflow-hidden">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3006.2345678901234!2d-8.5591234567891!3d41.2234567891234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDEzJzI0LjQiTiA4wrAzMycyOC44Ilc!5e0!3m2!1spt!2spt!4v1234567890123"
-                width="100%"
-                height="250"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Localização DOMREALCE - Rua de Rebolido, 42, Gondalães, Paredes"
-              ></iframe>
-            </div>
-          </div>
-          
-          {/* WhatsApp Contact */}
-          <div className="max-w-sm mx-auto">
-            <div className="bg-black/30 rounded-lg p-4 text-center">
-              <h3 className="text-lg font-semibold text-brand-turquoise mb-3">Contacto Direto</h3>
-              <a 
-                href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20vossos%20serviços."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm"
-              >
-                💬 Contactar via WhatsApp
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Experience Section */}
+      {/* Enhanced Contact Form */}
       <section className="py-6 bg-black">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-xl font-semibold text-brand-yellow mb-3">Atendimento Personalizado</h3>
-            <p className="text-white/80 mb-4 text-sm">
-              Com 40 anos de experiência, oferecemos um atendimento personalizado focado na qualidade, pontualidade e honestidade.
-            </p>
-            <Link href="/sobre" className="text-brand-turquoise hover:text-brand-turquoise transition-colors text-sm">
-              Conhecer a Nossa História
-            </Link>
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-brand-yellow/20">
+              <div className="flex items-center gap-2 mb-6">
+                <Shield className="w-5 h-5 text-brand-yellow" />
+                <h2 className="text-2xl font-heading font-bold">
+                  <span className="text-brand-turquoise">Formulário</span> <span className="text-white">Seguro</span>
+                </h2>
+              </div>
+              
+              <p className="text-white/80 mb-6 text-sm">
+                Todos os dados são protegidos e processados de forma segura. Máximo 5 tentativas por 15 minutos.
+              </p>
+              
+              <form id="formulario" onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-white/80 mb-2 block text-sm font-medium">
+                      Nome Completo *
+                    </label>
+                    <input 
+                      type="text" 
+                      name="nome"
+                      value={formData.nome}
+                      onChange={handleInputChange}
+                      className="w-full p-3 bg-black/50 border border-brand-yellow text-white rounded-lg text-sm focus:border-brand-turquoise focus:outline-none transition-colors"
+                      placeholder="Seu nome completo"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-white/80 mb-2 block text-sm font-medium">
+                      Email *
+                    </label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full p-3 bg-black/50 border border-brand-yellow text-white rounded-lg text-sm focus:border-brand-turquoise focus:outline-none transition-colors"
+                      placeholder="seu@email.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-white/80 mb-2 block text-sm font-medium">
+                      Telefone
+                    </label>
+                    <input 
+                      type="tel" 
+                      name="telefone"
+                      value={formData.telefone}
+                      onChange={handleInputChange}
+                      className="w-full p-3 bg-black/50 border border-brand-yellow text-white rounded-lg text-sm focus:border-brand-turquoise focus:outline-none transition-colors"
+                      placeholder="+351 xxx xxx xxx"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="text-white/80 mb-2 block text-sm font-medium">
+                      Empresa
+                    </label>
+                    <input 
+                      type="text" 
+                      name="empresa"
+                      value={formData.empresa}
+                      onChange={handleInputChange}
+                      className="w-full p-3 bg-black/50 border border-brand-yellow text-white rounded-lg text-sm focus:border-brand-turquoise focus:outline-none transition-colors"
+                      placeholder="Nome da empresa"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="text-white/80 mb-2 block text-sm font-medium">
+                    Mensagem *
+                  </label>
+                  <textarea 
+                    name="mensagem"
+                    value={formData.mensagem}
+                    onChange={handleInputChange}
+                    className="w-full p-3 bg-black/50 border border-brand-yellow text-white rounded-lg h-32 text-sm focus:border-brand-turquoise focus:outline-none transition-colors resize-none"
+                    placeholder="Descreva detalhadamente o seu projeto..."
+                    required
+                  />
+                </div>
+
+                {/* File Upload Section */}
+                <div>
+                  <label className="text-white/80 mb-2 block text-sm font-medium">
+                    Anexar Ficheiros (Opcional)
+                  </label>
+                  <p className="text-white/60 text-xs mb-3">
+                    Formatos aceites: PDF, DOC, DOCX, JPG, PNG, GIF, AI, PSD, EPS. Máximo 10MB por ficheiro.
+                  </p>
+                  
+                  <ObjectUploader
+                    maxNumberOfFiles={5}
+                    maxFileSize={10485760}
+                    onGetUploadParameters={handleFileUpload}
+                    onComplete={handleUploadComplete}
+                    buttonClassName="w-full"
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Anexar Ficheiros do Projeto
+                  </ObjectUploader>
+
+                  {/* Display uploaded files */}
+                  {uploadedFiles.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      <p className="text-white/80 text-sm font-medium">Ficheiros anexados:</p>
+                      {uploadedFiles.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between bg-black/30 p-3 rounded-lg border border-brand-yellow/30">
+                          <div className="flex items-center gap-2">
+                            <FileText className="w-4 h-4 text-brand-turquoise" />
+                            <span className="text-white/80 text-sm">Ficheiro {index + 1}</span>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeFile(index)}
+                            className="text-red-400 hover:text-red-300 hover:bg-red-400/10"
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                <Button 
+                  type="submit"
+                  disabled={isSubmitting || mutation.isPending}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-brand-yellow to-brand-coral text-black font-semibold rounded-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting || mutation.isPending ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black mr-2"></div>
+                      A enviar...
+                    </>
+                  ) : (
+                    'Enviar Mensagem'
+                  )}
+                </Button>
+
+                <p className="text-white/60 text-xs text-center mt-4">
+                  Ao enviar este formulário, concorda com o processamento dos seus dados pessoais de acordo com a nossa{' '}
+                  <Link href="/politica-privacidade" className="text-brand-turquoise hover:underline">
+                    Política de Privacidade
+                  </Link>
+                  .
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Additional Contact Options */}
+      <section className="py-6 bg-gray-900/20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+            <div className="bg-black/50 rounded-xl p-6 border border-brand-turquoise/20">
+              <h3 className="text-xl font-semibold text-brand-yellow mb-3">Atendimento Personalizado</h3>
+              <p className="text-white/80 mb-4 text-sm">
+                Com 40 anos de experiência, oferecemos um atendimento personalizado focado na qualidade, pontualidade e honestidade.
+              </p>
+              <Link href="/sobre" className="text-brand-turquoise hover:text-brand-turquoise transition-colors text-sm">
+                Conhecer a Nossa História
+              </Link>
+            </div>
+            
+            <div className="bg-black/50 rounded-xl p-6 border border-brand-coral/20">
+              <h3 className="text-xl font-semibold text-brand-coral mb-3">Orçamentos Gratuitos</h3>
+              <p className="text-white/80 mb-4 text-sm">
+                Solicite um orçamento sem compromisso. Analisamos cada projeto individualmente para oferecer a melhor solução.
+              </p>
+              <a 
+                href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento." 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-brand-yellow hover:text-brand-yellow transition-colors text-sm"
+              >
+                WhatsApp Direto
+              </a>
+            </div>
           </div>
         </div>
       </section>

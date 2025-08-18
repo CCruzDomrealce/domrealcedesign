@@ -3,13 +3,48 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSchema } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
+import { ObjectStorageService } from "./objectStorage";
+import rateLimit from 'express-rate-limit';
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Contact form submission endpoint
-  app.post("/api/contact", async (req, res) => {
+  // Rate limiting for contact form
+  const contactLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 requests per windowMs
+    message: { 
+      success: false, 
+      message: "Muitas tentativas. Tente novamente em 15 minutos." 
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  // Object storage service
+  const objectStorageService = new ObjectStorageService();
+
+  // File upload endpoint
+  app.post("/api/objects/upload", async (req, res) => {
+    try {
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+      res.json({ uploadURL });
+    } catch (error) {
+      console.error("Error getting upload URL:", error);
+      res.status(500).json({ error: "Failed to get upload URL" });
+    }
+  });
+
+  // Contact form submission endpoint with rate limiting
+  app.post("/api/contact", contactLimiter, async (req, res) => {
     try {
       // Validate the request body
       const validatedData = insertContactSchema.parse(req.body);
+      
+      // Normalize file URLs if any
+      if (validatedData.ficheiros && validatedData.ficheiros.length > 0) {
+        validatedData.ficheiros = validatedData.ficheiros.map(url => 
+          objectStorageService.normalizeObjectEntityPath(url)
+        );
+      }
       
       // Save contact to storage
       const contact = await storage.createContact(validatedData);
