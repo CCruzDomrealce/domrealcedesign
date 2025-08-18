@@ -14,10 +14,43 @@ import {
   Home,
   Ruler,
   Eye,
-  Search
+  Search,
+  Upload,
+  Calculator,
+  ShoppingCart
 } from "lucide-react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ServicoPapelParede() {
+  const [formData, setFormData] = useState({
+    largura: '',
+    altura: '',
+    quantidade: '1',
+    opcaoImagem: 'adobe-stock', // 'adobe-stock' ou 'propria'
+    descricaoImagem: '',
+    mensagem: '',
+    nome: '',
+    email: '',
+    telefone: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const whatsappMessage = `Olá! Gostaria de um orçamento para papel de parede:
+    
+📐 Medidas: ${formData.largura}m x ${formData.altura}m
+📦 Quantidade: ${formData.quantidade} parede(s)
+🖼️ Imagem: ${formData.opcaoImagem === 'adobe-stock' ? 'Adobe Stock - ' + formData.descricaoImagem : 'Imagem própria - ' + formData.descricaoImagem}
+📞 Contacto: ${formData.nome} - ${formData.telefone}
+📧 Email: ${formData.email}
+💬 Mensagem: ${formData.mensagem}`;
+    
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    window.open(`https://wa.me/351930682725?text=${encodedMessage}`, '_blank');
+  };
   const categories = [
     "Texturas Naturais", "Padrões Geométricos", "Florais", "Abstratos",
     "Infantis", "Minimalistas", "Clássicos", "Modernos", "Vintage",
@@ -30,12 +63,12 @@ export default function ServicoPapelParede() {
   const features = [
     {
       icon: <Grid className="w-6 h-6" />,
-      title: "Mais de 3000 Texturas",
+      title: "Grande Variedade de Texturas",
       description: "Vasta coleção constantemente atualizada com as últimas tendências"
     },
     {
       icon: <Search className="w-6 h-6" />,
-      title: "28 Categorias",
+      title: "Múltiplas Categorias",
       description: "Organização intuitiva para encontrar rapidamente o padrão ideal"
     },
     {
@@ -63,13 +96,13 @@ export default function ServicoPapelParede() {
   const process = [
     {
       step: "01",
-      title: "Consulta do Catálogo",
-      description: "Explore as 3000+ texturas organizadas em 28 categorias diferentes"
+      title: "Escolha da Imagem",
+      description: "Selecione Adobe Stock ou envie sua própria imagem personalizada"
     },
     {
       step: "02", 
-      title: "Seleção e Comparação",
-      description: "Escolha os padrões favoritos e compare-os lado a lado"
+      title: "Medidas Personalizadas",
+      description: "Forneça as dimensões exactas (largura x altura) do seu projeto"
     },
     {
       step: "03",
@@ -111,14 +144,14 @@ export default function ServicoPapelParede() {
             </Badge>
             
             <h1 className="text-5xl md:text-6xl font-heading font-bold mb-6">
-              <span className="text-brand-coral">3000+ Texturas</span>
+              <span className="text-brand-coral">Grande Variedade de Texturas</span>
               <br />
               <span className="text-white">em Catálogo Interativo</span>
             </h1>
             
             <p className="text-xl text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto">
               Descubra a maior coleção de papéis de parede em Portugal. 
-              Catálogo interativo com visualização em tamanho real e 28 categorias diferentes.
+              Catálogo interativo com visualização em tamanho real e múltiplas categorias diferentes.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -166,7 +199,7 @@ export default function ServicoPapelParede() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-              <span className="text-white">28 Categorias</span> <span className="text-brand-yellow">Disponíveis</span>
+              <span className="text-white">Múltiplas Categorias</span> <span className="text-brand-yellow">Disponíveis</span>
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               Organização intuitiva para encontrar exatamente o estilo que procura
@@ -253,11 +286,11 @@ export default function ServicoPapelParede() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Texturas disponíveis</span>
-                    <span className="text-brand-coral font-semibold">3000+</span>
+                    <span className="text-brand-coral font-semibold">Grande variedade</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Categorias</span>
-                    <span className="text-brand-coral font-semibold">28</span>
+                    <span className="text-brand-coral font-semibold">Múltiplas</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Aplicação incluída</span>
@@ -268,6 +301,199 @@ export default function ServicoPapelParede() {
                     <span className="text-brand-coral font-semibold">2 anos</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Orçamento Personalizado */}
+      <section className="pt-0 pb-8 bg-gray-900/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
+                <span className="text-brand-coral">Orçamento</span> <span className="text-white">Personalizado</span>
+              </h2>
+              <p className="text-gray-400 text-lg">
+                Escolha entre Adobe Stock ou envie sua própria imagem
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Formulário de Orçamento */}
+              <Card className="bg-black/50 border-gray-800">
+                <CardContent className="p-6">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="largura" className="text-white">Largura (metros)</Label>
+                        <Input
+                          id="largura"
+                          type="number"
+                          step="0.1"
+                          placeholder="Ex: 3.5"
+                          value={formData.largura}
+                          onChange={(e) => setFormData({...formData, largura: e.target.value})}
+                          className="bg-gray-900 border-gray-700 text-white"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="altura" className="text-white">Altura (metros)</Label>
+                        <Input
+                          id="altura"
+                          type="number"
+                          step="0.1"
+                          placeholder="Ex: 2.5"
+                          value={formData.altura}
+                          onChange={(e) => setFormData({...formData, altura: e.target.value})}
+                          className="bg-gray-900 border-gray-700 text-white"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="quantidade" className="text-white">Quantidade de Paredes</Label>
+                      <Input
+                        id="quantidade"
+                        type="number"
+                        min="1"
+                        value={formData.quantidade}
+                        onChange={(e) => setFormData({...formData, quantidade: e.target.value})}
+                        className="bg-gray-900 border-gray-700 text-white"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-white">Opção de Imagem</Label>
+                      <div className="flex gap-4 mt-2">
+                        <label className="flex items-center text-white">
+                          <input
+                            type="radio"
+                            name="opcaoImagem"
+                            value="adobe-stock"
+                            checked={formData.opcaoImagem === 'adobe-stock'}
+                            onChange={(e) => setFormData({...formData, opcaoImagem: e.target.value})}
+                            className="mr-2"
+                          />
+                          Adobe Stock
+                        </label>
+                        <label className="flex items-center text-white">
+                          <input
+                            type="radio"
+                            name="opcaoImagem"
+                            value="propria"
+                            checked={formData.opcaoImagem === 'propria'}
+                            onChange={(e) => setFormData({...formData, opcaoImagem: e.target.value})}
+                            className="mr-2"
+                          />
+                          Imagem Própria
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="descricaoImagem" className="text-white">
+                        {formData.opcaoImagem === 'adobe-stock' ? 'Descrição da imagem desejada' : 'Descrição da sua imagem'}
+                      </Label>
+                      <Textarea
+                        id="descricaoImagem"
+                        placeholder={formData.opcaoImagem === 'adobe-stock' ? "Ex: Floresta tropical, cores verdes" : "Ex: Logo da empresa, foto de família"}
+                        value={formData.descricaoImagem}
+                        onChange={(e) => setFormData({...formData, descricaoImagem: e.target.value})}
+                        className="bg-gray-900 border-gray-700 text-white"
+                        required
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-4">
+                      <div>
+                        <Label htmlFor="nome" className="text-white">Nome</Label>
+                        <Input
+                          id="nome"
+                          value={formData.nome}
+                          onChange={(e) => setFormData({...formData, nome: e.target.value})}
+                          className="bg-gray-900 border-gray-700 text-white"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="email" className="text-white">Email</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => setFormData({...formData, email: e.target.value})}
+                          className="bg-gray-900 border-gray-700 text-white"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="telefone" className="text-white">Telefone</Label>
+                        <Input
+                          id="telefone"
+                          value={formData.telefone}
+                          onChange={(e) => setFormData({...formData, telefone: e.target.value})}
+                          className="bg-gray-900 border-gray-700 text-white"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="mensagem" className="text-white">Mensagem Adicional</Label>
+                      <Textarea
+                        id="mensagem"
+                        placeholder="Detalhes adicionais sobre o projeto..."
+                        value={formData.mensagem}
+                        onChange={(e) => setFormData({...formData, mensagem: e.target.value})}
+                        className="bg-gray-900 border-gray-700 text-white"
+                      />
+                    </div>
+
+                    <Button type="submit" className="w-full bg-gradient-to-r from-brand-coral to-brand-yellow text-white">
+                      <Calculator className="w-4 h-4 mr-2" />
+                      Solicitar Orçamento
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+
+              {/* Opções Rápidas */}
+              <div className="space-y-6">
+                <Card className="bg-black/50 border-gray-800 hover:border-brand-turquoise transition-all duration-300">
+                  <CardContent className="p-6 text-center">
+                    <ShoppingCart className="w-12 h-12 text-brand-turquoise mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-3 text-white">Loja Online</h3>
+                    <p className="text-gray-400 mb-4">
+                      Explore nossa seção de texturas na loja online
+                    </p>
+                    <Button asChild className="bg-brand-turquoise text-black hover:bg-brand-turquoise/80">
+                      <Link href="/loja">
+                        Ver Texturas na Loja
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-black/50 border-gray-800 hover:border-brand-coral transition-all duration-300">
+                  <CardContent className="p-6 text-center">
+                    <Upload className="w-12 h-12 text-brand-coral mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-3 text-white">Envio de Imagens</h3>
+                    <p className="text-gray-400 mb-4">
+                      Se escolheu "Imagem Própria", pode enviar após o orçamento
+                    </p>
+                    <Button asChild variant="outline" className="border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white">
+                      <a href="https://wa.me/351930682725?text=Olá!%20Quero%20enviar%20uma%20imagem%20para%20papel%20de%20parede" target="_blank">
+                        Enviar via WhatsApp
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
