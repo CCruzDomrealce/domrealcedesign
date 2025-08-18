@@ -237,7 +237,7 @@ export function DynamicGallery({ category, showCategories = true, className = ""
       {/* Lightbox Modal */}
       {selectedImage && (
         <Dialog open={!!selectedImage} onOpenChange={closeLightbox}>
-          <DialogContent className="max-w-4xl w-full p-0">
+          <DialogContent className="max-w-[95vw] max-h-[95vh] w-auto h-auto p-0 overflow-hidden">
             <DialogTitle className="sr-only">{selectedImage.title}</DialogTitle>
             <div className="relative">
               <Button
@@ -274,7 +274,7 @@ export function DynamicGallery({ category, showCategories = true, className = ""
                 <img
                   src={selectedImage.url}
                   alt={selectedImage.title}
-                  className="w-full max-h-[80vh] object-contain"
+                  className="max-w-[90vw] max-h-[90vh] w-auto h-auto object-contain"
                 />
                 
                 {/* Numeração sobre a imagem */}
