@@ -56,14 +56,7 @@ export default function Produto3D() {
   const precoLaminacao = 5.0;
 
   const getTextura3DUrl = (fileName: string) => {
-    // Try the images we have locally first for the specific examples
-    const localImages = ['3D-001.webp', '3D-002.webp', '3D-003.webp'];
-    
-    if (localImages.includes(fileName)) {
-      return `/api/texture-image/${fileName}`;
-    }
-    
-    // For all others, use Object Storage path
+    // Use Object Storage for all images since we confirmed all 100 are available
     return `/public-objects/Domrealce/Loja/Papel de Parede/texturas 800x800/3D/${fileName}`;
   };
 
