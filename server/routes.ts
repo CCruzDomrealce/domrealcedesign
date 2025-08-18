@@ -24,7 +24,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Object storage service
   const objectStorageService = new ObjectStorageService();
 
-
+  // API route to list available images for gallery/portfolio
+  app.get("/api/gallery/images", async (req, res) => {
+    try {
+      const files = await objectStorageService.listPublicFiles();
+      
+      // Filter only image files
+      const imageFiles = files.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+      );
+      
+      res.json({ images: imageFiles });
+    } catch (error) {
+      console.error("Error listing images:", error);
+      res.status(500).json({ error: "Failed to list images" });
+    }
+  });
 
   // Contact form route with rate limiting
   app.post("/api/contact", contactLimiter, async (req, res) => {
