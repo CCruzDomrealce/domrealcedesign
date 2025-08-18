@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Star, ShoppingCart, Settings, Wallpaper, ArrowLeft, Eye, Plus, CheckCircle } from "lucide-react";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import texturaPoaImage from "@assets/Póa_1755539373566.webp";
 
 interface Product {
   id: number;
@@ -118,7 +119,7 @@ const subcategoriasPapelParede = [
   { id: 20, nome: "Mármore", fileName: "Marmore.webp" },
   { id: 21, nome: "Pastilha", fileName: "Pastilha.webp" },
   { id: 22, nome: "Pedras", fileName: "Pedras.webp" },
-  { id: 23, nome: "Póa", fileName: "Pea.webp" },
+  { id: 23, nome: "Póa", fileName: "Pea.webp", localImage: texturaPoaImage },
   { id: 24, nome: "Ripado", fileName: "Ripado.webp" },
   { id: 25, nome: "Textura", fileName: "Textura.webp" },
   { id: 26, nome: "Tijolos", fileName: "Tijolos.webp" },
@@ -126,9 +127,12 @@ const subcategoriasPapelParede = [
   { id: 28, nome: "Zazz", fileName: "Zazz.webp" }
 ];
 
-// Função para obter URL da imagem do Object Storage
-const getTexturaImageUrl = (fileName: string) => {
-  return `/public-objects/Domrealce/Loja/Papel de Parede/Capas das texturas/${fileName}`;
+// Função para obter URL da imagem do Object Storage ou local
+const getTexturaImageUrl = (subcategoria: any) => {
+  if (subcategoria.localImage) {
+    return subcategoria.localImage;
+  }
+  return `/public-objects/Domrealce/Loja/Papel de Parede/Capas das texturas/${subcategoria.fileName}`;
 };
 
 export default function Loja() {
@@ -259,7 +263,7 @@ export default function Loja() {
                         <div className="relative">
                           <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
                             <img 
-                              src={getTexturaImageUrl(subcategoria.fileName)} 
+                              src={getTexturaImageUrl(subcategoria)} 
                               alt={subcategoria.nome}
                               className="w-full h-full object-cover"
                               onError={(e) => {
@@ -320,7 +324,7 @@ export default function Loja() {
                 <div className="text-center py-16">
                   <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg mx-auto mb-6 flex items-center justify-center overflow-hidden">
                     <img 
-                      src={getTexturaImageUrl(subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.fileName || "")} 
+                      src={getTexturaImageUrl(subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada) || {})} 
                       alt={subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.nome}
                       className="w-full h-full object-cover"
                       onError={(e) => {
