@@ -28,21 +28,18 @@ function categorizeImage(filename: string): string {
     .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
   
   // Categorização por pasta (com suporte a acentos)
-  if (lower.includes('viaturas/') || lower.includes('camioes/') || lower.includes('veiculos/') || 
-      lower.includes('camiões/') || lower.includes('veículos/')) {
-    return 'decoracao-viaturas';
+  if (lower.includes('camioes/') || lower.includes('camiões/') || lower.includes('viaturas/') || lower.includes('veiculos/') || 
+      lower.includes('veículos/')) {
+    return 'camioes';
   }
-  if (lower.includes('sinalizacao/') || lower.includes('placas/') || lower.includes('fachadas/') ||
-      lower.includes('sinalizaçao/') || lower.includes('sinalização/')) {
+  if (lower.includes('sinalizacao/') || lower.includes('sinalização/') || lower.includes('placas/') || lower.includes('fachadas/')) {
     return 'sinalizacao';
   }
-  if (lower.includes('impressao/') || lower.includes('banners/') || lower.includes('digital/') ||
-      lower.includes('impressão/')) {
-    return 'impressao-digital';
+  if (lower.includes('impressao/') || lower.includes('impressão/') || lower.includes('banners/') || lower.includes('digital/')) {
+    return 'impressao';
   }
-  if (lower.includes('rotulos/') || lower.includes('etiquetas/') || lower.includes('labels/') ||
-      lower.includes('rótulos/')) {
-    return 'rotulagem';
+  if (lower.includes('rotulos/') || lower.includes('rótulos/') || lower.includes('etiquetas/') || lower.includes('labels/')) {
+    return 'rotulos';
   }
   if (lower.includes('autocolantes/') || lower.includes('vinil/') || lower.includes('stickers/')) {
     return 'autocolantes';
@@ -50,16 +47,16 @@ function categorizeImage(filename: string): string {
   
   // Categorização por nome do arquivo (com suporte a acentos)
   if (lower.includes('camiao') || lower.includes('camião') || lower.includes('truck') || lower.includes('viatura')) {
-    return 'decoracao-viaturas';
+    return 'camioes';
   }
   if (lower.includes('fachada') || lower.includes('sinalizacao') || lower.includes('sinalização') || lower.includes('placa')) {
     return 'sinalizacao';
   }
   if (lower.includes('banner') || lower.includes('impressao') || lower.includes('impressão') || lower.includes('digital')) {
-    return 'impressao-digital';
+    return 'impressao';
   }
   if (lower.includes('rotulo') || lower.includes('rótulo') || lower.includes('etiqueta') || lower.includes('label')) {
-    return 'rotulagem';
+    return 'rotulos';
   }
   if (lower.includes('autocolante') || lower.includes('vinil') || lower.includes('sticker')) {
     return 'autocolantes';
@@ -80,13 +77,13 @@ function generateTitle(filename: string): string {
 }
 
 const categories = [
-  { id: 'todos', name: 'Todos os Projetos' },
-  { id: 'decoracao-viaturas', name: 'Decoração de Viaturas' },
+  { id: 'todos', name: 'Todos' },
+  { id: 'camioes', name: 'Camiões' },
   { id: 'sinalizacao', name: 'Sinalização' },
-  { id: 'impressao-digital', name: 'Impressão Digital' },
-  { id: 'rotulagem', name: 'Rotulagem' },
+  { id: 'impressao', name: 'Impressão' },
+  { id: 'rotulos', name: 'Rótulos' },
   { id: 'autocolantes', name: 'Autocolantes' },
-  { id: 'outros', name: 'Outros Projetos' }
+  { id: 'outros', name: 'Outros' }
 ];
 
 export function DynamicGallery({ category, showCategories = true, className = "" }: DynamicGalleryProps) {
@@ -206,11 +203,7 @@ export function DynamicGallery({ category, showCategories = true, className = ""
                   </Button>
                 </div>
               </div>
-              <div className="p-2">
-                <Badge variant="secondary" className="bg-brand-yellow/10 text-brand-yellow text-xs">
-                  {categories.find(c => c.id === image.category)?.name || 'Projeto'}
-                </Badge>
-              </div>
+
             </CardContent>
           </Card>
         ))}
