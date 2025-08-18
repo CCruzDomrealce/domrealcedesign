@@ -27,39 +27,20 @@ function categorizeImage(filename: string): string {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
   
-  // Categorização por pasta (com suporte a acentos)
-  if (lower.includes('camioes/') || lower.includes('camiões/') || lower.includes('viaturas/') || lower.includes('veiculos/') || 
-      lower.includes('veículos/')) {
-    return 'camioes';
-  }
-  if (lower.includes('sinalizacao/') || lower.includes('sinalização/') || lower.includes('placas/') || lower.includes('fachadas/')) {
-    return 'sinalizacao';
-  }
-  if (lower.includes('impressao/') || lower.includes('impressão/') || lower.includes('banners/') || lower.includes('digital/')) {
-    return 'impressao';
-  }
-  if (lower.includes('rotulos/') || lower.includes('rótulos/') || lower.includes('etiquetas/') || lower.includes('labels/')) {
-    return 'rotulos';
-  }
-  if (lower.includes('autocolantes/') || lower.includes('vinil/') || lower.includes('stickers/')) {
-    return 'autocolantes';
+  // Deteta automaticamente a categoria a partir do primeiro nível de pasta
+  const pathParts = filename.split('/');
+  if (pathParts.length > 1) {
+    // Usa o nome da primeira pasta como categoria
+    const folderName = pathParts[0].toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
+    
+    return folderName;
   }
   
-  // Categorização por nome do arquivo (com suporte a acentos)
+  // Fallback: categorização por nome do arquivo (apenas para camiões por agora)
   if (lower.includes('camiao') || lower.includes('camião') || lower.includes('truck') || lower.includes('viatura')) {
     return 'camioes';
-  }
-  if (lower.includes('fachada') || lower.includes('sinalizacao') || lower.includes('sinalização') || lower.includes('placa')) {
-    return 'sinalizacao';
-  }
-  if (lower.includes('banner') || lower.includes('impressao') || lower.includes('impressão') || lower.includes('digital')) {
-    return 'impressao';
-  }
-  if (lower.includes('rotulo') || lower.includes('rótulo') || lower.includes('etiqueta') || lower.includes('label')) {
-    return 'rotulos';
-  }
-  if (lower.includes('autocolante') || lower.includes('vinil') || lower.includes('sticker')) {
-    return 'autocolantes';
   }
   
   return 'outros';
@@ -76,15 +57,26 @@ function generateTitle(filename: string): string {
   return words.join(' ');
 }
 
-const categories = [
-  { id: 'todos', name: 'Todos' },
-  { id: 'camioes', name: 'Camiões' },
-  { id: 'sinalizacao', name: 'Sinalização' },
-  { id: 'impressao', name: 'Impressão' },
-  { id: 'rotulos', name: 'Rótulos' },
-  { id: 'autocolantes', name: 'Autocolantes' },
-  { id: 'outros', name: 'Outros' }
-];
+// Função para gerar categorias dinamicamente baseado nas imagens existentes
+function getDynamicCategories(images: GalleryImage[]): Array<{id: string, name: string}> {
+  const foundCategories = new Set<string>();
+  
+  images.forEach(image => {
+    if (image.category && image.category !== 'outros') {
+      foundCategories.add(image.category);
+    }
+  });
+
+  const categories = [{ id: 'todos', name: 'Todos' }];
+  
+  // Adiciona categorias encontradas nas imagens
+  foundCategories.forEach(categoryId => {
+    const categoryName = categoryId.charAt(0).toUpperCase() + categoryId.slice(1);
+    categories.push({ id: categoryId, name: categoryName });
+  });
+  
+  return categories;
+}
 
 export function DynamicGallery({ category, showCategories = true, className = "" }: DynamicGalleryProps) {
   const [selectedCategory, setSelectedCategory] = useState(category || 'todos');
@@ -105,6 +97,9 @@ export function DynamicGallery({ category, showCategories = true, className = ""
     description: `Projeto realizado pela DOMREALCE - ${generateTitle(filename)}`
   }));
 
+  // Gerar categorias dinamicamente
+  const categories = getDynamicCategories(images);
+  
   // Filtrar imagens por categoria
   const filteredImages = selectedCategory === 'todos' 
     ? images 
