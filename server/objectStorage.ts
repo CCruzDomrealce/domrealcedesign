@@ -75,38 +75,6 @@ export class ObjectStorageService {
     return null;
   }
 
-  // List files in a specific directory of the public object storage
-  async listPublicFiles(directoryPath?: string): Promise<string[]> {
-    const searchPaths = this.getPublicObjectSearchPaths();
-    const allFiles: string[] = [];
-
-    for (const searchPath of searchPaths) {
-      const fullPath = directoryPath ? `${searchPath}/${directoryPath}` : searchPath;
-      
-      try {
-        const { bucketName, objectName } = parseObjectPath(fullPath);
-        const bucket = objectStorageClient.bucket(bucketName);
-        
-        // List files with the directory prefix
-        const [files] = await bucket.getFiles({
-          prefix: objectName,
-        });
-
-        // Extract just the filenames from the full paths
-        files.forEach(file => {
-          const fileName = file.name.split('/').pop();
-          if (fileName && !allFiles.includes(fileName)) {
-            allFiles.push(fileName);
-          }
-        });
-      } catch (error) {
-        console.error(`Error listing files in ${fullPath}:`, error);
-      }
-    }
-
-    return allFiles;
-  }
-
   // Downloads an object to the response.
   async downloadObject(file: File, res: Response, cacheTtlSec: number = 3600) {
     try {
@@ -137,6 +105,27 @@ export class ObjectStorageService {
         res.status(500).json({ error: "Error downloading file" });
       }
     }
+  }
+
+  // List all files in the public directory
+  async listPublicFiles(): Promise<string[]> {
+    const files: string[] = [];
+    for (const searchPath of this.getPublicObjectSearchPaths()) {
+      const { bucketName, objectName } = parseObjectPath(searchPath);
+      const bucket = objectStorageClient.bucket(bucketName);
+      
+      const [fileList] = await bucket.getFiles({
+        prefix: objectName + '/',
+      });
+      
+      fileList.forEach(file => {
+        const relativePath = file.name.replace(objectName + '/', '');
+        if (relativePath && !relativePath.endsWith('/')) {
+          files.push(relativePath);
+        }
+      });
+    }
+    return files;
   }
 
   // Get upload URL for object entity (simplified for public uploads)

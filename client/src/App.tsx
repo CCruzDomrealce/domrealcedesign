@@ -18,7 +18,6 @@ import ServicoTelasArtisticas from "@/pages/servico-telas-artisticas";
 import ServicoAutocolantes from "@/pages/servico-autocolantes";
 import ServicoDecoracaoViaturas from "@/pages/servico-decoracao-viaturas";
 import ServicoEspacosComerciais from "@/pages/servico-espacos-comerciais";
-
 import Noticias from "@/pages/noticias";
 import PoliticaPrivacidade from "@/pages/politica-privacidade";
 import TermosCondicoes from "@/pages/termos-condicoes";
@@ -44,7 +43,6 @@ function Router() {
       <Route path="/servico-espacos-comerciais" component={ServicoEspacosComerciais} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/loja" component={Loja} />
-
       <Route path="/noticias" component={Noticias} />
       <Route path="/contactos" component={Contactos} />
       <Route path="/politica-privacidade" component={PoliticaPrivacidade} />

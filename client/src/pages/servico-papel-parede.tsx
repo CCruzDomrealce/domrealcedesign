@@ -23,54 +23,22 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function ServicoPapelParede() {
   const [formData, setFormData] = useState({
     largura: '',
     altura: '',
     quantidade: '1',
-    opcaoImagem: 'adobe-stock', // 'adobe-stock', 'propria' ou 'texturas'
+    opcaoImagem: 'adobe-stock', // 'adobe-stock' ou 'propria'
     descricaoImagem: '',
     codigoAdobeStock: '',
     linkImagemAdobe: '',
     informacoesImagemAdobe: '',
-    texturasEscolhidas: [] as string[],
     mensagem: '',
     nome: '',
     email: '',
     telefone: ''
   });
-
-  const [mostrarTexturas, setMostrarTexturas] = useState(false);
-
-  // Texturas disponíveis - baseadas nas capas enviadas para storage
-  const texturas = [
-    { nome: "Madeira Rústica", categoria: "Natural", capa: "/public-objects/texturas/madeira-rustica-capa.jpg", imagem: "/public-objects/texturas/madeira-rustica-800x800.jpg" },
-    { nome: "Pedra Natural", categoria: "Natural", capa: "/public-objects/texturas/pedra-natural-capa.jpg", imagem: "/public-objects/texturas/pedra-natural-800x800.jpg" },
-    { nome: "Tijolo Vintage", categoria: "Industrial", capa: "/public-objects/texturas/tijolo-vintage-capa.jpg", imagem: "/public-objects/texturas/tijolo-vintage-800x800.jpg" },
-    { nome: "Mármore Elegante", categoria: "Luxo", capa: "/public-objects/texturas/marmore-elegante-capa.jpg", imagem: "/public-objects/texturas/marmore-elegante-800x800.jpg" },
-    { nome: "Tecido Suave", categoria: "Têxtil", capa: "/public-objects/texturas/tecido-suave-capa.jpg", imagem: "/public-objects/texturas/tecido-suave-800x800.jpg" },
-    { nome: "Metal Escovado", categoria: "Industrial", capa: "/public-objects/texturas/metal-escovado-capa.jpg", imagem: "/public-objects/texturas/metal-escovado-800x800.jpg" },
-    { nome: "Couro Premium", categoria: "Luxo", capa: "/public-objects/texturas/couro-premium-capa.jpg", imagem: "/public-objects/texturas/couro-premium-800x800.jpg" },
-    { nome: "Bambu Natural", categoria: "Natural", capa: "/public-objects/texturas/bambu-natural-capa.jpg", imagem: "/public-objects/texturas/bambu-natural-800x800.jpg" }
-  ];
-
-  const categorias = ["Todas", "Natural", "Industrial", "Luxo", "Têxtil"];
-  const [categoriaFiltro, setCategoriaFiltro] = useState("Todas");
-
-  const texturasFiltradas = categoriaFiltro === "Todas" 
-    ? texturas 
-    : texturas.filter(t => t.categoria === categoriaFiltro);
-
-  const selecionarTextura = (nomeTextura: string) => {
-    if (!formData.texturasEscolhidas.includes(nomeTextura)) {
-      setFormData({
-        ...formData, 
-        texturasEscolhidas: [...formData.texturasEscolhidas, nomeTextura]
-      });
-    }
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,8 +49,6 @@ ${formData.codigoAdobeStock ? `📝 Código: ${formData.codigoAdobeStock}` : ''}
 ${formData.linkImagemAdobe ? `🔗 Link: ${formData.linkImagemAdobe}` : ''}
 ${formData.informacoesImagemAdobe ? `ℹ️ Informações: ${formData.informacoesImagemAdobe}` : ''}
 ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : ''}`;
-    } else if (formData.opcaoImagem === 'texturas') {
-      imagemInfo = `Texturas escolhidas: ${formData.texturasEscolhidas.join(', ')}`;
     } else {
       imagemInfo = `Imagem própria - ${formData.descricaoImagem}`;
     }
@@ -387,82 +353,33 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
 
                     <div>
                       <Label className="text-white">Opção de Imagem</Label>
-                      <div className="grid grid-cols-3 gap-4 mt-2">
-                        <label className="flex items-center space-x-2 bg-gray-900 p-3 rounded-lg border border-gray-700 cursor-pointer hover:border-brand-coral transition-colors">
+                      <div className="flex gap-4 mt-2">
+                        <label className="flex items-center text-white">
                           <input
                             type="radio"
                             name="opcaoImagem"
                             value="adobe-stock"
                             checked={formData.opcaoImagem === 'adobe-stock'}
                             onChange={(e) => setFormData({...formData, opcaoImagem: e.target.value})}
-                            className="text-brand-coral focus:ring-brand-coral"
+                            className="mr-2"
                           />
-                          <span className="text-white text-sm">Adobe Stock</span>
+                          Adobe Stock
                         </label>
-                        <label className="flex items-center space-x-2 bg-gray-900 p-3 rounded-lg border border-gray-700 cursor-pointer hover:border-brand-turquoise transition-colors">
-                          <input
-                            type="radio"
-                            name="opcaoImagem"
-                            value="texturas"
-                            checked={formData.opcaoImagem === 'texturas'}
-                            onChange={(e) => setFormData({...formData, opcaoImagem: e.target.value})}
-                            className="text-brand-turquoise focus:ring-brand-turquoise"
-                          />
-                          <span className="text-white text-sm">Nossas Texturas</span>
-                        </label>
-                        <label className="flex items-center space-x-2 bg-gray-900 p-3 rounded-lg border border-gray-700 cursor-pointer hover:border-brand-yellow transition-colors">
+                        <label className="flex items-center text-white">
                           <input
                             type="radio"
                             name="opcaoImagem"
                             value="propria"
                             checked={formData.opcaoImagem === 'propria'}
                             onChange={(e) => setFormData({...formData, opcaoImagem: e.target.value})}
-                            className="text-brand-yellow focus:ring-brand-yellow"
+                            className="mr-2"
                           />
-                          <span className="text-white text-sm">Imagem Própria</span>
+                          Imagem Própria
                         </label>
                       </div>
                     </div>
 
-                    {formData.opcaoImagem === 'texturas' ? (
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-white">Texturas Selecionadas</Label>
-                          {formData.texturasEscolhidas.length > 0 ? (
-                            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
-                              <div className="flex flex-wrap gap-2">
-                                {formData.texturasEscolhidas.map((textura, index) => (
-                                  <span key={index} className="inline-flex items-center gap-2 bg-brand-turquoise text-black px-3 py-1 rounded-full text-sm">
-                                    {textura}
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        const novasTexturas = formData.texturasEscolhidas.filter((_, i) => i !== index);
-                                        setFormData({...formData, texturasEscolhidas: novasTexturas});
-                                      }}
-                                      className="hover:bg-black/20 rounded-full p-1"
-                                    >
-                                      ✕
-                                    </button>
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          ) : (
-                            <p className="text-gray-400 text-sm">Nenhuma textura selecionada</p>
-                          )}
-                        </div>
-                        
-                        <Button
-                          type="button"
-                          onClick={() => setMostrarTexturas(true)}
-                          className="w-full bg-brand-turquoise text-black hover:bg-brand-turquoise/80"
-                        >
-                          <Grid className="w-4 h-4 mr-2" />
-                          Escolher Texturas
-                        </Button>
-                      </div>
-                    ) : formData.opcaoImagem === 'adobe-stock' ? (
+                    {formData.opcaoImagem === 'adobe-stock' ? (
                       <div className="space-y-4">
                         <div>
                           <Label htmlFor="codigoAdobeStock" className="text-white">Código Adobe Stock (se disponível)</Label>
@@ -647,94 +564,6 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
       </section>
 
       <Footer />
-
-      {/* Modal de Seleção de Texturas */}
-      <Dialog open={mostrarTexturas} onOpenChange={setMostrarTexturas}>
-        <DialogContent className="max-w-6xl max-h-[90vh] overflow-hidden bg-black border-gray-800">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-white">
-              Escolha as Texturas
-            </DialogTitle>
-            <p className="text-gray-400">
-              Clique nas texturas para adicionar ao seu orçamento
-            </p>
-          </DialogHeader>
-          
-          <div className="flex flex-col h-full">
-            {/* Filtros de Categoria */}
-            <div className="flex gap-2 mb-6 flex-wrap">
-              {categorias.map((categoria) => (
-                <Button
-                  key={categoria}
-                  variant={categoriaFiltro === categoria ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setCategoriaFiltro(categoria)}
-                  className={categoriaFiltro === categoria 
-                    ? "bg-brand-turquoise text-black" 
-                    : "border-gray-700 text-gray-300 hover:border-brand-turquoise hover:text-brand-turquoise"
-                  }
-                >
-                  {categoria}
-                </Button>
-              ))}
-            </div>
-
-            {/* Grid de Texturas */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-y-auto flex-1">
-              {texturasFiltradas.map((textura, index) => (
-                <div
-                  key={index}
-                  onClick={() => selecionarTextura(textura.nome)}
-                  className={`relative group cursor-pointer rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                    formData.texturasEscolhidas.includes(textura.nome)
-                      ? 'border-brand-turquoise shadow-lg shadow-brand-turquoise/50'
-                      : 'border-gray-700 hover:border-brand-turquoise'
-                  }`}
-                >
-                  <div className="aspect-square bg-gray-800 flex items-center justify-center">
-                    {/* Placeholder para imagem da capa */}
-                    <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
-                      <Grid className="w-8 h-8 text-gray-500" />
-                    </div>
-                  </div>
-                  
-                  <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Eye className="w-6 h-6 text-white" />
-                  </div>
-                  
-                  {formData.texturasEscolhidas.includes(textura.nome) && (
-                    <div className="absolute top-2 right-2 bg-brand-turquoise rounded-full p-1">
-                      <CheckCircle className="w-4 h-4 text-black" />
-                    </div>
-                  )}
-                  
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/80 p-2">
-                    <h4 className="text-white text-sm font-medium">{textura.nome}</h4>
-                    <p className="text-gray-400 text-xs">{textura.categoria}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Botões de Ação */}
-            <div className="flex gap-4 mt-6 pt-4 border-t border-gray-800">
-              <Button
-                variant="outline"
-                onClick={() => setMostrarTexturas(false)}
-                className="border-gray-700 text-gray-300 hover:border-gray-600"
-              >
-                Cancelar
-              </Button>
-              <Button
-                onClick={() => setMostrarTexturas(false)}
-                className="bg-brand-turquoise text-black hover:bg-brand-turquoise/80 flex-1"
-              >
-                Confirmar Seleção ({formData.texturasEscolhidas.length})
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
