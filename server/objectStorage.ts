@@ -46,15 +46,6 @@ export class ObjectStorageService {
           .filter((path) => path.length > 0)
       )
     );
-    
-    // Add portfolio-specific search paths
-    const portfolioPaths = [
-      `/${process.env.DEFAULT_OBJECT_STORAGE_BUCKET_ID}/objects/public/portfólio`,
-      `/${process.env.DEFAULT_OBJECT_STORAGE_BUCKET_ID}/public/portfolio`
-    ];
-    
-    paths.push(...portfolioPaths);
-    
     if (paths.length === 0) {
       throw new Error(
         "PUBLIC_OBJECT_SEARCH_PATHS not set. Create a bucket in 'Object Storage' " +
@@ -146,55 +137,6 @@ export class ObjectStorageService {
         res.status(500).json({ error: "Error downloading file" });
       }
     }
-  }
-
-  // Upload file to public folder in Object Storage
-  async uploadFileToPublicFolder(localFilePath: string, targetPath: string): Promise<string> {
-    try {
-      const fs = await import('fs');
-      const path = await import('path');
-      
-      // Get the public search paths
-      const searchPaths = this.getPublicObjectSearchPaths();
-      if (searchPaths.length === 0) {
-        throw new Error("No public search paths configured");
-      }
-      
-      // Use the first search path for uploads
-      const publicPath = searchPaths[0];
-      const fullTargetPath = `${publicPath}/${targetPath}`;
-      
-      const { bucketName, objectName } = parseObjectPath(fullTargetPath);
-      const bucket = objectStorageClient.bucket(bucketName);
-      const file = bucket.file(objectName);
-      
-      // Upload the file
-      await file.save(fs.readFileSync(localFilePath), {
-        metadata: {
-          contentType: this.getContentType(localFilePath),
-        },
-      });
-      
-      console.log(`✅ Uploaded ${localFilePath} to ${fullTargetPath}`);
-      return `/public-objects/${targetPath}`;
-    } catch (error) {
-      console.error(`❌ Failed to upload ${localFilePath}:`, error);
-      throw error;
-    }
-  }
-
-  // Get content type based on file extension
-  private getContentType(filePath: string): string {
-    const extension = filePath.toLowerCase().split('.').pop();
-    const contentTypes: Record<string, string> = {
-      'jpg': 'image/jpeg',
-      'jpeg': 'image/jpeg', 
-      'png': 'image/png',
-      'gif': 'image/gif',
-      'webp': 'image/webp',
-      'svg': 'image/svg+xml'
-    };
-    return contentTypes[extension || ''] || 'application/octet-stream';
   }
 
   // Get upload URL for object entity (simplified for public uploads)

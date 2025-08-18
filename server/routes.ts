@@ -4,7 +4,6 @@ import { storage } from "./storage";
 import { insertContactSchema } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
-import { ObjectStorageSync } from "./objectStorageSync";
 import rateLimit from 'express-rate-limit';
 import path from "node:path";
 import fs from "node:fs";
@@ -22,191 +21,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     legacyHeaders: false,
   });
 
-  // Object storage services
+  // Object storage service
   const objectStorageService = new ObjectStorageService();
-  const objectStorageSync = new ObjectStorageSync();
 
-  // API route to sync with Object Storage portfolio images
-  app.get("/api/gallery/images", async (req, res) => {
-    try {
-      console.log("🔄 Syncing with Object Storage portfolio images...");
-      
-      const portfolioImages: Record<string, string[]> = {};
-      
-      // Primary: Get images from Object Storage structure
-      try {
-        // Use the actual Object Storage service to list files
-        const objectStorageService = new ObjectStorageService();
-        
-        // Try different path patterns to find portfolio images
-        const searchPaths = [
-          "objects/public/portfólio",
-          "public/portfólio", 
-          "objects/public/portfolio",
-          "public/portfolio"
-        ];
-        
-        for (const basePath of searchPaths) {
-          try {
-            console.log(`🔍 Searching Object Storage path: ${basePath}`);
-            
-            // Try to find files in this path structure
-            const possibleFiles = await objectStorageService.searchPublicObject(`${basePath}/test.jpg`);
-            
-            // If we find the structure, list common image file patterns
-            const commonImages = [
-              "camiao-decoracao-lateral.jpg",
-              "camiao-hortouniao.jpg",
-              "camiao-reboconort-1.jpg", 
-              "camiao-reboconort-2.jpg",
-              "camiao-vermelho-chamas.jpg",
-              "camiao-volvo-560.jpg",
-              "camiao-volvo-azul.jpg",
-              "cisterna-gerzatrans.jpg"
-            ];
-            
-            // Test if images exist in Object Storage
-            const existingImages: string[] = [];
-            for (const imageName of commonImages) {
-              try {
-                const testFile = await objectStorageService.searchPublicObject(`${basePath}/Camiões/${imageName}`);
-                if (testFile) {
-                  existingImages.push(`/public-objects/${basePath}/Camiões/${imageName}`);
-                  console.log(`✅ Found: ${imageName}`);
-                }
-              } catch (error) {
-                // Image doesn't exist, continue
-              }
-            }
-            
-            if (existingImages.length > 0) {
-              portfolioImages['Camiões'] = existingImages;
-              console.log(`✅ Found ${existingImages.length} images in Object Storage path: ${basePath}`);
-              break; // Found images, stop searching other paths
-            }
-            
-          } catch (error) {
-            console.log(`❌ Path not accessible: ${basePath}`);
-          }
-        }
-        
-        // If no specific images found, use dynamic detection
-        if (Object.keys(portfolioImages).length === 0) {
-          console.log("🔍 Using dynamic Object Storage detection...");
-          const detectedImages = await objectStorageSync.detectPortfolioImages();
-          Object.assign(portfolioImages, detectedImages);
-        }
-        
-      } catch (objectStorageError) {
-        console.log("❌ Object Storage sync failed:", objectStorageError);
-      }
-      
-      res.json({ 
-        images: portfolioImages,
-        categories: Object.keys(portfolioImages),
-        source: "object_storage_sync",
-        timestamp: new Date().toISOString()
-      });
-      
-    } catch (error) {
-      console.error("❌ Error syncing with Object Storage:", error);
-      res.status(500).json({ error: "Failed to sync with Object Storage" });
-    }
-  });
 
-  // Serve local portfolio images
-  app.get("/portfolio/:category/:filename", async (req, res) => {
-    try {
-      const fs = await import('fs');
-      const path = await import('path');
-      
-      const { category, filename } = req.params;
-      const imagePath = path.join('public', 'portfolio', category, filename);
-      
-      if (!fs.existsSync(imagePath)) {
-        return res.status(404).json({ error: "Image not found" });
-      }
-      
-      // Set appropriate headers
-      const extension = filename.toLowerCase().split('.').pop();
-      const contentTypes: Record<string, string> = {
-        'jpg': 'image/jpeg',
-        'jpeg': 'image/jpeg',
-        'png': 'image/png',
-        'gif': 'image/gif',
-        'webp': 'image/webp'
-      };
-      
-      res.setHeader('Content-Type', contentTypes[extension || ''] || 'application/octet-stream');
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-      
-      // Stream the file
-      const stream = fs.createReadStream(imagePath);
-      stream.pipe(res);
-      
-    } catch (error) {
-      console.error("Error serving portfolio image:", error);
-      res.status(500).json({ error: "Failed to serve image" });
-    }
-  });
-
-  // Upload portfolio images to Object Storage
-  app.post("/api/upload-portfolio-to-storage", async (req, res) => {
-    try {
-      console.log("📁 Starting portfolio upload to Object Storage...");
-      
-      // Mapping of local files to organized names
-      const imageMapping = [
-        { local: "public/portfolio/Camiões/camiao-reboconort-1.jpg", storage: "portfolio/Camiões/camiao-reboconort-1.jpg" },
-        { local: "public/portfolio/Camiões/camiao-reboconort-2.jpg", storage: "portfolio/Camiões/camiao-reboconort-2.jpg" },
-        { local: "public/portfolio/Camiões/camiao-volvo-560.jpg", storage: "portfolio/Camiões/camiao-volvo-560.jpg" },
-        { local: "public/portfolio/Camiões/camiao-decoracao-lateral.jpg", storage: "portfolio/Camiões/camiao-decoracao-lateral.jpg" },
-        { local: "public/portfolio/Camiões/camiao-volvo-azul.jpg", storage: "portfolio/Camiões/camiao-volvo-azul.jpg" },
-        { local: "public/portfolio/Camiões/camiao-vermelho-chamas.jpg", storage: "portfolio/Camiões/camiao-vermelho-chamas.jpg" },
-        { local: "public/portfolio/Camiões/cisterna-gerzatrans.jpg", storage: "portfolio/Camiões/cisterna-gerzatrans.jpg" },
-        { local: "public/portfolio/Camiões/camiao-hortouniao.jpg", storage: "portfolio/Camiões/camiao-hortouniao.jpg" }
-      ];
-
-      const uploadResults = [];
-      
-      for (const mapping of imageMapping) {
-        try {
-          const uploadURL = await objectStorageService.uploadFileToPublicFolder(
-            mapping.local,
-            mapping.storage
-          );
-          uploadResults.push({ 
-            image: mapping.storage, 
-            status: 'success', 
-            url: uploadURL 
-          });
-          console.log(`✅ Uploaded: ${mapping.storage}`);
-        } catch (error) {
-          console.error(`❌ Failed to upload ${mapping.storage}:`, error);
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          uploadResults.push({ 
-            image: mapping.storage, 
-            status: 'error', 
-            error: errorMessage 
-          });
-        }
-      }
-
-      res.json({ 
-        success: true, 
-        message: "Portfolio images uploaded to Object Storage",
-        results: uploadResults,
-        objectStorageStructure: {
-          bucket: "replit-objstore-1836c26b-d447-48a6-97aa-4292b2c8c6b4",
-          path: "/public/portfolio/Camiões/",
-          totalImages: uploadResults.filter(r => r.status === 'success').length
-        }
-      });
-    } catch (error) {
-      console.error("❌ Error uploading to Object Storage:", error);
-      res.status(500).json({ error: "Failed to upload to Object Storage" });
-    }
-  });
 
   // Contact form route with rate limiting
   app.post("/api/contact", contactLimiter, async (req, res) => {
@@ -222,9 +40,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const contactData = result.data;
 
+      // Store contact in database
+      const contact = await storage.createContact(contactData);
+
+      // Send emails in parallel
+      await Promise.all([
+        sendContactEmail(contactData),
+        sendAutoReplyEmail(contactData.email, contactData.nome)
+      ]);
+
       res.json({ 
         success: true, 
-        message: "Mensagem enviada com sucesso! Entraremos em contacto em breve."
+        message: "Mensagem enviada com sucesso! Entraremos em contacto em breve.",
+        contactId: contact.id
       });
     } catch (error) {
       console.error("Contact form error:", error);
