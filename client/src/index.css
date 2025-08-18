@@ -5,12 +5,12 @@
 @tailwind utilities;
 
 :root {
-  --background: var(--brand-white);
-  --foreground: var(--brand-dark);
-  --card: var(--brand-white);
-  --card-foreground: var(--brand-dark);
-  --popover: var(--brand-white);
-  --popover-foreground: var(--brand-dark);
+  --background: var(--brand-dark);
+  --foreground: var(--brand-white);
+  --card: var(--brand-dark);
+  --card-foreground: var(--brand-white);
+  --popover: var(--brand-dark);
+  --popover-foreground: var(--brand-white);
   --primary: var(--brand-yellow);
   --primary-foreground: var(--brand-dark);
   --secondary: var(--brand-red);
@@ -51,6 +51,10 @@
   --brand-dark-red: hsl(0, 70%, 30%);     /* Vermelho escuro do círculo */
   --brand-dark: hsl(0, 0%, 0%);           /* Preto para texto */
   --brand-white: hsl(0, 0%, 100%);        /* Branco para fundos */
+  
+  /* Alias para manter compatibilidade com código existente */
+  --brand-coral: var(--brand-red);        /* Coral = Vermelho */
+  --brand-blue: var(--brand-turquoise);   /* Azul = Turquesa */
 }
 
 .dark {
@@ -98,7 +102,7 @@
   }
   
   .gradient-border-inner {
-    background: var(--brand-white);
+    background: var(--brand-dark);
     border-radius: 10px;
     height: 100%;
   }
@@ -120,6 +124,10 @@
   .text-brand-dark { color: var(--brand-dark); }
   .text-brand-white { color: var(--brand-white); }
   
+  /* Compatibilidade com código existente */
+  .text-brand-coral { color: var(--brand-coral); }
+  .text-brand-blue { color: var(--brand-blue); }
+  
   .bg-brand-yellow { background-color: var(--brand-yellow); }
   .bg-brand-red { background-color: var(--brand-red); }
   .bg-brand-turquoise { background-color: var(--brand-turquoise); }
@@ -128,6 +136,10 @@
   .bg-brand-dark { background-color: var(--brand-dark); }
   .bg-brand-white { background-color: var(--brand-white); }
   
+  /* Compatibilidade com código existente */
+  .bg-brand-coral { background-color: var(--brand-coral); }
+  .bg-brand-blue { background-color: var(--brand-blue); }
+  
   .border-brand-yellow { border-color: var(--brand-yellow); }
   .border-brand-red { border-color: var(--brand-red); }
   .border-brand-turquoise { border-color: var(--brand-turquoise); }
@@ -135,6 +147,10 @@
   .border-brand-dark-red { border-color: var(--brand-dark-red); }
   .border-brand-dark { border-color: var(--brand-dark); }
   .border-brand-white { border-color: var(--brand-white); }
+  
+  /* Compatibilidade com código existente */
+  .border-brand-coral { border-color: var(--brand-coral); }
+  .border-brand-blue { border-color: var(--brand-blue); }
   
   /* Gradientes usando as cores do logótipo */
   .bg-gradient-logo {
