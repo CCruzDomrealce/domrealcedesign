@@ -210,6 +210,7 @@ export function DynamicGallery({ category, showCategories = true, className = ""
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 cursor-pointer"
                   onClick={() => openLightbox(image, index)}
                   loading="lazy"
+                  style={{ cursor: 'pointer' }}
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <Button

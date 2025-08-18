@@ -314,45 +314,28 @@
   transition: transform 0.2s ease-out;
 }
 
-/* Custom cursor styles */
+/* Cursor visibility fixes */
+* {
+  cursor: inherit !important;
+}
+
 body {
-  cursor: none;
+  cursor: auto !important;
 }
 
-/* Disable cursor hiding on mobile devices */
-@media (hover: none) and (pointer: coarse) {
-  body {
-    cursor: auto;
-  }
-  
-  .custom-cursor,
-  .custom-cursor-trail {
-    display: none;
-  }
+/* Cursor específico para elementos interativos */
+button, a, [role="button"], [onClick], .cursor-pointer {
+  cursor: pointer !important;
 }
 
-.custom-cursor {
-  position: fixed;
-  width: 20px;
-  height: 20px;
-  background: linear-gradient(45deg, var(--brand-yellow), var(--brand-turquoise));
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transition: transform 0.1s ease;
+/* Cursor de texto para inputs */
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+  cursor: text !important;
 }
 
-.custom-cursor-trail {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  background: var(--brand-red);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.6;
-  transition: transform 0.2s ease;
+/* Garante cursor visível em imagens clicáveis */
+img[data-clickable], .hover-lift img, .group img {
+  cursor: pointer !important;
 }
 
 /* Hover states with enhanced effects */
