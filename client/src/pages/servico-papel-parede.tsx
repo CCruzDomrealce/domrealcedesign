@@ -31,6 +31,9 @@ export default function ServicoPapelParede() {
     quantidade: '1',
     opcaoImagem: 'adobe-stock', // 'adobe-stock' ou 'propria'
     descricaoImagem: '',
+    codigoAdobeStock: '',
+    linkImagemAdobe: '',
+    informacoesImagemAdobe: '',
     mensagem: '',
     nome: '',
     email: '',
@@ -39,11 +42,22 @@ export default function ServicoPapelParede() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    let imagemInfo = '';
+    if (formData.opcaoImagem === 'adobe-stock') {
+      imagemInfo = `Adobe Stock:
+${formData.codigoAdobeStock ? `📝 Código: ${formData.codigoAdobeStock}` : ''}
+${formData.linkImagemAdobe ? `🔗 Link: ${formData.linkImagemAdobe}` : ''}
+${formData.informacoesImagemAdobe ? `ℹ️ Informações: ${formData.informacoesImagemAdobe}` : ''}
+${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : ''}`;
+    } else {
+      imagemInfo = `Imagem própria - ${formData.descricaoImagem}`;
+    }
+
     const whatsappMessage = `Olá! Gostaria de um orçamento para papel de parede:
     
 📐 Medidas: ${formData.largura}m x ${formData.altura}m
 📦 Quantidade: ${formData.quantidade} parede(s)
-🖼️ Imagem: ${formData.opcaoImagem === 'adobe-stock' ? 'Adobe Stock - ' + formData.descricaoImagem : 'Imagem própria - ' + formData.descricaoImagem}
+🖼️ Imagem: ${imagemInfo}
 📞 Contacto: ${formData.nome} - ${formData.telefone}
 📧 Email: ${formData.email}
 💬 Mensagem: ${formData.mensagem}`;
@@ -366,19 +380,72 @@ export default function ServicoPapelParede() {
                       </div>
                     </div>
 
-                    <div>
-                      <Label htmlFor="descricaoImagem" className="text-white">
-                        {formData.opcaoImagem === 'adobe-stock' ? 'Descrição da imagem desejada' : 'Descrição da sua imagem'}
-                      </Label>
-                      <Textarea
-                        id="descricaoImagem"
-                        placeholder={formData.opcaoImagem === 'adobe-stock' ? "Ex: Floresta tropical, cores verdes" : "Ex: Logo da empresa, foto de família"}
-                        value={formData.descricaoImagem}
-                        onChange={(e) => setFormData({...formData, descricaoImagem: e.target.value})}
-                        className="bg-gray-900 border-gray-700 text-white"
-                        required
-                      />
-                    </div>
+                    {formData.opcaoImagem === 'adobe-stock' ? (
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="codigoAdobeStock" className="text-white">Código Adobe Stock (se disponível)</Label>
+                          <Input
+                            id="codigoAdobeStock"
+                            placeholder="Ex: 123456789"
+                            value={formData.codigoAdobeStock}
+                            onChange={(e) => setFormData({...formData, codigoAdobeStock: e.target.value})}
+                            className="bg-gray-900 border-gray-700 text-white"
+                          />
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="linkImagemAdobe" className="text-white">Link da imagem Adobe Stock (se disponível)</Label>
+                          <Input
+                            id="linkImagemAdobe"
+                            type="url"
+                            placeholder="https://stock.adobe.com/..."
+                            value={formData.linkImagemAdobe}
+                            onChange={(e) => setFormData({...formData, linkImagemAdobe: e.target.value})}
+                            className="bg-gray-900 border-gray-700 text-white"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="informacoesImagemAdobe" className="text-white">Informações da imagem (título, autor, etc.)</Label>
+                          <Textarea
+                            id="informacoesImagemAdobe"
+                            placeholder="Ex: Título da imagem, nome do autor, palavras-chave..."
+                            value={formData.informacoesImagemAdobe}
+                            onChange={(e) => setFormData({...formData, informacoesImagemAdobe: e.target.value})}
+                            className="bg-gray-900 border-gray-700 text-white"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="descricaoImagem" className="text-white">Descrição adicional (opcional)</Label>
+                          <Textarea
+                            id="descricaoImagem"
+                            placeholder="Ex: Preferências de cores, estilo, detalhes específicos..."
+                            value={formData.descricaoImagem}
+                            onChange={(e) => setFormData({...formData, descricaoImagem: e.target.value})}
+                            className="bg-gray-900 border-gray-700 text-white"
+                          />
+                        </div>
+
+                        <div className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-4">
+                          <p className="text-blue-300 text-sm">
+                            💡 <strong>Dica:</strong> Forneça pelo menos um dos seguintes: código da imagem, link direto ou informações detalhadas (título + autor). Isto permite-nos localizar e fazer o download da imagem correta.
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <Label htmlFor="descricaoImagem" className="text-white">Descrição da sua imagem</Label>
+                        <Textarea
+                          id="descricaoImagem"
+                          placeholder="Ex: Logo da empresa, foto de família, imagem específica..."
+                          value={formData.descricaoImagem}
+                          onChange={(e) => setFormData({...formData, descricaoImagem: e.target.value})}
+                          className="bg-gray-900 border-gray-700 text-white"
+                          required
+                        />
+                      </div>
+                    )}
 
                     <div className="grid grid-cols-1 gap-4">
                       <div>
