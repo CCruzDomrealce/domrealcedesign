@@ -27,18 +27,33 @@ function categorizeImage(filename: string): string {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
   
-  // Deteta automaticamente a categoria a partir do primeiro nível de pasta
+  // Separa o caminho em partes
   const pathParts = filename.split('/');
-  if (pathParts.length > 1) {
-    // Usa o nome da primeira pasta como categoria
-    const folderName = pathParts[0].toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
-    
-    return folderName;
+  
+  // Se o caminho tem estrutura "Domrealce/Portfólio/Categoria/imagem.jpg"
+  // queremos extrair apenas a "Categoria"
+  if (pathParts.length >= 3) {
+    // Ignora "Domrealce" e "Portfólio", usa a terceira parte como categoria
+    if (pathParts[0].toLowerCase().includes('domrealce') && 
+        pathParts[1].toLowerCase().includes('portf')) {
+      const categoryName = pathParts[2].toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
+      return categoryName;
+    }
   }
   
-  // Fallback: categorização por nome do arquivo (apenas para camiões por agora)
+  // Se o caminho tem estrutura "Portfólio/Categoria/imagem.jpg"
+  if (pathParts.length >= 2) {
+    if (pathParts[0].toLowerCase().includes('portf')) {
+      const categoryName = pathParts[1].toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
+      return categoryName;
+    }
+  }
+  
+  // Fallback: categorização por nome do arquivo
   if (lower.includes('camiao') || lower.includes('camião') || lower.includes('truck') || lower.includes('viatura')) {
     return 'camioes';
   }
@@ -71,7 +86,16 @@ function getDynamicCategories(images: GalleryImage[]): Array<{id: string, name: 
   
   // Adiciona categorias encontradas nas imagens
   foundCategories.forEach(categoryId => {
-    const categoryName = categoryId.charAt(0).toUpperCase() + categoryId.slice(1);
+    // Mapeia os nomes das categorias para manter os acentos originais
+    let categoryName = categoryId.charAt(0).toUpperCase() + categoryId.slice(1);
+    
+    // Mapeia nomes específicos com acentos
+    if (categoryId === 'camioes') {
+      categoryName = 'Camiões';
+    } else if (categoryId === 'comerciais') {
+      categoryName = 'Comerciais';
+    }
+    
     categories.push({ id: categoryId, name: categoryName });
   });
   
