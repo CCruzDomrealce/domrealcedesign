@@ -115,48 +115,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Upload portfolio images to organized folders
-  app.post("/api/upload-portfolio-images", async (req, res) => {
+  // Upload portfolio images to Object Storage
+  app.post("/api/upload-portfolio-to-storage", async (req, res) => {
     try {
-      console.log("📁 Starting portfolio image upload organization...");
+      console.log("📁 Starting portfolio upload to Object Storage...");
       
-      // List of truck images to organize
-      const truckImages = [
-        "IMG_20221115_164224_1755553420845.jpg",
-        "IMG_20221115_164342_1755553420846.jpg", 
-        "IMG-20220324-WA0000_1755553420847.jpg",
-        "IMG20240314111000_1755553420847.jpg",
-        "IMG_20220322_162136_1755553475299.jpg",
-        "IMG_20220401_162251_1755553475299.jpg",
-        "IMG_20220815_170210_1755553475300.jpg",
-        "IMG_20230819_105057 (Medium)_1755553475300.jpg"
+      // Mapping of local files to organized names
+      const imageMapping = [
+        { local: "public/portfolio/Camiões/camiao-reboconort-1.jpg", storage: "portfolio/Camiões/camiao-reboconort-1.jpg" },
+        { local: "public/portfolio/Camiões/camiao-reboconort-2.jpg", storage: "portfolio/Camiões/camiao-reboconort-2.jpg" },
+        { local: "public/portfolio/Camiões/camiao-volvo-560.jpg", storage: "portfolio/Camiões/camiao-volvo-560.jpg" },
+        { local: "public/portfolio/Camiões/camiao-decoracao-lateral.jpg", storage: "portfolio/Camiões/camiao-decoracao-lateral.jpg" },
+        { local: "public/portfolio/Camiões/camiao-volvo-azul.jpg", storage: "portfolio/Camiões/camiao-volvo-azul.jpg" },
+        { local: "public/portfolio/Camiões/camiao-vermelho-chamas.jpg", storage: "portfolio/Camiões/camiao-vermelho-chamas.jpg" },
+        { local: "public/portfolio/Camiões/cisterna-gerzatrans.jpg", storage: "portfolio/Camiões/cisterna-gerzatrans.jpg" },
+        { local: "public/portfolio/Camiões/camiao-hortouniao.jpg", storage: "portfolio/Camiões/camiao-hortouniao.jpg" }
       ];
 
-      // Upload each image to the correct portfolio structure
       const uploadResults = [];
-      for (const imageName of truckImages) {
+      
+      for (const mapping of imageMapping) {
         try {
           const uploadURL = await objectStorageService.uploadFileToPublicFolder(
-            `attached_assets/${imageName}`,
-            `portfolio/Camiões/${imageName}`
+            mapping.local,
+            mapping.storage
           );
-          uploadResults.push({ image: imageName, status: 'success', url: uploadURL });
-          console.log(`✅ Uploaded: ${imageName}`);
+          uploadResults.push({ 
+            image: mapping.storage, 
+            status: 'success', 
+            url: uploadURL 
+          });
+          console.log(`✅ Uploaded: ${mapping.storage}`);
         } catch (error) {
-          console.error(`❌ Failed to upload ${imageName}:`, error);
+          console.error(`❌ Failed to upload ${mapping.storage}:`, error);
           const errorMessage = error instanceof Error ? error.message : String(error);
-          uploadResults.push({ image: imageName, status: 'error', error: errorMessage });
+          uploadResults.push({ 
+            image: mapping.storage, 
+            status: 'error', 
+            error: errorMessage 
+          });
         }
       }
 
       res.json({ 
         success: true, 
-        message: "Portfolio images organized successfully",
-        results: uploadResults
+        message: "Portfolio images uploaded to Object Storage",
+        results: uploadResults,
+        objectStorageStructure: {
+          bucket: "replit-objstore-1836c26b-d447-48a6-97aa-4292b2c8c6b4",
+          path: "/public/portfolio/Camiões/",
+          totalImages: uploadResults.filter(r => r.status === 'success').length
+        }
       });
     } catch (error) {
-      console.error("❌ Error organizing portfolio images:", error);
-      res.status(500).json({ error: "Failed to organize portfolio images" });
+      console.error("❌ Error uploading to Object Storage:", error);
+      res.status(500).json({ error: "Failed to upload to Object Storage" });
     }
   });
 
