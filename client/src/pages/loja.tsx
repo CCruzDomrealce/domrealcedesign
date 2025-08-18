@@ -94,36 +94,36 @@ const categories = [
   { id: 'sinalizacao', name: 'Sinalização' }
 ];
 
-// 28 Subcategorias de Papel de Parede
+// 28 Subcategorias de Papel de Parede - Baseadas nas capas reais enviadas
 const subcategoriasPapelParede = [
-  { id: 1, nome: "Madeira Rústica", categoria: "Natural", capas: ["madeira-rustica-1", "madeira-rustica-2", "madeira-rustica-3"] },
-  { id: 2, nome: "Pedra Natural", categoria: "Natural", capas: ["pedra-natural-1", "pedra-natural-2", "pedra-natural-3"] },
-  { id: 3, nome: "Tijolo Vintage", categoria: "Industrial", capas: ["tijolo-vintage-1", "tijolo-vintage-2", "tijolo-vintage-3"] },
-  { id: 4, nome: "Mármore Elegante", categoria: "Luxo", capas: ["marmore-elegante-1", "marmore-elegante-2", "marmore-elegante-3"] },
-  { id: 5, nome: "Tecido Suave", categoria: "Têxtil", capas: ["tecido-suave-1", "tecido-suave-2", "tecido-suave-3"] },
-  { id: 6, nome: "Metal Escovado", categoria: "Industrial", capas: ["metal-escovado-1", "metal-escovado-2", "metal-escovado-3"] },
-  { id: 7, nome: "Couro Premium", categoria: "Luxo", capas: ["couro-premium-1", "couro-premium-2", "couro-premium-3"] },
-  { id: 8, nome: "Bambu Natural", categoria: "Natural", capas: ["bambu-natural-1", "bambu-natural-2", "bambu-natural-3"] },
-  { id: 9, nome: "Concreto Industrial", categoria: "Industrial", capas: ["concreto-industrial-1", "concreto-industrial-2", "concreto-industrial-3"] },
-  { id: 10, nome: "Seda Oriental", categoria: "Luxo", capas: ["seda-oriental-1", "seda-oriental-2", "seda-oriental-3"] },
-  { id: 11, nome: "Folhagem Tropical", categoria: "Natural", capas: ["folhagem-tropical-1", "folhagem-tropical-2", "folhagem-tropical-3"] },
-  { id: 12, nome: "Geometria Moderna", categoria: "Contemporâneo", capas: ["geometria-moderna-1", "geometria-moderna-2", "geometria-moderna-3"] },
-  { id: 13, nome: "Flores Vintage", categoria: "Clássico", capas: ["flores-vintage-1", "flores-vintage-2", "flores-vintage-3"] },
-  { id: 14, nome: "Abstrato Colorido", categoria: "Contemporâneo", capas: ["abstrato-colorido-1", "abstrato-colorido-2", "abstrato-colorido-3"] },
-  { id: 15, nome: "Cortiça Natural", categoria: "Natural", capas: ["cortica-natural-1", "cortica-natural-2", "cortica-natural-3"] },
-  { id: 16, nome: "Veludo Luxo", categoria: "Luxo", capas: ["veludo-luxo-1", "veludo-luxo-2", "veludo-luxo-3"] },
-  { id: 17, nome: "Listras Clássicas", categoria: "Clássico", capas: ["listras-classicas-1", "listras-classicas-2", "listras-classicas-3"] },
-  { id: 18, nome: "Grafite Urbano", categoria: "Industrial", capas: ["grafite-urbano-1", "grafite-urbano-2", "grafite-urbano-3"] },
-  { id: 19, nome: "Damasco Dourado", categoria: "Luxo", capas: ["damasco-dourado-1", "damasco-dourado-2", "damasco-dourado-3"] },
-  { id: 20, nome: "Minimalista Zen", categoria: "Contemporâneo", capas: ["minimalista-zen-1", "minimalista-zen-2", "minimalista-zen-3"] },
-  { id: 21, nome: "Pedras Preciosas", categoria: "Luxo", capas: ["pedras-preciosas-1", "pedras-preciosas-2", "pedras-preciosas-3"] },
-  { id: 22, nome: "Floresta Boreal", categoria: "Natural", capas: ["floresta-boreal-1", "floresta-boreal-2", "floresta-boreal-3"] },
-  { id: 23, nome: "Art Déco", categoria: "Clássico", capas: ["art-deco-1", "art-deco-2", "art-deco-3"] },
-  { id: 24, nome: "Neon Futurista", categoria: "Contemporâneo", capas: ["neon-futurista-1", "neon-futurista-2", "neon-futurista-3"] },
-  { id: 25, nome: "Corda Náutica", categoria: "Natural", capas: ["corda-nautica-1", "corda-nautica-2", "corda-nautica-3"] },
-  { id: 26, nome: "Cristal Brilhante", categoria: "Luxo", capas: ["cristal-brilhante-1", "cristal-brilhante-2", "cristal-brilhante-3"] },
-  { id: 27, nome: "Padrão Étnico", categoria: "Clássico", capas: ["padrao-etnico-1", "padrao-etnico-2", "padrao-etnico-3"] },
-  { id: 28, nome: "Holográfico Moderno", categoria: "Contemporâneo", capas: ["holografico-moderno-1", "holografico-moderno-2", "holografico-moderno-3"] }
+  { id: 1, nome: "3D", capa: "3D_1755538105413.webp" },
+  { id: 2, nome: "Animal", capa: "animal-capa.jpg" },
+  { id: 3, nome: "Arabesco", capa: "arabesco-capa.jpg" },
+  { id: 4, nome: "Azulejo", capa: "azulejo-capa.jpg" },
+  { id: 5, nome: "Baby", capa: "baby-capa.jpg" },
+  { id: 6, nome: "Baby-2.0", capa: "baby-2.0-capa.jpg" },
+  { id: 7, nome: "Baby-Colors", capa: "baby-colors-capa.jpg" },
+  { id: 8, nome: "Baby-Painéis", capa: "baby-paineis-capa.jpg" },
+  { id: 9, nome: "Baby-Pantone", capa: "baby-pantone-capa.jpg" },
+  { id: 10, nome: "Casual", capa: "casual-capa.jpg" },
+  { id: 11, nome: "Chevron", capa: "chevron-capa.jpg" },
+  { id: 12, nome: "Couro", capa: "couro-capa.jpg" },
+  { id: 13, nome: "Floral", capa: "floral-capa.jpg" },
+  { id: 14, nome: "Folhas", capa: "folhas-capa.jpg" },
+  { id: 15, nome: "Geométrico", capa: "geometrico-capa.jpg" },
+  { id: 16, nome: "Industrial", capa: "industrial-capa.jpg" },
+  { id: 17, nome: "Infantil", capa: "infantil-capa.jpg" },
+  { id: 18, nome: "Listrado", capa: "listrado-capa.jpg" },
+  { id: 19, nome: "Madeira", capa: "madeira-capa.jpg" },
+  { id: 20, nome: "Mármore", capa: "marmore-capa.jpg" },
+  { id: 21, nome: "Pastilha", capa: "pastilha-capa.jpg" },
+  { id: 22, nome: "Pedras", capa: "pedras-capa.jpg" },
+  { id: 23, nome: "Pea", capa: "pea-capa.jpg" },
+  { id: 24, nome: "Ripado", capa: "ripado-capa.jpg" },
+  { id: 25, nome: "Textura", capa: "textura-capa.jpg" },
+  { id: 26, nome: "Tijolos", capa: "tijolos-capa.jpg" },
+  { id: 27, nome: "Xadrez", capa: "xadrez-capa.jpg" },
+  { id: 28, nome: "Zazz", capa: "zazz-capa.jpg" }
 ];
 
 export default function Loja() {
@@ -252,8 +252,16 @@ export default function Loja() {
                     >
                       <CardContent className="p-0">
                         <div className="relative">
-                          <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center">
-                            <Wallpaper className="w-8 h-8 text-gray-500" />
+                          <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
+                            {subcategoria.id === 1 ? (
+                              <img 
+                                src="/attached_assets/3D_1755538105413.webp" 
+                                alt={subcategoria.nome}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <Wallpaper className="w-8 h-8 text-gray-500" />
+                            )}
                           </div>
                           <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-t-lg flex items-center justify-center">
                             <Eye className="w-6 h-6 text-white" />
@@ -261,8 +269,7 @@ export default function Loja() {
                         </div>
                         <div className="p-4">
                           <h3 className="text-white font-medium text-sm mb-1">{subcategoria.nome}</h3>
-                          <p className="text-gray-400 text-xs">{subcategoria.categoria}</p>
-                          <p className="text-brand-turquoise text-xs mt-1">{subcategoria.capas.length} texturas</p>
+                          <p className="text-brand-turquoise text-xs mt-1">Texturas disponíveis</p>
                         </div>
                       </CardContent>
                     </Card>
@@ -271,7 +278,7 @@ export default function Loja() {
               </div>
             )}
 
-            {/* Vista de Papel de Parede - Texturas de uma Subcategoria */}
+            {/* Vista de Papel de Parede - Detalhes de uma Subcategoria */}
             {selectedCategory === 'papel-parede' && subcategoriaSelecionada !== null && (
               <div>
                 <div className="flex items-center mb-6">
@@ -284,7 +291,7 @@ export default function Loja() {
                     Voltar às Subcategorias
                   </Button>
                   <h2 className="text-2xl font-bold text-white">
-                    {subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.nome}
+                    Texturas {subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.nome}
                   </h2>
                   <div className="ml-auto flex items-center gap-4">
                     <span className="text-gray-400">
@@ -300,45 +307,40 @@ export default function Loja() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {subcategoriasPapelParede
-                    .find(s => s.id === subcategoriaSelecionada)
-                    ?.capas.map((capa, index) => (
-                    <Card
-                      key={index}
-                      className="bg-[#111111] border-[#333] hover:border-brand-turquoise transition-all duration-300 group"
+                {/* Mensagem para subcategorias sem texturas detalhadas ainda */}
+                <div className="text-center py-16">
+                  <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg mx-auto mb-6 flex items-center justify-center overflow-hidden">
+                    {subcategoriaSelecionada === 1 ? (
+                      <img 
+                        src="/attached_assets/3D_1755538105413.webp" 
+                        alt="3D"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Wallpaper className="w-12 h-12 text-gray-500" />
+                    )}
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-4">
+                    Categoria: {subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.nome}
+                  </h3>
+                  <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
+                    Esta categoria de texturas está sendo preparada. Entre em contacto connosco para solicitar as texturas específicas desta categoria.
+                  </p>
+                  <div className="flex gap-4 justify-center">
+                    <Button
+                      onClick={() => window.open('/contactos', '_blank')}
+                      className="bg-brand-turquoise text-black hover:bg-brand-turquoise/80"
                     >
-                      <CardContent className="p-0">
-                        <div className="relative">
-                          <div 
-                            className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center cursor-pointer"
-                            onClick={() => setTexturaVisualizacao(capa)}
-                          >
-                            <Wallpaper className="w-12 h-12 text-gray-500" />
-                          </div>
-                          <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-t-lg flex items-center justify-center">
-                            <Eye className="w-6 h-6 text-white" />
-                          </div>
-                        </div>
-                        <div className="p-4">
-                          <h3 className="text-white font-medium text-sm mb-2">
-                            {capa.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                          </h3>
-                          <div className="flex items-center justify-between">
-                            <span className="text-brand-yellow font-bold">€20.00</span>
-                            <Button
-                              size="sm"
-                              onClick={() => adicionarAoCarrinho(capa, subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.nome || '')}
-                              className="bg-brand-turquoise text-black hover:bg-brand-turquoise/80"
-                            >
-                              <Plus className="w-4 h-4 mr-1" />
-                              Adicionar
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                      Solicitar Texturas
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={voltarParaSubcategorias}
+                      className="border-gray-700 text-gray-300"
+                    >
+                      Voltar às Categorias
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
