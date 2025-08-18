@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertContactSchema } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
+import { ObjectStorageSync } from "./objectStorageSync";
 import rateLimit from 'express-rate-limit';
 import path from "node:path";
 import fs from "node:fs";
@@ -21,81 +22,95 @@ export async function registerRoutes(app: Express): Promise<Server> {
     legacyHeaders: false,
   });
 
-  // Object storage service
+  // Object storage services
   const objectStorageService = new ObjectStorageService();
+  const objectStorageSync = new ObjectStorageSync();
 
-  // API route to list available images for gallery/portfolio
+  // API route to sync with Object Storage portfolio images
   app.get("/api/gallery/images", async (req, res) => {
     try {
-      const fs = await import('fs');
-      const path = await import('path');
+      console.log("🔄 Syncing with Object Storage portfolio images...");
       
       const portfolioImages: Record<string, string[]> = {};
       
-      // Check if public/portfolio directory exists
-      const portfolioPath = 'public/portfolio';
-      console.log(`🔍 Checking for portfolio directory: ${portfolioPath}`);
-      console.log(`📁 Directory exists: ${fs.existsSync(portfolioPath)}`);
-      
-      if (fs.existsSync(portfolioPath)) {
-        // Read category directories
-        const categories = fs.readdirSync(portfolioPath, { withFileTypes: true })
-          .filter(dirent => dirent.isDirectory())
-          .map(dirent => dirent.name);
-        
-        for (const category of categories) {
-          const categoryPath = path.join(portfolioPath, category);
-          const images = fs.readdirSync(categoryPath)
-            .filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
-            .map(file => `/portfolio/${category}/${file}`);
-          
-          if (images.length > 0) {
-            portfolioImages[category] = images;
-          }
-        }
-      }
-      
-      // Try to get from Object Storage (objects/public/portfólio structure)
+      // Primary: Get images from Object Storage structure
       try {
-        console.log("🔍 Checking Object Storage for portfolio images...");
+        // Use the actual Object Storage service to list files
+        const objectStorageService = new ObjectStorageService();
         
-        // Check for images in the Object Storage structure: objects/public/portfólio/Camiões
-        const objectStorageImages = [
-          "camiao-decoracao-lateral.jpg",
-          "camiao-hortouniao.jpg",
-          "camiao-reboconort-1.jpg", 
-          "camiao-reboconort-2.jpg",
-          "camiao-vermelho-chamas.jpg",
-          "camiao-volvo-560.jpg",
-          "camiao-volvo-azul.jpg",
-          "cisterna-gerzatrans.jpg"
+        // Try different path patterns to find portfolio images
+        const searchPaths = [
+          "objects/public/portfólio",
+          "public/portfólio", 
+          "objects/public/portfolio",
+          "public/portfolio"
         ];
         
-        // Create URLs based on your Object Storage structure
-        const objectStorageUrls = objectStorageImages.map(image => 
-          `/public-objects/objects/public/portfólio/Camiões/${image}`
-        );
+        for (const basePath of searchPaths) {
+          try {
+            console.log(`🔍 Searching Object Storage path: ${basePath}`);
+            
+            // Try to find files in this path structure
+            const possibleFiles = await objectStorageService.searchPublicObject(`${basePath}/test.jpg`);
+            
+            // If we find the structure, list common image file patterns
+            const commonImages = [
+              "camiao-decoracao-lateral.jpg",
+              "camiao-hortouniao.jpg",
+              "camiao-reboconort-1.jpg", 
+              "camiao-reboconort-2.jpg",
+              "camiao-vermelho-chamas.jpg",
+              "camiao-volvo-560.jpg",
+              "camiao-volvo-azul.jpg",
+              "cisterna-gerzatrans.jpg"
+            ];
+            
+            // Test if images exist in Object Storage
+            const existingImages: string[] = [];
+            for (const imageName of commonImages) {
+              try {
+                const testFile = await objectStorageService.searchPublicObject(`${basePath}/Camiões/${imageName}`);
+                if (testFile) {
+                  existingImages.push(`/public-objects/${basePath}/Camiões/${imageName}`);
+                  console.log(`✅ Found: ${imageName}`);
+                }
+              } catch (error) {
+                // Image doesn't exist, continue
+              }
+            }
+            
+            if (existingImages.length > 0) {
+              portfolioImages['Camiões'] = existingImages;
+              console.log(`✅ Found ${existingImages.length} images in Object Storage path: ${basePath}`);
+              break; // Found images, stop searching other paths
+            }
+            
+          } catch (error) {
+            console.log(`❌ Path not accessible: ${basePath}`);
+          }
+        }
         
-        // If we don't have any local categories or specifically no Camiões, use Object Storage
-        if (Object.keys(portfolioImages).length === 0 || !portfolioImages['Camiões']) {
-          portfolioImages['Camiões'] = objectStorageUrls;
-          console.log("✅ Using Object Storage images for Camiões category");
-          console.log(`📊 Object Storage URLs: ${objectStorageUrls.length} images`);
-        } else {
-          console.log("📁 Using local images, Object Storage available as backup");
+        // If no specific images found, use dynamic detection
+        if (Object.keys(portfolioImages).length === 0) {
+          console.log("🔍 Using dynamic Object Storage detection...");
+          const detectedImages = await objectStorageSync.detectPortfolioImages();
+          Object.assign(portfolioImages, detectedImages);
         }
         
       } catch (objectStorageError) {
-        console.log("❌ Object Storage not available, using local files only:", objectStorageError);
+        console.log("❌ Object Storage sync failed:", objectStorageError);
       }
       
       res.json({ 
         images: portfolioImages,
-        categories: Object.keys(portfolioImages)
+        categories: Object.keys(portfolioImages),
+        source: "object_storage_sync",
+        timestamp: new Date().toISOString()
       });
+      
     } catch (error) {
-      console.error("Error listing images:", error);
-      res.status(500).json({ error: "Failed to list images" });
+      console.error("❌ Error syncing with Object Storage:", error);
+      res.status(500).json({ error: "Failed to sync with Object Storage" });
     }
   });
 
