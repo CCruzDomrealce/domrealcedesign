@@ -154,6 +154,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Check 3D folder in Object Storage
+  app.get("/api/check-3d-storage", async (req, res) => {
+    try {
+      console.log("🔍 Verificando pasta 3D no Object Storage...");
+      
+      const results = {
+        bucket: "replit-objstore-1836c26b-d447-48a6-97aa-4292b2c8c6b4",
+        path: "Domrealce/Loja/Papel de Parede/texturas 800x800/3D/",
+        found: [] as string[],
+        missing: [] as string[],
+        totalChecked: 0,
+        totalFound: 0
+      };
+      
+      // Check for images 3D-001.webp through 3D-100.webp
+      for (let i = 1; i <= 100; i++) {
+        const number = i.toString().padStart(3, '0');
+        const fileName = `3D-${number}.webp`;
+        const fullPath = `Domrealce/Loja/Papel de Parede/texturas 800x800/3D/${fileName}`;
+        
+        try {
+          const file = await objectStorageService.searchPublicObject(fullPath);
+          if (file) {
+            results.found.push(fileName);
+            console.log(`✅ Encontrado: ${fileName}`);
+          } else {
+            results.missing.push(fileName);
+          }
+        } catch (error) {
+          results.missing.push(fileName);
+          console.log(`❌ Não encontrado: ${fileName}`);
+        }
+        
+        results.totalChecked++;
+      }
+      
+      results.totalFound = results.found.length;
+      
+      console.log(`📊 Verificação completa:`);
+      console.log(`   - Total verificado: ${results.totalChecked}`);
+      console.log(`   - Encontradas: ${results.totalFound}`);
+      console.log(`   - Em falta: ${results.missing.length}`);
+      
+      if (results.found.length > 0) {
+        console.log(`📁 Primeiras imagens encontradas: ${results.found.slice(0, 5).join(', ')}`);
+      }
+      
+      res.json(results);
+    } catch (error) {
+      console.error("❌ Erro ao verificar pasta 3D:", error);
+      res.status(500).json({ 
+        error: "Erro ao verificar Object Storage",
+        details: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Basic health check
   app.get("/api/health", (req, res) => {
     res.json({ status: "OK", timestamp: new Date().toISOString() });
