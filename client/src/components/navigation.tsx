@@ -51,49 +51,77 @@ export default function Navigation() {
           <div className="hidden md:flex space-x-8">
             <Link 
               href="/" 
-              className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium"
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
+                location === "/" 
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-yellow"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Início
             </Link>
             <Link 
               href="/sobre" 
-              className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
+                location === "/sobre" 
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-turquoise"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Sobre
             </Link>
             <Link 
               href="/servicos" 
-              className="text-white hover:text-brand-coral transition-colors duration-300 font-medium"
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
+                location === "/servicos" || location.startsWith("/servico-")
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-coral"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Serviços
             </Link>
             <Link 
               href="/portfolio" 
-              className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium"
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
+                location === "/portfolio" 
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-yellow"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Portfólio
             </Link>
             <Link 
               href="/loja" 
-              className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium"
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
+                location === "/loja" 
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-turquoise"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Loja
             </Link>
             <Link 
               href="/noticias" 
-              className="text-white hover:text-brand-green transition-colors duration-300 font-medium"
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
+                location === "/noticias" 
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-green"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Notícias
             </Link>
             <Link 
               href="/contactos" 
-              className="text-white hover:text-brand-coral transition-colors duration-300 font-medium"
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
+                location === "/contactos" 
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-coral"
+              }`}
               onClick={() => setIsMenuOpen(false)}
             >
               Contactos
@@ -114,52 +142,80 @@ export default function Navigation() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-2">
               <Link 
                 href="/" 
-                className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium py-2 text-left"
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left ${
+                  location === "/" 
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-yellow"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Início
               </Link>
               <Link 
                 href="/sobre" 
-                className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left ${
+                  location === "/sobre" 
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-turquoise"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Sobre
               </Link>
               <Link 
                 href="/servicos" 
-                className="text-white hover:text-brand-coral transition-colors duration-300 font-medium py-2 text-left"
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left ${
+                  location === "/servicos" || location.startsWith("/servico-")
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-coral"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Serviços
               </Link>
               <Link 
                 href="/portfolio" 
-                className="text-white hover:text-brand-yellow transition-colors duration-300 font-medium py-2 text-left"
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left ${
+                  location === "/portfolio" 
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-yellow"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Portfólio
               </Link>
               <Link 
                 href="/loja" 
-                className="text-white hover:text-brand-turquoise transition-colors duration-300 font-medium py-2 text-left"
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left ${
+                  location === "/loja" 
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-turquoise"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Loja
               </Link>
               <Link 
                 href="/noticias" 
-                className="text-white hover:text-brand-green transition-colors duration-300 font-medium py-2 text-left"
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left ${
+                  location === "/noticias" 
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-green"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Notícias
               </Link>
               <Link 
                 href="/contactos" 
-                className="text-white hover:text-brand-coral transition-colors duration-300 font-medium py-2 text-left"
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left ${
+                  location === "/contactos" 
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-coral"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contactos
