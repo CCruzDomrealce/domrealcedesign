@@ -26,6 +26,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 
 
+  // Portfolio images from Object Storage - Automatic folder scanning
+  app.get("/api/portfolio-images", async (req, res) => {
+    try {
+      const portfolioData = await scanPortfolioFolders(objectStorageService);
+      res.json(portfolioData);
+    } catch (error) {
+      console.error("Error scanning portfolio folders:", error);
+      res.json([]); // Return empty array if no folders found
+    }
+  });
+
   // Contact form route with rate limiting
   app.post("/api/contact", contactLimiter, async (req, res) => {
     try {
@@ -46,7 +57,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Send emails in parallel
       await Promise.all([
         sendContactEmail(contactData),
-        sendAutoReplyEmail(contactData.email, contactData.nome)
+        sendAutoReplyEmail(contactData.email)
       ]);
 
       res.json({ 
@@ -187,4 +198,131 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   const httpServer = createServer(app);
   return httpServer;
+}
+
+// Function to automatically scan portfolio folders in Object Storage
+async function scanPortfolioFolders(objectStorageService: ObjectStorageService) {
+  try {
+    const portfolioData: {
+      name: string;
+      subcategories: {
+        name: string;
+        projects: {
+          id: string;
+          title: string;
+          image: string;
+          category: string;
+          subcategory: string;
+        }[];
+      }[];
+    }[] = [];
+
+    // Define expected portfolio categories
+    const categories = [
+      'design-grafico',
+      'impressao-digital', 
+      'papel-parede',
+      'decoracao-viaturas',
+      'sinaletica',
+      'material-promocional'
+    ];
+
+    // Scan each category for subcategories and images
+    for (const category of categories) {
+      const categoryData = {
+        name: category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        subcategories: [] as any[]
+      };
+
+      // Try to find subcategories by checking common folder names
+      const possibleSubcategories = [
+        'logotipos', 'branding', 'identidade-visual',
+        'banners', 'folhetos', 'cartazes', 'displays',
+        'texturas', '3d', 'padroes', 'luxo',
+        'viaturas', 'frotas', 'personalizacao',
+        'placas', 'direcionais', 'informativas',
+        'brindes', 'promocional', 'eventos'
+      ];
+
+      for (const subcategory of possibleSubcategories) {
+        try {
+          // Try to find images in this subcategory path
+          const basePath = `portfolio/${category}/${subcategory}`;
+          
+          // Check for common image extensions
+          const imageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+          const subcategoryProjects = [];
+
+          // Try to find images with numbered names (common pattern)
+          for (let i = 1; i <= 20; i++) {
+            for (const ext of imageExtensions) {
+              const fileName = `${i}.${ext}`;
+              const fullPath = `${basePath}/${fileName}`;
+              
+              try {
+                const file = await objectStorageService.searchPublicObject(fullPath);
+                if (file) {
+                  subcategoryProjects.push({
+                    id: `${category}-${subcategory}-${i}`,
+                    title: `${subcategory.replace('-', ' ')} ${i}`,
+                    image: fileName,
+                    category: category,
+                    subcategory: subcategory
+                  });
+                }
+              } catch (error) {
+                // Image not found, continue to next
+              }
+            }
+          }
+
+          // Also try common file names
+          const commonNames = ['exemplo', 'amostra', 'demo', 'projeto'];
+          for (const name of commonNames) {
+            for (const ext of imageExtensions) {
+              const fileName = `${name}.${ext}`;
+              const fullPath = `${basePath}/${fileName}`;
+              
+              try {
+                const file = await objectStorageService.searchPublicObject(fullPath);
+                if (file) {
+                  subcategoryProjects.push({
+                    id: `${category}-${subcategory}-${name}`,
+                    title: `${subcategory.replace('-', ' ')} - ${name}`,
+                    image: fileName,
+                    category: category,
+                    subcategory: subcategory
+                  });
+                }
+              } catch (error) {
+                // Image not found, continue to next
+              }
+            }
+          }
+
+          // If we found images in this subcategory, add it
+          if (subcategoryProjects.length > 0) {
+            categoryData.subcategories.push({
+              name: subcategory.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+              projects: subcategoryProjects
+            });
+          }
+        } catch (error) {
+          // Subcategory folder doesn't exist or error accessing it
+          continue;
+        }
+      }
+
+      // Only add category if it has subcategories with projects
+      if (categoryData.subcategories.length > 0) {
+        portfolioData.push(categoryData);
+      }
+    }
+
+    console.log(`📁 Portfolio scan complete: Found ${portfolioData.length} categories with content`);
+    return portfolioData;
+  } catch (error) {
+    console.error("Error scanning portfolio folders:", error);
+    return [];
+  }
 }

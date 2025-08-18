@@ -1,60 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { 
   MessageCircle, 
-  Plus,
   Upload,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Folder,
+  FolderOpen
 } from "lucide-react";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Link } from "wouter";
-
-// Apenas o logótipo
-import logoImage from "@assets/LOGO DOMREALCE_1755363285699.png";
+import { useQuery } from "@tanstack/react-query";
 
 interface PortfolioProject {
-  id: number;
+  id: string;
   title: string;
-  description: string;
-  category: string;
   image: string;
-  client: string;
-  date: string;
-  location: string;
+  category: string;
+  subcategory: string;
 }
 
-// Apenas um projeto com o logótipo para começar
-const projects: PortfolioProject[] = [
-  {
-    id: 1,
-    title: "Identidade Visual DOMREALCE",
-    description: "Desenvolvimento da identidade visual corporativa incluindo logótipo, tipografia e paleta de cores da empresa.",
-    category: "design-grafico",
-    image: logoImage,
-    client: "DOMREALCE",
-    date: "2024",
-    location: "Porto"
-  }
-];
-
-const categories = [
-  { id: "design-grafico", name: "Design Gráfico", count: 1 },
-  { id: "impressao-digital", name: "Impressão Digital", count: 0 },
-  { id: "papel-parede", name: "Papel de Parede", count: 0 },
-  { id: "decoracao-viaturas", name: "Decoração Viaturas", count: 0 },
-  { id: "sinaletica", name: "Sinalética", count: 0 }
-];
+interface PortfolioCategory {
+  name: string;
+  subcategories: {
+    name: string;
+    projects: PortfolioProject[];
+  }[];
+}
 
 export default function Portfolio() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('design-grafico');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
+  
+  // Buscar automaticamente as imagens organizadas por pastas
+  const { data: portfolioData = [], isLoading } = useQuery({
+    queryKey: ['/api/portfolio-images'],
+    retry: 1
+  });
 
-  const filteredProjects = projects.filter(project => 
-    selectedCategory === 'all' || project.category === selectedCategory
+  // Organizar dados por categorias
+  const categories: PortfolioCategory[] = portfolioData;
+  const allProjects = categories.flatMap(cat => 
+    cat.subcategories.flatMap(sub => sub.projects)
   );
+
+  const filteredProjects = selectedCategory === 'all' 
+    ? allProjects 
+    : allProjects.filter(project => project.category === selectedCategory);
+
+  const availableCategories = [
+    { id: 'all', name: 'Todos os Projetos', count: allProjects.length },
+    ...categories.map(cat => ({
+      id: cat.name.toLowerCase().replace(/\s+/g, '-'),
+      name: cat.name,
+      count: cat.subcategories.reduce((acc, sub) => acc + sub.projects.length, 0)
+    }))
+  ];
 
   return (
     <>
@@ -70,63 +73,108 @@ export default function Portfolio() {
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
               Descubra os nossos trabalhos em comunicação visual e impressão digital. 
-              Portfolio em construção - adicione as suas imagens para começar.
+              Imagens organizadas automaticamente por categorias.
             </p>
             
-            {/* Instruções */}
-            <div className="bg-gradient-to-r from-[#FFD700]/10 to-[#20B2AA]/10 rounded-2xl p-6 border border-[#333] max-w-2xl mx-auto mb-8">
-              <div className="flex items-center gap-3 mb-3">
-                <Upload className="w-5 h-5 text-[#FFD700]" />
-                <h3 className="text-lg font-bold text-white">Como Adicionar Projetos</h3>
+            {/* Instruções do Sistema de Pastas */}
+            <div className="bg-gradient-to-r from-[#FFD700]/10 to-[#20B2AA]/10 rounded-2xl p-6 border border-[#333] max-w-4xl mx-auto mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <Folder className="w-5 h-5 text-[#FFD700]" />
+                <h3 className="text-lg font-bold text-white">Sistema de Organização Automática</h3>
               </div>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                1. Anexe imagens dos seus projetos aqui na conversa<br/>
-                2. Eu organizo automaticamente no portfolio<br/>
-                3. Cada projeto fica com categoria e detalhes próprios
-              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
+                <div>
+                  <p className="mb-2"><strong>Estrutura de Pastas:</strong></p>
+                  <div className="bg-[#222] p-3 rounded font-mono text-xs">
+                    📁 portfolio/<br/>
+                    &nbsp;&nbsp;📁 design-grafico/<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;📁 logotipos/<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;📁 branding/<br/>
+                    &nbsp;&nbsp;📁 impressao-digital/<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;📁 banners/<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;📁 folhetos/
+                  </div>
+                </div>
+                <div>
+                  <p className="mb-2"><strong>Como Funciona:</strong></p>
+                  <ul className="space-y-1 text-xs">
+                    <li>• Crie pastas no Object Storage</li>
+                    <li>• Organize por categoria → subcategoria</li>
+                    <li>• Adicione imagens nas subpastas</li>
+                    <li>• Sincronização automática</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Filtros */}
-        <section className="px-4 pb-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-wrap gap-3 mb-8 justify-center">
-              {categories.map((category) => (
-                <Button
-                  key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "outline"}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`
-                    ${selectedCategory === category.id 
-                      ? 'bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold' 
-                      : 'border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]'
-                    }
-                    transition-all duration-300
-                  `}
-                >
-                  {category.name} ({category.count})
-                </Button>
-              ))}
+        {/* Loading State */}
+        {isLoading && (
+          <section className="px-4 pb-16">
+            <div className="max-w-7xl mx-auto text-center">
+              <div className="animate-pulse">
+                <div className="h-8 bg-[#333] rounded w-48 mx-auto mb-4"></div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-64 bg-[#333] rounded"></div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
-        {/* Projeto Atual */}
+        {/* Filtros de Categoria */}
+        {!isLoading && availableCategories.length > 1 && (
+          <section className="px-4 pb-8">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex flex-wrap gap-3 mb-8 justify-center">
+                {availableCategories.map((category) => (
+                  <Button
+                    key={category.id}
+                    variant={selectedCategory === category.id ? "default" : "outline"}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`
+                      ${selectedCategory === category.id 
+                        ? 'bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold' 
+                        : 'border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]'
+                      }
+                      transition-all duration-300
+                    `}
+                  >
+                    {category.name} ({category.count})
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Grade de Projetos */}
         <section className="px-4 pb-16">
           <div className="max-w-7xl mx-auto">
-            {filteredProjects.length > 0 ? (
+            {!isLoading && filteredProjects.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredProjects.map((project) => (
                   <Card key={project.id} className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group cursor-pointer">
                     <CardContent className="p-0">
                       <div className="relative">
-                        <div className="w-full h-64 rounded-t-lg overflow-hidden bg-[#222] flex items-center justify-center">
+                        <div className="w-full h-64 rounded-t-lg overflow-hidden">
                           <img 
-                            src={project.image}
+                            src={`/public-objects/portfolio/${project.category}/${project.subcategory}/${project.image}`}
                             alt={project.title}
-                            className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%23333"/><text x="50%" y="50%" font-family="Arial" font-size="16" fill="%23666" text-anchor="middle" dy=".3em">Imagem não encontrada</text></svg>`;
+                            }}
                           />
+                        </div>
+                        <div className="absolute top-3 left-3">
+                          <span className="bg-[#FFD700] text-black text-xs px-2 py-1 rounded font-bold">
+                            {project.subcategory}
+                          </span>
                         </div>
                       </div>
                       
@@ -135,13 +183,8 @@ export default function Portfolio() {
                           {project.title}
                         </h3>
                         <p className="text-gray-400 text-sm mb-4">
-                          {project.description}
+                          {project.category} • {project.subcategory}
                         </p>
-                        
-                        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                          <span>{project.client}</span>
-                          <span>{project.date}</span>
-                        </div>
                         
                         <Button
                           onClick={() => setSelectedProject(project)}
@@ -154,21 +197,35 @@ export default function Portfolio() {
                   </Card>
                 ))}
               </div>
-            ) : (
+            ) : !isLoading ? (
               <div className="text-center py-16">
-                <div className="bg-[#111111] border-[#333] border-2 border-dashed rounded-2xl p-12 max-w-md mx-auto">
-                  <ImageIcon className="w-16 h-16 text-gray-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-3">Categoria Vazia</h3>
-                  <p className="text-gray-400 mb-6">
-                    Ainda não há projetos nesta categoria. Adicione imagens para começar a construir o seu portfolio.
+                <div className="bg-[#111111] border-[#333] border-2 border-dashed rounded-2xl p-12 max-w-lg mx-auto">
+                  <FolderOpen className="w-20 h-20 text-gray-500 mx-auto mb-6" />
+                  <h3 className="text-2xl font-bold text-white mb-4">Portfolio Vazio</h3>
+                  <p className="text-gray-400 mb-6 leading-relaxed">
+                    Crie a estrutura de pastas no Object Storage para começar:
                   </p>
+                  
+                  <div className="bg-[#222] rounded-lg p-4 mb-6 text-left">
+                    <p className="text-xs text-gray-500 mb-2">Exemplo de estrutura:</p>
+                    <div className="font-mono text-xs text-gray-300 space-y-1">
+                      <div>📁 <strong>portfolio/</strong></div>
+                      <div>&nbsp;&nbsp;📁 <strong>design-grafico/</strong></div>
+                      <div>&nbsp;&nbsp;&nbsp;&nbsp;📁 logotipos/</div>
+                      <div>&nbsp;&nbsp;&nbsp;&nbsp;📁 branding/</div>
+                      <div>&nbsp;&nbsp;📁 <strong>impressao-digital/</strong></div>
+                      <div>&nbsp;&nbsp;&nbsp;&nbsp;📁 banners/</div>
+                      <div>&nbsp;&nbsp;&nbsp;&nbsp;📁 folhetos/</div>
+                    </div>
+                  </div>
+                  
                   <div className="flex items-center gap-2 text-sm text-gray-500 bg-[#222] rounded-lg p-3">
-                    <Plus className="w-4 h-4 text-[#FFD700]" />
-                    <span>Anexe imagens na conversa para adicionar projetos</span>
+                    <Upload className="w-4 h-4 text-[#FFD700]" />
+                    <span>Depois adicione imagens nas subpastas</span>
                   </div>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         </section>
 
@@ -202,50 +259,24 @@ export default function Portfolio() {
 
         {/* Modal de Detalhes */}
         <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-          <DialogContent className="max-w-2xl bg-[#111111] border-[#333]">
+          <DialogContent className="max-w-3xl bg-[#111111] border-[#333]">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold text-white">
                 {selectedProject?.title}
               </DialogTitle>
               <DialogDescription className="text-gray-400">
-                Detalhes do projeto desenvolvido pela DOMREALCE
+                {selectedProject?.category} • {selectedProject?.subcategory}
               </DialogDescription>
             </DialogHeader>
             
             {selectedProject && (
               <div className="space-y-6">
-                <div className="w-full h-60 rounded-lg overflow-hidden bg-[#222] flex items-center justify-center">
+                <div className="w-full h-80 rounded-lg overflow-hidden">
                   <img 
-                    src={selectedProject.image}
+                    src={`/public-objects/portfolio/${selectedProject.category}/${selectedProject.subcategory}/${selectedProject.image}`}
                     alt={selectedProject.title}
-                    className="max-w-full max-h-full object-contain"
+                    className="w-full h-full object-cover"
                   />
-                </div>
-                
-                <div>
-                  <h4 className="text-lg font-bold text-white mb-3">Descrição do Projeto</h4>
-                  <p className="text-gray-300 leading-relaxed mb-4">
-                    {selectedProject.description}
-                  </p>
-                  
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-500">Cliente:</span>
-                      <span className="text-white ml-2">{selectedProject.client}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-500">Data:</span>
-                      <span className="text-white ml-2">{selectedProject.date}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-500">Local:</span>
-                      <span className="text-white ml-2">{selectedProject.location}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-500">Categoria:</span>
-                      <span className="text-white ml-2">Design Gráfico</span>
-                    </div>
-                  </div>
                 </div>
                 
                 <div className="flex gap-3 justify-center pt-4 border-t border-[#333]">
