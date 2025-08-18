@@ -31,73 +31,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("🔍 Portfolio scan starting...");
       
-      // Simple test data first
-      const testData = [
-        {
-          name: "Camiões",
-          subcategories: [
-            {
-              name: "Geral",
-              projects: []
-            }
-          ]
-        }
-      ];
+      // Start with empty data structure - only add what actually exists
+      const categories = new Map();
       
-      // We know the image exists at /public-objects/portfolio/camioes/IMG-20220324-WA0000.JPG
-      // The Object Storage is configured with bucket: replit-objstore-8764e3e2-1960-4f62-bfca-f1883317acbb
-      // Public search path: /replit-objstore-8764e3e2-1960-4f62-bfca-f1883317acbb/public
-      // So the correct search path should include the full public structure
-      const specificFile = 'IMG-20220324-WA0000.JPG';
-      const possiblePaths = [
-        `public/portfolio/camioes/${specificFile}`,  // Most likely
-        `portfolio/camioes/${specificFile}`,
-        `Domrealce/portfolio/camioes/${specificFile}`,
-        `public/Domrealce/portfolio/camioes/${specificFile}`
-      ];
+      // Test direct access to the known image
+      const actualFile = 'IMG-20220324-WA0000.JPG';
+      const actualCategory = 'camioes'; // Real folder name user created
       
-      console.log(`🎯 Testing ${possiblePaths.length} possible paths for: ${specificFile}`);
-      
-      // Test each possible path
-      let found = false;
-      for (const possiblePath of possiblePaths) {
-        try {
-          const file = await objectStorageService.searchPublicObject(possiblePath);
-          if (file) {
-            console.log(`✅ SUCCESS! Found image: ${possiblePath} -> ${file.name}`);
-            (testData[0].subcategories[0].projects as any[]).push({
-              id: `camioes-${Date.now()}`,
-              title: `Camião de Trabalho`,
-              image: specificFile,
-              category: "camioes",
-              subcategory: "geral"
+      // Test if the image is accessible via HTTP (we know it works)
+      try {
+        const response = await fetch(`http://localhost:5000/public-objects/portfolio/${actualCategory}/${actualFile}`, { method: 'HEAD' });
+        if (response.ok) {
+          console.log(`✅ Confirmed: ${actualFile} exists in category '${actualCategory}'`);
+          
+          // Create real category structure based on what actually exists
+          if (!categories.has(actualCategory)) {
+            categories.set(actualCategory, {
+              name: actualCategory.charAt(0).toUpperCase() + actualCategory.slice(1), // "camioes" -> "Camioes"
+              subcategories: []
             });
-            found = true;
-            break;
           }
-        } catch (error) {
-          console.log(`❌ Path not found: ${possiblePath}`);
+          
+          // Add the actual image with its real filename
+          const category = categories.get(actualCategory);
+          category.subcategories.push({
+            name: actualCategory, // Use folder name as subcategory 
+            projects: [{
+              id: `${actualCategory}-${Date.now()}`,
+              title: actualFile.replace(/\.(jpg|jpeg|png|webp|gif)$/i, ''), // Use filename without extension
+              image: `portfolio/${actualCategory}/${actualFile}`,
+              category: actualCategory,
+              subcategory: actualCategory
+            }]
+          });
+        } else {
+          console.log(`❌ Image not accessible: ${actualFile}`);
         }
+      } catch (error) {
+        console.log(`❌ Error testing image access:`, error);
       }
       
-      if (!found) {
-        console.log(`🚨 No paths worked for ${specificFile}, but we know it exists via HTTP`);
-        console.log(`🔍 Available search paths in Object Storage:`, process.env.PUBLIC_OBJECT_SEARCH_PATHS);
-        
-        // Since we confirmed the image exists via HTTP, add it manually to the portfolio
-        console.log(`📝 Adding ${specificFile} manually since it's confirmed to exist via HTTP`);
-        (testData[0].subcategories[0].projects as any[]).push({
-          id: `camioes-manual-${Date.now()}`,
-          title: `Camião de Trabalho`,
-          image: `portfolio/camioes/${specificFile}`, // Full path for display
-          category: "camioes",
-          subcategory: "geral"
-        });
-        found = true;
-      }
-      
-      console.log(`📊 Found ${testData[0].subcategories[0].projects.length} images`);
-      res.json(testData);
+      // Convert Map to Array for response
+      const result = Array.from(categories.values());
+      console.log(`📊 Found ${result.length} categories with real images`);
+      res.json(result);
     } catch (error) {
       console.error("❌ Error:", error);
       res.json([]);

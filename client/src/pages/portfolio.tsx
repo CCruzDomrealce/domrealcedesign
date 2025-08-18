@@ -41,7 +41,7 @@ export default function Portfolio() {
   });
 
   // Organizar dados por categorias
-  const categories: PortfolioCategory[] = portfolioData;
+  const categories: PortfolioCategory[] = portfolioData as PortfolioCategory[];
   const allProjects = categories.flatMap(cat => 
     cat.subcategories.flatMap(sub => sub.projects)
   );
@@ -133,7 +133,7 @@ export default function Portfolio() {
                       <div className="relative">
                         <div className="w-full h-64 rounded-t-lg overflow-hidden">
                           <img 
-                            src={`/public-objects/portfolio/${project.category}/${project.subcategory}/${project.image}`}
+                            src={`/public-objects/${project.image}`}
                             alt={project.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             onError={(e) => {
@@ -244,7 +244,7 @@ export default function Portfolio() {
               <div className="space-y-6">
                 <div className="w-full h-80 rounded-lg overflow-hidden">
                   <img 
-                    src={`/public-objects/portfolio/${selectedProject.category}/${selectedProject.subcategory}/${selectedProject.image}`}
+                    src={`/public-objects/${selectedProject.image}`}
                     alt={selectedProject.title}
                     className="w-full h-full object-cover"
                   />
