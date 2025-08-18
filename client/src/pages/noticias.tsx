@@ -174,7 +174,7 @@ export default function Noticias() {
       </section>
 
       {/* Filtros e Pesquisa */}
-      <section className="py-4 border-b border-border">
+      <section className="py-2 border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex flex-col sm:flex-row gap-4 items-center">
@@ -211,7 +211,7 @@ export default function Noticias() {
       </section>
 
       {/* Lista de Notícias */}
-      <section className="py-16">
+      <section className="py-4">
         <div className="container mx-auto px-4">
           <div className="grid gap-8">
             {noticiasFiltradas.map((noticia) => (

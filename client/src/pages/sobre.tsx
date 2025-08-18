@@ -22,7 +22,7 @@ export default function Sobre() {
       </section>
 
       {/* Carlos Cruz Section */}
-      <section className="py-16 px-4">
+      <section className="py-4 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -58,7 +58,7 @@ export default function Sobre() {
       </section>
 
       {/* Values Section */}
-      <section className="py-16 px-4 bg-[#111111]">
+      <section className="py-4 px-4 bg-[#111111]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Nossos Valores</h2>

@@ -127,7 +127,7 @@ export default function ServicoDesignGrafico() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 bg-gray-900/50">
+      <section className="py-4 bg-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -155,7 +155,7 @@ export default function ServicoDesignGrafico() {
       </section>
 
       {/* Process Section */}
-      <section className="py-16 bg-black">
+      <section className="py-4 bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -188,7 +188,7 @@ export default function ServicoDesignGrafico() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 bg-gray-900/30">
+      <section className="py-4 bg-gray-900/30">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -244,7 +244,7 @@ export default function ServicoDesignGrafico() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-brand-yellow/10 via-brand-turquoise/10 to-brand-coral/10">
+      <section className="py-4 bg-gradient-to-r from-brand-yellow/10 via-brand-turquoise/10 to-brand-coral/10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
             <span className="text-white">Pronto para Criar a Sua</span> <span className="text-brand-yellow">Identidade Visual?</span>

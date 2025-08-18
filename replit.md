@@ -16,6 +16,8 @@ This is a full-stack web application for DOMREALCE, a Portuguese visual communic
 - **Routing Updates**: Added complete routing system for all service pages in App.tsx
 - **Consistent Design**: Maintained brand color scheme and professional styling across all service pages
 - **Contact Integration**: All service pages include direct links to contact form with WhatsApp integration
+- **Portfolio UX Improvements**: Made portfolio images fully clickable without "Ver Detalhes" buttons, removed problematic cursor CSS
+- **Spacing Optimization**: Reduced spacing between titles/descriptions and content cards across all pages (py-16 → py-4/py-2) for improved visual hierarchy
 
 # User Preferences
 
