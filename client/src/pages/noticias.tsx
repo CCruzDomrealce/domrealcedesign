@@ -160,7 +160,7 @@ export default function Noticias() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-12 hero-gradient">
+      <section className="bg-gradient-to-br from-brand-yellow/10 via-brand-turquoise/5 to-brand-coral/10 py-20 mt-16">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6">
