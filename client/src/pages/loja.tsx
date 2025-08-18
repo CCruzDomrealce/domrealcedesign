@@ -131,21 +131,24 @@ export default function Loja() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-12 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Nossa Loja
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Produtos personalizáveis prontos para entrega. Qualidade profissional com a comodidade de compra online.
-          </p>
+      <section className="bg-gradient-to-br from-brand-yellow/10 via-brand-turquoise/5 to-brand-coral/10 py-20 mt-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+              Nossa <span className="text-brand-yellow">Loja</span>
+            </h1>
+            <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+              Produtos personalizáveis prontos para entrega. Qualidade profissional com a comodidade de compra online.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Categories Filter */}
-      <section className="py-8 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap gap-4 justify-center">
+      <section className="py-4">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-wrap gap-4 justify-center">
             {categories.map((category) => (
               <Button
                 key={category.id}
@@ -159,14 +162,16 @@ export default function Loja() {
                 {category.name}
               </Button>
             ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Products Grid */}
-      <section className="py-12 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="py-8">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
               <Card key={product.id} className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group">
                 <CardContent className="p-0">
@@ -227,6 +232,7 @@ export default function Loja() {
                 </CardContent>
               </Card>
             ))}
+            </div>
           </div>
         </div>
       </section>

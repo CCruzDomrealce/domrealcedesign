@@ -163,10 +163,10 @@ export default function Noticias() {
       <section className="bg-gradient-to-br from-brand-yellow/10 via-brand-turquoise/5 to-brand-coral/10 py-20 mt-16">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-heading font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl font-heading font-bold mb-4">
               <span className="text-brand-yellow">Notícias</span> & <span className="text-brand-turquoise">Projectos</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
               Descubra os nossos trabalhos mais recentes, projetos históricos e as últimas tendências em comunicação visual
             </p>
           </div>
@@ -174,7 +174,7 @@ export default function Noticias() {
       </section>
 
       {/* Filtros e Pesquisa */}
-      <section className="py-8 border-b border-border">
+      <section className="py-4 border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex flex-col sm:flex-row gap-4 items-center">

@@ -26,7 +26,7 @@ export default function Portfolio() {
       </section>
 
       {/* Galeria Dinâmica */}
-      <section className="py-8">
+      <section className="py-4">
         <div className="container mx-auto px-4">
           <DynamicGallery showCategories={true} />
         </div>

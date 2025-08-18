@@ -132,22 +132,25 @@ export default function Servicos() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-12 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Nossos Serviços
-          </h1>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            Com 40 anos de experiência, oferecemos soluções completas em comunicação visual e publicidade, 
-            desde impressão digital até decoração de espaços comerciais.
-          </p>
+      <section className="bg-gradient-to-br from-brand-yellow/10 via-brand-turquoise/5 to-brand-coral/10 py-20 mt-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+              Nossos <span className="text-brand-yellow">Serviços</span>
+            </h1>
+            <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
+              Com 40 anos de experiência, oferecemos soluções completas em comunicação visual e publicidade, 
+              desde impressão digital até decoração de espaços comerciais.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <section className="py-4">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((service, index) => (
               <Card key={service.id} className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group">
                 <CardContent className="p-8">
@@ -190,6 +193,7 @@ export default function Servicos() {
                 </CardContent>
               </Card>
             ))}
+            </div>
           </div>
         </div>
       </section>
