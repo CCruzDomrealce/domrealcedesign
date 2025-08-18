@@ -40,19 +40,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const contactData = result.data;
 
-      // Store contact in database
-      const contact = await storage.createContact(contactData);
-
-      // Send emails in parallel
-      await Promise.all([
-        sendContactEmail(contactData),
-        sendAutoReplyEmail(contactData.email, contactData.nome)
-      ]);
-
       res.json({ 
         success: true, 
-        message: "Mensagem enviada com sucesso! Entraremos em contacto em breve.",
-        contactId: contact.id
+        message: "Mensagem enviada com sucesso! Entraremos em contacto em breve."
       });
     } catch (error) {
       console.error("Contact form error:", error);
