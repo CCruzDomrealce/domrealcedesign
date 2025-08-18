@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Calendar, Clock, Share2, Facebook, Instagram, Search, Filter, Eye, Heart, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Share2, Facebook, Instagram, Linkedin, Search, Filter, Eye, Heart, MessageCircle } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Dados das notícias (em produção viria de uma base de dados)
@@ -133,6 +133,11 @@ export default function Noticias() {
   const partilharInstagram = () => {
     // Instagram não permite partilha directa por URL, mostra instrução
     alert('Para partilhar no Instagram, tire uma captura de ecrã desta página e publique na sua conta @domrealce');
+  };
+
+  const partilharLinkedin = (noticia: typeof noticias[0]) => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href + '#' + noticia.id)}`;
+    window.open(url, '_blank', 'width=600,height=400');
   };
 
 
@@ -298,6 +303,14 @@ export default function Noticias() {
                             className="text-pink-600 hover:bg-pink-600/10"
                           >
                             <Instagram size={16} />
+                          </Button>
+                          <Button
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => partilharLinkedin(noticia)}
+                            className="text-blue-700 hover:bg-blue-700/10"
+                          >
+                            <Linkedin size={16} />
                           </Button>
                           <Button
                             variant="ghost"
