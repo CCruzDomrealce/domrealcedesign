@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronLeft, ChevronRight, X, ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 interface GalleryImage {
   filename: string;
@@ -214,16 +214,8 @@ export function DynamicGallery({ category, showCategories = true, className = ""
                   loading="lazy"
                   style={{ cursor: 'pointer' }}
                 />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    onClick={() => openLightbox(image, index)}
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Ver Detalhes
-                  </Button>
-                </div>
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" 
+                     onClick={() => openLightbox(image, index)} />
               </div>
 
             </CardContent>
