@@ -18,7 +18,7 @@ import {
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Link } from "wouter";
-import img3D from '@/assets/3D_1755538105413.webp';
+
 
 interface Texture3D {
   id: number;
@@ -54,6 +54,10 @@ export default function Produto3D() {
   const texturasPorPagina = 20;
   const precoBase = 20.0;
   const precoLaminacao = 5.0;
+
+  const getTextura3DUrl = (fileName: string) => {
+    return `/public-objects/Domrealce/Loja/Papel de Parede/texturas 800x800/3D/${fileName}`;
+  };
 
   // Carregamento das texturas 3D do backend
   useEffect(() => {
@@ -178,10 +182,20 @@ export default function Produto3D() {
                   <div className="relative">
                     <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
                       <img 
-                        src={img3D}
+                        src={getTextura3DUrl(textura.fileName)}
                         alt={textura.nome}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const img = e.currentTarget as HTMLImageElement;
+                          const fallback = img.nextElementSibling as HTMLElement;
+                          img.style.display = 'none';
+                          fallback.style.display = 'flex';
+                        }}
                       />
+                      <div className="w-full h-full hidden items-center justify-center bg-gradient-to-br from-gray-700 to-gray-800 flex-col">
+                        <Package className="w-8 h-8 text-gray-500 mb-2" />
+                        <span className="text-xs text-gray-400 text-center">{textura.nome}</span>
+                      </div>
                       
                       {/* Overlay com botões */}
                       <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-t-lg flex items-center justify-center gap-2">
@@ -278,10 +292,20 @@ export default function Produto3D() {
               {texturaVisualizacao && (
                 <>
                   <img 
-                    src={img3D}
+                    src={getTextura3DUrl(texturaVisualizacao.fileName)}
                     alt={texturaVisualizacao.nome}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const img = e.currentTarget as HTMLImageElement;
+                      const fallback = img.nextElementSibling as HTMLElement;
+                      img.style.display = 'none';
+                      fallback.style.display = 'flex';
+                    }}
                   />
+                  <div className="w-full h-full hidden items-center justify-center flex-col">
+                    <Package className="w-12 h-12 text-gray-500 mb-2" />
+                    <span className="text-sm text-gray-400 text-center">{texturaVisualizacao.nome}</span>
+                  </div>
                 </>
               )}
             </div>
@@ -303,10 +327,20 @@ export default function Produto3D() {
                 {/* Preview da textura */}
                 <div className="aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
                   <img 
-                    src={img3D}
+                    src={getTextura3DUrl(texturaSelecionada.fileName)}
                     alt={texturaSelecionada.nome}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const img = e.currentTarget as HTMLImageElement;
+                      const fallback = img.nextElementSibling as HTMLElement;
+                      img.style.display = 'none';
+                      fallback.style.display = 'flex';
+                    }}
                   />
+                  <div className="w-full h-full hidden items-center justify-center flex-col">
+                    <Package className="w-12 h-12 text-gray-500 mb-2" />
+                    <span className="text-sm text-gray-400 text-center">{texturaSelecionada.nome}</span>
+                  </div>
                 </div>
 
                 <h3 className="text-white font-medium">{texturaSelecionada.nome}</h3>
