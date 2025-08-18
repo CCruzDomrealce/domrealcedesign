@@ -58,7 +58,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Serve 3D texture images with fallback
+  // Serve texture images from local assets
+  app.get("/api/texture-image/:fileName", (req, res) => {
+    const fileName = req.params.fileName;
+    const path = require('path');
+    const fs = require('fs');
+    
+    // Map of our local texture files
+    const localTextureFiles: Record<string, string> = {
+      '3D-001.webp': path.join(__dirname, '../client/src/assets/3d/3D-001.webp'),
+      '3D-002.webp': path.join(__dirname, '../client/src/assets/3d/3D-002.webp'),
+      '3D-003.webp': path.join(__dirname, '../client/src/assets/3d/3D-003.webp')
+    };
+    
+    const filePath = localTextureFiles[fileName];
+    
+    if (filePath && fs.existsSync(filePath)) {
+      // Set proper headers for webp images
+      res.setHeader('Content-Type', 'image/webp');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      return res.sendFile(filePath);
+    }
+    
+    // Fallback to first texture if file doesn't exist
+    const fallbackPath = localTextureFiles['3D-001.webp'];
+    if (fs.existsSync(fallbackPath)) {
+      res.setHeader('Content-Type', 'image/webp');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      return res.sendFile(fallbackPath);
+    }
+    
+    return res.status(404).json({ error: "Texture image not found" });
+  });
+
+  // Serve 3D texture images with fallback for Object Storage
   app.get("/public-objects/Domrealce/Loja/Papel de Parede/texturas 800x800/3D/:fileName", async (req, res) => {
     const fileName = req.params.fileName;
     try {
@@ -68,25 +101,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return objectStorageService.downloadObject(file, res);
       }
       
-      // Fallback to local images for the sample textures
-      const path = require('path');
-      const fs = require('fs');
-      const localPath = path.join(__dirname, '../client/src/assets/3d', fileName);
-      
-      if (fs.existsSync(localPath)) {
-        return res.sendFile(localPath);
-      }
-      
-      // If no local file, serve the first sample as fallback
-      const fallbackPath = path.join(__dirname, '../client/src/assets/3d/3D-001.webp');
-      if (fs.existsSync(fallbackPath)) {
-        return res.sendFile(fallbackPath);
-      }
-      
-      return res.status(404).json({ error: "Texture image not found" });
+      // Fallback to local image serving
+      return res.redirect(`/api/texture-image/${fileName}`);
     } catch (error) {
-      console.error("Error serving 3D texture:", error);
-      return res.status(500).json({ error: "Internal server error" });
+      console.error("Error serving 3D texture from Object Storage:", error);
+      // Fallback to local image serving
+      return res.redirect(`/api/texture-image/${fileName}`);
     }
   });
 
