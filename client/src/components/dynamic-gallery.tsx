@@ -22,36 +22,43 @@ interface DynamicGalleryProps {
 
 // Função para categorizar imagens baseado no caminho/nome do arquivo
 function categorizeImage(filename: string): string {
-  const lower = filename.toLowerCase();
+  // Normaliza acentos e converte para minúsculas
+  const lower = filename.toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
   
-  // Categorização por pasta (se organizado em pastas)
-  if (lower.includes('viaturas/') || lower.includes('camioes/') || lower.includes('veiculos/')) {
+  // Categorização por pasta (com suporte a acentos)
+  if (lower.includes('viaturas/') || lower.includes('camioes/') || lower.includes('veiculos/') || 
+      lower.includes('camiões/') || lower.includes('veículos/')) {
     return 'decoracao-viaturas';
   }
-  if (lower.includes('sinalizacao/') || lower.includes('placas/') || lower.includes('fachadas/')) {
+  if (lower.includes('sinalizacao/') || lower.includes('placas/') || lower.includes('fachadas/') ||
+      lower.includes('sinalizaçao/') || lower.includes('sinalização/')) {
     return 'sinalizacao';
   }
-  if (lower.includes('impressao/') || lower.includes('banners/') || lower.includes('digital/')) {
+  if (lower.includes('impressao/') || lower.includes('banners/') || lower.includes('digital/') ||
+      lower.includes('impressão/')) {
     return 'impressao-digital';
   }
-  if (lower.includes('rotulos/') || lower.includes('etiquetas/') || lower.includes('labels/')) {
+  if (lower.includes('rotulos/') || lower.includes('etiquetas/') || lower.includes('labels/') ||
+      lower.includes('rótulos/')) {
     return 'rotulagem';
   }
   if (lower.includes('autocolantes/') || lower.includes('vinil/') || lower.includes('stickers/')) {
     return 'autocolantes';
   }
   
-  // Categorização por nome do arquivo (método anterior)
-  if (lower.includes('camiao') || lower.includes('truck') || lower.includes('viatura')) {
+  // Categorização por nome do arquivo (com suporte a acentos)
+  if (lower.includes('camiao') || lower.includes('camião') || lower.includes('truck') || lower.includes('viatura')) {
     return 'decoracao-viaturas';
   }
-  if (lower.includes('fachada') || lower.includes('sinalizacao') || lower.includes('placa')) {
+  if (lower.includes('fachada') || lower.includes('sinalizacao') || lower.includes('sinalização') || lower.includes('placa')) {
     return 'sinalizacao';
   }
-  if (lower.includes('banner') || lower.includes('impressao') || lower.includes('digital')) {
+  if (lower.includes('banner') || lower.includes('impressao') || lower.includes('impressão') || lower.includes('digital')) {
     return 'impressao-digital';
   }
-  if (lower.includes('rotulo') || lower.includes('etiqueta') || lower.includes('label')) {
+  if (lower.includes('rotulo') || lower.includes('rótulo') || lower.includes('etiqueta') || lower.includes('label')) {
     return 'rotulagem';
   }
   if (lower.includes('autocolante') || lower.includes('vinil') || lower.includes('sticker')) {
@@ -65,6 +72,7 @@ function categorizeImage(filename: string): string {
 function generateTitle(filename: string): string {
   // Remove extensão e possível caminho de pasta
   const name = filename.replace(/\.[^/.]+$/, "").split('/').pop() || filename;
+  // Suporte para acentos e caracteres especiais
   const words = name.split(/[-_\s]+/).map(word => 
     word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   );
