@@ -85,6 +85,13 @@ export default function Navigation() {
               Loja
             </Link>
             <Link 
+              href="/noticias" 
+              className="text-white hover:text-brand-green transition-colors duration-300 font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Notícias
+            </Link>
+            <Link 
               href="/contactos" 
               className="text-white hover:text-brand-coral transition-colors duration-300 font-medium"
               onClick={() => setIsMenuOpen(false)}
@@ -142,6 +149,13 @@ export default function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Loja
+              </Link>
+              <Link 
+                href="/noticias" 
+                className="text-white hover:text-brand-green transition-colors duration-300 font-medium py-2 text-left"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Notícias
               </Link>
               <Link 
                 href="/contactos" 
