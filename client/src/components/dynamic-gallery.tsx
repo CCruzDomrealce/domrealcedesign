@@ -36,9 +36,7 @@ function categorizeImage(filename: string): string {
     // Ignora "Domrealce" e "Portfólio", usa a terceira parte como categoria
     if (pathParts[0].toLowerCase().includes('domrealce') && 
         pathParts[1].toLowerCase().includes('portf')) {
-      const categoryName = pathParts[2].toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
+      const categoryName = pathParts[2].toLowerCase();
       return categoryName;
     }
   }
@@ -46,9 +44,7 @@ function categorizeImage(filename: string): string {
   // Se o caminho tem estrutura "Portfólio/Categoria/imagem.jpg"
   if (pathParts.length >= 2) {
     if (pathParts[0].toLowerCase().includes('portf')) {
-      const categoryName = pathParts[1].toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, ''); // Remove acentos
+      const categoryName = pathParts[1].toLowerCase();
       return categoryName;
     }
   }
@@ -90,10 +86,16 @@ function getDynamicCategories(images: GalleryImage[]): Array<{id: string, name: 
     let categoryName = categoryId.charAt(0).toUpperCase() + categoryId.slice(1);
     
     // Mapeia nomes específicos com acentos
-    if (categoryId === 'camioes') {
+    if (categoryId === 'camiões') {
       categoryName = 'Camiões';
     } else if (categoryId === 'comerciais') {
       categoryName = 'Comerciais';
+    } else if (categoryId === 'competição') {
+      categoryName = 'Competição';
+    } else if (categoryId === 'autocolantes') {
+      categoryName = 'Autocolantes';
+    } else if (categoryId === 'interiores') {
+      categoryName = 'Interiores';
     }
     
     categories.push({ id: categoryId, name: categoryName });
