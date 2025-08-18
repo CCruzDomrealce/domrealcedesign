@@ -145,7 +145,7 @@ export default function Loja() {
       </section>
 
       {/* Categories Filter */}
-      <section className="py-2">
+      <section className="pt-2 pb-4">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-wrap gap-4 justify-center">
@@ -168,7 +168,7 @@ export default function Loja() {
       </section>
 
       {/* Products Grid */}
-      <section className="py-4">
+      <section className="pt-2 pb-8">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

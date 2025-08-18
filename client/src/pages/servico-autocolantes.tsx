@@ -162,7 +162,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* Features Grid */}
-      <section className="py-4 bg-gray-900/50">
+      <section className="pt-2 pb-8 bg-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -190,7 +190,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* Materials Section */}
-      <section className="py-4 bg-black">
+      <section className="pt-2 pb-8 bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -229,7 +229,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* Applications Section */}
-      <section className="py-4 bg-gray-900/30">
+      <section className="pt-2 pb-8 bg-gray-900/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -261,7 +261,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* Process Section */}
-      <section className="py-4 bg-black">
+      <section className="pt-2 pb-8 bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -294,7 +294,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* Specs Section */}
-      <section className="py-4 bg-gray-900/50">
+      <section className="pt-2 pb-8 bg-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -364,7 +364,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-4 bg-gradient-to-r from-green-600/10 via-brand-turquoise/10 to-brand-yellow/10">
+      <section className="pt-2 pb-8 bg-gradient-to-r from-green-600/10 via-brand-turquoise/10 to-brand-yellow/10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
             <span className="text-white">Pronto para Criar os Seus</span> <span className="text-green-400">Autocolantes?</span>
