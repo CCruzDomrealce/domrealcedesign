@@ -6,8 +6,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Star, ShoppingCart, Settings, Wallpaper, ArrowLeft, Eye, Plus, CheckCircle } from "lucide-react";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import textura3D from "@assets/3D_1755538105413.webp";
-import texturaImageGrid from "@assets/image_1755538598588.png";
 
 interface Product {
   id: number;
@@ -96,84 +94,41 @@ const categories = [
   { id: 'sinalizacao', name: 'Sinalização' }
 ];
 
-// 28 Subcategorias de Papel de Parede - Baseadas nas capas reais enviadas
+// 28 Subcategorias de Papel de Parede - Carregadas do Object Storage
 const subcategoriasPapelParede = [
-  { id: 1, nome: "3D", image: textura3D },
-  { id: 2, nome: "Animal", image: null },
-  { id: 3, nome: "Arabesco", image: null },
-  { id: 4, nome: "Azulejo", image: null },
-  { id: 5, nome: "Baby", image: null },
-  { id: 6, nome: "Baby-2.0", image: null },
-  { id: 7, nome: "Baby-Colors", image: null },
-  { id: 8, nome: "Baby-Painéis", image: null },
-  { id: 9, nome: "Baby-Pantone", image: null },
-  { id: 10, nome: "Casual", image: null },
-  { id: 11, nome: "Chevron", image: null },
-  { id: 12, nome: "Couro", image: null },
-  { id: 13, nome: "Floral", image: null },
-  { id: 14, nome: "Folhas", image: null },
-  { id: 15, nome: "Geométrico", image: null },
-  { id: 16, nome: "Industrial", image: null },
-  { id: 17, nome: "Infantil", image: null },
-  { id: 18, nome: "Listrado", image: null },
-  { id: 19, nome: "Madeira", image: null },
-  { id: 20, nome: "Mármore", image: null },
-  { id: 21, nome: "Pastilha", image: null },
-  { id: 22, nome: "Pedras", image: null },
-  { id: 23, nome: "Pea", image: null },
-  { id: 24, nome: "Ripado", image: null },
-  { id: 25, nome: "Textura", image: null },
-  { id: 26, nome: "Tijolos", image: null },
-  { id: 27, nome: "Xadrez", image: null },
-  { id: 28, nome: "Zazz", image: null }
+  { id: 1, nome: "3D", fileName: "3D.webp" },
+  { id: 2, nome: "Animal", fileName: "Animal.webp" },
+  { id: 3, nome: "Arabesco", fileName: "Arabesco.webp" },
+  { id: 4, nome: "Azulejo", fileName: "Azulejo.webp" },
+  { id: 5, nome: "Baby", fileName: "Baby.webp" },
+  { id: 6, nome: "Baby-2.0", fileName: "Baby-2.0.webp" },
+  { id: 7, nome: "Baby-Colors", fileName: "Baby-Colors.webp" },
+  { id: 8, nome: "Baby-Painéis", fileName: "Baby-Paineis.webp" },
+  { id: 9, nome: "Baby-Pantone", fileName: "Baby-Pantone.webp" },
+  { id: 10, nome: "Casual", fileName: "Casual.webp" },
+  { id: 11, nome: "Chevron", fileName: "Chevron.webp" },
+  { id: 12, nome: "Couro", fileName: "Couro.webp" },
+  { id: 13, nome: "Floral", fileName: "Floral.webp" },
+  { id: 14, nome: "Folhas", fileName: "Folhas.webp" },
+  { id: 15, nome: "Geométrico", fileName: "Geometrico.webp" },
+  { id: 16, nome: "Industrial", fileName: "Industrial.webp" },
+  { id: 17, nome: "Infantil", fileName: "Infantil.webp" },
+  { id: 18, nome: "Listrado", fileName: "Listrado.webp" },
+  { id: 19, nome: "Madeira", fileName: "Madeira.webp" },
+  { id: 20, nome: "Mármore", fileName: "Marmore.webp" },
+  { id: 21, nome: "Pastilha", fileName: "Pastilha.webp" },
+  { id: 22, nome: "Pedras", fileName: "Pedras.webp" },
+  { id: 23, nome: "Pea", fileName: "Pea.webp" },
+  { id: 24, nome: "Ripado", fileName: "Ripado.webp" },
+  { id: 25, nome: "Textura", fileName: "Textura.webp" },
+  { id: 26, nome: "Tijolos", fileName: "Tijolos.webp" },
+  { id: 27, nome: "Xadrez", fileName: "Xadrez.webp" },
+  { id: 28, nome: "Zazz", fileName: "Zazz.webp" }
 ];
 
-// Função para obter imagem da subcategoria pela posição no grid
-const getSubcategoriaImage = (subcategoriaId: number) => {
-  const gridPositions = [
-    { row: 0, col: 0, nome: "3D" },
-    { row: 0, col: 1, nome: "Animal" },
-    { row: 0, col: 2, nome: "Arabesco" },
-    { row: 0, col: 3, nome: "Azulejo" },
-    { row: 0, col: 4, nome: "Baby" },
-    { row: 0, col: 5, nome: "Baby-2.0" },
-    { row: 0, col: 6, nome: "Baby-Colors" },
-    { row: 0, col: 7, nome: "Baby-Painéis" },
-    { row: 0, col: 8, nome: "Baby-Pantone" },
-    { row: 0, col: 9, nome: "Casual" },
-    { row: 0, col: 10, nome: "Chevron" },
-    { row: 0, col: 11, nome: "Couro" },
-    { row: 1, col: 0, nome: "Floral" },
-    { row: 1, col: 1, nome: "Folhas" },
-    { row: 1, col: 2, nome: "Geométrico" },
-    { row: 1, col: 3, nome: "Industrial" },
-    { row: 1, col: 4, nome: "Infantil" },
-    { row: 1, col: 5, nome: "Listrado" },
-    { row: 1, col: 6, nome: "Madeira" },
-    { row: 1, col: 7, nome: "Mármore" },
-    { row: 1, col: 8, nome: "Pastilha" },
-    { row: 1, col: 9, nome: "Pedras" },
-    { row: 1, col: 10, nome: "Pea" },
-    { row: 1, col: 11, nome: "Ripado" },
-    { row: 2, col: 0, nome: "Textura" },
-    { row: 2, col: 1, nome: "Tijolos" },
-    { row: 2, col: 2, nome: "Xadrez" },
-    { row: 2, col: 3, nome: "Zazz" }
-  ];
-
-  const position = gridPositions.find(p => p.nome === subcategoriasPapelParede.find(s => s.id === subcategoriaId)?.nome);
-  if (!position) return null;
-
-  // Calcular posição na imagem grid (cada miniatura tem aproximadamente 83x83 pixels)
-  const x = position.col * 83;
-  const y = position.row * 87;
-  
-  return {
-    backgroundImage: `url(${texturaImageGrid})`,
-    backgroundPosition: `-${x}px -${y}px`,
-    backgroundSize: 'auto',
-    backgroundRepeat: 'no-repeat'
-  };
+// Função para obter URL da imagem do Object Storage
+const getTexturaImageUrl = (fileName: string) => {
+  return `/public-objects/Domrealce/Loja/Papel de Parede/Capas das texturas/${fileName}`;
 };
 
 export default function Loja() {
@@ -303,24 +258,20 @@ export default function Loja() {
                       <CardContent className="p-0">
                         <div className="relative">
                           <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
-                            {subcategoria.id === 1 ? (
-                              <img 
-                                src={textura3D} 
-                                alt={subcategoria.nome}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div 
-                                className="w-full h-full scale-150"
-                                style={getSubcategoriaImage(subcategoria.id) || {}}
-                              >
-                                {!getSubcategoriaImage(subcategoria.id) && (
-                                  <div className="w-full h-full flex items-center justify-center">
-                                    <Wallpaper className="w-8 h-8 text-gray-500" />
-                                  </div>
-                                )}
-                              </div>
-                            )}
+                            <img 
+                              src={getTexturaImageUrl(subcategoria.fileName)} 
+                              alt={subcategoria.nome}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const img = e.currentTarget as HTMLImageElement;
+                                const fallback = img.nextElementSibling as HTMLElement;
+                                img.style.display = 'none';
+                                fallback.style.display = 'flex';
+                              }}
+                            />
+                            <div className="w-full h-full hidden items-center justify-center">
+                              <Wallpaper className="w-8 h-8 text-gray-500" />
+                            </div>
                           </div>
                           <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-t-lg flex items-center justify-center">
                             <Eye className="w-6 h-6 text-white" />
@@ -369,24 +320,20 @@ export default function Loja() {
                 {/* Mensagem para subcategorias sem texturas detalhadas ainda */}
                 <div className="text-center py-16">
                   <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg mx-auto mb-6 flex items-center justify-center overflow-hidden">
-                    {subcategoriaSelecionada === 1 ? (
-                      <img 
-                        src={textura3D} 
-                        alt="3D"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div 
-                        className="w-full h-full scale-150"
-                        style={getSubcategoriaImage(subcategoriaSelecionada) || {}}
-                      >
-                        {!getSubcategoriaImage(subcategoriaSelecionada) && (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Wallpaper className="w-12 h-12 text-gray-500" />
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    <img 
+                      src={getTexturaImageUrl(subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.fileName || "")} 
+                      alt={subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.nome}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const img = e.currentTarget as HTMLImageElement;
+                        const fallback = img.nextElementSibling as HTMLElement;
+                        img.style.display = 'none';
+                        fallback.style.display = 'flex';
+                      }}
+                    />
+                    <div className="w-full h-full hidden items-center justify-center">
+                      <Wallpaper className="w-12 h-12 text-gray-500" />
+                    </div>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-4">
                     Categoria: {subcategoriasPapelParede.find(s => s.id === subcategoriaSelecionada)?.nome}
