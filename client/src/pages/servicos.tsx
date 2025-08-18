@@ -169,7 +169,7 @@ export default function Servicos() {
                       
                       <div className="flex flex-col sm:flex-row gap-3">
                         <Button asChild className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 transition-opacity">
-                          <Link href="/contactos">Solicitar Orçamento</Link>
+                          <Link href="/contactos#formulario">Solicitar Orçamento</Link>
                         </Button>
                         {service.detailsLink && (
                           <Button variant="outline" className="border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]">
