@@ -305,11 +305,10 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Formulário de Orçamento */}
-              <Card className="bg-black/50 border-gray-800">
-                <CardContent className="p-6">
-                  <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Formulário de Orçamento - Largura Total */}
+            <Card className="bg-black/50 border-gray-800 mb-8">
+              <CardContent className="p-6">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="largura" className="text-white">Largura (metros)</Label>
@@ -496,43 +495,42 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
                       <Calculator className="w-4 h-4 mr-2" />
                       Solicitar Orçamento
                     </Button>
-                  </form>
+                </form>
+              </CardContent>
+            </Card>
+
+            {/* Opções Rápidas - Lado a Lado */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-black/50 border-gray-800 hover:border-brand-turquoise transition-all duration-300">
+                <CardContent className="p-6 text-center">
+                  <ShoppingCart className="w-12 h-12 text-brand-turquoise mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold mb-3 text-white">Loja Online</h3>
+                  <p className="text-gray-400 mb-4">
+                    Explore nossa seção de texturas na loja online
+                  </p>
+                  <Button asChild className="bg-brand-turquoise text-black hover:bg-brand-turquoise/80">
+                    <Link href="/loja">
+                      Ver Texturas na Loja
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Link>
+                  </Button>
                 </CardContent>
               </Card>
 
-              {/* Opções Rápidas */}
-              <div className="space-y-6">
-                <Card className="bg-black/50 border-gray-800 hover:border-brand-turquoise transition-all duration-300">
-                  <CardContent className="p-6 text-center">
-                    <ShoppingCart className="w-12 h-12 text-brand-turquoise mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-3 text-white">Loja Online</h3>
-                    <p className="text-gray-400 mb-4">
-                      Explore nossa seção de texturas na loja online
-                    </p>
-                    <Button asChild className="bg-brand-turquoise text-black hover:bg-brand-turquoise/80">
-                      <Link href="/loja">
-                        Ver Texturas na Loja
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-black/50 border-gray-800 hover:border-brand-coral transition-all duration-300">
-                  <CardContent className="p-6 text-center">
-                    <Upload className="w-12 h-12 text-brand-coral mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold mb-3 text-white">Envio de Imagens</h3>
-                    <p className="text-gray-400 mb-4">
-                      Se escolheu "Imagem Própria", pode enviar após o orçamento
-                    </p>
-                    <Button asChild variant="outline" className="border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white">
-                      <a href="https://wa.me/351930682725?text=Olá!%20Quero%20enviar%20uma%20imagem%20para%20papel%20de%20parede" target="_blank">
-                        Enviar via WhatsApp
-                      </a>
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
+              <Card className="bg-black/50 border-gray-800 hover:border-brand-coral transition-all duration-300">
+                <CardContent className="p-6 text-center">
+                  <Upload className="w-12 h-12 text-brand-coral mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold mb-3 text-white">Envio de Imagens</h3>
+                  <p className="text-gray-400 mb-4">
+                    Se escolheu "Imagem Própria", pode enviar após o orçamento
+                  </p>
+                  <Button asChild variant="outline" className="border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white">
+                    <a href="https://wa.me/351930682725?text=Olá!%20Quero%20enviar%20uma%20imagem%20para%20papel%20de%20parede" target="_blank">
+                      Enviar via WhatsApp
+                    </a>
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
