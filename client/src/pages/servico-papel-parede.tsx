@@ -51,14 +51,7 @@ export default function ServicoPapelParede() {
     const encodedMessage = encodeURIComponent(whatsappMessage);
     window.open(`https://wa.me/351930682725?text=${encodedMessage}`, '_blank');
   };
-  const categories = [
-    "Texturas Naturais", "Padrões Geométricos", "Florais", "Abstratos",
-    "Infantis", "Minimalistas", "Clássicos", "Modernos", "Vintage",
-    "Metálicos", "3D", "Madeira", "Pedra", "Tecido", "Mármore",
-    "Tijolo", "Rústicos", "Elegantes", "Coloridos", "Neutros",
-    "Brilhantes", "Mates", "Relevos", "Lisos", "Tropicais",
-    "Orientais", "Art Déco", "Industriais"
-  ];
+
 
   const features = [
     {
@@ -194,29 +187,7 @@ export default function ServicoPapelParede() {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="pt-0 pb-8 bg-black">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-              <span className="text-white">Múltiplas Categorias</span> <span className="text-brand-yellow">Disponíveis</span>
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Organização intuitiva para encontrar exatamente o estilo que procura
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-            {categories.map((category, index) => (
-              <div key={index} className="bg-gray-900/50 border border-gray-800 rounded-lg p-3 text-center hover:border-brand-coral transition-all duration-300 cursor-pointer">
-                <span className="text-sm text-gray-300 hover:text-brand-coral transition-colors">
-                  {category}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Process Section */}
       <section className="pt-0 pb-8 bg-gray-900/30">
