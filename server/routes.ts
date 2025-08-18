@@ -26,14 +26,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 
 
-  // Portfolio images from Object Storage - Automatic folder scanning
+  // Portfolio images from Object Storage - Simple test first
   app.get("/api/portfolio-images", async (req, res) => {
     try {
-      const portfolioData = await scanPortfolioFolders(objectStorageService);
-      res.json(portfolioData);
+      console.log("🔍 Portfolio scan starting...");
+      
+      // Simple test data first
+      const testData = [
+        {
+          name: "Camiões",
+          subcategories: [
+            {
+              name: "Geral",
+              projects: []
+            }
+          ]
+        }
+      ];
+      
+      // Test specific paths where user put images
+      const testPaths = [
+        "portfolio/camioes/1.jpg",
+        "portfolio/camioes/2.jpg", 
+        "portfolio/camioes/exemplo.jpg",
+        "portfolio/camioes/projeto.jpg"
+      ];
+      
+      for (const testPath of testPaths) {
+        try {
+          const file = await objectStorageService.searchPublicObject(testPath);
+          if (file) {
+            console.log(`✅ Found: ${testPath}`);
+            testData[0].subcategories[0].projects.push({
+              id: `camioes-${Date.now()}`,
+              title: `Camião ${testData[0].subcategories[0].projects.length + 1}`,
+              image: testPath.split('/').pop() || '',
+              category: "camioes",
+              subcategory: "geral"
+            });
+          }
+        } catch (error) {
+          console.log(`❌ Not found: ${testPath}`);
+        }
+      }
+      
+      console.log(`📊 Found ${testData[0].subcategories[0].projects.length} images`);
+      res.json(testData);
     } catch (error) {
-      console.error("Error scanning portfolio folders:", error);
-      res.json([]); // Return empty array if no folders found
+      console.error("❌ Error:", error);
+      res.json([]);
     }
   });
 
@@ -57,7 +98,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Send emails in parallel
       await Promise.all([
         sendContactEmail(contactData),
-        sendAutoReplyEmail(contactData.email)
+        sendAutoReplyEmail(contactData.email, contactData.nome)
       ]);
 
       res.json({ 
@@ -217,19 +258,16 @@ async function scanPortfolioFolders(objectStorageService: ObjectStorageService) 
       }[];
     }[] = [];
 
-    // Try to discover categories dynamically by scanning the portfolio folder
-    const allCategories = new Set([
-      // Include predefined categories
+    // Define categories to scan
+    const allCategories = [
       'design-grafico', 'impressao-digital', 'papel-parede', 'decoracao-viaturas',
-      'sinaletica', 'material-promocional', 'camioes',
-      // Add any folder names the user might create
-      'portfolio', 'projetos', 'trabalhos', 'obras'
-    ]);
+      'sinaletica', 'material-promocional', 'camioes', 'projetos', 'trabalhos'
+    ];
 
     // Scan each possible category
     for (const category of allCategories) {
       const categoryData = {
-        name: category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        name: category.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
         subcategories: [] as any[]
       };
 
