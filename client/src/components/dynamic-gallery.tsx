@@ -270,23 +270,19 @@ export function DynamicGallery({ category, showCategories = true, className = ""
                 </>
               )}
               
-              <img
-                src={selectedImage.url}
-                alt={selectedImage.title}
-                className="w-full max-h-[80vh] object-contain"
-              />
-              
-              <div className="p-6 bg-white">
-                <div className="flex items-center justify-between mb-2">
-                  <Badge variant="secondary" className="bg-brand-yellow/10 text-brand-yellow">
-                    {categories.find(c => c.id === selectedImage.category)?.name || 'Projeto'}
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">
-                    {currentImageIndex + 1} de {filteredImages.length}
-                  </span>
-                </div>
-                <h2 className="text-2xl font-bold mb-2">{selectedImage.title}</h2>
-                <p className="text-muted-foreground">{selectedImage.description}</p>
+              <div className="relative">
+                <img
+                  src={selectedImage.url}
+                  alt={selectedImage.title}
+                  className="w-full max-h-[80vh] object-contain"
+                />
+                
+                {/* Numeração sobre a imagem */}
+                {filteredImages.length > 1 && (
+                  <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                    {currentImageIndex + 1} / {filteredImages.length}
+                  </div>
+                )}
               </div>
             </div>
           </DialogContent>
