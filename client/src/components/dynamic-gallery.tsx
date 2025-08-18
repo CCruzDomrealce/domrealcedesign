@@ -206,14 +206,10 @@ export function DynamicGallery({ category, showCategories = true, className = ""
                   </Button>
                 </div>
               </div>
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <Badge variant="secondary" className="bg-brand-yellow/10 text-brand-yellow">
-                    {categories.find(c => c.id === image.category)?.name || 'Projeto'}
-                  </Badge>
-                </div>
-                <h3 className="font-semibold mb-2 line-clamp-2">{image.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{image.description}</p>
+              <div className="p-2">
+                <Badge variant="secondary" className="bg-brand-yellow/10 text-brand-yellow text-xs">
+                  {categories.find(c => c.id === image.category)?.name || 'Projeto'}
+                </Badge>
               </div>
             </CardContent>
           </Card>
