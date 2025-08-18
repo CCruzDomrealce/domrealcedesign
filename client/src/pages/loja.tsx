@@ -118,7 +118,7 @@ const subcategoriasPapelParede = [
   { id: 20, nome: "Mármore", fileName: "Marmore.webp" },
   { id: 21, nome: "Pastilha", fileName: "Pastilha.webp" },
   { id: 22, nome: "Pedras", fileName: "Pedras.webp" },
-  { id: 23, nome: "Pea", fileName: "Pea.webp" },
+  { id: 23, nome: "Póa", fileName: "Pea.webp" },
   { id: 24, nome: "Ripado", fileName: "Ripado.webp" },
   { id: 25, nome: "Textura", fileName: "Textura.webp" },
   { id: 26, nome: "Tijolos", fileName: "Tijolos.webp" },
@@ -278,8 +278,7 @@ export default function Loja() {
                           </div>
                         </div>
                         <div className="p-4">
-                          <h3 className="text-white font-medium text-sm mb-1">{subcategoria.nome}</h3>
-                          <p className="text-brand-turquoise text-xs mt-1">Texturas disponíveis</p>
+                          <h3 className="text-white font-medium text-sm">{subcategoria.nome}</h3>
                         </div>
                       </CardContent>
                     </Card>
