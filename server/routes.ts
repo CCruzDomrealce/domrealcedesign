@@ -22,6 +22,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Object storage service
   const objectStorageService = new ObjectStorageService();
 
+  // Priority API route for 3D textures - register before other middlewares
+  app.get("/api/texturas-3d", (req, res) => {
+    console.log("🎯 Direct API route hit for texturas-3d");
+    
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    
+    const texturas3D = [
+      { id: 1, nome: "Tijolo Branco 3D", fileName: "tijolo_branco.jpg", preco: 20.0 },
+      { id: 2, nome: "Pedra Natural 3D", fileName: "pedra_natural.jpg", preco: 20.0 },
+      { id: 3, nome: "Madeira Rústica 3D", fileName: "madeira_rustica.jpg", preco: 20.0 },
+      { id: 4, nome: "Mármore Luxo 3D", fileName: "marmore_luxo.jpg", preco: 20.0 },
+      { id: 5, nome: "Betão Industrial 3D", fileName: "betao_industrial.jpg", preco: 20.0 }
+    ];
+    
+    console.log("✅ Enviando dados diretos:", texturas3D.length);
+    res.json(texturas3D);
+  });
+
   // Serve public images from object storage
   app.get("/public-objects/:filePath(*)", async (req, res) => {
     const filePath = req.params.filePath;
@@ -53,6 +72,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to list images" });
     }
   });
+
+
 
   // File upload endpoint
   app.post("/api/objects/upload", async (req, res) => {

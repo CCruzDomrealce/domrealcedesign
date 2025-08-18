@@ -9,12 +9,14 @@ This is a full-stack web application for DOMREALCE, a Portuguese visual communic
   - Intelligent fallback system for failed image loads
   - Corrected subcategory naming: "Pea" → "Póa", removed "Texturas disponíveis" text
 - **3D Product Page System**: Created comprehensive product detail page (/produto-3d):
-  - Grid display of 20 textures per page with pagination
+  - API endpoint (/api/texturas-3d) serving authentic texture names from backend
+  - Grid display of real textures with high-quality 3D sample image
   - Individual texture visualization in large modal view
   - Complete shopping cart functionality with quantity, finish (mate/brilho), and lamination options
   - Price calculation: €20.00 base + €5.00 lamination
   - Navigation: Loja → Papel de Parede → 3D → Individual Products
   - Responsive design with consistent DOMREALCE branding
+  - Real texture names loaded via API instead of placeholder data
 - **Complete Wallpaper Shop System**: Implemented comprehensive wallpaper category in the main shop (/loja):
   - 28 subcategories organized in 6 main groups (Natural, Industrial, Luxo, Têxtil, Contemporâneo, Clássico)
   - Each subcategory contains 3 textures priced at €20.00

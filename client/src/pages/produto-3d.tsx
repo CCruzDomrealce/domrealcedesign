@@ -18,6 +18,7 @@ import {
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Link } from "wouter";
+import img3D from '@/assets/3D_1755538105413.webp';
 
 interface Texture3D {
   id: number;
@@ -54,38 +55,36 @@ export default function Produto3D() {
   const precoBase = 20.0;
   const precoLaminacao = 5.0;
 
-  // Carregamento das texturas 3D do Object Storage
+  // Carregamento das texturas 3D do backend
   useEffect(() => {
-    // Lista de texturas 3D reais - baseadas nas imagens enviadas pelo utilizador
-    const texturas3DReais: Texture3D[] = [
-      { id: 1, nome: "3D Tijolo Clássico", fileName: "3d_tijolo_01.jpg", preco: precoBase },
-      { id: 2, nome: "3D Pedra Natural", fileName: "3d_pedra_01.jpg", preco: precoBase },
-      { id: 3, nome: "3D Madeira Vintage", fileName: "3d_madeira_01.jpg", preco: precoBase },
-      { id: 4, nome: "3D Mármore Luxo", fileName: "3d_marmore_01.jpg", preco: precoBase },
-      { id: 5, nome: "3D Textura Moderna", fileName: "3d_textura_01.jpg", preco: precoBase },
-      { id: 6, nome: "3D Ripado Elegante", fileName: "3d_ripado_01.jpg", preco: precoBase },
-      { id: 7, nome: "3D Pastilha Design", fileName: "3d_pastilha_01.jpg", preco: precoBase },
-      { id: 8, nome: "3D Xadrez Criativo", fileName: "3d_xadrez_01.jpg", preco: precoBase },
-      { id: 9, nome: "3D Geométrico", fileName: "3d_geometrico_01.jpg", preco: precoBase },
-      { id: 10, nome: "3D Abstrato", fileName: "3d_abstrato_01.jpg", preco: precoBase },
-      { id: 11, nome: "3D Ondulado", fileName: "3d_ondulado_01.jpg", preco: precoBase },
-      { id: 12, nome: "3D Hexagonal", fileName: "3d_hexagonal_01.jpg", preco: precoBase },
-      { id: 13, nome: "3D Estrutural", fileName: "3d_estrutural_01.jpg", preco: precoBase },
-      { id: 14, nome: "3D Relevo", fileName: "3d_relevo_01.jpg", preco: precoBase },
-      { id: 15, nome: "3D Padrão", fileName: "3d_padrao_01.jpg", preco: precoBase },
-      { id: 16, nome: "3D Minimalista", fileName: "3d_minimalista_01.jpg", preco: precoBase },
-      { id: 17, nome: "3D Industrial", fileName: "3d_industrial_01.jpg", preco: precoBase },
-      { id: 18, nome: "3D Contemporâneo", fileName: "3d_contemporaneo_01.jpg", preco: precoBase },
-      { id: 19, nome: "3D Artistico", fileName: "3d_artistico_01.jpg", preco: precoBase },
-      { id: 20, nome: "3D Premium", fileName: "3d_premium_01.jpg", preco: precoBase }
-    ];
-    
-    setTexturas(texturas3DReais);
+    const carregarTexturas3D = async () => {
+      try {
+        console.log('🔄 Carregando texturas 3D da API...');
+        const response = await fetch('/api/texturas-3d');
+        
+        if (response.ok) {
+          const texturas3DReais = await response.json();
+          console.log('✅ Texturas carregadas:', texturas3DReais);
+          setTexturas(texturas3DReais);
+        } else {
+          console.error('❌ Erro na resposta da API:', response.status, response.statusText);
+          throw new Error(`Erro HTTP: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('❌ Erro ao carregar texturas 3D:', error);
+        
+        // Fallback básico apenas para desenvolvimento
+        const texturasFallback: Texture3D[] = [
+          { id: 1, nome: "Textura 3D (Carregamento)", fileName: "placeholder.jpg", preco: precoBase }
+        ];
+        setTexturas(texturasFallback);
+      }
+    };
+
+    carregarTexturas3D();
   }, []);
 
-  const getTextura3DUrl = (fileName: string) => {
-    return `/public-objects/Domrealce/Loja/Papel de Parede/texturas 800x800/3D/${fileName}`;
-  };
+
 
   const texturasPagina = texturas.slice(
     (paginaAtual - 1) * texturasPorPagina,
@@ -179,20 +178,10 @@ export default function Produto3D() {
                   <div className="relative">
                     <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
                       <img 
-                        src={getTextura3DUrl(textura.fileName)}
+                        src={img3D}
                         alt={textura.nome}
                         className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const img = e.currentTarget as HTMLImageElement;
-                          const fallback = img.nextElementSibling as HTMLElement;
-                          img.style.display = 'none';
-                          fallback.style.display = 'flex';
-                        }}
                       />
-                      <div className="w-full h-full hidden items-center justify-center bg-gradient-to-br from-gray-700 to-gray-800 flex-col">
-                        <Package className="w-8 h-8 text-gray-500 mb-2" />
-                        <span className="text-xs text-gray-400 text-center">{textura.nome}</span>
-                      </div>
                       
                       {/* Overlay com botões */}
                       <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-t-lg flex items-center justify-center gap-2">
@@ -289,20 +278,10 @@ export default function Produto3D() {
               {texturaVisualizacao && (
                 <>
                   <img 
-                    src={getTextura3DUrl(texturaVisualizacao.fileName)}
+                    src={img3D}
                     alt={texturaVisualizacao.nome}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const img = e.currentTarget as HTMLImageElement;
-                      const fallback = img.nextElementSibling as HTMLElement;
-                      img.style.display = 'none';
-                      fallback.style.display = 'flex';
-                    }}
                   />
-                  <div className="w-full h-full hidden items-center justify-center flex-col">
-                    <Package className="w-12 h-12 text-gray-500 mb-2" />
-                    <span className="text-sm text-gray-400 text-center">{texturaVisualizacao.nome}</span>
-                  </div>
                 </>
               )}
             </div>
@@ -324,20 +303,10 @@ export default function Produto3D() {
                 {/* Preview da textura */}
                 <div className="aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
                   <img 
-                    src={getTextura3DUrl(texturaSelecionada.fileName)}
+                    src={img3D}
                     alt={texturaSelecionada.nome}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const img = e.currentTarget as HTMLImageElement;
-                      const fallback = img.nextElementSibling as HTMLElement;
-                      img.style.display = 'none';
-                      fallback.style.display = 'flex';
-                    }}
                   />
-                  <div className="w-full h-full hidden items-center justify-center flex-col">
-                    <Package className="w-12 h-12 text-gray-500 mb-2" />
-                    <span className="text-sm text-gray-400 text-center">{texturaSelecionada.nome}</span>
-                  </div>
                 </div>
 
                 <h3 className="text-white font-medium">{texturaSelecionada.nome}</h3>
