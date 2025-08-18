@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Star, ShoppingCart, Settings, Wallpaper, ArrowLeft, Eye, Plus, CheckCircle } from "lucide-react";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import textura3D from "@assets/3D_1755538105413.webp";
 
 interface Product {
   id: number;
@@ -255,7 +256,7 @@ export default function Loja() {
                           <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
                             {subcategoria.id === 1 ? (
                               <img 
-                                src="/attached_assets/3D_1755538105413.webp" 
+                                src={textura3D} 
                                 alt={subcategoria.nome}
                                 className="w-full h-full object-cover"
                               />
@@ -312,7 +313,7 @@ export default function Loja() {
                   <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg mx-auto mb-6 flex items-center justify-center overflow-hidden">
                     {subcategoriaSelecionada === 1 ? (
                       <img 
-                        src="/attached_assets/3D_1755538105413.webp" 
+                        src={textura3D} 
                         alt="3D"
                         className="w-full h-full object-cover"
                       />
