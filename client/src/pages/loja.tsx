@@ -7,6 +7,7 @@ import { Star, ShoppingCart, Settings, Wallpaper, ArrowLeft, Eye, Plus, CheckCir
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import texturaPoaImage from "@assets/Póa_1755539373566.webp";
+import { Link } from "wouter";
 
 interface Product {
   id: number;
@@ -253,12 +254,50 @@ export default function Loja() {
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                  {subcategoriasPapelParede.map((subcategoria) => (
-                    <Card
-                      key={subcategoria.id}
-                      onClick={() => setSubcategoriaSelecionada(subcategoria.id)}
-                      className="bg-[#111111] border-[#333] hover:border-brand-turquoise transition-all duration-300 cursor-pointer group"
-                    >
+                  {subcategoriasPapelParede.map((subcategoria) => {
+                    // Se for a subcategoria 3D, criar um link para a página de produto
+                    if (subcategoria.nome === "3D") {
+                      return (
+                        <Link key={subcategoria.id} href="/produto-3d">
+                          <Card className="bg-[#111111] border-[#333] hover:border-brand-turquoise transition-all duration-300 cursor-pointer group">
+                            <CardContent className="p-0">
+                              <div className="relative">
+                                <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
+                                  <img 
+                                    src={getTexturaImageUrl(subcategoria)} 
+                                    alt={subcategoria.nome}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      const img = e.currentTarget as HTMLImageElement;
+                                      const fallback = img.nextElementSibling as HTMLElement;
+                                      img.style.display = 'none';
+                                      fallback.style.display = 'flex';
+                                    }}
+                                  />
+                                  <div className="w-full h-full hidden items-center justify-center">
+                                    <Wallpaper className="w-8 h-8 text-gray-500" />
+                                  </div>
+                                </div>
+                                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-t-lg flex items-center justify-center">
+                                  <Eye className="w-6 h-6 text-white" />
+                                </div>
+                              </div>
+                              <div className="p-4">
+                                <h3 className="text-white font-medium text-sm">{subcategoria.nome}</h3>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      );
+                    }
+                    
+                    // Para outras subcategorias, manter comportamento original
+                    return (
+                      <Card
+                        key={subcategoria.id}
+                        onClick={() => setSubcategoriaSelecionada(subcategoria.id)}
+                        className="bg-[#111111] border-[#333] hover:border-brand-turquoise transition-all duration-300 cursor-pointer group"
+                      >
                       <CardContent className="p-0">
                         <div className="relative">
                           <div className="w-full aspect-square bg-gradient-to-br from-gray-700 to-gray-800 rounded-t-lg flex items-center justify-center overflow-hidden">
@@ -286,7 +325,8 @@ export default function Loja() {
                         </div>
                       </CardContent>
                     </Card>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
