@@ -171,12 +171,10 @@ export default function Servicos() {
                         <Button asChild className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 transition-opacity">
                           <Link href="/contactos#formulario">Solicitar Orçamento</Link>
                         </Button>
-                        {service.detailsLink && (
-                          <Button variant="outline" className="border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]">
-                            Saber Mais
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                          </Button>
-                        )}
+                        <Button variant="outline" className="border-[#333] text-gray-300 hover:border-[#FFD700] hover:text-[#FFD700]">
+                          Ver Mais
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
                       </div>
                     </div>
                   </div>
