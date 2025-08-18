@@ -20,9 +20,28 @@ interface DynamicGalleryProps {
   className?: string;
 }
 
-// Função para categorizar imagens baseado no nome do arquivo
+// Função para categorizar imagens baseado no caminho/nome do arquivo
 function categorizeImage(filename: string): string {
   const lower = filename.toLowerCase();
+  
+  // Categorização por pasta (se organizado em pastas)
+  if (lower.includes('viaturas/') || lower.includes('camioes/') || lower.includes('veiculos/')) {
+    return 'decoracao-viaturas';
+  }
+  if (lower.includes('sinalizacao/') || lower.includes('placas/') || lower.includes('fachadas/')) {
+    return 'sinalizacao';
+  }
+  if (lower.includes('impressao/') || lower.includes('banners/') || lower.includes('digital/')) {
+    return 'impressao-digital';
+  }
+  if (lower.includes('rotulos/') || lower.includes('etiquetas/') || lower.includes('labels/')) {
+    return 'rotulagem';
+  }
+  if (lower.includes('autocolantes/') || lower.includes('vinil/') || lower.includes('stickers/')) {
+    return 'autocolantes';
+  }
+  
+  // Categorização por nome do arquivo (método anterior)
   if (lower.includes('camiao') || lower.includes('truck') || lower.includes('viatura')) {
     return 'decoracao-viaturas';
   }
@@ -38,12 +57,14 @@ function categorizeImage(filename: string): string {
   if (lower.includes('autocolante') || lower.includes('vinil') || lower.includes('sticker')) {
     return 'autocolantes';
   }
+  
   return 'outros';
 }
 
-// Função para gerar título baseado no nome do arquivo
+// Função para gerar título baseado no caminho/nome do arquivo
 function generateTitle(filename: string): string {
-  const name = filename.replace(/\.[^/.]+$/, ""); // Remove extensão
+  // Remove extensão e possível caminho de pasta
+  const name = filename.replace(/\.[^/.]+$/, "").split('/').pop() || filename;
   const words = name.split(/[-_\s]+/).map(word => 
     word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   );
