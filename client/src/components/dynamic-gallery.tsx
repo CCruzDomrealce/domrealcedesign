@@ -115,13 +115,41 @@ export function DynamicGallery({ category, showCategories = true, className = ""
     retry: false,
   });
 
-  const images: GalleryImage[] = ((imagesData as any)?.images || []).map((filename: string) => ({
-    filename,
-    url: `/public-objects/${filename}`,
-    category: categorizeImage(filename),
-    title: generateTitle(filename),
-    description: `Projeto realizado pela DOMREALCE - ${generateTitle(filename)}`
-  }));
+  // Transformar resposta da API em GalleryImage[]
+  const images: GalleryImage[] = [];
+  
+  if (imagesData && typeof imagesData === 'object' && 'images' in imagesData) {
+    const apiResponse = imagesData as any;
+    
+    // Se a resposta tem categorias organizadas
+    if (typeof apiResponse.images === 'object' && !Array.isArray(apiResponse.images)) {
+      Object.entries(apiResponse.images).forEach(([cat, files]) => {
+        if (Array.isArray(files)) {
+          (files as string[]).forEach((filename: string) => {
+            images.push({
+              filename,
+              url: filename,
+              category: cat.toLowerCase(),
+              title: generateTitle(filename),
+              description: `Projeto realizado pela DOMREALCE`
+            });
+          });
+        }
+      });
+    } 
+    // Fallback para array simples
+    else if (Array.isArray(apiResponse.images)) {
+      (apiResponse.images as string[]).forEach((filename: string) => {
+        images.push({
+          filename,
+          url: filename.startsWith('/') ? filename : `/public-objects/${filename}`,
+          category: categorizeImage(filename),
+          title: generateTitle(filename),
+          description: `Projeto realizado pela DOMREALCE`
+        });
+      });
+    }
+  }
 
   // Gerar categorias dinamicamente
   const categories = getDynamicCategories(images);

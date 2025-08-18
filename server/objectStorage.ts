@@ -139,6 +139,55 @@ export class ObjectStorageService {
     }
   }
 
+  // Upload file to public folder in Object Storage
+  async uploadFileToPublicFolder(localFilePath: string, targetPath: string): Promise<string> {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      
+      // Get the public search paths
+      const searchPaths = this.getPublicObjectSearchPaths();
+      if (searchPaths.length === 0) {
+        throw new Error("No public search paths configured");
+      }
+      
+      // Use the first search path for uploads
+      const publicPath = searchPaths[0];
+      const fullTargetPath = `${publicPath}/${targetPath}`;
+      
+      const { bucketName, objectName } = parseObjectPath(fullTargetPath);
+      const bucket = objectStorageClient.bucket(bucketName);
+      const file = bucket.file(objectName);
+      
+      // Upload the file
+      await file.save(fs.readFileSync(localFilePath), {
+        metadata: {
+          contentType: this.getContentType(localFilePath),
+        },
+      });
+      
+      console.log(`✅ Uploaded ${localFilePath} to ${fullTargetPath}`);
+      return `/public-objects/${targetPath}`;
+    } catch (error) {
+      console.error(`❌ Failed to upload ${localFilePath}:`, error);
+      throw error;
+    }
+  }
+
+  // Get content type based on file extension
+  private getContentType(filePath: string): string {
+    const extension = filePath.toLowerCase().split('.').pop();
+    const contentTypes: Record<string, string> = {
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg', 
+      'png': 'image/png',
+      'gif': 'image/gif',
+      'webp': 'image/webp',
+      'svg': 'image/svg+xml'
+    };
+    return contentTypes[extension || ''] || 'application/octet-stream';
+  }
+
   // Get upload URL for object entity (simplified for public uploads)
   async getObjectEntityUploadURL(): Promise<string> {
     // For public uploads, we'll need a different implementation

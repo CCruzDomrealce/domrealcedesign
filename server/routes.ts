@@ -27,17 +27,136 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // API route to list available images for gallery/portfolio
   app.get("/api/gallery/images", async (req, res) => {
     try {
-      const files = await objectStorageService.listPublicFiles();
+      const fs = await import('fs');
+      const path = await import('path');
       
-      // Filter only image files
-      const imageFiles = files.filter(file => 
-        /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
-      );
+      const portfolioImages: Record<string, string[]> = {};
       
-      res.json({ images: imageFiles });
+      // Check if public/portfolio directory exists
+      const portfolioPath = 'public/portfolio';
+      console.log(`🔍 Checking for portfolio directory: ${portfolioPath}`);
+      console.log(`📁 Directory exists: ${fs.existsSync(portfolioPath)}`);
+      
+      if (fs.existsSync(portfolioPath)) {
+        // Read category directories
+        const categories = fs.readdirSync(portfolioPath, { withFileTypes: true })
+          .filter(dirent => dirent.isDirectory())
+          .map(dirent => dirent.name);
+        
+        for (const category of categories) {
+          const categoryPath = path.join(portfolioPath, category);
+          const images = fs.readdirSync(categoryPath)
+            .filter(file => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+            .map(file => `/portfolio/${category}/${file}`);
+          
+          if (images.length > 0) {
+            portfolioImages[category] = images;
+          }
+        }
+      }
+      
+      // Also try to get from Object Storage
+      try {
+        const objectStorageFiles = await objectStorageService.listPublicFiles();
+        const imageFiles = objectStorageFiles.filter(file => 
+          /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+        );
+        
+        if (imageFiles.length > 0) {
+          portfolioImages['Geral'] = imageFiles.map(file => `/public-objects/${file}`);
+        }
+      } catch (objectStorageError) {
+        console.log("Object Storage not available, using local files only");
+      }
+      
+      res.json({ 
+        images: portfolioImages,
+        categories: Object.keys(portfolioImages)
+      });
     } catch (error) {
       console.error("Error listing images:", error);
       res.status(500).json({ error: "Failed to list images" });
+    }
+  });
+
+  // Serve local portfolio images
+  app.get("/portfolio/:category/:filename", async (req, res) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      
+      const { category, filename } = req.params;
+      const imagePath = path.join('public', 'portfolio', category, filename);
+      
+      if (!fs.existsSync(imagePath)) {
+        return res.status(404).json({ error: "Image not found" });
+      }
+      
+      // Set appropriate headers
+      const extension = filename.toLowerCase().split('.').pop();
+      const contentTypes: Record<string, string> = {
+        'jpg': 'image/jpeg',
+        'jpeg': 'image/jpeg',
+        'png': 'image/png',
+        'gif': 'image/gif',
+        'webp': 'image/webp'
+      };
+      
+      res.setHeader('Content-Type', contentTypes[extension || ''] || 'application/octet-stream');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      
+      // Stream the file
+      const stream = fs.createReadStream(imagePath);
+      stream.pipe(res);
+      
+    } catch (error) {
+      console.error("Error serving portfolio image:", error);
+      res.status(500).json({ error: "Failed to serve image" });
+    }
+  });
+
+  // Upload portfolio images to organized folders
+  app.post("/api/upload-portfolio-images", async (req, res) => {
+    try {
+      console.log("📁 Starting portfolio image upload organization...");
+      
+      // List of truck images to organize
+      const truckImages = [
+        "IMG_20221115_164224_1755553420845.jpg",
+        "IMG_20221115_164342_1755553420846.jpg", 
+        "IMG-20220324-WA0000_1755553420847.jpg",
+        "IMG20240314111000_1755553420847.jpg",
+        "IMG_20220322_162136_1755553475299.jpg",
+        "IMG_20220401_162251_1755553475299.jpg",
+        "IMG_20220815_170210_1755553475300.jpg",
+        "IMG_20230819_105057 (Medium)_1755553475300.jpg"
+      ];
+
+      // Upload each image to the correct portfolio structure
+      const uploadResults = [];
+      for (const imageName of truckImages) {
+        try {
+          const uploadURL = await objectStorageService.uploadFileToPublicFolder(
+            `attached_assets/${imageName}`,
+            `portfolio/Camiões/${imageName}`
+          );
+          uploadResults.push({ image: imageName, status: 'success', url: uploadURL });
+          console.log(`✅ Uploaded: ${imageName}`);
+        } catch (error) {
+          console.error(`❌ Failed to upload ${imageName}:`, error);
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          uploadResults.push({ image: imageName, status: 'error', error: errorMessage });
+        }
+      }
+
+      res.json({ 
+        success: true, 
+        message: "Portfolio images organized successfully",
+        results: uploadResults
+      });
+    } catch (error) {
+      console.error("❌ Error organizing portfolio images:", error);
+      res.status(500).json({ error: "Failed to organize portfolio images" });
     }
   });
 
