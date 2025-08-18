@@ -5,6 +5,8 @@ import { insertContactSchema } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
 import rateLimit from 'express-rate-limit';
+import path from "node:path";
+import fs from "node:fs";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Rate limiting for contact form
@@ -39,56 +41,98 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Generate realistic texture names following the authentic pattern
       for (let i = 1; i <= 100; i++) {
         const number = i.toString().padStart(3, '0');
-        const fileName = `3D-${number}.webp`;
-        const nome = `3D-${number} 3dDECCOR`;
-        
         texturas3D.push({
           id: i,
-          nome: nome,
-          fileName: fileName,
-          preco: 20.0
+          nome: `3D-${number} 3dDECCOR`,
+          fileName: `3D-${number}.webp`,
+          preco: 20.00
         });
       }
       
-      console.log("✅ Texturas 3D autênticas geradas:", texturas3D.length);
+      console.log(`✅ Generated ${texturas3D.length} authentic 3D textures`);
       res.json(texturas3D);
     } catch (error) {
-      console.error("❌ Erro ao gerar texturas 3D:", error);
-      res.status(500).json({ error: "Erro ao carregar texturas" });
+      console.error("❌ Error generating 3D textures:", error);
+      res.status(500).json({ error: "Failed to generate textures" });
     }
   });
 
-  // Serve texture images from local assets
+  // Contact form route with rate limiting
+  app.post("/api/contact", contactLimiter, async (req, res) => {
+    try {
+      const result = insertContactSchema.safeParse(req.body);
+      
+      if (!result.success) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Dados inválidos. Verifique se todos os campos estão preenchidos corretamente." 
+        });
+      }
+
+      const contactData = result.data;
+
+      // Store contact in database
+      const contact = await storage.createContact(contactData);
+
+      // Send emails in parallel
+      await Promise.all([
+        sendContactEmail(contactData),
+        sendAutoReplyEmail(contactData.email, contactData.nome)
+      ]);
+
+      res.json({ 
+        success: true, 
+        message: "Mensagem enviada com sucesso! Entraremos em contacto em breve.",
+        contactId: contact.id
+      });
+    } catch (error) {
+      console.error("Contact form error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Erro interno do servidor. Tente novamente mais tarde." 
+      });
+    }
+  });
+
+  // Serve texture images from local assets with proper fallback
   app.get("/api/texture-image/:fileName", (req, res) => {
-    const fileName = req.params.fileName;
-    const path = require('path');
-    const fs = require('fs');
-    
-    // Map of our local texture files
-    const localTextureFiles: Record<string, string> = {
-      '3D-001.webp': path.join(__dirname, '../client/src/assets/3d/3D-001.webp'),
-      '3D-002.webp': path.join(__dirname, '../client/src/assets/3d/3D-002.webp'),
-      '3D-003.webp': path.join(__dirname, '../client/src/assets/3d/3D-003.webp')
-    };
-    
-    const filePath = localTextureFiles[fileName];
-    
-    if (filePath && fs.existsSync(filePath)) {
-      // Set proper headers for webp images
-      res.setHeader('Content-Type', 'image/webp');
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-      return res.sendFile(filePath);
+    try {
+      const fileName = req.params.fileName;
+      
+      // Map the filename to the attached assets directory
+      const attachedAssetsPath = path.join(process.cwd(), 'attached_assets');
+      
+      // Check for specific files first
+      const fileMapping: Record<string, string> = {
+        '3D-001.webp': '3D-001_1755541326630.webp',
+        '3D-002.webp': '3D-002_1755541330130.webp', 
+        '3D-003.webp': '3D-003_1755541332938.webp'
+      };
+      
+      const actualFileName = fileMapping[fileName];
+      if (actualFileName) {
+        const fullPath = path.join(attachedAssetsPath, actualFileName);
+        
+        if (fs.existsSync(fullPath)) {
+          res.setHeader('Content-Type', 'image/webp');
+          res.setHeader('Cache-Control', 'public, max-age=3600');
+          return res.sendFile(fullPath);
+        }
+      }
+      
+      // Fallback to first available image
+      const fallbackPath = path.join(attachedAssetsPath, '3D-001_1755541326630.webp');
+      if (fs.existsSync(fallbackPath)) {
+        res.setHeader('Content-Type', 'image/webp');
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        return res.sendFile(fallbackPath);
+      }
+      
+      return res.status(404).json({ error: "Texture image not found" });
+    } catch (error) {
+      console.error("Error serving texture image:", error);
+      return res.status(500).json({ error: "Internal server error" });
     }
-    
-    // Fallback to first texture if file doesn't exist
-    const fallbackPath = localTextureFiles['3D-001.webp'];
-    if (fs.existsSync(fallbackPath)) {
-      res.setHeader('Content-Type', 'image/webp');
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-      return res.sendFile(fallbackPath);
-    }
-    
-    return res.status(404).json({ error: "Texture image not found" });
   });
 
   // Serve 3D texture images with fallback for Object Storage
@@ -101,109 +145,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return objectStorageService.downloadObject(file, res);
       }
       
-      // Fallback to local image serving
+      // Fallback to local texture-image route
       return res.redirect(`/api/texture-image/${fileName}`);
     } catch (error) {
-      console.error("Error serving 3D texture from Object Storage:", error);
-      // Fallback to local image serving
+      console.error(`Error serving Object Storage texture ${fileName}:`, error);
+      // Fallback to local texture-image route
       return res.redirect(`/api/texture-image/${fileName}`);
     }
   });
 
-  // Serve public images from object storage (general)
-  app.get("/public-objects/:filePath(*)", async (req, res) => {
-    const filePath = req.params.filePath;
-    try {
-      const file = await objectStorageService.searchPublicObject(filePath);
-      if (!file) {
-        return res.status(404).json({ error: "File not found" });
-      }
-      objectStorageService.downloadObject(file, res);
-    } catch (error) {
-      console.error("Error searching for public object:", error);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  // API route to list available images for gallery
-  app.get("/api/gallery/images", async (req, res) => {
-    try {
-      const files = await objectStorageService.listPublicFiles();
-      
-      // Filter only image files
-      const imageFiles = files.filter(file => 
-        /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
-      );
-      
-      res.json({ images: imageFiles });
-    } catch (error) {
-      console.error("Error listing images:", error);
-      res.status(500).json({ error: "Failed to list images" });
-    }
-  });
-
-
-
-  // File upload endpoint
-  app.post("/api/objects/upload", async (req, res) => {
-    try {
-      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
-      res.json({ uploadURL });
-    } catch (error) {
-      console.error("Error getting upload URL:", error);
-      res.status(500).json({ error: "Failed to get upload URL" });
-    }
-  });
-
-  // Contact form submission endpoint with rate limiting
-  app.post("/api/contact", contactLimiter, async (req, res) => {
-    try {
-      // Validate the request body
-      const validatedData = insertContactSchema.parse(req.body);
-      
-      // Normalize file URLs if any
-      if (validatedData.ficheiros && validatedData.ficheiros.length > 0) {
-        validatedData.ficheiros = validatedData.ficheiros.map(url => 
-          objectStorageService.normalizeObjectEntityPath(url)
-        );
-      }
-      
-      // Save contact to storage
-      const contact = await storage.createContact(validatedData);
-      
-      // Send email notifications (don't wait for them)
-      Promise.all([
-        sendContactEmail(contact),
-        sendAutoReplyEmail(contact)
-      ]).catch(error => {
-        console.error('Error sending emails:', error);
-      });
-      
-      res.json({ 
-        success: true, 
-        message: "Mensagem enviada com sucesso. Entraremos em contacto brevemente." 
-      });
-    } catch (error) {
-      console.error('Contact form error:', error);
-      res.status(400).json({ 
-        success: false, 
-        message: "Erro ao enviar mensagem. Por favor, tente novamente." 
-      });
-    }
-  });
-
-  // Get all contacts (for admin purposes)
-  app.get("/api/contacts", async (req, res) => {
-    try {
-      const contacts = await storage.getContacts();
-      res.json(contacts);
-    } catch (error) {
-      console.error('Error fetching contacts:', error);
-      res.status(500).json({ message: "Erro interno do servidor" });
-    }
+  // Basic health check
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "OK", timestamp: new Date().toISOString() });
   });
 
   const httpServer = createServer(app);
-
   return httpServer;
 }
