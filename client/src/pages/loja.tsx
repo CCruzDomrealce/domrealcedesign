@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, ShoppingCart, Settings } from "lucide-react";
+import { Link } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 
@@ -86,6 +87,7 @@ const products: Product[] = [
 
 const categories = [
   { id: 'todos', name: 'Todos' },
+  { id: 'papel-parede', name: 'Papel de Parede', href: '/loja/papel-parede' },
   { id: 'placas-decorativas', name: 'Placas Decorativas' },
   { id: 'autocolantes', name: 'Autocolantes' },
   { id: 'quadros', name: 'Quadros' },
@@ -150,17 +152,28 @@ export default function Loja() {
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-wrap gap-4 justify-center">
             {categories.map((category) => (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? "default" : "outline"}
-                onClick={() => setSelectedCategory(category.id)}
-                className={selectedCategory === category.id 
-                  ? "bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold"
-                  : "border-[#333] text-white hover:border-[#FFD700]"
-                }
-              >
-                {category.name}
-              </Button>
+              category.href ? (
+                <Link key={category.id} href={category.href}>
+                  <Button
+                    variant="outline"
+                    className="border-[#333] text-white hover:border-[#FFD700]"
+                  >
+                    {category.name}
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  key={category.id}
+                  variant={selectedCategory === category.id ? "default" : "outline"}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={selectedCategory === category.id 
+                    ? "bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold"
+                    : "border-[#333] text-white hover:border-[#FFD700]"
+                  }
+                >
+                  {category.name}
+                </Button>
+              )
             ))}
             </div>
           </div>
