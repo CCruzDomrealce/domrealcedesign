@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Eye } from "lucide-react";
 import { Link } from "wouter";
 
@@ -77,34 +76,29 @@ export default function LojaPapelParede() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-4 gap-6">
             {textureCovers.map((texture: TextureCover) => (
-              <Card key={texture.fileName} className="group hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
-                    <img
-                      src={texture.path}
-                      alt={texture.name}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <Button size="sm" className="gap-2">
-                        <Eye className="h-4 w-4" />
-                        Ver Texturas
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                      {texture.name}
-                    </h3>
-                    <Button className="w-full gap-2" variant="outline">
-                      <Eye className="h-4 w-4" />
-                      Ver Texturas
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <div key={texture.fileName} className="group">
+                {/* Nome da textura em cima */}
+                <div className="mb-3 text-center">
+                  <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-2">
+                    {texture.name}
+                  </h3>
+                  <Button size="sm" className="gap-2 mb-2" variant="outline">
+                    <Eye className="h-4 w-4" />
+                    Ver Mais
+                  </Button>
+                </div>
+                
+                {/* Imagem sem card, fundo ou overlay */}
+                <div className="overflow-hidden rounded-lg">
+                  <img
+                    src={texture.path}
+                    alt={texture.name}
+                    className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
             ))}
           </div>
         )}
