@@ -5,6 +5,8 @@ import { insertContactSchema } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
 import rateLimit from 'express-rate-limit';
+import fs from 'fs';
+import path from 'path';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Rate limiting for contact form
@@ -129,9 +131,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // API route to upload individual textures for each category
   app.post("/api/upload-individual-textures", async (req, res) => {
     try {
-      const fs = require('fs');
-      const path = require('path');
-      
       console.log('Starting individual textures upload...');
       
       const textureCategories = [
@@ -148,7 +147,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Check if directory exists
         if (fs.existsSync(categoryPath)) {
           const files = fs.readdirSync(categoryPath);
-          const imageFiles = files.filter(file => 
+          const imageFiles = files.filter((file: string) => 
             /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
           );
           
