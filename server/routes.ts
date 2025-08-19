@@ -65,6 +65,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Bulk upload endpoint for texture covers
+  app.post("/api/upload-textures", async (req, res) => {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      
+      const texturesPath = 'loja/papel-de-parede/capas-texturas';
+      const files = fs.readdirSync(texturesPath);
+      const webpFiles = files.filter(file => file.endsWith('.webp'));
+      
+      const uploadResults = [];
+      
+      for (const file of webpFiles) {
+        try {
+          const filePath = path.join(texturesPath, file);
+          const fileBuffer = fs.readFileSync(filePath);
+          const targetPath = `loja/papel-de-parede/capas-texturas/${file}`;
+          
+          await objectStorageService.uploadPublicFile(targetPath, fileBuffer, 'image/webp');
+          uploadResults.push({ file, status: 'success' });
+          console.log(`✓ Uploaded ${file}`);
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          uploadResults.push({ file, status: 'error', error: errorMessage });
+          console.error(`✗ Error uploading ${file}:`, errorMessage);
+        }
+      }
+      
+      res.json({ 
+        message: 'Bulk upload completed',
+        results: uploadResults,
+        total: webpFiles.length,
+        successful: uploadResults.filter(r => r.status === 'success').length
+      });
+      
+    } catch (error) {
+      console.error("Error in bulk upload:", error);
+      res.status(500).json({ error: "Failed to upload textures" });
+    }
+  });
+
   // Contact form submission endpoint with rate limiting
   app.post("/api/contact", contactLimiter, async (req, res) => {
     try {

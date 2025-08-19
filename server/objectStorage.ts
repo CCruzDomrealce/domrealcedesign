@@ -128,6 +128,45 @@ export class ObjectStorageService {
     return files;
   }
 
+  // Get upload URL for public files
+  async getPublicUploadURL(filePath: string): Promise<string> {
+    const publicSearchPaths = this.getPublicObjectSearchPaths();
+    if (publicSearchPaths.length === 0) {
+      throw new Error("No public search paths configured");
+    }
+    
+    // Use the first public search path
+    const fullPath = `${publicSearchPaths[0]}/${filePath}`;
+    const { bucketName, objectName } = parseObjectPath(fullPath);
+    
+    return await signObjectURL({
+      bucketName,
+      objectName,
+      method: "PUT",
+      ttlSec: 900,
+    });
+  }
+
+  // Upload file directly to public storage
+  async uploadPublicFile(filePath: string, fileBuffer: Buffer, contentType: string = 'application/octet-stream'): Promise<void> {
+    const publicSearchPaths = this.getPublicObjectSearchPaths();
+    if (publicSearchPaths.length === 0) {
+      throw new Error("No public search paths configured");
+    }
+    
+    // Use the first public search path
+    const fullPath = `${publicSearchPaths[0]}/${filePath}`;
+    const { bucketName, objectName } = parseObjectPath(fullPath);
+    const bucket = objectStorageClient.bucket(bucketName);
+    const file = bucket.file(objectName);
+    
+    await file.save(fileBuffer, {
+      metadata: {
+        contentType,
+      },
+    });
+  }
+
   // Get upload URL for object entity (simplified for public uploads)
   async getObjectEntityUploadURL(): Promise<string> {
     // For public uploads, we'll need a different implementation
@@ -169,4 +208,42 @@ function parseObjectPath(path: string): {
     bucketName,
     objectName,
   };
+}
+
+async function signObjectURL({
+  bucketName,
+  objectName,
+  method,
+  ttlSec,
+}: {
+  bucketName: string;
+  objectName: string;
+  method: "GET" | "PUT" | "DELETE" | "HEAD";
+  ttlSec: number;
+}): Promise<string> {
+  const request = {
+    bucket_name: bucketName,
+    object_name: objectName,
+    method,
+    expires_at: new Date(Date.now() + ttlSec * 1000).toISOString(),
+  };
+  const response = await fetch(
+    `${REPLIT_SIDECAR_ENDPOINT}/object-storage/signed-object-url`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    }
+  );
+  if (!response.ok) {
+    throw new Error(
+      `Failed to sign object URL, errorcode: ${response.status}, ` +
+        `make sure you're running on Replit`
+    );
+  }
+
+  const { signed_url: signedURL } = await response.json();
+  return signedURL;
 }
