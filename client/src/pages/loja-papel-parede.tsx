@@ -79,34 +79,34 @@ export default function LojaPapelParede() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
             {textureCovers.map((texture: TextureCover) => (
-              <div key={texture.fileName} className="group text-center">
-                {/* Imagem com fundo branco consistente */}
-                <div className="overflow-hidden rounded-lg bg-white p-4 mb-4 shadow-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800">
-                  <img
-                    src={texture.path}
-                    alt={texture.name}
-                    className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
+              <Link key={texture.fileName} href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace('_', '-')}`}>
+                <div className="group text-center cursor-pointer">
+                  {/* Imagem com overlay "Ver Mais" no hover */}
+                  <div className="relative overflow-hidden rounded-lg bg-white p-2 md:p-4 mb-2 md:mb-3 shadow-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                    <img
+                      src={texture.path}
+                      alt={texture.name}
+                      className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {/* Overlay com texto "Ver Mais" que aparece no hover */}
+                    <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-lg">
+                      <div className="text-center">
+                        <Eye className="w-5 h-5 md:w-6 md:h-6 text-[#FFD700] mx-auto mb-1 md:mb-2" />
+                        <span className="text-[#FFD700] font-bold text-xs md:text-sm">Ver Mais</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Nome por baixo */}
+                  <div className="space-y-1">
+                    <h3 className="text-xs md:text-sm lg:text-base font-bold text-[#FFD700] group-hover:text-[#20B2AA] transition-colors">
+                      {texture.name}
+                    </h3>
+                  </div>
                 </div>
-                
-                {/* Nome e botão por baixo */}
-                <div className="space-y-3">
-                  <h3 className="text-lg font-bold text-[#FFD700] group-hover:text-[#20B2AA] transition-colors">
-                    {texture.name}
-                  </h3>
-                  <Link href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace('_', '-')}`}>
-                    <Button 
-                      size="sm" 
-                      className="gap-1 px-3 py-1 bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-semibold hover:opacity-90 text-xs"
-                    >
-                      <Eye className="h-3 w-3" />
-                      Ver Mais
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
