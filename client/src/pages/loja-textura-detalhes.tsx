@@ -37,16 +37,24 @@ export default function LojaTexturaDetalhes() {
   });
 
   // Filter textures for the specific category
+  // Convert textura param to match folder structure (3d -> 3D)
+  const categoryName = textura === '3d' ? '3D' : 
+                      textura === 'baby-2.0' ? 'Baby-2.0' :
+                      textura === 'baby-colors' ? 'Baby-Colors' :
+                      textura === 'baby-paineis' ? 'Baby-Paineis' :
+                      textura === 'baby-pantone' ? 'Baby-Pantone' :
+                      textura ? textura.charAt(0).toUpperCase() + textura.slice(1) : '';
+  
   const textureImages: TextureImage[] = (images as { images: string[] })?.images
     ?.filter((path: string) => 
-      path.includes(`loja/papel-de-parede/texturas/${textura}/`) &&
+      path.includes(`loja/papel-de-parede/texturas/${categoryName}/`) &&
       /\.(jpg|jpeg|png|gif|webp)$/i.test(path)
     )
     ?.map((path: string) => ({
       name: path.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || '',
       path: `/public-objects/${path}`
     })) || [];
-
+  
   const basePrice = 20;
   const laminacaoPrice = 5;
   const totalPrice = basePrice + (laminacao ? laminacaoPrice : 0);
