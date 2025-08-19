@@ -126,6 +126,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API route to upload individual textures for each category
+  app.post("/api/upload-individual-textures", async (req, res) => {
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      
+      console.log('Starting individual textures upload...');
+      
+      const textureCategories = [
+        '3D', 'Animal', 'Arabesco', 'Azulejo', 'Baby', 'Baby-2.0', 
+        'Baby-Colors', 'Baby-Paineis', 'Baby-Pantone', 'Casual', 
+        'Chevron', 'Couro', 'Floral', 'Folhas', 'Geometrico'
+      ];
+      
+      const uploadResults = [];
+      
+      for (const category of textureCategories) {
+        const categoryPath = `loja/papel-de-parede/texturas/${category}`;
+        
+        // Check if directory exists
+        if (fs.existsSync(categoryPath)) {
+          const files = fs.readdirSync(categoryPath);
+          const imageFiles = files.filter(file => 
+            /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+          );
+          
+          for (const file of imageFiles) {
+            try {
+              const filePath = path.join(categoryPath, file);
+              const fileBuffer = fs.readFileSync(filePath);
+              const targetPath = `loja/papel-de-parede/texturas/${category}/${file}`;
+              
+              // Determine content type
+              const ext = path.extname(file).toLowerCase();
+              const contentType = ext === '.webp' ? 'image/webp' : 
+                                ext === '.png' ? 'image/png' : 'image/jpeg';
+              
+              await objectStorageService.uploadPublicFile(targetPath, fileBuffer, contentType);
+              uploadResults.push({ category, file, status: 'success' });
+              console.log(`✓ Uploaded ${category}/${file}`);
+            } catch (error) {
+              const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+              uploadResults.push({ category, file, status: 'error', error: errorMessage });
+              console.error(`✗ Error uploading ${category}/${file}:`, errorMessage);
+            }
+          }
+        } else {
+          console.log(`Directory ${categoryPath} does not exist, skipping...`);
+        }
+      }
+      
+      res.json({ 
+        message: 'Individual textures upload completed',
+        results: uploadResults,
+        total: uploadResults.length,
+        successful: uploadResults.filter(r => r.status === 'success').length
+      });
+      
+    } catch (error) {
+      console.error("Error in individual textures upload:", error);
+      res.status(500).json({ error: "Failed to upload individual textures" });
+    }
+  });
+
   // Contact form submission endpoint with rate limiting
   app.post("/api/contact", contactLimiter, async (req, res) => {
     try {

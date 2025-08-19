@@ -96,13 +96,15 @@ export default function LojaPapelParede() {
                   <h3 className="text-lg font-bold text-[#FFD700] group-hover:text-[#20B2AA] transition-colors">
                     {texture.name}
                   </h3>
-                  <Button 
-                    size="sm" 
-                    className="gap-1 px-3 py-1 bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-semibold hover:opacity-90 text-xs"
-                  >
-                    <Eye className="h-3 w-3" />
-                    Ver Mais
-                  </Button>
+                  <Link href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase()}`}>
+                    <Button 
+                      size="sm" 
+                      className="gap-1 px-3 py-1 bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-semibold hover:opacity-90 text-xs"
+                    >
+                      <Eye className="h-3 w-3" />
+                      Ver Mais
+                    </Button>
+                  </Link>
                 </div>
               </div>
             ))}
