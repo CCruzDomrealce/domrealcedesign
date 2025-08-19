@@ -37,17 +37,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // API route to list available images for gallery
+  // API route to list available images for gallery (portfolio only)
   app.get("/api/gallery/images", async (req, res) => {
     try {
       const files = await objectStorageService.listPublicFiles();
       
-      // Filter only image files
-      const imageFiles = files.filter(file => 
-        /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+      // Filter only portfolio images (exclude loja)
+      const portfolioImages = files.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file) && 
+        file.startsWith('portfolio/') && 
+        !file.startsWith('loja/')
       );
       
-      res.json({ images: imageFiles });
+      res.json({ images: portfolioImages });
     } catch (error) {
       console.error("Error listing images:", error);
       res.status(500).json({ error: "Failed to list images" });
@@ -103,6 +105,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error in bulk upload:", error);
       res.status(500).json({ error: "Failed to upload textures" });
+    }
+  });
+
+  // API route to list loja images (separate from portfolio)
+  app.get("/api/loja/images", async (req, res) => {
+    try {
+      const files = await objectStorageService.listPublicFiles();
+      
+      // Filter only loja images
+      const lojaImages = files.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file) && 
+        file.startsWith('loja/')
+      );
+      
+      res.json({ images: lojaImages });
+    } catch (error) {
+      console.error("Error listing loja images:", error);
+      res.status(500).json({ error: "Failed to list loja images" });
     }
   });
 
