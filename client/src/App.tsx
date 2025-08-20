@@ -12,6 +12,7 @@ import Loja from "@/pages/loja";
 import LojaPapelParede from "@/pages/loja-papel-parede";
 import LojaTexturaDetalhes from "@/pages/loja-textura-detalhes";
 import Carrinho from "@/pages/carrinho";
+import AdminTexturas from "@/pages/admin-texturas";
 import Portfolio from "@/pages/portfolio";
 import Servicos from "@/pages/servicos";
 import ServicoDesignGrafico from "@/pages/servico-design-grafico";
@@ -49,6 +50,7 @@ function Router() {
       <Route path="/loja/papel-parede" component={LojaPapelParede} />
       <Route path="/loja/papel-parede/textura/:textura" component={LojaTexturaDetalhes} />
       <Route path="/carrinho" component={Carrinho} />
+      <Route path="/admin/texturas" component={AdminTexturas} />
       <Route path="/noticias" component={Noticias} />
       <Route path="/contactos" component={Contactos} />
       <Route path="/politica-privacidade" component={PoliticaPrivacidade} />

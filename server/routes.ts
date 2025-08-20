@@ -58,6 +58,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API route to auto-generate texture covers from available texture folders
+  app.post("/api/auto-generate-covers", async (req, res) => {
+    try {
+      console.log('Starting auto-generation of texture covers...');
+      
+      const allImages = await objectStorageService.listPublicFiles();
+      
+      // Find all texture categories from existing images
+      const textureCategories = new Set<string>();
+      
+      allImages.forEach(path => {
+        const match = path.match(/^loja\/papel-de-parede\/texturas\/([^\/]+)\//);
+        if (match) {
+          textureCategories.add(match[1]);
+        }
+      });
+      
+      console.log('Found texture categories:', Array.from(textureCategories));
+      
+      const generatedCovers = [];
+      
+      for (const category of textureCategories) {
+        // Check if cover already exists
+        const coverPath = `loja/papel-de-parede/capas-texturas/${category}.webp`;
+        const coverExists = allImages.includes(coverPath);
+        
+        if (!coverExists) {
+          // Find first texture image in this category to use as cover
+          const firstTexture = allImages.find(path => 
+            path.startsWith(`loja/papel-de-parede/texturas/${category}/`) &&
+            /\.(jpg|jpeg|png|gif|webp)$/i.test(path)
+          );
+          
+          if (firstTexture) {
+            try {
+              // Get the original image from object storage
+              const file = await objectStorageService.searchPublicObject(firstTexture.replace(/^loja\/papel-de-parede\//, ''));
+              
+              if (file) {
+                // Download the image data
+                const chunks: Buffer[] = [];
+                const stream = file.createReadStream();
+                
+                await new Promise((resolve, reject) => {
+                  stream.on('data', (chunk) => chunks.push(chunk));
+                  stream.on('end', resolve);
+                  stream.on('error', reject);
+                });
+                
+                const imageBuffer = Buffer.concat(chunks);
+                
+                // Upload as cover with .webp extension
+                await objectStorageService.uploadPublicFile(
+                  coverPath,
+                  imageBuffer,
+                  'image/webp'
+                );
+                
+                generatedCovers.push({ category, source: firstTexture, cover: coverPath });
+                console.log(`✓ Generated cover for ${category} from ${firstTexture}`);
+              }
+            } catch (error) {
+              console.error(`✗ Error generating cover for ${category}:`, error);
+            }
+          }
+        } else {
+          console.log(`Cover for ${category} already exists`);
+        }
+      }
+      
+      res.json({ 
+        message: 'Auto-generation completed',
+        categoriesFound: Array.from(textureCategories),
+        coversGenerated: generatedCovers
+      });
+      
+    } catch (error) {
+      console.error("Error in auto-generation:", error);
+      res.status(500).json({ error: "Failed to auto-generate covers" });
+    }
+  });
+
   // File upload endpoint
   app.post("/api/objects/upload", async (req, res) => {
     try {
