@@ -28,9 +28,8 @@ export default function LojaTexturaDetalhes() {
   const { textura } = useParams();
   const { toast } = useToast();
   
-  const [acabamento, setAcabamento] = useState<'brilho' | 'mate'>('brilho');
-  const [laminacao, setLaminacao] = useState(false);
   const [selectedTexture, setSelectedTexture] = useState<string>('');
+  const [showPreview, setShowPreview] = useState(false);
 
   const { data: images, isLoading } = useQuery({
     queryKey: ["/api/loja/images"],
@@ -56,8 +55,6 @@ export default function LojaTexturaDetalhes() {
     })) || [];
   
   const basePrice = 20;
-  const laminacaoPrice = 5;
-  const totalPrice = basePrice + (laminacao ? laminacaoPrice : 0);
 
   const handleAddToCart = () => {
     if (!selectedTexture) {
@@ -69,22 +66,38 @@ export default function LojaTexturaDetalhes() {
       return;
     }
 
-    const cartItem: CartItem = {
-      textureName: `${textura} - ${selectedTexture}`,
+    const cartItem = {
+      id: Date.now().toString(),
+      textureName: `${textura?.toUpperCase()} - ${selectedTexture.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || ''}`,
       textureImage: selectedTexture,
-      acabamento,
-      laminacao,
+      category: textura || '',
       preco: basePrice,
-      precoTotal: totalPrice
+      acabamento: 'brilho' as const,
+      laminacao: false,
+      precoTotal: basePrice,
     };
 
-    // Here you would typically add to a cart state/context
-    console.log('Adding to cart:', cartItem);
-    
+    // Get existing cart from localStorage
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    existingCart.push(cartItem);
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+
     toast({
-      title: "Adicionado ao carrinho!",
-      description: `${cartItem.textureName} foi adicionado ao carrinho por €${totalPrice}.`,
+      title: "Produto adicionado!",
+      description: "Textura adicionada ao carrinho. Personalize no carrinho!",
     });
+  };
+
+  const handlePreview = () => {
+    if (!selectedTexture) {
+      toast({
+        title: "Selecione uma textura",
+        description: "Por favor, escolha uma textura para ver a pré-visualização.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setShowPreview(true);
   };
 
   const textureName = textura?.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) || '';
@@ -146,7 +159,7 @@ export default function LojaTexturaDetalhes() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {textureImages.map((texture) => (
                   <div
                     key={texture.name}
@@ -159,17 +172,12 @@ export default function LojaTexturaDetalhes() {
                       <img
                         src={texture.path}
                         alt={texture.name}
-                        className="w-full h-32 object-cover rounded group-hover:scale-105 transition-transform duration-300"
+                        className="w-full aspect-square object-cover rounded group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-                    <p className="text-center mt-2 text-sm text-gray-300 group-hover:text-[#FFD700] transition-colors">
+                    <p className="text-center mt-2 text-xs text-gray-300 group-hover:text-[#FFD700] transition-colors">
                       {texture.name}
                     </p>
-                    {selectedTexture === texture.path && (
-                      <div className="text-center mt-1">
-                        <Badge className="bg-[#FFD700] text-black">Selecionada</Badge>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -181,103 +189,98 @@ export default function LojaTexturaDetalhes() {
             <Card className="bg-[#111111] border-[#333] sticky top-24">
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold text-[#FFD700] mb-6">
-                  Personalizar Produto
+                  Ações
                 </h3>
+
+                {/* Selected Texture Preview */}
+                {selectedTexture && (
+                  <div className="mb-6 p-4 bg-[#0a0a0a] rounded-lg border border-[#333]">
+                    <h4 className="text-sm font-semibold text-[#FFD700] mb-3">Textura Selecionada:</h4>
+                    <img
+                      src={selectedTexture}
+                      alt="Textura selecionada"
+                      className="w-full aspect-square object-cover rounded mb-3"
+                    />
+                    <p className="text-xs text-gray-300 text-center">
+                      {selectedTexture.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '')}
+                    </p>
+                  </div>
+                )}
 
                 {/* Price Display */}
                 <div className="mb-6 p-4 bg-[#0a0a0a] rounded-lg border border-[#333]">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-300">Preço base:</span>
-                    <span className="text-white font-semibold">€{basePrice}</span>
-                  </div>
-                  {laminacao && (
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-300">Laminação:</span>
-                      <span className="text-white font-semibold">+€{laminacaoPrice}</span>
-                    </div>
-                  )}
-                  <hr className="border-[#333] my-2" />
                   <div className="flex justify-between items-center">
-                    <span className="text-[#FFD700] font-bold">Total:</span>
-                    <span className="text-[#FFD700] font-bold text-xl">€{totalPrice}</span>
+                    <span className="text-[#FFD700] font-bold">Preço base:</span>
+                    <span className="text-[#FFD700] font-bold text-xl">€{basePrice}</span>
                   </div>
-                </div>
-
-                {/* Acabamento Selection */}
-                <div className="mb-6">
-                  <label className="block text-white font-semibold mb-3">
-                    Tipo de Acabamento
-                  </label>
-                  <Select value={acabamento} onValueChange={(value: 'brilho' | 'mate') => setAcabamento(value)}>
-                    <SelectTrigger className="bg-[#0a0a0a] border-[#333] text-white">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="brilho">
-                        <div className="flex items-center gap-2">
-                          <Sparkles className="h-4 w-4" />
-                          Brilho
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="mate">
-                        <div className="flex items-center gap-2">
-                          <div className="h-4 w-4 bg-gray-400 rounded-full"></div>
-                          Mate
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Laminação Option */}
-                <div className="mb-6">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={laminacao}
-                      onChange={(e) => setLaminacao(e.target.checked)}
-                      className="w-4 h-4 text-[#FFD700] bg-[#0a0a0a] border-[#333] rounded focus:ring-[#FFD700]"
-                    />
-                    <div>
-                      <span className="text-white font-semibold">Com Laminação</span>
-                      <p className="text-gray-400 text-sm">
-                        Proteção extra (+€{laminacaoPrice})
-                      </p>
-                    </div>
-                  </label>
-                </div>
-
-                {/* Add to Cart Button */}
-                <Button
-                  onClick={handleAddToCart}
-                  className="w-full gap-2 bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 py-3"
-                  disabled={!selectedTexture}
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Adicionar ao Carrinho
-                </Button>
-
-                {!selectedTexture && (
-                  <p className="text-gray-400 text-sm text-center mt-2">
-                    Selecione uma textura para continuar
+                  <p className="text-xs text-gray-400 mt-2">
+                    *Personalização disponível no carrinho
                   </p>
-                )}
+                </div>
 
-                {/* Product Info */}
-                <div className="mt-6 pt-6 border-t border-[#333]">
-                  <h4 className="text-white font-semibold mb-3">Informações do Produto</h4>
-                  <ul className="text-gray-300 text-sm space-y-1">
-                    <li>• Produto personalizado</li>
-                    <li>• Sem trocas ou devoluções</li>
-                    <li>• Prazo de entrega: 5-7 dias úteis</li>
-                    <li>• Instalação disponível</li>
-                  </ul>
+                {/* Action Buttons */}
+                <div className="space-y-3">
+                  <Button 
+                    onClick={handlePreview}
+                    disabled={!selectedTexture}
+                    variant="outline"
+                    className="w-full border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black"
+                  >
+                    Ver Maior
+                  </Button>
+                  
+                  <Button 
+                    onClick={handleAddToCart}
+                    disabled={!selectedTexture}
+                    className="w-full bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold py-3 hover:opacity-90 disabled:opacity-50"
+                  >
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Adicionar ao Carrinho
+                  </Button>
+                </div>
+
+                {/* Continue Shopping Message */}
+                <div className="mt-6 p-4 bg-[#0a0a0a] rounded-lg border border-[#333]">
+                  <p className="text-sm text-gray-300 text-center">
+                    💡 Adicione mais produtos ao carrinho para otimizar o envio!
+                  </p>
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
+
+      {/* Preview Modal */}
+      {showPreview && selectedTexture && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#111111] rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-[#FFD700]">
+                  Pré-visualização da Textura
+                </h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowPreview(false)}
+                  className="border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black"
+                >
+                  Fechar
+                </Button>
+              </div>
+              <img
+                src={selectedTexture}
+                alt="Pré-visualização da textura"
+                className="w-full max-w-2xl mx-auto rounded-lg"
+              />
+              <p className="text-center mt-4 text-gray-300">
+                {selectedTexture.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '')}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
