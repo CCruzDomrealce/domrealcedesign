@@ -168,12 +168,25 @@ export default function LojaTexturaDetalhes() {
                     }`}
                     onClick={() => setSelectedTexture(texture.path)}
                   >
-                    <div className="bg-white rounded-lg p-2 shadow-sm border border-gray-200">
+                    <div className="relative bg-white rounded-lg p-2 shadow-sm border border-gray-200">
                       <img
                         src={texture.path}
                         alt={texture.name}
                         className="w-full aspect-square object-cover rounded group-hover:scale-105 transition-transform duration-300"
                       />
+                      {/* Hover overlay "Ver Maior" */}
+                      <div className="absolute inset-2 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedTexture(texture.path);
+                            setShowPreview(true);
+                          }}
+                          className="bg-[#FFD700] text-black px-3 py-1 rounded text-sm font-semibold hover:bg-[#20B2AA] transition-colors"
+                        >
+                          Ver Maior
+                        </button>
+                      </div>
                     </div>
                     <p className="text-center mt-2 text-xs text-gray-300 group-hover:text-[#FFD700] transition-colors">
                       {texture.name}
@@ -218,17 +231,8 @@ export default function LojaTexturaDetalhes() {
                   </p>
                 </div>
 
-                {/* Action Buttons */}
+                {/* Quick Actions */}
                 <div className="space-y-3">
-                  <Button 
-                    onClick={handlePreview}
-                    disabled={!selectedTexture}
-                    variant="outline"
-                    className="w-full border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black"
-                  >
-                    Ver Maior
-                  </Button>
-                  
                   <Button 
                     onClick={handleAddToCart}
                     disabled={!selectedTexture}
@@ -237,6 +241,10 @@ export default function LojaTexturaDetalhes() {
                     <ShoppingCart className="w-5 h-5 mr-2" />
                     Adicionar ao Carrinho
                   </Button>
+                  
+                  <p className="text-xs text-gray-400 text-center">
+                    Ou clique numa textura e depois "Ver Maior" para ver detalhes
+                  </p>
                 </div>
 
                 {/* Continue Shopping Message */}
@@ -251,12 +259,13 @@ export default function LojaTexturaDetalhes() {
         </div>
       </div>
 
-      {/* Preview Modal */}
+      {/* Preview Modal with Actions */}
       {showPreview && selectedTexture && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="bg-[#111111] rounded-lg max-w-4xl max-h-[90vh] overflow-auto">
+          <div className="bg-[#111111] rounded-lg max-w-5xl max-h-[95vh] overflow-auto border border-[#333]">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
+              {/* Header */}
+              <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold text-[#FFD700]">
                   Pré-visualização da Textura
                 </h3>
@@ -266,17 +275,90 @@ export default function LojaTexturaDetalhes() {
                   onClick={() => setShowPreview(false)}
                   className="border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black"
                 >
-                  Fechar
+                  <ArrowLeft className="w-4 h-4 mr-1" />
+                  Voltar Atrás
                 </Button>
               </div>
-              <img
-                src={selectedTexture}
-                alt="Pré-visualização da textura"
-                className="w-full max-w-2xl mx-auto rounded-lg"
-              />
-              <p className="text-center mt-4 text-gray-300">
-                {selectedTexture.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '')}
-              </p>
+              
+              <div className="grid lg:grid-cols-3 gap-6">
+                {/* Large Image */}
+                <div className="lg:col-span-2">
+                  <img
+                    src={selectedTexture}
+                    alt="Pré-visualização da textura"
+                    className="w-full rounded-lg border border-[#333]"
+                  />
+                </div>
+                
+                {/* Actions Panel */}
+                <div className="lg:col-span-1">
+                  <Card className="bg-[#0a0a0a] border-[#333]">
+                    <CardContent className="p-6">
+                      <h4 className="text-lg font-bold text-[#FFD700] mb-4">
+                        {selectedTexture.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '')}
+                      </h4>
+                      
+                      {/* Category */}
+                      <div className="mb-4">
+                        <Badge className="bg-[#FFD700] text-black">
+                          {textura?.toUpperCase()}
+                        </Badge>
+                      </div>
+                      
+                      {/* Price */}
+                      <div className="mb-6 p-4 bg-[#111111] rounded-lg border border-[#333]">
+                        <div className="flex justify-between items-center">
+                          <span className="text-[#FFD700] font-bold">Preço base:</span>
+                          <span className="text-[#FFD700] font-bold text-xl">€{basePrice}</span>
+                        </div>
+                        <p className="text-xs text-gray-400 mt-2">
+                          *Personalização disponível no carrinho
+                        </p>
+                      </div>
+                      
+                      {/* Action Buttons */}
+                      <div className="space-y-3">
+                        <Button 
+                          onClick={handleAddToCart}
+                          className="w-full bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold py-3 hover:opacity-90"
+                        >
+                          <ShoppingCart className="w-5 h-5 mr-2" />
+                          Adicionar ao Carrinho
+                        </Button>
+                        
+                        <Button 
+                          variant="outline"
+                          className="w-full border-[#20B2AA] text-[#20B2AA] hover:bg-[#20B2AA] hover:text-black"
+                          onClick={() => {
+                            // Navigate to cart - we'll implement this
+                            window.location.href = '/carrinho';
+                          }}
+                        >
+                          Ver Carrinho
+                        </Button>
+                      </div>
+                      
+                      {/* Continue Shopping Message */}
+                      <div className="mt-6 p-4 bg-[#111111] rounded-lg border border-[#333]">
+                        <p className="text-sm text-gray-300 text-center">
+                          💡 Adicione mais produtos ao carrinho para otimizar o envio!
+                        </p>
+                      </div>
+                      
+                      {/* Product Info */}
+                      <div className="mt-6 pt-6 border-t border-[#333]">
+                        <h5 className="text-white font-semibold mb-3">Informações</h5>
+                        <ul className="text-gray-300 text-sm space-y-1">
+                          <li>• Produto personalizado</li>
+                          <li>• Sem trocas ou devoluções</li>
+                          <li>• Prazo: 5-7 dias úteis</li>
+                          <li>• Instalação disponível</li>
+                        </ul>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
