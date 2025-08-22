@@ -11,6 +11,7 @@ interface TextureCover {
   name: string;
   path: string;
   fileName: string;
+  textureCount?: number;
 }
 
 export default function LojaPapelParede() {
@@ -27,12 +28,22 @@ export default function LojaPapelParede() {
         .replace(/-/g, ' ')
         .replace(/\b\w/g, (l: string) => l.toUpperCase());
       
+      // Count textures in this category
+      const categoryImages = (images as { images: string[] })?.images
+        ?.filter((imgPath: string) => 
+          imgPath.includes(`texturas/${fileName}/`) &&
+          /\.(jpg|jpeg|png|gif|webp)$/i.test(imgPath)
+        ) || [];
+      
       return {
         name: displayName,
         path: `/public-objects/${path}`,
-        fileName: fileName
+        fileName: fileName,
+        textureCount: categoryImages.length
       };
-    }) || [];
+    })
+    // Only show categories that have at least 1 texture
+    ?.filter((texture: TextureCover & { textureCount: number }) => texture.textureCount > 0) || [];
 
   if (isLoading) {
     return (
@@ -81,7 +92,7 @@ export default function LojaPapelParede() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
             {textureCovers.map((texture: TextureCover) => (
-              <Link key={texture.fileName} href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace('_', '-')}`}>
+              <Link key={texture.fileName} href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace(/_/g, '-')}`}>
                 <div className="group text-center cursor-pointer">
                   {/* Imagem com overlay "Ver Mais" no hover */}
                   <div className="relative overflow-hidden rounded-lg mb-2 md:mb-3">

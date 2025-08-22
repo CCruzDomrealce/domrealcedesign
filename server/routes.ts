@@ -79,7 +79,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const generatedCovers = [];
       
-      for (const category of textureCategories) {
+      for (const category of Array.from(textureCategories)) {
         // Check if cover already exists
         const coverPath = `loja/papel-de-parede/capas-texturas/${category}.webp`;
         const coverExists = allImages.includes(coverPath);
