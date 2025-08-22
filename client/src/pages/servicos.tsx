@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Palette, Printer, Wallpaper, Image, Sticker, Car, Building } from "lucide-react";
+import { ArrowRight, Palette, Printer, Wallpaper, Image, Sticker, Car, Building, Shield } from "lucide-react";
 import { Link } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
@@ -123,6 +123,22 @@ const services: Service[] = [
     icon: <Building className="w-8 h-8" />,
     color: "from-[#4169E1] to-[#9370DB]",
     detailsLink: "/servico-espacos-comerciais"
+  },
+  {
+    id: "peliculas-protecao-solar",
+    title: "Películas de Proteção Solar",
+    description: "Películas para vidros que proporcionam conforto térmico e proteção UV",
+    features: [
+      "Proteção UV até 99%",
+      "Redução de calor até 78%",
+      "Economia de energia",
+      "Maior privacidade",
+      "Proteção de mobiliário",
+      "Conforto térmico"
+    ],
+    icon: <Shield className="w-8 h-8" />,
+    color: "from-[#FFA500] to-[#FFD700]",
+    detailsLink: "/servico-peliculas-protecao-solar"
   }
 ];
 
