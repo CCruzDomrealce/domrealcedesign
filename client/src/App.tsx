@@ -22,6 +22,8 @@ import ServicoTelasArtisticas from "@/pages/servico-telas-artisticas";
 import ServicoAutocolantes from "@/pages/servico-autocolantes";
 import ServicoDecoracaoViaturas from "@/pages/servico-decoracao-viaturas";
 import ServicoEspacosComerciais from "@/pages/servico-espacos-comerciais";
+import Checkout from "@/pages/checkout";
+import PedidoConfirmado from "@/pages/pedido-confirmado";
 import Noticias from "@/pages/noticias";
 import PoliticaPrivacidade from "@/pages/politica-privacidade";
 import TermosCondicoes from "@/pages/termos-condicoes";
@@ -46,6 +48,8 @@ function Router() {
       <Route path="/servico-autocolantes" component={ServicoAutocolantes} />
       <Route path="/servico-decoracao-viaturas" component={ServicoDecoracaoViaturas} />
       <Route path="/servico-espacos-comerciais" component={ServicoEspacosComerciais} />
+      <Route path="/checkout" component={Checkout} />
+      <Route path="/pedido-confirmado" component={PedidoConfirmado} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/loja" component={Loja} />
       <Route path="/loja/papel-parede" component={LojaPapelParede} />

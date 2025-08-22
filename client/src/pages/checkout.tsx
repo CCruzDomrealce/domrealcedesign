@@ -1,0 +1,444 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+import { ShoppingCart, CreditCard, Truck, Shield, ArrowLeft } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
+
+interface CartItem {
+  id: string;
+  textureName: string;
+  textureImage: string;
+  category: string;
+  preco: number;
+  acabamento: 'brilho' | 'mate';
+  laminacao: boolean;
+  tipoCola?: 'com-cola' | 'sem-cola';
+  largura?: number;
+  altura?: number;
+  larguraCm?: number;
+  alturaCm?: number;
+  area?: number;
+  precoTotal: number;
+  quantidade?: number;
+}
+
+export default function Checkout() {
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  // Dados do cliente
+  const [customerData, setCustomerData] = useState({
+    nome: '',
+    email: '',
+    telefone: '',
+    morada: '',
+    codigoPostal: '',
+    cidade: '',
+    nif: ''
+  });
+
+  // Dados de pagamento
+  const [paymentData, setPaymentData] = useState({
+    numeroCartao: '',
+    nomeTitular: '',
+    validade: '',
+    cvv: '',
+    metodoPagamento: 'cartao'
+  });
+
+  useEffect(() => {
+    // Carregar carrinho do localStorage
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      const items = JSON.parse(savedCart);
+      
+      // Verificar se há itens sem medidas
+      const itemsSemMedidas = items.filter((item: CartItem) => 
+        !item.larguraCm || !item.alturaCm || item.larguraCm === 0 || item.alturaCm === 0
+      );
+      
+      if (itemsSemMedidas.length > 0) {
+        toast({
+          title: "Medidas em falta",
+          description: "Por favor, complete as medidas no carrinho antes de finalizar.",
+          variant: "destructive",
+        });
+        setLocation('/carrinho');
+        return;
+      }
+      
+      setCartItems(items);
+    } else {
+      setLocation('/carrinho');
+    }
+  }, []);
+
+  const totalCarrinho = cartItems.reduce((total, item) => 
+    total + (item.precoTotal * (item.quantidade || 1)), 0
+  );
+
+  const custoEnvio = totalCarrinho > 100 ? 0 : 15;
+  const totalFinal = totalCarrinho + custoEnvio;
+
+  const handleFinalizarPedido = async () => {
+    // Validar dados obrigatórios
+    if (!customerData.nome || !customerData.email || !customerData.telefone || 
+        !customerData.morada || !customerData.codigoPostal || !customerData.cidade) {
+      toast({
+        title: "Dados incompletos",
+        description: "Por favor, preencha todos os campos obrigatórios.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (paymentData.metodoPagamento === 'cartao') {
+      if (!paymentData.numeroCartao || !paymentData.nomeTitular || 
+          !paymentData.validade || !paymentData.cvv) {
+        toast({
+          title: "Dados de pagamento incompletos",
+          description: "Por favor, preencha todos os dados do cartão.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Simular processamento do pagamento
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Limpar carrinho
+      localStorage.removeItem('cart');
+      
+      toast({
+        title: "Pedido confirmado!",
+        description: `Pagamento processado com sucesso. Total: €${totalFinal.toFixed(2)}`,
+      });
+
+      // Redirecionar para página de confirmação
+      setLocation('/pedido-confirmado');
+    } catch (error) {
+      toast({
+        title: "Erro no processamento",
+        description: "Ocorreu um erro. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <Navigation />
+      
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
+          <Link href="/carrinho">
+            <Button variant="outline" size="sm" className="border-[#333] text-white hover:bg-[#333]">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Voltar ao Carrinho
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold text-[#FFD700]">
+            <CreditCard className="inline-block w-8 h-8 mr-3" />
+            Finalizar Compra
+          </h1>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Formulário de dados */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Dados do cliente */}
+            <Card className="bg-[#111111] border-[#333]">
+              <CardHeader>
+                <CardTitle className="text-[#FFD700]">Dados de Facturação</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="nome" className="text-gray-300">Nome Completo *</Label>
+                    <Input
+                      id="nome"
+                      value={customerData.nome}
+                      onChange={(e) => setCustomerData({...customerData, nome: e.target.value})}
+                      className="bg-[#0a0a0a] border-[#333] text-white"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="text-gray-300">Email *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={customerData.email}
+                      onChange={(e) => setCustomerData({...customerData, email: e.target.value})}
+                      className="bg-[#0a0a0a] border-[#333] text-white"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="telefone" className="text-gray-300">Telefone *</Label>
+                    <Input
+                      id="telefone"
+                      value={customerData.telefone}
+                      onChange={(e) => setCustomerData({...customerData, telefone: e.target.value})}
+                      className="bg-[#0a0a0a] border-[#333] text-white"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="nif" className="text-gray-300">NIF (opcional)</Label>
+                    <Input
+                      id="nif"
+                      value={customerData.nif}
+                      onChange={(e) => setCustomerData({...customerData, nif: e.target.value})}
+                      className="bg-[#0a0a0a] border-[#333] text-white"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="morada" className="text-gray-300">Morada *</Label>
+                  <Input
+                    id="morada"
+                    value={customerData.morada}
+                    onChange={(e) => setCustomerData({...customerData, morada: e.target.value})}
+                    className="bg-[#0a0a0a] border-[#333] text-white"
+                    required
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="codigoPostal" className="text-gray-300">Código Postal *</Label>
+                    <Input
+                      id="codigoPostal"
+                      value={customerData.codigoPostal}
+                      onChange={(e) => setCustomerData({...customerData, codigoPostal: e.target.value})}
+                      placeholder="0000-000"
+                      className="bg-[#0a0a0a] border-[#333] text-white"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="cidade" className="text-gray-300">Cidade *</Label>
+                    <Input
+                      id="cidade"
+                      value={customerData.cidade}
+                      onChange={(e) => setCustomerData({...customerData, cidade: e.target.value})}
+                      className="bg-[#0a0a0a] border-[#333] text-white"
+                      required
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Método de pagamento */}
+            <Card className="bg-[#111111] border-[#333]">
+              <CardHeader>
+                <CardTitle className="text-[#FFD700]">Método de Pagamento</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Select 
+                  value={paymentData.metodoPagamento} 
+                  onValueChange={(value) => setPaymentData({...paymentData, metodoPagamento: value})}
+                >
+                  <SelectTrigger className="bg-[#0a0a0a] border-[#333] text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#111111] border-[#333]">
+                    <SelectItem value="cartao" className="text-white hover:bg-[#333]">
+                      Cartão de Crédito/Débito
+                    </SelectItem>
+                    <SelectItem value="transferencia" className="text-white hover:bg-[#333]">
+                      Transferência Bancária
+                    </SelectItem>
+                    <SelectItem value="mbway" className="text-white hover:bg-[#333]">
+                      MB WAY
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {paymentData.metodoPagamento === 'cartao' && (
+                  <div className="space-y-4 p-4 bg-[#0a0a0a] rounded border border-[#333]">
+                    <div>
+                      <Label htmlFor="numeroCartao" className="text-gray-300">Número do Cartão *</Label>
+                      <Input
+                        id="numeroCartao"
+                        value={paymentData.numeroCartao}
+                        onChange={(e) => setPaymentData({...paymentData, numeroCartao: e.target.value})}
+                        placeholder="0000 0000 0000 0000"
+                        className="bg-[#111111] border-[#333] text-white"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="nomeTitular" className="text-gray-300">Nome do Titular *</Label>
+                      <Input
+                        id="nomeTitular"
+                        value={paymentData.nomeTitular}
+                        onChange={(e) => setPaymentData({...paymentData, nomeTitular: e.target.value})}
+                        className="bg-[#111111] border-[#333] text-white"
+                        required
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="validade" className="text-gray-300">Validade *</Label>
+                        <Input
+                          id="validade"
+                          value={paymentData.validade}
+                          onChange={(e) => setPaymentData({...paymentData, validade: e.target.value})}
+                          placeholder="MM/AA"
+                          className="bg-[#111111] border-[#333] text-white"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="cvv" className="text-gray-300">CVV *</Label>
+                        <Input
+                          id="cvv"
+                          value={paymentData.cvv}
+                          onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
+                          placeholder="000"
+                          className="bg-[#111111] border-[#333] text-white"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {paymentData.metodoPagamento === 'transferencia' && (
+                  <div className="p-4 bg-[#0a0a0a] rounded border border-[#333]">
+                    <p className="text-gray-300 text-sm">
+                      Após confirmar o pedido, receberá os dados bancários por email para efectuar a transferência.
+                    </p>
+                  </div>
+                )}
+
+                {paymentData.metodoPagamento === 'mbway' && (
+                  <div className="p-4 bg-[#0a0a0a] rounded border border-[#333]">
+                    <p className="text-gray-300 text-sm">
+                      Será enviado um pedido MB WAY para o número de telefone indicado.
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Resumo do pedido */}
+          <div className="lg:col-span-1">
+            <Card className="bg-[#111111] border-[#333] sticky top-24">
+              <CardHeader>
+                <CardTitle className="text-[#FFD700] flex items-center gap-2">
+                  <ShoppingCart className="h-5 w-5" />
+                  Resumo do Pedido
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Itens do carrinho */}
+                <div className="space-y-3">
+                  {cartItems.map((item) => (
+                    <div key={item.id} className="flex gap-3 p-3 bg-[#0a0a0a] rounded border border-[#333]">
+                      <img
+                        src={item.textureImage}
+                        alt={item.textureName}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-medium text-white truncate">
+                          {item.textureName}
+                        </h4>
+                        <p className="text-xs text-gray-400">
+                          {item.larguraCm}×{item.alturaCm}cm = {((item.largura || 0) * (item.altura || 0)).toFixed(2)}m²
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          {item.acabamento} • {item.tipoCola === 'com-cola' ? 'Com cola' : 'Sem cola'}
+                          {item.laminacao && ' • Laminação'}
+                        </p>
+                        <p className="text-sm font-semibold text-[#FFD700]">
+                          €{(item.precoTotal * (item.quantidade || 1)).toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <Separator className="bg-[#333]" />
+
+                {/* Totais */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-300">Subtotal:</span>
+                    <span className="text-white">€{totalCarrinho.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-300 flex items-center gap-1">
+                      <Truck className="h-4 w-4" />
+                      Envio:
+                    </span>
+                    <span className="text-white">
+                      {custoEnvio === 0 ? 'Grátis' : `€${custoEnvio.toFixed(2)}`}
+                    </span>
+                  </div>
+                  {custoEnvio === 0 && (
+                    <p className="text-xs text-green-400">Envio grátis para compras acima de €100</p>
+                  )}
+                  
+                  <Separator className="bg-[#333]" />
+                  
+                  <div className="flex justify-between text-lg font-bold">
+                    <span className="text-[#FFD700]">Total:</span>
+                    <span className="text-[#FFD700]">€{totalFinal.toFixed(2)}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <Shield className="h-4 w-4" />
+                  <span>Pagamento seguro e protegido</span>
+                </div>
+
+                {/* Botão finalizar */}
+                <Button
+                  onClick={handleFinalizarPedido}
+                  disabled={isProcessing || cartItems.length === 0}
+                  className="w-full bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold py-3 hover:opacity-90 disabled:opacity-50"
+                >
+                  {isProcessing ? (
+                    "A processar..."
+                  ) : (
+                    `Finalizar Pedido - €${totalFinal.toFixed(2)}`
+                  )}
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}

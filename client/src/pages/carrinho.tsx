@@ -456,15 +456,28 @@ export default function Carrinho() {
                   {/* Checkout Button */}
                   <Button 
                     onClick={() => {
-                      // Scroll to installation request form
-                      const element = document.querySelector('#orcamento-colocacao');
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      // Verificar se todos os itens têm medidas
+                      const itemsSemMedidas = cartItems.filter(item => 
+                        !item.larguraCm || !item.alturaCm || item.larguraCm === 0 || item.alturaCm === 0
+                      );
+                      
+                      if (itemsSemMedidas.length > 0) {
+                        toast({
+                          title: "Medidas em falta",
+                          description: "Por favor, complete as medidas de todos os produtos antes de finalizar.",
+                          variant: "destructive",
+                        });
+                        return;
                       }
+                      
+                      // Redirecionar para checkout
+                      window.location.href = '/checkout';
                     }}
                     className="w-full bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold py-3 hover:opacity-90 mb-4"
+                    disabled={cartItems.length === 0}
+                    data-testid="button-checkout"
                   >
-                    Finalizar Compra
+                    Finalizar Compra - €{calculateTotal().toFixed(2)}
                   </Button>
 
                   {/* Continue Shopping */}
