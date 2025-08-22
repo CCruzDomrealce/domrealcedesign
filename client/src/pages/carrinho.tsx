@@ -20,6 +20,8 @@ interface CartItem {
   tipoCola?: 'com-cola' | 'sem-cola';
   largura?: number;
   altura?: number;
+  larguraCm?: number;
+  alturaCm?: number;
   area?: number;
   precoTotal: number;
   quantidade?: number;
@@ -41,6 +43,8 @@ export default function Carrinho() {
         quantidade: item.quantidade || 1,
         largura: item.largura || 0,
         altura: item.altura || 0,
+        larguraCm: item.larguraCm || 0,
+        alturaCm: item.alturaCm || 0,
         area: item.area || Math.max(0.01, (item.largura || 0) * (item.altura || 0)),
         tipoCola: item.tipoCola || 'com-cola'
       }));
@@ -60,7 +64,7 @@ export default function Carrinho() {
         const updatedItem = { ...item, ...updates };
         
         // Calculate area if largura or altura changed
-        if ('largura' in updates || 'altura' in updates) {
+        if ('largura' in updates || 'altura' in updates || 'larguraCm' in updates || 'alturaCm' in updates) {
           const largura = updatedItem.largura || 0;
           const altura = updatedItem.altura || 0;
           updatedItem.area = Math.max(0.01, largura * altura);
@@ -274,19 +278,20 @@ export default function Carrinho() {
                           <div className="grid grid-cols-2 gap-3">
                             <div>
                               <label className="block text-sm font-medium text-gray-300 mb-2">
-                                Largura (m)
+                                Largura (cm)
                               </label>
                               <input
                                 type="text"
-                                placeholder="Largura da parede em metros"
-                                value={item.largura || ''}
+                                placeholder="Largura da parede em centímetros"
+                                value={item.larguraCm || ''}
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
                                   if (!isNaN(numericValue) && numericValue > 0) {
-                                    updateItem(item.id, { largura: numericValue });
+                                    const larguraM = numericValue / 100;
+                                    updateItem(item.id, { larguraCm: numericValue, largura: larguraM });
                                   } else if (value === '') {
-                                    updateItem(item.id, { largura: 0 });
+                                    updateItem(item.id, { larguraCm: 0, largura: 0 });
                                   }
                                 }}
                                 className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"
@@ -294,19 +299,20 @@ export default function Carrinho() {
                             </div>
                             <div>
                               <label className="block text-sm font-medium text-gray-300 mb-2">
-                                Altura (m)
+                                Altura (cm)
                               </label>
                               <input
                                 type="text"
-                                placeholder="Altura da parede em metros"
-                                value={item.altura || ''}
+                                placeholder="Altura da parede em centímetros"
+                                value={item.alturaCm || ''}
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
                                   if (!isNaN(numericValue) && numericValue > 0) {
-                                    updateItem(item.id, { altura: numericValue });
+                                    const alturaM = numericValue / 100;
+                                    updateItem(item.id, { alturaCm: numericValue, altura: alturaM });
                                   } else if (value === '') {
-                                    updateItem(item.id, { altura: 0 });
+                                    updateItem(item.id, { alturaCm: 0, altura: 0 });
                                   }
                                 }}
                                 className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"

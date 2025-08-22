@@ -116,6 +116,8 @@ export default function LojaTexturaDetalhes() {
       tipoCola: 'com-cola' as const,
       largura: 0,
       altura: 0,
+      larguraCm: 0,
+      alturaCm: 0,
       area: 0.01,
       precoTotal: basePrice,
     };
