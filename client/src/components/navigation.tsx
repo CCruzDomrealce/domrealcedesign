@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import domrealceLogo from "@/assets/domrealce-logo.png";
@@ -126,6 +126,20 @@ export default function Navigation() {
             >
               Contactos
             </Link>
+            
+            {/* Cart Button */}
+            <Link 
+              href="/carrinho" 
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md flex items-center gap-2 ${
+                location === "/carrinho" 
+                  ? "bg-brand-yellow text-brand-dark" 
+                  : "text-white hover:text-brand-yellow"
+              }`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <ShoppingCart className="h-4 w-4" />
+              Carrinho
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -219,6 +233,20 @@ export default function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contactos
+              </Link>
+              
+              {/* Cart Button Mobile */}
+              <Link 
+                href="/carrinho" 
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left flex items-center gap-2 ${
+                  location === "/carrinho" 
+                    ? "bg-brand-yellow text-brand-dark" 
+                    : "text-white hover:text-brand-yellow"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <ShoppingCart className="h-4 w-4" />
+                Carrinho
               </Link>
             </div>
           </div>

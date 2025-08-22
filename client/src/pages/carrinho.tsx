@@ -321,7 +321,16 @@ export default function Carrinho() {
                   </div>
 
                   {/* Checkout Button */}
-                  <Button className="w-full bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold py-3 hover:opacity-90 mb-4">
+                  <Button 
+                    onClick={() => {
+                      // Scroll to installation request form
+                      const element = document.querySelector('#orcamento-colocacao');
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    className="w-full bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold py-3 hover:opacity-90 mb-4"
+                  >
                     Finalizar Compra
                   </Button>
 
@@ -339,7 +348,7 @@ export default function Carrinho() {
                       <li>• Produtos personalizados</li>
                       <li>• Sem trocas ou devoluções</li>
                       <li>• Prazo: 5-7 dias úteis</li>
-                      <li>• Instalação disponível</li>
+                      <li>• <a href="#orcamento-colocacao" className="text-[#FFD700] hover:text-[#20B2AA] underline">Solicitar orçamento para colocação</a></li>
                     </ul>
                   </div>
                 </CardContent>
@@ -347,6 +356,140 @@ export default function Carrinho() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Installation Request Form */}
+      <div id="orcamento-colocacao" className="bg-[#111111] border-t border-[#333]">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#FFD700] mb-6 text-center">
+              Solicitar Orçamento para Colocação
+            </h2>
+            <p className="text-gray-300 text-center mb-8">
+              Preencha o formulário abaixo e entraremos em contacto para agendar uma avaliação gratuita e fornecer um orçamento personalizado para a instalação.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Contact Form */}
+              <div className="bg-[#0a0a0a] rounded-lg p-6 border border-[#333]">
+                <h3 className="text-xl font-bold text-[#FFD700] mb-4">Dados de Contacto</h3>
+                <form className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Nome Completo *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full px-3 py-2 bg-[#111111] border border-[#333] rounded text-white focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
+                      placeholder="O seu nome completo"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Telefone *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      className="w-full px-3 py-2 bg-[#111111] border border-[#333] rounded text-white focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
+                      placeholder="O seu número de telefone"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full px-3 py-2 bg-[#111111] border border-[#333] rounded text-white focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
+                      placeholder="O seu email"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Localização *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full px-3 py-2 bg-[#111111] border border-[#333] rounded text-white focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
+                      placeholder="Cidade/Distrito onde será a instalação"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Área Total (m²)
+                    </label>
+                    <input
+                      type="number"
+                      className="w-full px-3 py-2 bg-[#111111] border border-[#333] rounded text-white focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
+                      placeholder="Ex: 25"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Observações
+                    </label>
+                    <textarea
+                      rows={3}
+                      className="w-full px-3 py-2 bg-[#111111] border border-[#333] rounded text-white focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
+                      placeholder="Informações adicionais sobre o projeto"
+                    ></textarea>
+                  </div>
+                  
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold py-3 hover:opacity-90"
+                  >
+                    Solicitar Orçamento
+                  </Button>
+                </form>
+              </div>
+
+              {/* Contact Info */}
+              <div className="space-y-6">
+                <div className="bg-[#0a0a0a] rounded-lg p-6 border border-[#333]">
+                  <h3 className="text-xl font-bold text-[#FFD700] mb-4">Como Funciona</h3>
+                  <ul className="text-gray-300 space-y-3">
+                    <li className="flex items-start gap-3">
+                      <span className="bg-[#FFD700] text-black rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mt-0.5">1</span>
+                      <span>Preencha o formulário com os seus dados</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="bg-[#FFD700] text-black rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mt-0.5">2</span>
+                      <span>Entraremos em contacto em 24h</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="bg-[#FFD700] text-black rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mt-0.5">3</span>
+                      <span>Agendamos uma avaliação gratuita</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="bg-[#FFD700] text-black rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mt-0.5">4</span>
+                      <span>Fornecemos orçamento detalhado</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-[#0a0a0a] rounded-lg p-6 border border-[#333]">
+                  <h3 className="text-xl font-bold text-[#FFD700] mb-4">Contacto Direto</h3>
+                  <div className="space-y-3 text-gray-300">
+                    <p><strong>WhatsApp:</strong> <a href="https://wa.me/351917570649" className="text-[#FFD700] hover:text-[#20B2AA]">+351 917 570 649</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:geral@domrealce.com" className="text-[#FFD700] hover:text-[#20B2AA]">geral@domrealce.com</a></p>
+                    <p className="text-sm text-gray-400 mt-4">
+                      💡 Para um orçamento mais rápido, pode contactar-nos diretamente via WhatsApp com as fotos do espaço e medidas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <Footer />

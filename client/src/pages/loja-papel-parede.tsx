@@ -136,7 +136,7 @@ export default function LojaPapelParede() {
                 <li>• Produtos personalizados</li>
                 <li>• Sem trocas ou devoluções</li>
                 <li>• Orçamento personalizado</li>
-                <li>• Instalação disponível</li>
+                <li>• <a href="#orcamento-colocacao" className="text-[#FFD700] hover:text-[#20B2AA] underline">Solicitar orçamento para colocação</a></li>
               </ul>
             </div>
           </div>
