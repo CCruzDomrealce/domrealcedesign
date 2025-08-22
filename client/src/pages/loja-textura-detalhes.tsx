@@ -111,12 +111,12 @@ export default function LojaTexturaDetalhes() {
       textureImage: selectedTexture,
       category: textura || '',
       preco: basePrice,
-      acabamento: 'brilho' as const,
+      acabamento: 'mate' as const,
       laminacao: false,
       tipoCola: 'com-cola' as const,
-      largura: 1,
-      altura: 1,
-      area: 1,
+      largura: 0,
+      altura: 0,
+      area: 0.01,
       precoTotal: basePrice,
     };
 

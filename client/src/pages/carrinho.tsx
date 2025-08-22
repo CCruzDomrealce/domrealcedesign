@@ -39,9 +39,9 @@ export default function Carrinho() {
       const itemsWithDefaults = items.map((item: CartItem) => ({
         ...item,
         quantidade: item.quantidade || 1,
-        largura: item.largura || 1,
-        altura: item.altura || 1,
-        area: item.area || (item.largura || 1) * (item.altura || 1),
+        largura: item.largura || 0,
+        altura: item.altura || 0,
+        area: item.area || Math.max(0.01, (item.largura || 0) * (item.altura || 0)),
         tipoCola: item.tipoCola || 'com-cola'
       }));
       setCartItems(itemsWithDefaults);
@@ -61,13 +61,13 @@ export default function Carrinho() {
         
         // Calculate area if largura or altura changed
         if ('largura' in updates || 'altura' in updates) {
-          const largura = updatedItem.largura || 1;
-          const altura = updatedItem.altura || 1;
-          updatedItem.area = largura * altura;
+          const largura = updatedItem.largura || 0;
+          const altura = updatedItem.altura || 0;
+          updatedItem.area = Math.max(0.01, largura * altura);
         }
         
         // Recalculate total price based on area
-        const area = updatedItem.area || 1;
+        const area = updatedItem.area || 0.01;
         const basePrice = updatedItem.preco * area;
         const laminacaoPrice = updatedItem.laminacao ? 8 * area : 0;
         updatedItem.precoTotal = basePrice + laminacaoPrice;
@@ -277,11 +277,18 @@ export default function Carrinho() {
                                 Largura (m)
                               </label>
                               <input
-                                type="number"
-                                step="0.1"
-                                min="0.1"
-                                value={item.largura || 1}
-                                onChange={(e) => updateItem(item.id, { largura: parseFloat(e.target.value) || 1 })}
+                                type="text"
+                                placeholder="Largura da parede em metros"
+                                value={item.largura || ''}
+                                onChange={(e) => {
+                                  const value = e.target.value.replace(',', '.');
+                                  const numericValue = parseFloat(value);
+                                  if (!isNaN(numericValue) && numericValue > 0) {
+                                    updateItem(item.id, { largura: numericValue });
+                                  } else if (value === '') {
+                                    updateItem(item.id, { largura: 0 });
+                                  }
+                                }}
                                 className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"
                               />
                             </div>
@@ -290,11 +297,18 @@ export default function Carrinho() {
                                 Altura (m)
                               </label>
                               <input
-                                type="number"
-                                step="0.1"
-                                min="0.1"
-                                value={item.altura || 1}
-                                onChange={(e) => updateItem(item.id, { altura: parseFloat(e.target.value) || 1 })}
+                                type="text"
+                                placeholder="Altura da parede em metros"
+                                value={item.altura || ''}
+                                onChange={(e) => {
+                                  const value = e.target.value.replace(',', '.');
+                                  const numericValue = parseFloat(value);
+                                  if (!isNaN(numericValue) && numericValue > 0) {
+                                    updateItem(item.id, { altura: numericValue });
+                                  } else if (value === '') {
+                                    updateItem(item.id, { altura: 0 });
+                                  }
+                                }}
                                 className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"
                               />
                             </div>
@@ -305,7 +319,7 @@ export default function Carrinho() {
                             <div className="flex justify-between items-center">
                               <span className="text-sm text-gray-300">Área total:</span>
                               <span className="text-lg font-bold text-[#FFD700]">
-                                {((item.largura || 1) * (item.altura || 1)).toFixed(2)} m²
+                                {((item.largura || 0) * (item.altura || 0)).toFixed(2)} m²
                               </span>
                             </div>
                           </div>
@@ -365,7 +379,7 @@ export default function Carrinho() {
                             <p className="text-xs text-gray-400">+ €8/m² laminação</p>
                           )}
                           <div className="mt-2 pt-2 border-t border-[#333]">
-                            <p className="text-sm text-gray-400">Total área ({((item.largura || 1) * (item.altura || 1)).toFixed(2)} m²):</p>
+                            <p className="text-sm text-gray-400">Total área ({((item.largura || 0) * (item.altura || 0)).toFixed(2)} m²):</p>
                             <p className="text-lg font-semibold text-[#FFD700]">€{item.precoTotal.toFixed(2)}</p>
                             <p className="text-sm text-gray-400">
                               Final: €{(item.precoTotal * (item.quantidade || 1)).toFixed(2)}
