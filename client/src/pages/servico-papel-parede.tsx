@@ -42,6 +42,19 @@ export default function ServicoPapelParede() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validação para Adobe Stock
+    if (formData.opcaoImagem === 'adobe-stock') {
+      const hasCode = formData.codigoAdobeStock.trim() !== '';
+      const hasLink = formData.linkImagemAdobe.trim() !== '';
+      const hasInfo = formData.informacoesImagemAdobe.trim() !== '';
+      
+      if (!hasCode && !hasLink && !hasInfo) {
+        alert('Para imagens do Adobe Stock, é obrigatório fornecer pelo menos um dos seguintes: código da imagem, link da imagem ou informações da imagem.');
+        return;
+      }
+    }
+    
     let imagemInfo = '';
     if (formData.opcaoImagem === 'adobe-stock') {
       imagemInfo = `Adobe Stock:
@@ -104,7 +117,7 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
     {
       step: "01",
       title: "Escolha da Imagem",
-      description: "Selecione Adobe Stock ou envie sua própria imagem personalizada"
+      description: "Escolha das nossas texturas da loja ou visite Adobe Stock para selecionar uma imagem"
     },
     {
       step: "02", 
@@ -163,10 +176,7 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className="bg-gradient-to-r from-brand-coral to-brand-yellow text-white font-bold px-8 py-6 text-lg">
-                <Link href="/contactos#formulario">Explorar Catálogo</Link>
-              </Button>
-              <Button variant="outline" className="border-brand-turquoise text-brand-turquoise hover:bg-brand-turquoise hover:text-black px-8 py-6 text-lg">
-                Solicitar Amostras
+                <Link href="/loja/papel-parede">Explorar Catálogo de Texturas</Link>
               </Button>
             </div>
           </div>
@@ -211,7 +221,7 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
               <span className="text-white">Como</span> <span className="text-brand-turquoise">Funciona</span>
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Processo simples e intuitivo para escolher e aplicar o papel perfeito
+              Escolha entre as nossas texturas da loja ou use Adobe Stock. Para imagens do Adobe Stock, recolha o número da imagem ou tire uma miniatura para enviar pelo formulário
             </p>
           </div>
           

@@ -16,8 +16,65 @@ import {
   Award,
   Shield
 } from "lucide-react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ServicoTelasArtisticas() {
+  const [formData, setFormData] = useState({
+    largura: '',
+    altura: '',
+    quantidade: '1',
+    opcaoImagem: 'adobe-stock', // 'adobe-stock' ou 'propria'
+    descricaoImagem: '',
+    codigoAdobeStock: '',
+    linkImagemAdobe: '',
+    informacoesImagemAdobe: '',
+    mensagem: '',
+    nome: '',
+    email: '',
+    telefone: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validação para Adobe Stock
+    if (formData.opcaoImagem === 'adobe-stock') {
+      const hasCode = formData.codigoAdobeStock.trim() !== '';
+      const hasLink = formData.linkImagemAdobe.trim() !== '';
+      const hasInfo = formData.informacoesImagemAdobe.trim() !== '';
+      
+      if (!hasCode && !hasLink && !hasInfo) {
+        alert('Para imagens do Adobe Stock, é obrigatório fornecer pelo menos um dos seguintes: código da imagem, link da imagem ou informações da imagem.');
+        return;
+      }
+    }
+    
+    let imagemInfo = '';
+    if (formData.opcaoImagem === 'adobe-stock') {
+      imagemInfo = `Adobe Stock:
+${formData.codigoAdobeStock ? `📝 Código: ${formData.codigoAdobeStock}` : ''}
+${formData.linkImagemAdobe ? `🔗 Link: ${formData.linkImagemAdobe}` : ''}
+${formData.informacoesImagemAdobe ? `ℹ️ Informações: ${formData.informacoesImagemAdobe}` : ''}
+${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : ''}`;
+    } else {
+      imagemInfo = `Imagem própria - ${formData.descricaoImagem}`;
+    }
+
+    const whatsappMessage = `Olá! Gostaria de um orçamento para tela artística:
+    
+📐 Medidas: ${formData.largura}cm x ${formData.altura}cm
+📦 Quantidade: ${formData.quantidade} tela(s)
+🖼️ Imagem: ${imagemInfo}
+📞 Contacto: ${formData.nome} - ${formData.telefone}
+📧 Email: ${formData.email}
+💬 Mensagem: ${formData.mensagem}`;
+    
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    window.open(`https://wa.me/351930682725?text=${encodedMessage}`, '_blank');
+  };
   const features = [
     {
       icon: <Frame className="w-6 h-6" />,
@@ -78,7 +135,7 @@ export default function ServicoTelasArtisticas() {
     {
       step: "01",
       title: "Seleção da Imagem",
-      description: "Escolha a fotografia ou arte que deseja transformar em tela"
+      description: "Escolha das nossas texturas da loja ou visite Adobe Stock para selecionar uma imagem. Para Adobe Stock, recolha o número da imagem ou tire uma miniatura"
     },
     {
       step: "02", 
