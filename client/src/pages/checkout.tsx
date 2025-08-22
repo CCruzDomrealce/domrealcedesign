@@ -116,28 +116,155 @@ export default function Checkout() {
     setIsProcessing(true);
 
     try {
-      // Simular processamento do pagamento
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      // Limpar carrinho
-      localStorage.removeItem('cart');
+      const orderId = `DP${Date.now()}`;
       
-      toast({
-        title: "Pedido confirmado!",
-        description: `Pagamento processado com sucesso. Total: €${totalFinal.toFixed(2)}`,
+      // Preparar dados para o pagamento
+      const paymentRequest = {
+        method: getPaymentMethod(),
+        orderId,
+        amount: totalFinal,
+        customerData: {
+          email: customerData.email,
+          phone: customerData.telefone,
+        },
+        returnUrls: paymentData.metodoPagamento === 'cartao' ? {
+          success: `${window.location.origin}/api/payments/success`,
+          error: `${window.location.origin}/api/payments/error`,
+          cancel: `${window.location.origin}/api/payments/cancel`,
+        } : undefined,
+      };
+
+      // Criar pagamento
+      const response = await fetch('/api/payments/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentRequest),
       });
 
-      // Redirecionar para página de confirmação
-      setLocation('/pedido-confirmado');
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.message || 'Erro ao processar pagamento');
+      }
+
+      // Processar resposta baseada no método de pagamento
+      const method = getPaymentMethod();
+      
+      if (method === 'creditcard' || method === 'paybylink') {
+        // Redirecionar para página de pagamento
+        window.location.href = result.data.paymentUrl;
+      } else if (method === 'mbway') {
+        // Mostrar instruções MB WAY
+        toast({
+          title: "MB WAY enviado!",
+          description: "Verifique o seu telemóvel para confirmar o pagamento.",
+        });
+        
+        // Monitorizar status do pagamento
+        monitorMBWayPayment(result.data.requestId, orderId);
+      } else {
+        // Multibanco ou Payshop - mostrar referências
+        showPaymentInstructions(method, result.data, orderId);
+      }
+
     } catch (error) {
+      console.error('Payment error:', error);
       toast({
         title: "Erro no processamento",
-        description: "Ocorreu um erro. Tente novamente.",
+        description: error instanceof Error ? error.message : "Ocorreu um erro. Tente novamente.",
         variant: "destructive",
       });
     } finally {
       setIsProcessing(false);
     }
+  };
+
+  const getPaymentMethod = () => {
+    switch (paymentData.metodoPagamento) {
+      case 'cartao': return 'creditcard';
+      case 'transferencia': return 'multibanco';
+      case 'mbway': return 'mbway';
+      default: return 'multibanco';
+    }
+  };
+
+  const monitorMBWayPayment = async (requestId: string, orderId: string) => {
+    const maxAttempts = 48; // 4 minutos (48 x 5 segundos)
+    let attempts = 0;
+
+    const checkStatus = async () => {
+      try {
+        const response = await fetch('/api/payments/mbway/status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ requestId }),
+        });
+
+        const result = await response.json();
+        
+        if (result.status === '000') {
+          // Pagamento confirmado
+          localStorage.removeItem('cart');
+          toast({
+            title: "Pagamento confirmado!",
+            description: "O seu pedido foi processado com sucesso.",
+          });
+          setLocation(`/pedido-confirmado?orderId=${orderId}`);
+        } else if (result.status === '101') {
+          // Pagamento expirado
+          toast({
+            title: "Pagamento expirado",
+            description: "O pagamento MB WAY expirou. Tente novamente.",
+            variant: "destructive",
+          });
+        } else if (attempts < maxAttempts) {
+          // Continuar a verificar
+          setTimeout(checkStatus, 5000);
+          attempts++;
+        } else {
+          // Timeout
+          toast({
+            title: "Timeout do pagamento",
+            description: "Não foi possível confirmar o pagamento. Contacte-nos se já efectuou o pagamento.",
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
+        console.error('Error checking payment status:', error);
+      }
+    };
+
+    checkStatus();
+  };
+
+  const showPaymentInstructions = (method: string, data: any, orderId: string) => {
+    if (method === 'multibanco') {
+      toast({
+        title: "Referência Multibanco gerada",
+        description: `Entidade: ${data.entity} | Referência: ${data.reference} | Valor: €${totalFinal.toFixed(2)}`,
+      });
+    } else if (method === 'payshop') {
+      toast({
+        title: "Referência Payshop gerada",
+        description: `Referência: ${data.reference} | Valor: €${totalFinal.toFixed(2)}`,
+      });
+    }
+
+    // Guardar dados do pedido temporariamente
+    localStorage.setItem('pendingOrder', JSON.stringify({
+      orderId,
+      method,
+      data,
+      amount: totalFinal,
+      customerData,
+    }));
+
+    // Redirecionar para página de instruções
+    setLocation(`/instrucoes-pagamento?method=${method}&orderId=${orderId}`);
   };
 
   return (

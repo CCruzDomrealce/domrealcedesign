@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertContactSchema } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
+import { createIfthenPayService, type PaymentMethod } from "./ifthenpay";
 import rateLimit from 'express-rate-limit';
 import fs from 'fs';
 import path from 'path';
@@ -23,6 +24,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Object storage service
   const objectStorageService = new ObjectStorageService();
+  
+  // IfthenPay service
+  const ifthenPayService = createIfthenPayService();
 
   // Serve public images from object storage
   app.get("/public-objects/:filePath(*)", async (req, res) => {
@@ -317,6 +321,189 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Error fetching contacts:', error);
       res.status(500).json({ message: "Erro interno do servidor" });
     }
+  });
+
+  // Payment routes
+  
+  // Create payment
+  app.post("/api/payments/create", async (req, res) => {
+    try {
+      const { method, orderId, amount, customerData, returnUrls } = req.body;
+      
+      if (!method || !orderId || !amount) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Método de pagamento, ID do pedido e valor são obrigatórios" 
+        });
+      }
+
+      let paymentData: any;
+
+      switch (method as PaymentMethod) {
+        case 'multibanco':
+          paymentData = await ifthenPayService.createMultibancoPayment({
+            orderId,
+            amount: parseFloat(amount),
+            description: `Papel de parede - Pedido ${orderId}`,
+            customerEmail: customerData?.email,
+          });
+          break;
+
+        case 'mbway':
+          if (!customerData?.phone) {
+            return res.status(400).json({ 
+              success: false, 
+              message: "Número de telefone é obrigatório para MB WAY" 
+            });
+          }
+          paymentData = await ifthenPayService.createMBWayPayment({
+            orderId,
+            amount: parseFloat(amount),
+            phone: customerData.phone,
+            description: `Papel de parede - Pedido ${orderId}`,
+            customerEmail: customerData?.email,
+          });
+          break;
+
+        case 'payshop':
+          paymentData = await ifthenPayService.createPayshopPayment({
+            orderId,
+            amount: parseFloat(amount),
+            description: `Papel de parede - Pedido ${orderId}`,
+            customerEmail: customerData?.email,
+          });
+          break;
+
+        case 'creditcard':
+          if (!returnUrls) {
+            return res.status(400).json({ 
+              success: false, 
+              message: "URLs de retorno são obrigatórias para cartão de crédito" 
+            });
+          }
+          paymentData = await ifthenPayService.createCreditCardPayment({
+            orderId,
+            amount: parseFloat(amount),
+            description: `Papel de parede - Pedido ${orderId}`,
+            successUrl: returnUrls.success,
+            errorUrl: returnUrls.error,
+            cancelUrl: returnUrls.cancel,
+            customerEmail: customerData?.email,
+          });
+          break;
+
+        case 'paybylink':
+          paymentData = await ifthenPayService.createPayByLink({
+            orderId,
+            amount: parseFloat(amount),
+            description: `Papel de parede - Pedido ${orderId}`,
+            expiryDays: 3,
+            methods: ['multibanco', 'mbway', 'payshop', 'creditcard'],
+          });
+          break;
+
+        default:
+          return res.status(400).json({ 
+            success: false, 
+            message: "Método de pagamento não suportado" 
+          });
+      }
+
+      res.json({
+        success: true,
+        method,
+        data: paymentData,
+      });
+
+    } catch (error) {
+      console.error('Error creating payment:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Erro ao criar pagamento. Tente novamente." 
+      });
+    }
+  });
+
+  // Check MB WAY payment status
+  app.post("/api/payments/mbway/status", async (req, res) => {
+    try {
+      const { requestId } = req.body;
+      
+      if (!requestId) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Request ID é obrigatório" 
+        });
+      }
+
+      const status = await ifthenPayService.checkMBWayStatus(requestId);
+      
+      res.json({
+        success: true,
+        status: status.status,
+        message: status.message,
+      });
+
+    } catch (error) {
+      console.error('Error checking MB WAY status:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Erro ao verificar status do pagamento" 
+      });
+    }
+  });
+
+  // Payment callback (webhook) handler
+  app.post("/api/payments/callback", async (req, res) => {
+    try {
+      const { key, orderId, amount, requestId, payment_datetime } = req.body;
+      
+      // Validate callback
+      const isValid = ifthenPayService.validateCallback(
+        orderId,
+        amount,
+        requestId,
+        key
+      );
+
+      if (!isValid) {
+        console.log('Invalid callback received:', req.body);
+        return res.status(400).send('Invalid callback');
+      }
+
+      // Process payment confirmation
+      console.log(`Payment confirmed for order ${orderId}: €${amount}`);
+      
+      // Here you would typically:
+      // 1. Update order status in database
+      // 2. Send confirmation email to customer
+      // 3. Trigger any business logic (e.g., start production)
+      
+      // Return HTTP 200 to acknowledge receipt
+      res.status(200).send('OK');
+
+    } catch (error) {
+      console.error('Error processing callback:', error);
+      res.status(500).send('Error processing callback');
+    }
+  });
+
+  // Payment success page
+  app.get("/api/payments/success", (req, res) => {
+    const { orderId, amount } = req.query;
+    res.redirect(`/pedido-confirmado?orderId=${orderId}&amount=${amount}`);
+  });
+
+  // Payment error page
+  app.get("/api/payments/error", (req, res) => {
+    const { orderId, error } = req.query;
+    res.redirect(`/checkout?error=${error}&orderId=${orderId}`);
+  });
+
+  // Payment cancel page
+  app.get("/api/payments/cancel", (req, res) => {
+    const { orderId } = req.query;
+    res.redirect(`/checkout?cancelled=true&orderId=${orderId}`);
   });
 
   const httpServer = createServer(app);
