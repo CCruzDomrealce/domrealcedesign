@@ -457,39 +457,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/payments/callback", async (req, res) => {
     try {
       const { 
-        key,             // Anti-phishing key (chave)
-        orderId,         // Order ID
-        amount,          // Amount (valor)
-        requestId,       // Request ID
-        payment_datetime, // Payment datetime
+        chave,           // Anti-phishing key (Multibanco format)
+        key,             // Anti-phishing key (alternative format)
         entidade,        // Entity (for Multibanco)
-        referencia       // Reference
+        referencia,      // Reference (for Multibanco)
+        valor,           // Amount (for Multibanco)
+        datahorapag,     // Payment datetime (for Multibanco)
+        orderId,         // Order ID (for other methods)
+        amount,          // Amount (alternative format)
+        requestId,       // Request ID (for MB WAY)
+        payment_datetime // Payment datetime (alternative format)
       } = req.query;
       
       console.log('IfthenPay callback received from www.domrealce.com:', {
+        chave: chave ? `${String(chave).substring(0,5)}...` : 'missing',
         key: key ? `${String(key).substring(0,5)}...` : 'missing',
+        entidade,
+        referencia,
+        valor,
+        datahorapag,
         orderId,
         amount,
         requestId,
-        payment_datetime,
-        entidade,
-        referencia
+        payment_datetime
       });
       
-      // Validate anti-phishing key
+      // Validate anti-phishing key (support both formats)
       const expectedKey = process.env.IFTHENPAY_ANTI_PHISHING_KEY;
+      const receivedKey = chave || key; // Try both parameter names
+      
       if (!expectedKey) {
         console.log('Anti-phishing key not configured in environment');
         return res.status(200).send('OK'); // Don't reject if not configured yet
       }
       
-      if (key !== expectedKey) {
-        console.log(`Invalid anti-phishing key. Expected: ${expectedKey.substring(0,5)}..., Got: ${String(key).substring(0,5)}...`);
+      if (receivedKey !== expectedKey) {
+        console.log(`Invalid anti-phishing key. Expected: ${expectedKey.substring(0,5)}..., Got: ${String(receivedKey).substring(0,5)}...`);
         return res.status(403).send('Forbidden');
       }
 
-      // Process payment confirmation
-      console.log(`✓ Payment confirmed! Order: ${orderId}, Amount: €${amount}, DateTime: ${payment_datetime}`);
+      // Process payment confirmation (support multiple formats)
+      const finalAmount = valor || amount;
+      const finalOrderId = orderId || `Ref-${referencia}`;
+      const finalDateTime = datahorapag || payment_datetime;
+      
+      console.log(`✓ Payment confirmed! Order: ${finalOrderId}, Amount: €${finalAmount}, Entity: ${entidade}, Reference: ${referencia}, DateTime: ${finalDateTime}`);
       
       // Here you would typically:
       // 1. Update order status in database
