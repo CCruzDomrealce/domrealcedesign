@@ -20,86 +20,16 @@ interface Product {
 }
 
 const products: Product[] = [
-  {
-    id: 1,
-    name: "Placa Decorativa Vintage",
-    description: "Placa decorativa em metal vintage personalizada com a sua mensagem.",
-    price: 25.99,
-    originalPrice: 29.99,
-    rating: 4.8,
-    image: "/placeholder-product.jpg",
-    category: "placas-decorativas",
-    status: 'promotion'
-  },
-  {
-    id: 2,
-    name: "Autocolantes Logo Empresa",
-    description: "Pack de 50 autocolantes personalizados com o seu logótipo.",
-    price: 15.50,
-    rating: 4.9,
-    image: "/placeholder-product.jpg",
-    category: "autocolantes",
-    status: 'new'
-  },
-  {
-    id: 3,
-    name: "Quadro Canvas Personalizado",
-    description: "Quadro em canvas com a sua imagem ou design preferido.",
-    price: 45.00,
-    originalPrice: 55.00,
-    rating: 4.7,
-    image: "/placeholder-product.jpg",
-    category: "quadros",
-    status: 'promotion'
-  },
-  {
-    id: 4,
-    name: "Kit Sinalização Escritório",
-    description: "Kit completo de sinalização para escritórios com placas de identificação.",
-    price: 89.99,
-    rating: 4.6,
-    image: "/placeholder-product.jpg",
-    category: "sinalizacao",
-    status: 'sold-out'
-  },
-  {
-    id: 5,
-    name: "Adesivos Decorativos Parede",
-    description: "Conjunto de adesivos decorativos removíveis para paredes.",
-    price: 12.75,
-    rating: 4.5,
-    image: "/placeholder-product.jpg",
-    category: "autocolantes",
-    status: 'new'
-  },
-  {
-    id: 6,
-    name: "Placa Identificação Porta",
-    description: "Placa elegante para identificação de portas de escritório ou casa.",
-    price: 18.90,
-    originalPrice: 22.90,
-    rating: 4.8,
-    image: "/placeholder-product.jpg",
-    category: "placas-decorativas",
-    status: 'promotion'
-  }
+  // Produtos removidos - apenas Papel de Parede disponível por agora
 ];
 
 const categories = [
-  { id: 'todos', name: 'Todos' },
-  { id: 'papel-parede', name: 'Papel de Parede', href: '/loja/papel-parede' },
-  { id: 'placas-decorativas', name: 'Placas Decorativas' },
-  { id: 'autocolantes', name: 'Autocolantes' },
-  { id: 'quadros', name: 'Quadros' },
-  { id: 'sinalizacao', name: 'Sinalização' }
+  { id: 'papel-parede', name: 'Papel de Parede', href: '/loja/papel-parede' }
+  // Outras categorias serão adicionadas conforme necessário
 ];
 
 export default function Loja() {
-  const [selectedCategory, setSelectedCategory] = useState('todos');
-  
-  const filteredProducts = selectedCategory === 'todos' 
-    ? products 
-    : products.filter(product => product.category === selectedCategory);
+  // Simplified - only Papel de Parede category available
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -146,105 +76,49 @@ export default function Loja() {
         </div>
       </section>
 
-      {/* Categories Filter */}
-      <section className="pt-0 pb-4">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-wrap gap-4 justify-center">
-            {categories.map((category) => (
-              category.href ? (
-                <Link key={category.id} href={category.href}>
-                  <Button
-                    variant="outline"
-                    className="border-[#333] text-white hover:border-[#FFD700]"
-                  >
-                    {category.name}
-                  </Button>
-                </Link>
-              ) : (
-                <Button
-                  key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "outline"}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={selectedCategory === category.id 
-                    ? "bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold"
-                    : "border-[#333] text-white hover:border-[#FFD700]"
-                  }
-                >
-                  {category.name}
-                </Button>
-              )
-            ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Products Grid */}
-      <section className="pt-0 pb-8">
+
+      {/* Main Category Section */}
+      <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((product) => (
-              <Card key={product.id} className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group">
-                <CardContent className="p-0">
-                  <div className="relative">
-                    <div className="w-full h-48 bg-gradient-to-br from-[#333] to-[#222] rounded-t-lg flex items-center justify-center">
-                      <div className="text-6xl opacity-20">📦</div>
-                    </div>
-                    {getStatusBadge(product.status) && (
-                      <div className="absolute top-3 left-3">
-                        {getStatusBadge(product.status)}
-                      </div>
-                    )}
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-8 text-[#FFD700]">
+              Categoria Disponível
+            </h2>
+            
+            {/* Papel de Parede Card */}
+            <Link href="/loja/papel-parede">
+              <Card className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group cursor-pointer max-w-md mx-auto">
+                <CardContent className="p-8">
+                  <div className="w-24 h-24 bg-gradient-to-br from-[#FFD700] to-[#20B2AA] rounded-full mx-auto mb-6 flex items-center justify-center">
+                    <span className="text-4xl">🎨</span>
                   </div>
                   
-                  <div className="p-6">
-                    <div className="mb-3">
-                      {renderStars(product.rating)}
-                    </div>
-                    
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-[#FFD700] transition-colors">
-                      {product.name}
-                    </h3>
-                    
-                    <p className="text-gray-400 mb-4 text-sm">
-                      {product.description}
-                    </p>
-                    
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-[#FFD700]">
-                          €{product.price.toFixed(2)}
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-gray-500 line-through">
-                            €{product.originalPrice.toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      <Button 
-                        className={`flex-1 ${
-                          product.status === 'sold-out' 
-                            ? 'bg-gray-600 text-gray-400 cursor-not-allowed' 
-                            : 'bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90'
-                        }`}
-                        disabled={product.status === 'sold-out'}
-                      >
-                        <ShoppingCart className="w-4 h-4 mr-2" />
-                        {product.status === 'sold-out' ? 'Esgotado' : 'Adicionar'}
-                      </Button>
-                      <Button variant="outline" size="icon" className="border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black">
-                        <Settings className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
+                  <h3 className="text-2xl font-bold mb-4 group-hover:text-[#FFD700] transition-colors">
+                    Papel de Parede
+                  </h3>
+                  
+                  <p className="text-gray-400 mb-6">
+                    Explore nossa vasta coleção de texturas e padrões para papel de parede. 
+                    Mais de 2.700 texturas organizadas por categorias.
+                  </p>
+                  
+                  <Button className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90">
+                    Ver Coleção
+                  </Button>
                 </CardContent>
               </Card>
-            ))}
+            </Link>
+            
+            {/* Info about more categories */}
+            <div className="mt-12 p-6 bg-[#111111] rounded-lg border border-[#333]">
+              <h4 className="text-lg font-semibold mb-3 text-[#20B2AA]">
+                Mais Categorias em Breve
+              </h4>
+              <p className="text-gray-300">
+                Outras categorias como Placas Decorativas, Autocolantes, Quadros e Sinalização 
+                serão adicionadas progressivamente conforme necessário.
+              </p>
             </div>
           </div>
         </div>
