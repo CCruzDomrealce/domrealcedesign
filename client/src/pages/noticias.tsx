@@ -12,14 +12,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const noticias = [
   {
     id: 1,
-    titulo: "DOMREALCE Lança Nova Plataforma Digital com Loja Online Integrada",
-    resumo: "Apresentamos o nosso novo website com funcionalidades avançadas de e-commerce, sistema de pagamentos nacional e portfolio interativo.",
-    conteudo: "Estamos orgulhosos de anunciar o lançamento da nossa nova plataforma digital www.domrealce.com, que representa um marco importante na evolução da nossa empresa. Principais novidades: Portfolio Interativo com trabalhos organizados por categorias, Loja Online de Papel de Parede com cálculo automático de área e preços, opções de acabamento e sistema inteligente de medidas, Pagamentos 100% Portugueses com MB WAY, Multibanco e Payshop, confirmações automáticas em tempo real. Website totalmente responsivo, formulários de contacto com upload de ficheiros, sistema de orçamentos online e guias de aplicação. Esta plataforma reflete o nosso compromisso com a inovação e qualidade. Visite já: www.domrealce.com",
+    titulo: "🚀 DOMREALCE Digital: A Revolução na Comunicação Visual Portuguesa Chegou!",
+    resumo: "Descobra a nova era da comunicação visual com a nossa plataforma digital revolucionária. Design profissional, tecnologia de ponta e a qualidade DOMREALCE que conhece - tudo num só lugar, à distância de um clique.",
+    conteudo: "⭐ A NOVA ERA DA COMUNICAÇÃO VISUAL PORTUGUESA ESTÁ AQUI!\n\nApós meses de desenvolvimento intensivo, apresentamos com imenso orgulho www.domrealce.com - não é apenas um website, é uma revolução digital que vai transformar a forma como pensa em comunicação visual!\n\n🎨 EXPLORE UM UNIVERSO DE POSSIBILIDADES\n• Portfolio Interativo com mais de 200 projetos exclusivos organizados por categorias\n• Galeria HD com antes/depois dos nossos trabalhos mais impactantes\n• Estudos de caso detalhados de campanhas que marcaram a diferença\n• Inspiração sem limites para o seu próximo projeto\n\n🛒 LOJA ONLINE INTELIGENTE - PAPEL DE PAREDE PERSONALIZADO\n• Calculadora automática de medidas - nunca mais desperdice material!\n• Simulador de acabamentos em tempo real\n• Sistema de orçamento instantâneo com preços transparentes\n• Guias de aplicação profissionais incluídos\n\n💳 PAGAMENTOS 100% PORTUGUESES SEGUROS\n• MB WAY instantâneo\n• Multibanco tradicional\n• Payshop para pagamento físico\n• Confirmações automáticas por SMS e email\n\n📱 EXPERIÊNCIA PREMIUM EM QUALQUER DISPOSITIVO\n• Design responsivo de última geração\n• Navegação intuitiva e carregamento ultra-rápido\n• Formulários inteligentes com upload direto de ficheiros\n• Sistema de orçamentos online com resposta em 24h\n\n🏆 QUALIDADE DOMREALCE, AGORA DIGITAL\nMais de 15 anos de experiência em comunicação visual, agora potenciados pela tecnologia mais avançada. Cada detalhe foi pensado para proporcionar uma experiência única e profissional.\n\n🎯 PORQUE É QUE DEVE VISITAR AGORA?\n✓ Descontos exclusivos de lançamento até 31 de Agosto\n✓ Orçamentos gratuitos e sem compromisso\n✓ Inspiração ilimitada para os seus projetos\n✓ Acesso prioritário a novos serviços\n✓ Suporte técnico especializado incluído\n\n🌟 NÃO PERCA ESTA OPORTUNIDADE ÚNICA!\nSeja um dos primeiros a descobrir o futuro da comunicação visual portuguesa. Visite www.domrealce.com e prepare-se para ficar surpreendido!\n\n👑 DOMREALCE Digital - Onde a Sua Visão Ganha Vida!",
     categoria: "Novidades DOMREALCE",
-    imagem: "/public-objects/portfolio/website-launch.jpg",
+    imagem: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
     data: "2025-08-22",
     autor: "Equipa DOMREALCE",
-    tags: ["website", "loja-online", "inovação", "digital"],
+    tags: ["revolução-digital", "loja-exclusiva", "descontos-lançamento", "premium", "inovação-portuguesa"],
     visualizacoes: 1,
     likes: 0,
     comentarios: 0
@@ -149,9 +149,16 @@ export default function Noticias() {
                 <div className="md:flex">
                   {/* Imagem */}
                   <div className="md:w-1/3">
-                    <div className="aspect-video md:aspect-square bg-muted relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-brand-yellow/20 to-brand-turquoise/20 flex items-center justify-center">
-                        <span className="text-6xl text-muted-foreground/50">📰</span>
+                    <div className="aspect-video md:aspect-square bg-muted relative overflow-hidden">
+                      <img 
+                        src={noticia.imagem} 
+                        alt={noticia.titulo}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-br from-brand-yellow/20 via-transparent to-brand-turquoise/20"></div>
+                      {/* Badge de destaque */}
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-brand-coral text-white font-semibold">🔥 NOVO</Badge>
                       </div>
                     </div>
                   </div>
@@ -211,8 +218,12 @@ export default function Noticias() {
 
                       {/* Acções */}
                       <div className="flex items-center justify-between">
-                        <Button variant="outline" className="border-brand-turquoise text-brand-turquoise hover:bg-brand-turquoise hover:text-white">
-                          Ler Mais
+                        <Button 
+                          variant="outline" 
+                          className="border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white font-semibold shadow-sm"
+                          onClick={() => window.open('https://www.domrealce.com', '_blank')}
+                        >
+                          🌟 Descobrir Agora
                         </Button>
                         
                         {/* Partilha Social */}
