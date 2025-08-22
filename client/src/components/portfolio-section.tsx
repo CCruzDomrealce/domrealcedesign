@@ -1,47 +1,27 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 const portfolioItems = [
   {
-    image: "https://images.unsplash.com/photo-1607462109225-6b64ae2dd3cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-    title: "Adesivos Personalizados",
-    description: "Alta definição e durabilidade para qualquer superfície",
-    price: "A partir de €5",
-    titleColor: "text-brand-yellow"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-    title: "Placas e Painéis",
-    description: "Sinalização profissional para interior e exterior",
-    price: "A partir de €25",
-    titleColor: "text-brand-turquoise"
-  },
-  {
     image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-    title: "Quadros Decorativos",
-    description: "Personalização completa para ambientes únicos",
-    price: "A partir de €15",
-    titleColor: "text-brand-turquoise"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-    title: "Banners Personalizados",
-    description: "Grande formato com impressão de alta qualidade",
-    price: "A partir de €20",
-    titleColor: "text-brand-coral"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-    title: "Wrapping Veículos",
-    description: "Transforme seu carro numa ferramenta de marketing",
-    price: "A partir de €300",
+    title: "Papel de Parede Premium",
+    description: "Mais de 3000 texturas em alta definição. Personalização completa com medidas exatas.",
+    price: "A partir de €12/m²",
     titleColor: "text-brand-yellow"
   },
   {
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-    title: "Vitrines Criativas",
-    description: "Design impactante para atrair mais clientes",
-    price: "A partir de €150",
+    image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    title: "Papel de Parede Personalizado",
+    description: "Transforme a sua imagem ou design numa obra de arte para as suas paredes.",
+    price: "A partir de €15/m²",
     titleColor: "text-brand-turquoise"
+  },
+  {
+    image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    title: "Instalação Profissional",
+    description: "Serviço completo de medição, impressão e aplicação por profissionais experientes.",
+    price: "Orçamento personalizado",
+    titleColor: "text-brand-coral"
   }
 ];
 
@@ -77,8 +57,9 @@ export default function PortfolioSection() {
                   <Button 
                     variant="link" 
                     className="text-brand-turquoise hover:text-brand-turquoise transition-colors p-0 hover-lift"
+                    asChild
                   >
-                    Ver Mais
+                    <Link href="/loja/papel-parede">Ver Mais</Link>
                   </Button>
                 </div>
               </div>

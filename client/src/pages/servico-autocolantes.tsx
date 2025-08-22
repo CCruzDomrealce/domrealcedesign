@@ -53,13 +53,13 @@ export default function ServicoAutocolantes() {
 
   const materials = [
     {
-      name: "Vinil Adesivo Brilhante",
+      name: "Vinil Autocolante Brilhante",
       description: "Acabamento brilhante para máximo impacto visual",
       durability: "5-7 anos exterior",
       applications: ["Montras", "Viaturas", "Sinalização"]
     },
     {
-      name: "Vinil Adesivo Mate", 
+      name: "Vinil Autocolante Mate", 
       description: "Acabamento mate elegante e discreto",
       durability: "5-7 anos exterior",
       applications: ["Decoração", "Etiquetas premium", "Equipamentos"]

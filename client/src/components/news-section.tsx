@@ -5,30 +5,12 @@ import { Link } from "wouter";
 const newsArticles = [
   {
     image: "https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
-    category: "Tendências",
+    category: "Lançamento",
     categoryColor: "bg-brand-yellow text-black",
-    date: "15 Jan 2024",
-    title: "Novas Tendências em Comunicação Visual 2024",
-    description: "Descubra as tendências mais recentes em design e comunicação visual que estão moldando o mercado.",
+    date: "22 Ago 2025",
+    title: "DOMREALCE Lança Loja Online de Papel de Parede",
+    description: "Revolutionamos a forma como escolhe e compra papel de parede com a nossa nova plataforma digital. Mais de 3000 texturas agora disponíveis online.",
     titleHoverColor: "hover:text-brand-yellow"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
-    category: "Tecnologia",
-    categoryColor: "bg-brand-turquoise text-black",
-    date: "10 Jan 2024",
-    title: "Impressão Digital: Tecnologia Ricoh Pro L5160",
-    description: "Conheça a nossa nova impressora de alta definição que revoluciona a qualidade dos nossos trabalhos.",
-    titleHoverColor: "hover:text-brand-turquoise"
-  },
-  {
-    image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
-    category: "Inovação",
-    categoryColor: "bg-brand-coral text-white",
-    date: "5 Jan 2024",
-    title: "Fachadas LED: O Futuro da Sinalização",
-    description: "Como as fachadas LED estão transformando a comunicação visual das empresas.",
-    titleHoverColor: "hover:text-brand-coral"
   }
 ];
 

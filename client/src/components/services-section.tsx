@@ -1,56 +1,56 @@
-import { Printer, Scissors, Store, Car, Eye, Sparkles, ArrowRight } from "lucide-react";
+import { Palette, Printer, Scissors, Lightbulb, Shield, Car, Sparkles, ArrowRight } from "lucide-react";
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 
 const services = [
   {
-    icon: Printer,
-    title: "Impressão Digital",
-    description: "Banners, adesivos e painéis com alta definição e cores vibrantes.",
+    icon: Palette,
+    title: "Design Gráfico",
+    description: "Criação e desenvolvimento de identidade visual completa",
     color: "from-brand-yellow to-brand-coral",
     titleColor: "text-brand-yellow",
+    link: "/servico-design-grafico"
+  },
+  {
+    icon: Printer,
+    title: "Impressão Digital",
+    description: "Em vinil, lona, canvas e papel de parede com alta definição e cores vibrantes",
+    color: "from-brand-turquoise to-brand-blue",
+    titleColor: "text-brand-turquoise",
     link: "/servico-impressao-digital"
   },
   {
     icon: Scissors,
     title: "Corte de Vinil",
-    description: "Frases decorativas, sinalização e personalização de paredes.",
-    color: "from-brand-turquoise to-brand-blue",
-    titleColor: "text-brand-turquoise",
+    description: "Para decoração de espaços e viaturas",
+    color: "from-brand-blue to-brand-coral",
+    titleColor: "text-brand-blue",
     link: "/servico-autocolantes"
   },
   {
-    icon: Store,
-    title: "Fachadas e Letreiros",
-    description: "Sinalização exterior profissional para seu negócio.",
-    color: "from-brand-blue to-brand-coral",
-    titleColor: "text-brand-turquoise",
+    icon: Lightbulb,
+    title: "Reclames Luminosos e Painéis",
+    description: "Sinalização interior e exterior profissional para o seu negócio",
+    color: "from-brand-coral to-brand-yellow",
+    titleColor: "text-brand-coral",
     link: "/servico-espacos-comerciais"
   },
   {
-    icon: Car,
-    title: "Adesivação de Veículos",
-    description: "Transforme seu veículo numa ferramenta de marketing.",
-    color: "from-brand-coral to-brand-yellow",
-    titleColor: "text-brand-coral",
-    link: "/servico-decoracao-viaturas"
-  },
-  {
-    icon: Eye,
-    title: "Comunicação Visual",
-    description: "Vitrines criativas que atraem e convertem clientes.",
+    icon: Shield,
+    title: "Películas de Proteção Solar",
+    description: "Reduzem o calor, protegem do UV e proporcionam privacidade, mantendo a luminosidade natural",
     color: "from-brand-yellow to-brand-turquoise",
     titleColor: "text-brand-yellow",
-    link: "/servico-design-grafico"
+    link: "/servicos"
   },
   {
-    icon: Sparkles,
-    title: "Personalização",
-    description: "Soluções únicas e criativas para cada projeto.",
+    icon: Car,
+    title: "Decoração de Viaturas",
+    description: "Destacamo-nos em camiões, máquinas de obras e viaturas de competição",
     color: "from-brand-turquoise to-brand-coral",
     titleColor: "text-brand-turquoise",
-    link: "/servicos"
+    link: "/servico-decoracao-viaturas"
   }
 ];
 
@@ -79,7 +79,7 @@ export default function ServicesSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 scroll-animate-left">
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
-            <span className="text-brand-yellow animate-pulse-brand">Nossos</span> <span className="text-white">Serviços</span>
+            <span className="text-brand-yellow animate-pulse-brand">Nossos Principais</span> <span className="text-white">Serviços</span>
           </h3>
           <p className="text-xl text-white/80 max-w-3xl mx-auto">
             Soluções completas em comunicação visual para destacar sua marca no mercado

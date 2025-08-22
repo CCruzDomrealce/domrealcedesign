@@ -37,7 +37,7 @@ const services: Service[] = [
     title: "Impressão Digital",
     description: "Impressão de alta qualidade em diversos materiais como vinil e lona",
     features: [
-      "Vinil adesivo e decorativo",
+      "Vinil autocolante e decorativo",
       "Lona publicitária",
       "Impressão em grande formato",
       "Materiais resistentes",

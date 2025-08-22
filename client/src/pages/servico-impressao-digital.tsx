@@ -53,7 +53,7 @@ export default function ServicoImpressaoDigital() {
 
   const materials = [
     {
-      name: "Vinil Adesivo",
+      name: "Vinil Autocolante",
       description: "Para aplicação em superfícies lisas e curvas",
       applications: ["Montras", "Viaturas", "Sinalização"]
     },
