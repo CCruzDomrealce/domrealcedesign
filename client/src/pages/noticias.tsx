@@ -219,11 +219,13 @@ export default function Noticias() {
                       {/* Acções */}
                       <div className="flex items-center justify-between">
                         <Button 
+                          asChild
                           variant="outline" 
                           className="border-brand-coral text-brand-coral hover:bg-brand-coral hover:text-white font-semibold shadow-sm"
-                          onClick={() => window.open('https://www.domrealce.com', '_blank')}
                         >
-                          🌟 Descobrir Agora
+                          <Link href="/servicos">
+                            🌟 Descobrir Agora
+                          </Link>
                         </Button>
                         
                         {/* Partilha Social */}
