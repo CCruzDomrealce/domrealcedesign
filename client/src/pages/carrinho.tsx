@@ -17,6 +17,10 @@ interface CartItem {
   preco: number;
   acabamento: 'brilho' | 'mate';
   laminacao: boolean;
+  tipoCola?: 'com-cola' | 'sem-cola';
+  largura?: number;
+  altura?: number;
+  area?: number;
   precoTotal: number;
   quantidade?: number;
 }
@@ -31,12 +35,16 @@ export default function Carrinho() {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
       const items = JSON.parse(savedCart);
-      // Add quantity if not exists
-      const itemsWithQuantity = items.map((item: CartItem) => ({
+      // Add default values if not exists
+      const itemsWithDefaults = items.map((item: CartItem) => ({
         ...item,
-        quantidade: item.quantidade || 1
+        quantidade: item.quantidade || 1,
+        largura: item.largura || 1,
+        altura: item.altura || 1,
+        area: item.area || (item.largura || 1) * (item.altura || 1),
+        tipoCola: item.tipoCola || 'com-cola'
       }));
-      setCartItems(itemsWithQuantity);
+      setCartItems(itemsWithDefaults);
     }
     setIsLoading(false);
   }, []);
@@ -50,8 +58,20 @@ export default function Carrinho() {
     const updatedItems = cartItems.map(item => {
       if (item.id === id) {
         const updatedItem = { ...item, ...updates };
-        // Recalculate total price
-        updatedItem.precoTotal = updatedItem.preco + (updatedItem.laminacao ? 8 : 0);
+        
+        // Calculate area if largura or altura changed
+        if ('largura' in updates || 'altura' in updates) {
+          const largura = updatedItem.largura || 1;
+          const altura = updatedItem.altura || 1;
+          updatedItem.area = largura * altura;
+        }
+        
+        // Recalculate total price based on area
+        const area = updatedItem.area || 1;
+        const basePrice = updatedItem.preco * area;
+        const laminacaoPrice = updatedItem.laminacao ? 8 * area : 0;
+        updatedItem.precoTotal = basePrice + laminacaoPrice;
+        
         return updatedItem;
       }
       return item;
@@ -250,6 +270,46 @@ export default function Carrinho() {
                             </p>
                           </div>
 
+                          {/* Medidas */}
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-2">
+                                Largura (m)
+                              </label>
+                              <input
+                                type="number"
+                                step="0.1"
+                                min="0.1"
+                                value={item.largura || 1}
+                                onChange={(e) => updateItem(item.id, { largura: parseFloat(e.target.value) || 1 })}
+                                className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-2">
+                                Altura (m)
+                              </label>
+                              <input
+                                type="number"
+                                step="0.1"
+                                min="0.1"
+                                value={item.altura || 1}
+                                onChange={(e) => updateItem(item.id, { altura: parseFloat(e.target.value) || 1 })}
+                                className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Área Calculada */}
+                          <div className="p-3 bg-[#0a0a0a] rounded border border-[#333]">
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm text-gray-300">Área total:</span>
+                              <span className="text-lg font-bold text-[#FFD700]">
+                                {((item.largura || 1) * (item.altura || 1)).toFixed(2)} m²
+                              </span>
+                            </div>
+                          </div>
+
                           {/* Laminação */}
                           <div className="flex items-center space-x-2">
                             <input
@@ -260,7 +320,7 @@ export default function Carrinho() {
                               className="rounded border-[#333] bg-[#0a0a0a] text-[#FFD700] focus:ring-[#FFD700]"
                             />
                             <label htmlFor={`laminacao-${item.id}`} className="text-sm text-gray-300">
-                              Laminação (+€8)
+                              Laminação (+€8/m²)
                             </label>
                             <Sparkles className="h-4 w-4 text-[#FFD700]" />
                           </div>
@@ -299,11 +359,18 @@ export default function Carrinho() {
                       {/* Price & Actions */}
                       <div className="md:col-span-1 text-right space-y-4">
                         <div>
-                          <p className="text-sm text-gray-400">Preço unitário:</p>
-                          <p className="text-lg font-semibold text-white">€{item.precoTotal}</p>
-                          <p className="text-sm text-gray-400">
-                            Total: €{(item.precoTotal * (item.quantidade || 1)).toFixed(2)}
-                          </p>
+                          <p className="text-sm text-gray-400">Preço por m²:</p>
+                          <p className="text-md font-semibold text-white">€{item.preco}/m²</p>
+                          {item.laminacao && (
+                            <p className="text-xs text-gray-400">+ €8/m² laminação</p>
+                          )}
+                          <div className="mt-2 pt-2 border-t border-[#333]">
+                            <p className="text-sm text-gray-400">Total área ({((item.largura || 1) * (item.altura || 1)).toFixed(2)} m²):</p>
+                            <p className="text-lg font-semibold text-[#FFD700]">€{item.precoTotal.toFixed(2)}</p>
+                            <p className="text-sm text-gray-400">
+                              Final: €{(item.precoTotal * (item.quantidade || 1)).toFixed(2)}
+                            </p>
+                          </div>
                         </div>
                         
                         <Button

@@ -114,6 +114,9 @@ export default function LojaTexturaDetalhes() {
       acabamento: 'brilho' as const,
       laminacao: false,
       tipoCola: 'com-cola' as const,
+      largura: 1,
+      altura: 1,
+      area: 1,
       precoTotal: basePrice,
     };
 
@@ -264,10 +267,10 @@ export default function LojaTexturaDetalhes() {
                 <div className="mb-6 p-4 bg-[#0a0a0a] rounded-lg border border-[#333]">
                   <div className="flex justify-between items-center">
                     <span className="text-[#FFD700] font-bold">Preço base:</span>
-                    <span className="text-[#FFD700] font-bold text-xl">€{basePrice}</span>
+                    <span className="text-[#FFD700] font-bold text-xl">€{basePrice}/m²</span>
                   </div>
                   <p className="text-xs text-gray-400 mt-2">
-                    *Personalização disponível no carrinho
+                    *Medidas e personalização no carrinho
                   </p>
                 </div>
 
