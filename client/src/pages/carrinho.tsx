@@ -126,11 +126,11 @@ export default function Carrinho() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#0a0a0a] carbon-texture text-white">
       <Navigation />
       
       {/* Header */}
-      <div className="bg-[#111111] border-b border-[#333] mt-16">
+      <div className="bg-[#111111] carbon-texture-subtle border-b border-[#333] mt-16">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center gap-4 mb-6">
             <Link href="/loja">
@@ -186,7 +186,7 @@ export default function Carrinho() {
               </div>
 
               {cartItems.map((item) => (
-                <Card key={item.id} className="bg-[#111111] border-[#333]">
+                <Card key={item.id} className="bg-[#111111] carbon-texture-subtle border-[#333]">
                   <CardContent className="p-6">
                     <div className="grid md:grid-cols-4 gap-6">
                       {/* Product Image */}

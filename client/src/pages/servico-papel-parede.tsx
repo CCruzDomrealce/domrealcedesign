@@ -303,7 +303,7 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
       </section>
 
       {/* Orçamento Personalizado */}
-      <section className="py-16 bg-gray-900/30">
+      <section className="py-16 bg-gray-900/30 carbon-texture-subtle">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">

@@ -34,7 +34,7 @@ export default function Navigation() {
   };
 
   return (
-    <header className={`fixed w-full top-0 z-50 transition-all duration-300 border-b border-brand-yellow ${
+    <header className={`fixed w-full top-0 z-50 transition-all duration-300 border-b border-brand-yellow carbon-texture ${
       isScrolled ? "bg-black" : "bg-black/90 backdrop-blur-md"
     }`}>
       <nav className="container mx-auto px-4 py-4">
