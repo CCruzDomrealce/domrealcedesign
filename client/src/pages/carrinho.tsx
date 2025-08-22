@@ -51,7 +51,7 @@ export default function Carrinho() {
       if (item.id === id) {
         const updatedItem = { ...item, ...updates };
         // Recalculate total price
-        updatedItem.precoTotal = updatedItem.preco + (updatedItem.laminacao ? 5 : 0);
+        updatedItem.precoTotal = updatedItem.preco + (updatedItem.laminacao ? 8 : 0);
         return updatedItem;
       }
       return item;
@@ -232,13 +232,13 @@ export default function Carrinho() {
                                 <SelectItem value="com-cola" className="text-white hover:bg-[#333]">
                                   <div className="flex items-center gap-2">
                                     <div className="h-4 w-4 bg-[#20B2AA] rounded-full"></div>
-                                    Com Cola (Pronto a aplicar)
+                                    Com Cola (Vinil autocolante)
                                   </div>
                                 </SelectItem>
                                 <SelectItem value="sem-cola" className="text-white hover:bg-[#333]">
                                   <div className="flex items-center gap-2">
                                     <div className="h-4 w-4 bg-[#FFD700] rounded-full"></div>
-                                    Sem Cola (Tradicional)
+                                    Sem Cola (Cola comprada separadamente)
                                   </div>
                                 </SelectItem>
                               </SelectContent>
@@ -260,7 +260,7 @@ export default function Carrinho() {
                               className="rounded border-[#333] bg-[#0a0a0a] text-[#FFD700] focus:ring-[#FFD700]"
                             />
                             <label htmlFor={`laminacao-${item.id}`} className="text-sm text-gray-300">
-                              Laminação (+€5)
+                              Laminação (+€8)
                             </label>
                             <Sparkles className="h-4 w-4 text-[#FFD700]" />
                           </div>

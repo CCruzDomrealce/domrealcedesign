@@ -46,9 +46,10 @@ export default function ComoAplicarPapelParede() {
                   <h3 className="text-xl font-bold text-[#20B2AA]">Com Cola</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Papel de parede pré-colado, pronto a aplicar. Apenas necessita ativar a cola com água.
+                  Papel de parede em vinil autocolante, pronto a aplicar. Material pré-colado que apenas necessita ativar a cola com água.
                 </p>
                 <ul className="text-sm text-gray-400 space-y-1">
+                  <li>• Material: Vinil autocolante</li>
                   <li>• Aplicação mais rápida</li>
                   <li>• Menos materiais necessários</li>
                   <li>• Ideal para principiantes</li>
@@ -64,11 +65,12 @@ export default function ComoAplicarPapelParede() {
                   <h3 className="text-xl font-bold text-[#FFD700]">Sem Cola</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Papel de parede tradicional que requer aplicação de cola separadamente.
+                  Papel de parede tradicional que requer cola comprada separadamente e aplicada com rolo.
                 </p>
                 <ul className="text-sm text-gray-400 space-y-1">
+                  <li>• Cola comprada separadamente</li>
+                  <li>• Aplicação com rolo</li>
                   <li>• Maior controlo da aplicação</li>
-                  <li>• Necessita cola específica</li>
                   <li>• Mais económico</li>
                   <li>• Aplicação profissional recomendada</li>
                 </ul>
@@ -99,9 +101,9 @@ export default function ComoAplicarPapelParede() {
               },
               {
                 step: "3",
-                title: "Ativação da Cola",
-                description: "Mergulhe o papel em água morna por 30 segundos ou use esponja húmida no verso.",
-                details: ["Água morna (não quente)", "30 segundos de imersão", "Dobrar em acordeão por 5 min"]
+                title: "Ativação da Cola do Vinil",
+                description: "Para o vinil autocolante, mergulhe o papel em água morna por 30 segundos ou use esponja húmida no verso.",
+                details: ["Água morna (não quente)", "30 segundos de imersão para vinil", "Dobrar em acordeão por 5 min"]
               },
               {
                 step: "4",
@@ -162,9 +164,9 @@ export default function ComoAplicarPapelParede() {
               },
               {
                 step: "3",
-                title: "Aplicação da Cola",
-                description: "Aplique cola uniformemente no verso do papel com pincel, das bordas para o centro.",
-                details: ["Cola uniforme no papel", "Das bordas para o centro", "Dobrar em acordeão por 10 min"]
+                title: "Aplicação da Cola com Rolo",
+                description: "Aplique a cola comprada separadamente uniformemente no verso do papel com rolo, das bordas para o centro.",
+                details: ["Cola comprada aplicada com rolo", "Das bordas para o centro", "Dobrar em acordeão por 10 min"]
               },
               {
                 step: "4",
