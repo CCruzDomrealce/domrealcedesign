@@ -118,7 +118,7 @@ export default function Carrinho() {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FFD700] mx-auto"></div>
-            <p className="mt-4 text-gray-300">A carregar carrinho...</p>
+            <p className="mt-4 text-brand-yellow">A carregar carrinho...</p>
           </div>
         </div>
       </div>
@@ -140,10 +140,10 @@ export default function Carrinho() {
               </Button>
             </Link>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-4">
+          <h1 className="text-4xl font-bold text-brand-yellow mb-4">
             Carrinho de <span className="text-[#FFD700]">Compras</span>
           </h1>
-          <p className="text-gray-300 text-lg">
+          <p className="text-brand-yellow text-lg">
             Personalize os seus produtos e finalize a compra
           </p>
         </div>
@@ -213,7 +213,7 @@ export default function Carrinho() {
                         <div className="space-y-4">
                           {/* Acabamento */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label className="block text-sm font-medium text-brand-yellow mb-2">
                               Acabamento
                             </label>
                             <Select 
@@ -242,7 +242,7 @@ export default function Carrinho() {
 
                           {/* Tipo de Cola */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                            <label className="block text-sm font-medium text-brand-yellow mb-2">
                               Tipo de Aplicação
                             </label>
                             <Select 
@@ -277,7 +277,7 @@ export default function Carrinho() {
                           {/* Medidas */}
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="block text-sm font-medium text-gray-300 mb-2">
+                              <label className="block text-sm font-medium text-brand-yellow mb-2">
                                 Largura (cm)
                               </label>
                               <input
@@ -305,7 +305,7 @@ export default function Carrinho() {
                               )}
                             </div>
                             <div>
-                              <label className="block text-sm font-medium text-gray-300 mb-2">
+                              <label className="block text-sm font-medium text-brand-yellow mb-2">
                                 Altura (cm)
                               </label>
                               <input
@@ -392,13 +392,13 @@ export default function Carrinho() {
                       {/* Price & Actions */}
                       <div className="md:col-span-1 text-right space-y-4">
                         <div>
-                          <p className="text-sm text-gray-400">Preço por m²:</p>
+                          <p className="text-sm text-brand-yellow">Preço por m²:</p>
                           <p className="text-md font-semibold text-white">€{item.preco}/m²</p>
                           {item.laminacao && (
                             <p className="text-xs text-gray-400">+ €8/m² laminação</p>
                           )}
                           <div className="mt-2 pt-2 border-t border-[#333]">
-                            <p className="text-sm text-gray-400">Total área ({((item.largura || 0) * (item.altura || 0)).toFixed(2)} m²):</p>
+                            <p className="text-sm text-brand-yellow">Total área ({((item.largura || 0) * (item.altura || 0)).toFixed(2)} m²):</p>
                             <p className="text-lg font-semibold text-[#FFD700]">€{item.precoTotal.toFixed(2)}</p>
                             <p className="text-sm text-gray-400">
                               Final: €{(item.precoTotal * (item.quantidade || 1)).toFixed(2)}
@@ -434,7 +434,7 @@ export default function Carrinho() {
                   <div className="space-y-3 mb-6">
                     {cartItems.map((item) => (
                       <div key={item.id} className="flex justify-between text-sm">
-                        <span className="text-gray-300">
+                        <span className="text-brand-yellow">
                           {item.textureName.substring(0, 25)}... x{item.quantidade || 1}
                         </span>
                         <span className="text-white font-semibold">
