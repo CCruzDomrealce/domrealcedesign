@@ -221,7 +221,7 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
               <span className="text-white">Como</span> <span className="text-brand-turquoise">Funciona</span>
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Escolha entre as nossas texturas da loja ou use Adobe Stock. Para imagens do Adobe Stock, recolha o número da imagem ou tire uma miniatura para enviar pelo formulário
+              Escolha entre as nossas texturas da loja ou use <a href="https://stock.adobe.com/" target="_blank" rel="noopener noreferrer" className="text-brand-turquoise hover:text-brand-yellow underline">Adobe Stock</a>. Para imagens do Adobe Stock, recolha o número da imagem ou tire uma miniatura para enviar pelo formulário
             </p>
           </div>
           

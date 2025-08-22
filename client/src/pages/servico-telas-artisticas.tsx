@@ -135,7 +135,7 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
     {
       step: "01",
       title: "Seleção da Imagem",
-      description: "Escolha das nossas texturas da loja ou visite Adobe Stock para selecionar uma imagem. Para Adobe Stock, recolha o número da imagem ou tire uma miniatura"
+      description: "Escolha das nossas texturas da loja ou visite o Adobe Stock para selecionar uma imagem. Para Adobe Stock, recolha o número da imagem ou tire uma miniatura"
     },
     {
       step: "02", 
