@@ -3,10 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import { SEOHead } from "@/components/seo-head";
+import sobreImage from "@assets/Create a colorful im_1755881158641.png";
 
 export default function Sobre() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <SEOHead 
+        title="Sobre Nós - Carlos Cruz e 40 Anos de Comunicação Visual"
+        description="Conheça a história da DOMREALCE e Carlos Cruz, com 40 anos de experiência em comunicação visual, impressão digital e publicidade em Lisboa."
+        keywords="Carlos Cruz, DOMREALCE história, comunicação visual Lisboa, 40 anos experiência, empresa publicidade"
+        canonicalUrl="https://www.domrealce.com/sobre"
+      />
       <Navigation />
       
       {/* Hero Section */}
@@ -43,14 +51,16 @@ export default function Sobre() {
               </div>
             </div>
             <div className="relative">
-              <div className="bg-gradient-to-br from-[#FFD700] to-[#20B2AA] p-8 rounded-lg">
-                <div className="bg-[#0a0a0a] p-6 rounded-lg text-center">
-                  <div className="w-24 h-24 bg-gradient-to-br from-[#FFD700] to-[#20B2AA] rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-black">CC</span>
-                  </div>
-                  <h4 className="text-xl font-bold">Carlos Cruz</h4>
-                  <p className="text-gray-400">40 anos de experiência</p>
-                </div>
+              <img 
+                src={sobreImage} 
+                alt="DOMREALCE - Comunicação Visual e Impressão Digital em Lisboa"
+                className="w-full h-auto rounded-lg shadow-2xl"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-lg"></div>
+              <div className="absolute bottom-4 left-4 right-4 text-white">
+                <h4 className="text-xl font-bold mb-2">DOMREALCE em Ação</h4>
+                <p className="text-sm opacity-90">Comunicação visual que transforma espaços urbanos</p>
               </div>
             </div>
           </div>
