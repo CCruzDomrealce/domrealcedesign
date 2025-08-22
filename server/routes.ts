@@ -465,7 +465,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         requestId        // For MB WAY
       } = req.query;
       
-      console.log('IfthenPay callback received:', {
+      console.log('IfthenPay callback received from www.domrealce.com:', {
         chave: chave ? `${String(chave).substring(0,5)}...` : 'missing',
         entidade,
         referencia,
