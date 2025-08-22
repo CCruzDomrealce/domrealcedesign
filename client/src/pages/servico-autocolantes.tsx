@@ -261,7 +261,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* Process Section */}
-      <section className="pt-0 pb-8 bg-black">
+      <section className="py-16 bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -294,7 +294,7 @@ export default function ServicoAutocolantes() {
       </section>
 
       {/* Specs Section */}
-      <section className="pt-0 pb-8 bg-gray-900/50">
+      <section className="py-16 bg-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">

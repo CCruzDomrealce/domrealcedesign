@@ -214,7 +214,7 @@ ${formData.descricaoImagem ? `📝 Descrição: ${formData.descricaoImagem}` : '
 
 
       {/* Process Section */}
-      <section className="pt-0 pb-8 bg-gray-900/30">
+      <section className="py-16 bg-gray-900/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
