@@ -90,12 +90,12 @@ export default function LojaPapelParede() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
             {textureCovers.map((texture: TextureCover) => (
               <Link key={texture.fileName} href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace(/_/g, '-')}`}>
                 <div className="group text-center cursor-pointer">
                   {/* Imagem com overlay "Ver Mais" no hover */}
-                  <div className="relative overflow-hidden rounded-lg mb-2 md:mb-3">
+                  <div className="relative overflow-hidden rounded-lg mb-1 md:mb-2">
                     <img
                       src={texture.path}
                       alt={texture.name}
@@ -104,15 +104,15 @@ export default function LojaPapelParede() {
                     {/* Overlay com texto "Ver Mais" que aparece no hover */}
                     <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-lg">
                       <div className="text-center">
-                        <Eye className="w-5 h-5 md:w-6 md:h-6 text-[#FFD700] mx-auto mb-1 md:mb-2" />
-                        <span className="text-[#FFD700] font-bold text-xs md:text-sm">Ver Mais</span>
+                        <Eye className="w-4 h-4 md:w-5 md:h-5 text-[#FFD700] mx-auto mb-1" />
+                        <span className="text-[#FFD700] font-bold text-xs">Ver Mais</span>
                       </div>
                     </div>
                   </div>
                   
                   {/* Nome por baixo */}
-                  <div className="space-y-1">
-                    <h3 className="text-xs md:text-sm lg:text-base font-bold text-[#FFD700] group-hover:text-[#20B2AA] transition-colors">
+                  <div>
+                    <h3 className="text-xs font-bold text-[#FFD700] group-hover:text-[#20B2AA] transition-colors leading-tight">
                       {texture.name}
                     </h3>
                   </div>
