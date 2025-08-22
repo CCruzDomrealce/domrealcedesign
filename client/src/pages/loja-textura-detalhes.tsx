@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ShoppingCart, Package, Sparkles } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Package, Sparkles, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useParams } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
@@ -30,6 +30,23 @@ export default function LojaTexturaDetalhes() {
   
   const [selectedTexture, setSelectedTexture] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
+
+  // Navigation functions for preview modal
+  const getCurrentIndex = () => {
+    return textureImages.findIndex(texture => texture.path === selectedTexture);
+  };
+
+  const goToPrevious = () => {
+    const currentIndex = getCurrentIndex();
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : textureImages.length - 1;
+    setSelectedTexture(textureImages[prevIndex].path);
+  };
+
+  const goToNext = () => {
+    const currentIndex = getCurrentIndex();
+    const nextIndex = currentIndex < textureImages.length - 1 ? currentIndex + 1 : 0;
+    setSelectedTexture(textureImages[nextIndex].path);
+  };
 
   const { data: images, isLoading } = useQuery({
     queryKey: ["/api/loja/images"],
@@ -281,13 +298,44 @@ export default function LojaTexturaDetalhes() {
               </div>
               
               <div className="grid lg:grid-cols-3 gap-6">
-                {/* Large Image */}
-                <div className="lg:col-span-2">
+                {/* Large Image with Navigation */}
+                <div className="lg:col-span-2 relative">
+                  {/* Previous Arrow */}
+                  {textureImages.length > 1 && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={goToPrevious}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/70 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black w-10 h-10 p-0"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </Button>
+                  )}
+
                   <img
                     src={selectedTexture}
                     alt="Pré-visualização da textura"
                     className="w-full rounded-lg border border-[#333]"
                   />
+
+                  {/* Next Arrow */}
+                  {textureImages.length > 1 && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={goToNext}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/70 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black w-10 h-10 p-0"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </Button>
+                  )}
+
+                  {/* Image Counter */}
+                  {textureImages.length > 1 && (
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                      {getCurrentIndex() + 1} de {textureImages.length}
+                    </div>
+                  )}
                 </div>
                 
                 {/* Actions Panel */}
@@ -297,6 +345,22 @@ export default function LojaTexturaDetalhes() {
                       <h4 className="text-lg font-bold text-[#FFD700] mb-4">
                         {selectedTexture.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '')}
                       </h4>
+
+                      {/* Navigation Info */}
+                      {textureImages.length > 1 && (
+                        <div className="mb-4 p-3 bg-[#111111] rounded border border-[#333]">
+                          <p className="text-sm text-gray-300 text-center">
+                            Use as setas para navegar entre texturas
+                          </p>
+                          <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-400">
+                            <ChevronLeft className="w-4 h-4" />
+                            <span>Anterior</span>
+                            <span>•</span>
+                            <span>Seguinte</span>
+                            <ChevronRight className="w-4 h-4" />
+                          </div>
+                        </div>
+                      )}
                       
                       {/* Category */}
                       <div className="mb-4">
