@@ -453,33 +453,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Payment callback (webhook) handler
-  app.post("/api/payments/callback", async (req, res) => {
+  // Payment callback (webhook) handler - IfthenPay sends GET requests
+  app.get("/api/payments/callback", async (req, res) => {
     try {
-      const { key, orderId, amount, requestId, payment_datetime } = req.body;
+      const { 
+        chave,           // Anti-phishing key
+        entidade,        // Entity (for Multibanco)
+        referencia,      // Reference
+        valor,           // Amount
+        datahorapag,     // Payment date/time
+        requestId        // For MB WAY
+      } = req.query;
       
-      // Validate callback
-      const isValid = ifthenPayService.validateCallback(
-        orderId,
-        amount,
-        requestId,
-        key
-      );
-
-      if (!isValid) {
-        console.log('Invalid callback received:', req.body);
-        return res.status(400).send('Invalid callback');
+      console.log('IfthenPay callback received:', {
+        chave: chave ? `${String(chave).substring(0,5)}...` : 'missing',
+        entidade,
+        referencia,
+        valor,
+        datahorapag,
+        requestId
+      });
+      
+      // Validate anti-phishing key
+      const expectedKey = process.env.IFTHENPAY_ANTI_PHISHING_KEY;
+      if (!expectedKey) {
+        console.log('Anti-phishing key not configured in environment');
+        return res.status(200).send('OK'); // Don't reject if not configured yet
+      }
+      
+      if (chave !== expectedKey) {
+        console.log(`Invalid anti-phishing key. Expected: ${expectedKey.substring(0,5)}..., Got: ${String(chave).substring(0,5)}...`);
+        return res.status(403).send('Forbidden');
       }
 
       // Process payment confirmation
-      console.log(`Payment confirmed for order ${orderId}: €${amount}`);
+      console.log(`✓ Payment confirmed! Entity: ${entidade}, Ref: ${referencia}, Amount: €${valor}`);
       
       // Here you would typically:
       // 1. Update order status in database
       // 2. Send confirmation email to customer
       // 3. Trigger any business logic (e.g., start production)
       
-      // Return HTTP 200 to acknowledge receipt
+      // Return HTTP 200 to acknowledge receipt (required by IfthenPay)
       res.status(200).send('OK');
 
     } catch (error) {
