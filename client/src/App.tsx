@@ -24,6 +24,7 @@ import ServicoDecoracaoViaturas from "@/pages/servico-decoracao-viaturas";
 import ServicoEspacosComerciais from "@/pages/servico-espacos-comerciais";
 import Checkout from "@/pages/checkout";
 import PedidoConfirmado from "@/pages/pedido-confirmado";
+import InstrucoesPagamento from "@/pages/instrucoes-pagamento";
 import Noticias from "@/pages/noticias";
 import PoliticaPrivacidade from "@/pages/politica-privacidade";
 import TermosCondicoes from "@/pages/termos-condicoes";
@@ -50,6 +51,7 @@ function Router() {
       <Route path="/servico-espacos-comerciais" component={ServicoEspacosComerciais} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/pedido-confirmado" component={PedidoConfirmado} />
+      <Route path="/instrucoes-pagamento" component={InstrucoesPagamento} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/loja" component={Loja} />
       <Route path="/loja/papel-parede" component={LojaPapelParede} />

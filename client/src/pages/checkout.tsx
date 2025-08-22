@@ -152,7 +152,7 @@ export default function Checkout() {
       // Processar resposta baseada no método de pagamento
       const method = getPaymentMethod();
       
-      if (method === 'creditcard' || method === 'paybylink') {
+      if (method === 'creditcard') {
         // Redirecionar para página de pagamento
         window.location.href = result.data.paymentUrl;
       } else if (method === 'mbway') {
