@@ -5,7 +5,7 @@ import domrealceLogo from "@/assets/domrealce-logo.png";
 
 export default function Footer() {
   return (
-    <footer id="contactos" className="bg-black carbon-texture border-t border-brand-turquoise py-16">
+    <footer id="contactos" className="bg-black border-t border-brand-turquoise py-16">
       <div className="container mx-auto px-4">
         {/* Logo centralizado */}
         <div className="text-center mb-12">
