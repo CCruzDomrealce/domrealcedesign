@@ -59,7 +59,13 @@ export default function LojaTexturaDetalhes() {
                       textura === 'baby-colors' ? 'Baby-Colors' :
                       textura === 'baby-paineis' ? 'Baby-Paineis' :
                       textura === 'baby-pantone' ? 'Baby-Pantone' :
+                      textura === 'baby-pantone-1' ? 'Baby-Pantone-1' :
+                      textura === 'baby-pantone-2' ? 'Baby-Pantone-2' :
+                      textura === 'baby-pantone-3' ? 'Baby-Pantone-3' :
                       textura ? textura.charAt(0).toUpperCase() + textura.slice(1) : '';
+
+  // Check if this is a Baby-Pantone category to show subcategory navigation
+  const isPantoneCategory = textura?.includes('baby-pantone') || false;
   
   // Helper function to extract number from filename for sorting
   const extractNumber = (filename: string): number => {
@@ -435,6 +441,88 @@ export default function LojaTexturaDetalhes() {
                   </Card>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Baby-Pantone Subcategories Navigation */}
+      {isPantoneCategory && (
+        <div className="bg-[#111111] border-t border-[#333]">
+          <div className="container mx-auto px-4 py-8">
+            <h2 className="text-2xl font-bold text-[#FFD700] mb-6 text-center">
+              Ver Texturas Seguintes - Baby Pantone
+            </h2>
+            <p className="text-center text-gray-300 mb-6">
+              Navegue entre as diferentes partes da coleção Baby Pantone
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              {['Baby-Pantone', 'Baby-Pantone-1', 'Baby-Pantone-2', 'Baby-Pantone-3'].map((subcategory: string, index: number) => {
+                const isCurrentCategory = subcategory.toLowerCase().replace(/-/g, '-') === textura;
+                const subcategoryUrl = subcategory.toLowerCase().replace(/-/g, '-');
+                
+                // Check if subcategory has images
+                const hasImages = (images as { images: string[] })?.images?.some((path: string) => 
+                  path.includes(`texturas/${subcategory}/`)
+                ) || false;
+                
+                return (
+                  <div key={subcategory}>
+                    {hasImages ? (
+                      <Link href={`/loja/papel-parede/textura/${subcategoryUrl}`}>
+                        <Card className={`text-center cursor-pointer transition-all duration-300 hover:scale-105 ${
+                          isCurrentCategory 
+                            ? 'bg-[#FFD700] text-black border-[#FFD700]' 
+                            : 'bg-[#0a0a0a] border-[#333] hover:border-[#FFD700]'
+                        }`}>
+                          <CardContent className="p-4">
+                            <div className="text-4xl mb-2">
+                              {index + 1}
+                            </div>
+                            <h3 className={`font-bold text-sm ${
+                              isCurrentCategory ? 'text-black' : 'text-[#FFD700]'
+                            }`}>
+                              Parte {index + 1}
+                            </h3>
+                            <p className={`text-xs mt-1 ${
+                              isCurrentCategory ? 'text-black/70' : 'text-gray-400'
+                            }`}>
+                              {index === 0 ? '001-100' : index === 1 ? '101-200' : index === 2 ? '201-300' : '301-400'}
+                            </p>
+                            {isCurrentCategory && (
+                              <div className="mt-2 text-xs font-bold">
+                                ← ESTÁ AQUI
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ) : (
+                      <Card className="text-center bg-gray-800 border-gray-600 opacity-50">
+                        <CardContent className="p-4">
+                          <div className="text-4xl mb-2 text-gray-500">
+                            {index + 1}
+                          </div>
+                          <h3 className="font-bold text-sm text-gray-500">
+                            Parte {index + 1}
+                          </h3>
+                          <p className="text-xs mt-1 text-gray-500">
+                            Em breve
+                          </p>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Info about uploading missing parts */}
+            <div className="mt-8 p-4 bg-[#0a0a0a] rounded-lg border border-[#333] text-center">
+              <p className="text-gray-300 text-sm">
+                💡 Para adicionar as partes em falta, carregue as pastas "Baby-Pantone-1", "Baby-Pantone-2" e "Baby-Pantone-3" 
+                através do <a href="/admin/texturas" className="text-[#FFD700] hover:text-[#20B2AA] underline">painel administrativo</a>
+              </p>
             </div>
           </div>
         </div>
