@@ -289,7 +289,8 @@ export default function Carrinho() {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
                                   if (!isNaN(numericValue) && numericValue > 0) {
-                                    const larguraM = numericValue / 100;
+                                    const larguraM = numericValue / 100
+                                      ;
                                     updateItem(item.id, { larguraCm: numericValue, largura: larguraM });
                                   } else if (value === '') {
                                     updateItem(item.id, { larguraCm: 0, largura: 0 });
