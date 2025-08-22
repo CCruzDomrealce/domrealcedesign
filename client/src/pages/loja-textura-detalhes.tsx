@@ -61,6 +61,12 @@ export default function LojaTexturaDetalhes() {
                       textura === 'baby-pantone' ? 'Baby-Pantone' :
                       textura ? textura.charAt(0).toUpperCase() + textura.slice(1) : '';
   
+  // Helper function to extract number from filename for sorting
+  const extractNumber = (filename: string): number => {
+    const match = filename.match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : 0;
+  };
+
   const textureImages: TextureImage[] = (images as { images: string[] })?.images
     ?.filter((path: string) => 
       path.includes(`loja/papel-de-parede/texturas/${categoryName}/`) &&
@@ -69,7 +75,13 @@ export default function LojaTexturaDetalhes() {
     ?.map((path: string) => ({
       name: path.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || '',
       path: `/public-objects/${path}`
-    })) || [];
+    }))
+    // Sort by numeric value extracted from filename (001, 002, 003...)
+    ?.sort((a, b) => {
+      const numA = extractNumber(a.name);
+      const numB = extractNumber(b.name);
+      return numA - numB;
+    }) || [];
   
   const basePrice = 20;
 
