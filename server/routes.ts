@@ -457,16 +457,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/payments/callback", async (req, res) => {
     try {
       const { 
-        chave,           // Anti-phishing key (Multibanco format)
-        key,             // Anti-phishing key (alternative format)
-        entidade,        // Entity (for Multibanco)
-        referencia,      // Reference (for Multibanco)
-        valor,           // Amount (for Multibanco)
-        datahorapag,     // Payment datetime (for Multibanco)
-        orderId,         // Order ID (for other methods)
-        amount,          // Amount (alternative format)
-        requestId,       // Request ID (for MB WAY)
-        payment_datetime // Payment datetime (alternative format)
+        key,             // Anti-phishing key (standard format)
+        chave,           // Anti-phishing key (Portuguese format)
+        orderId,         // Order ID
+        amount,          // Amount
+        requestId,       // Request ID
+        entity,          // Entity (Multibanco)
+        entidade,        // Entity (Portuguese)
+        reference,       // Reference (Multibanco)
+        referencia,      // Reference (Portuguese)
+        payment_datetime, // Payment datetime
+        datahorapag,     // Payment datetime (Portuguese)
+        valor            // Amount (Portuguese)
       } = req.query;
       
       console.log('IfthenPay callback received from www.domrealce.com:', {
@@ -514,6 +516,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error processing callback:', error);
       res.status(500).send('Error processing callback');
+    }
+  });
+
+  // Payment notification endpoint
+  app.get("/api/payments/notification", async (req, res) => {
+    try {
+      console.log('IfthenPay notification received:', req.query);
+      
+      // Process notification (same as callback but for email notifications)
+      // This endpoint is for additional notifications, main processing is in callback
+      
+      res.status(200).send('OK');
+    } catch (error) {
+      console.error('Error processing notification:', error);
+      res.status(500).send('Error processing notification');
     }
   });
 
