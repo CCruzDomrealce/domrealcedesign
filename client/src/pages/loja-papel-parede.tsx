@@ -84,11 +84,11 @@ export default function LojaPapelParede() {
               <Link key={texture.fileName} href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace('_', '-')}`}>
                 <div className="group text-center cursor-pointer">
                   {/* Imagem com overlay "Ver Mais" no hover */}
-                  <div className="relative overflow-hidden rounded-lg bg-white p-2 md:p-4 mb-2 md:mb-3 shadow-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                  <div className="relative overflow-hidden rounded-lg mb-2 md:mb-3">
                     <img
                       src={texture.path}
                       alt={texture.name}
-                      className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {/* Overlay com texto "Ver Mais" que aparece no hover */}
                     <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-lg">

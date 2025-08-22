@@ -168,14 +168,14 @@ export default function LojaTexturaDetalhes() {
                     }`}
                     onClick={() => setSelectedTexture(texture.path)}
                   >
-                    <div className="relative bg-white rounded-lg p-2 shadow-sm border border-gray-200">
+                    <div className="relative rounded-lg overflow-hidden">
                       <img
                         src={texture.path}
                         alt={texture.name}
-                        className="w-full aspect-square object-cover rounded group-hover:scale-105 transition-transform duration-300"
+                        className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       {/* Hover overlay "Ver Maior" */}
-                      <div className="absolute inset-2 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded">
+                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
