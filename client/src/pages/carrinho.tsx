@@ -284,6 +284,7 @@ export default function Carrinho() {
                                 type="text"
                                 placeholder="Largura da parede em centímetros"
                                 value={item.larguraCm || ''}
+                                required
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
@@ -294,8 +295,13 @@ export default function Carrinho() {
                                     updateItem(item.id, { larguraCm: 0, largura: 0 });
                                   }
                                 }}
-                                className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"
+                                className={`w-full px-3 py-2 bg-[#0a0a0a] border rounded text-white text-sm focus:border-[#FFD700] focus:outline-none ${
+                                  !item.larguraCm || item.larguraCm === 0 ? 'border-red-500' : 'border-[#333]'
+                                }`}
                               />
+                              {(!item.larguraCm || item.larguraCm === 0) && (
+                                <p className="text-red-400 text-xs mt-1">Campo obrigatório</p>
+                              )}
                             </div>
                             <div>
                               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -305,6 +311,7 @@ export default function Carrinho() {
                                 type="text"
                                 placeholder="Altura da parede em centímetros"
                                 value={item.alturaCm || ''}
+                                required
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
@@ -315,8 +322,13 @@ export default function Carrinho() {
                                     updateItem(item.id, { alturaCm: 0, altura: 0 });
                                   }
                                 }}
-                                className="w-full px-3 py-2 bg-[#0a0a0a] border border-[#333] rounded text-white text-sm focus:border-[#FFD700] focus:outline-none"
+                                className={`w-full px-3 py-2 bg-[#0a0a0a] border rounded text-white text-sm focus:border-[#FFD700] focus:outline-none ${
+                                  !item.alturaCm || item.alturaCm === 0 ? 'border-red-500' : 'border-[#333]'
+                                }`}
                               />
+                              {(!item.alturaCm || item.alturaCm === 0) && (
+                                <p className="text-red-400 text-xs mt-1">Campo obrigatório</p>
+                              )}
                             </div>
                           </div>
 
@@ -340,7 +352,7 @@ export default function Carrinho() {
                               className="rounded border-[#333] bg-[#0a0a0a] text-[#FFD700] focus:ring-[#FFD700]"
                             />
                             <label htmlFor={`laminacao-${item.id}`} className="text-sm text-gray-300">
-                              Laminação (+€8/m²)
+                              Laminação (+€8/m²) - Proteção contra riscos e raios UV
                             </label>
                             <Sparkles className="h-4 w-4 text-[#FFD700]" />
                           </div>

@@ -135,6 +135,7 @@ export default function LojaPapelParede() {
               <ul className="text-gray-300 space-y-2">
                 <li>• Alta qualidade de impressão</li>
                 <li>• Resistente à humidade</li>
+                <li>• Laminação opcional (proteção UV e anti-risco)</li>
                 <li>• <Link href="/como-aplicar-papel-parede" className="text-[#FFD700] hover:text-[#20B2AA] underline">Aplicação (como aplicar)</Link></li>
                 <li>• Personalização completa</li>
               </ul>

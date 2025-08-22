@@ -250,7 +250,7 @@ export default function ComoAplicarPapelParede() {
                 Precisa de Ajuda Profissional?
               </h2>
               <p className="text-gray-300 mb-6">
-                Oferecemos serviço de instalação profissional. Especialmente recomendado para vinil autocolante. Solicite um orçamento sem compromisso.
+                Oferecemos serviço de instalação profissional. Especialmente recomendado para vinil autocolante. A laminação adiciona proteção contra riscos e raios UV. Solicite um orçamento sem compromisso.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/loja/papel-parede">
