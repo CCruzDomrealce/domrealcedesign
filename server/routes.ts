@@ -457,21 +457,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/payments/callback", async (req, res) => {
     try {
       const { 
-        chave,           // Anti-phishing key
+        key,             // Anti-phishing key (chave)
+        orderId,         // Order ID
+        amount,          // Amount (valor)
+        requestId,       // Request ID
+        payment_datetime, // Payment datetime
         entidade,        // Entity (for Multibanco)
-        referencia,      // Reference
-        valor,           // Amount
-        datahorapag,     // Payment date/time
-        requestId        // For MB WAY
+        referencia       // Reference
       } = req.query;
       
       console.log('IfthenPay callback received from www.domrealce.com:', {
-        chave: chave ? `${String(chave).substring(0,5)}...` : 'missing',
+        key: key ? `${String(key).substring(0,5)}...` : 'missing',
+        orderId,
+        amount,
+        requestId,
+        payment_datetime,
         entidade,
-        referencia,
-        valor,
-        datahorapag,
-        requestId
+        referencia
       });
       
       // Validate anti-phishing key
@@ -481,13 +483,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(200).send('OK'); // Don't reject if not configured yet
       }
       
-      if (chave !== expectedKey) {
-        console.log(`Invalid anti-phishing key. Expected: ${expectedKey.substring(0,5)}..., Got: ${String(chave).substring(0,5)}...`);
+      if (key !== expectedKey) {
+        console.log(`Invalid anti-phishing key. Expected: ${expectedKey.substring(0,5)}..., Got: ${String(key).substring(0,5)}...`);
         return res.status(403).send('Forbidden');
       }
 
       // Process payment confirmation
-      console.log(`✓ Payment confirmed! Entity: ${entidade}, Ref: ${referencia}, Amount: €${valor}`);
+      console.log(`✓ Payment confirmed! Order: ${orderId}, Amount: €${amount}, DateTime: ${payment_datetime}`);
       
       // Here you would typically:
       // 1. Update order status in database
