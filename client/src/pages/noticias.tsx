@@ -12,91 +12,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const noticias = [
   {
     id: 1,
-    titulo: "Novo Projeto de Fachada Comercial no Centro de Lisboa",
-    resumo: "Completámos um projeto de sinalização moderna para uma loja de tecnologia no Chiado, com letras em LED e painel digital.",
-    conteudo: "Este projeto desafiante envolveu a criação de uma fachada completamente nova para uma loja de tecnologia no coração de Lisboa. Utilizámos letras em LED de alta qualidade, painéis digitais interativos e materiais resistentes às condições meteorológicas.",
-    categoria: "Trabalhos Recentes",
-    imagem: "/placeholder-project-1.jpg",
-    data: "2024-01-15",
+    titulo: "DOMREALCE Lança Nova Plataforma Digital com Loja Online Integrada",
+    resumo: "Apresentamos o nosso novo website com funcionalidades avançadas de e-commerce, sistema de pagamentos nacional e portfolio interativo.",
+    conteudo: "Estamos orgulhosos de anunciar o lançamento da nossa nova plataforma digital www.domrealce.com, que representa um marco importante na evolução da nossa empresa. Principais novidades: Portfolio Interativo com trabalhos organizados por categorias, Loja Online de Papel de Parede com cálculo automático de área e preços, opções de acabamento e sistema inteligente de medidas, Pagamentos 100% Portugueses com MB WAY, Multibanco e Payshop, confirmações automáticas em tempo real. Website totalmente responsivo, formulários de contacto com upload de ficheiros, sistema de orçamentos online e guias de aplicação. Esta plataforma reflete o nosso compromisso com a inovação e qualidade. Visite já: www.domrealce.com",
+    categoria: "Novidades DOMREALCE",
+    imagem: "/public-objects/portfolio/website-launch.jpg",
+    data: "2025-08-22",
     autor: "Equipa DOMREALCE",
-    tags: ["fachadas", "led", "comercial"],
-    visualizacoes: 245,
-    likes: 18,
-    comentarios: 5
-  },
-  {
-    id: 2,
-    titulo: "Adesivação Completa de Frota de Veículos Empresariais",
-    resumo: "Transformámos 15 veículos comerciais numa poderosa ferramenta de marketing móvel para uma empresa de logística.",
-    conteudo: "Projeto completo de branding móvel que incluiu design personalizado, impressão em vinil de alta qualidade e aplicação profissional em toda a frota de veículos.",
-    categoria: "Trabalhos Recentes", 
-    imagem: "/placeholder-project-2.jpg",
-    data: "2024-01-10",
-    autor: "Equipa DOMREALCE",
-    tags: ["veículos", "frota", "branding"],
-    visualizacoes: 189,
-    likes: 12,
-    comentarios: 3
-  },
-  {
-    id: 3,
-    titulo: "Tendências de Design Gráfico para 2024",
-    resumo: "Exploramos as principais tendências visuais que estão a moldar o mundo do design gráfico este ano.",
-    conteudo: "O design gráfico continua a evoluir rapidamente. Este ano vemos o retorno de gradientes vibrantes, tipografias experimentais e uma abordagem mais sustentável ao design impresso.",
-    categoria: "Notícias do Sector",
-    imagem: "/placeholder-trends.jpg", 
-    data: "2024-01-08",
-    autor: "Equipa DOMREALCE",
-    tags: ["design", "tendências", "2024"],
-    visualizacoes: 567,
-    likes: 45,
-    comentarios: 12
-  },
-  {
-    id: 4,
-    titulo: "Restauro de Letreiro Histórico no Porto",
-    resumo: "Participámos no restauro de um letreiro icónico dos anos 50, preservando a história enquanto modernizámos a estrutura.",
-    conteudo: "Um projeto especial que combinou técnicas tradicionais com tecnologia moderna para preservar um marco histórico da cidade do Porto.",
-    categoria: "Trabalhos Antigos",
-    imagem: "/placeholder-restoration.jpg",
-    data: "2023-11-20",
-    autor: "Equipa DOMREALCE", 
-    tags: ["restauro", "história", "património"],
-    visualizacoes: 334,
-    likes: 28,
-    comentarios: 8
-  },
-  {
-    id: 5,
-    titulo: "Inovações em Impressão Digital Sustentável",
-    resumo: "Como a indústria gráfica está a adoptar práticas mais ecológicas sem comprometer a qualidade.",
-    conteudo: "A sustentabilidade tornou-se uma prioridade na impressão digital. Novos materiais eco-friendly e tintas à base de água estão a revolucionar o sector.",
-    categoria: "Notícias do Sector",
-    imagem: "/placeholder-sustainability.jpg",
-    data: "2023-12-15",
-    autor: "Equipa DOMREALCE",
-    tags: ["sustentabilidade", "impressão", "eco-friendly"],
-    visualizacoes: 423,
-    likes: 31,
-    comentarios: 15
-  },
-  {
-    id: 6,
-    titulo: "Projeto de Decoração para Centro Comercial",
-    resumo: "Criámos a decoração temática completa para as festividades de Natal num grande centro comercial em Coimbra.",
-    conteudo: "Um projeto sazonal ambicioso que incluiu elementos decorativos de grande escala, sinalização direccional e ambientação festiva em todo o espaço comercial.",
-    categoria: "Trabalhos Antigos",
-    imagem: "/placeholder-mall.jpg", 
-    data: "2023-11-01",
-    autor: "Equipa DOMREALCE",
-    tags: ["decoração", "natal", "comercial"],
-    visualizacoes: 678,
-    likes: 52,
-    comentarios: 19
+    tags: ["website", "loja-online", "inovação", "digital"],
+    visualizacoes: 1,
+    likes: 0,
+    comentarios: 0
   }
 ];
 
-const categorias = ["Todas", "Trabalhos Recentes", "Trabalhos Antigos", "Notícias do Sector"];
+const categorias = ["Todas", "Novidades DOMREALCE"];
 
 export default function Noticias() {
   const [filtroCategoria, setFiltroCategoria] = useState("Todas");
