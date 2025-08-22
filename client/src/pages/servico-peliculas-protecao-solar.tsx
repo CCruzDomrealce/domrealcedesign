@@ -17,6 +17,7 @@ import {
   Zap,
   Award
 } from "lucide-react";
+import buildingImage from "@assets/generated_images/Building_with_solar_films_981bb10c.png";
 
 export default function ServicoPeliculasProtecaoSolar() {
   const benefits = [
@@ -52,59 +53,15 @@ export default function ServicoPeliculasProtecaoSolar() {
     }
   ];
 
-  const pelliculasInteriores = [
-    {
-      name: "Película Transparente",
-      description: "Proteção UV invisível mantendo clareza total",
-      protecao: "99% UV",
-      reducaoCalor: "30-40%",
-      privacidade: "Baixa",
-      applications: ["Escritórios", "Casas", "Lojas"]
-    },
-    {
-      name: "Película Fumada Clara", 
-      description: "Ligeiramente escura com boa proteção térmica",
-      protecao: "99% UV",
-      reducaoCalor: "50-60%",
-      privacidade: "Média",
-      applications: ["Salas de estar", "Quartos", "Consultórios"]
-    },
-    {
-      name: "Película Fumada Escura",
-      description: "Máxima privacidade e controlo térmico",
-      protecao: "99% UV",
-      reducaoCalor: "70-78%",
-      privacidade: "Alta",
-      applications: ["Casas de banho", "Quartos", "Escritórios"]
-    }
-  ];
 
-  const pelliculasExteriores = [
-    {
-      name: "Película Refletora Prata",
-      description: "Máxima reflexão do calor e excelente proteção",
-      protecao: "99% UV",
-      reducaoCalor: "75-85%",
-      privacidade: "Muito Alta",
-      applications: ["Fachadas comerciais", "Edifícios", "Armazéns"]
-    },
-    {
-      name: "Película Espelhada",
-      description: "Efeito espelho exterior mantendo visibilidade interior",
-      protecao: "99% UV",
-      reducaoCalor: "60-70%",
-      privacidade: "Alta (dia)",
-      applications: ["Escritórios", "Lojas", "Hospitais"]
-    },
-    {
-      name: "Película Cerâmica Premium",
-      description: "Tecnologia avançada sem interferência em sinais",
-      protecao: "99% UV",
-      reducaoCalor: "65-75%",
-      privacidade: "Baixa a Média",
-      applications: ["Carros de luxo", "Edifícios premium", "Residências"]
-    }
-  ];
+  const peliculaEspelhada = {
+    name: "Película Espelhada",
+    description: "Efeito espelho exterior mantendo visibilidade interior",
+    protecao: "99% UV",
+    reducaoCalor: "60-70%",
+    privacidade: "Alta (dia)",
+    applications: ["Escritórios", "Lojas", "Hospitais", "Edifícios comerciais", "Fachadas"]
+  };
 
   const aplicacoes = [
     {
@@ -216,100 +173,64 @@ export default function ServicoPeliculasProtecaoSolar() {
         </div>
       </section>
 
-      {/* Interior Films Section */}
+      {/* Película Espelhada Section */}
       <section className="pt-0 pb-8 bg-black">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-              <span className="text-white">Películas</span> <span className="text-green-400">Interior</span>
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Soluções discretas para aplicação no interior dos vidros
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {pelliculasInteriores.map((pelicula, index) => (
-              <Card key={index} className="bg-gray-900/50 border-gray-800 hover:border-green-400 transition-all duration-300">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 text-green-400">{pelicula.name}</h3>
-                  <p className="text-gray-400 mb-4">{pelicula.description}</p>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm">Proteção UV:</span>
-                      <span className="text-green-400 font-semibold text-sm">{pelicula.protecao}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm">Redução calor:</span>
-                      <span className="text-green-400 font-semibold text-sm">{pelicula.reducaoCalor}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm">Privacidade:</span>
-                      <span className="text-green-400 font-semibold text-sm">{pelicula.privacidade}</span>
-                    </div>
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Image */}
+              <div className="order-2 lg:order-1">
+                <img 
+                  src={buildingImage} 
+                  alt="Edifício com películas de proteção solar aplicadas" 
+                  className="w-full h-[400px] object-cover rounded-2xl border border-gray-800"
+                />
+              </div>
+              
+              {/* Content */}
+              <div className="order-1 lg:order-2">
+                <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
+                  <span className="text-white">Película</span> <span className="text-orange-400">Espelhada</span>
+                </h2>
+                
+                <p className="text-gray-400 text-lg mb-8">
+                  {peliculaEspelhada.description}
+                </p>
+                
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <span className="text-gray-300">Proteção UV:</span>
+                    <span className="text-orange-400 font-semibold text-lg">{peliculaEspelhada.protecao}</span>
                   </div>
-                  <div>
-                    <span className="text-gray-500 text-sm mb-2 block">Ideal para:</span>
-                    <div className="flex flex-wrap gap-1">
-                      {pelicula.applications.map((app, appIndex) => (
-                        <Badge key={appIndex} variant="outline" className="border-green-400 text-green-400 text-xs">
-                          {app}
-                        </Badge>
-                      ))}
-                    </div>
+                  <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <span className="text-gray-300">Redução de calor:</span>
+                    <span className="text-orange-400 font-semibold text-lg">{peliculaEspelhada.reducaoCalor}</span>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Exterior Films Section */}
-      <section className="pt-0 pb-8 bg-gray-900/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-              <span className="text-white">Películas</span> <span className="text-orange-400">Exterior</span>
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Máxima proteção para aplicação no exterior dos edifícios
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {pelliculasExteriores.map((pelicula, index) => (
-              <Card key={index} className="bg-black/50 border-gray-800 hover:border-orange-400 transition-all duration-300">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 text-orange-400">{pelicula.name}</h3>
-                  <p className="text-gray-400 mb-4">{pelicula.description}</p>
-                  <div className="space-y-2 mb-4">
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm">Proteção UV:</span>
-                      <span className="text-orange-400 font-semibold text-sm">{pelicula.protecao}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm">Redução calor:</span>
-                      <span className="text-orange-400 font-semibold text-sm">{pelicula.reducaoCalor}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500 text-sm">Privacidade:</span>
-                      <span className="text-orange-400 font-semibold text-sm">{pelicula.privacidade}</span>
-                    </div>
+                  <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <span className="text-gray-300">Privacidade:</span>
+                    <span className="text-orange-400 font-semibold text-lg">{peliculaEspelhada.privacidade}</span>
                   </div>
-                  <div>
-                    <span className="text-gray-500 text-sm mb-2 block">Ideal para:</span>
-                    <div className="flex flex-wrap gap-1">
-                      {pelicula.applications.map((app, appIndex) => (
-                        <Badge key={appIndex} variant="outline" className="border-orange-400 text-orange-400 text-xs">
-                          {app}
-                        </Badge>
-                      ))}
-                    </div>
+                </div>
+                
+                <div className="mb-8">
+                  <h4 className="text-white font-semibold mb-4">Ideal para:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {peliculaEspelhada.applications.map((app, index) => (
+                      <Badge key={index} variant="outline" className="border-orange-400 text-orange-400">
+                        {app}
+                      </Badge>
+                    ))}
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+                
+                <Button asChild className="bg-gradient-to-r from-orange-400 to-orange-600 text-white font-bold px-8 py-6 text-lg">
+                  <Link href="/contactos#formulario">
+                    Solicitar Orçamento
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
