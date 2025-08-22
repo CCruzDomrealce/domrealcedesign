@@ -8,6 +8,7 @@ export const cartItemSchema = z.object({
   textureImage: z.string(),
   acabamento: z.enum(['brilho', 'mate']),
   laminacao: z.boolean(),
+  tipoCola: z.enum(['com-cola', 'sem-cola']).default('com-cola'),
   precoBase: z.number(),
   precoTotal: z.number(),
   quantity: z.number().min(1).default(1),

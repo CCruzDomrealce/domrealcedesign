@@ -216,6 +216,40 @@ export default function Carrinho() {
                             </Select>
                           </div>
 
+                          {/* Tipo de Cola */}
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                              Tipo de Aplicação
+                            </label>
+                            <Select 
+                              value={item.tipoCola || 'com-cola'} 
+                              onValueChange={(value: 'com-cola' | 'sem-cola') => updateItem(item.id, { tipoCola: value })}
+                            >
+                              <SelectTrigger className="bg-[#0a0a0a] border-[#333] text-white">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent className="bg-[#111111] border-[#333]">
+                                <SelectItem value="com-cola" className="text-white hover:bg-[#333]">
+                                  <div className="flex items-center gap-2">
+                                    <div className="h-4 w-4 bg-[#20B2AA] rounded-full"></div>
+                                    Com Cola (Pronto a aplicar)
+                                  </div>
+                                </SelectItem>
+                                <SelectItem value="sem-cola" className="text-white hover:bg-[#333]">
+                                  <div className="flex items-center gap-2">
+                                    <div className="h-4 w-4 bg-[#FFD700] rounded-full"></div>
+                                    Sem Cola (Tradicional)
+                                  </div>
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <p className="text-xs text-gray-400 mt-1">
+                              <a href="/como-aplicar-papel-parede" className="text-[#FFD700] hover:text-[#20B2AA] underline">
+                                Ver como aplicar cada tipo
+                              </a>
+                            </p>
+                          </div>
+
                           {/* Laminação */}
                           <div className="flex items-center space-x-2">
                             <input

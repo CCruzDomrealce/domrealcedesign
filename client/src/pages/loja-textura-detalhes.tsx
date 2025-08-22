@@ -113,6 +113,7 @@ export default function LojaTexturaDetalhes() {
       preco: basePrice,
       acabamento: 'brilho' as const,
       laminacao: false,
+      tipoCola: 'com-cola' as const,
       precoTotal: basePrice,
     };
 
