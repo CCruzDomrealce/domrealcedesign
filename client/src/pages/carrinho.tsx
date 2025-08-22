@@ -480,6 +480,20 @@ export default function Carrinho() {
                     Finalizar Compra - €{calculateTotal().toFixed(2)}
                   </Button>
 
+                  {/* Installation Quote Button */}
+                  <Button 
+                    onClick={() => {
+                      const element = document.querySelector('#orcamento-colocacao');
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    variant="outline" 
+                    className="w-full border-[#20B2AA] text-[#20B2AA] hover:bg-[#20B2AA] hover:text-black mb-3"
+                  >
+                    Solicitar Orçamento de Aplicação
+                  </Button>
+
                   {/* Continue Shopping */}
                   <Link href="/loja/papel-parede">
                     <Button variant="outline" className="w-full border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black">
@@ -494,7 +508,7 @@ export default function Carrinho() {
                       <li>• Produtos personalizados</li>
                       <li>• Sem trocas ou devoluções</li>
                       <li>• Prazo: 5-7 dias úteis</li>
-                      <li>• <a href="#orcamento-colocacao" className="text-[#FFD700] hover:text-[#20B2AA] underline">Solicitar orçamento para colocação</a></li>
+                      <li>• Aplicação profissional disponível</li>
                     </ul>
                   </div>
                 </CardContent>
