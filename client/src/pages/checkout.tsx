@@ -48,11 +48,7 @@ export default function Checkout() {
 
   // Dados de pagamento
   const [paymentData, setPaymentData] = useState({
-    numeroCartao: '',
-    nomeTitular: '',
-    validade: '',
-    cvv: '',
-    metodoPagamento: 'cartao'
+    metodoPagamento: 'mbway' // MB WAY como padrão (mais popular)
   });
 
   useEffect(() => {
@@ -101,16 +97,14 @@ export default function Checkout() {
       return;
     }
 
-    if (paymentData.metodoPagamento === 'cartao') {
-      if (!paymentData.numeroCartao || !paymentData.nomeTitular || 
-          !paymentData.validade || !paymentData.cvv) {
-        toast({
-          title: "Dados de pagamento incompletos",
-          description: "Por favor, preencha todos os dados do cartão.",
-          variant: "destructive",
-        });
-        return;
-      }
+    // Validação do método de pagamento
+    if (!paymentData.metodoPagamento) {
+      toast({
+        title: "Método de pagamento não selecionado",
+        description: "Por favor, escolha um método de pagamento.",
+        variant: "destructive",
+      });
+      return;
     }
 
     setIsProcessing(true);
@@ -127,11 +121,11 @@ export default function Checkout() {
           email: customerData.email,
           phone: customerData.telefone,
         },
-        returnUrls: paymentData.metodoPagamento === 'cartao' ? {
-          success: `${window.location.origin}/api/payments/success`,
-          error: `${window.location.origin}/api/payments/error`,
-          cancel: `${window.location.origin}/api/payments/cancel`,
-        } : undefined,
+        returnUrls: {
+          success: `${window.location.origin}/pedido-confirmado`,
+          error: `${window.location.origin}/checkout`,
+          cancel: `${window.location.origin}/checkout`,
+        },
       };
 
       // Criar pagamento
@@ -152,10 +146,7 @@ export default function Checkout() {
       // Processar resposta baseada no método de pagamento
       const method = getPaymentMethod();
       
-      if (method === 'creditcard') {
-        // Redirecionar para página de pagamento
-        window.location.href = result.data.paymentUrl;
-      } else if (method === 'mbway') {
+      if (method === 'mbway') {
         // Mostrar instruções MB WAY
         toast({
           title: "MB WAY enviado!",
@@ -183,10 +174,10 @@ export default function Checkout() {
 
   const getPaymentMethod = () => {
     switch (paymentData.metodoPagamento) {
-      case 'cartao': return 'creditcard';
       case 'transferencia': return 'multibanco';
       case 'mbway': return 'mbway';
-      default: return 'multibanco';
+      case 'payshop': return 'payshop';
+      default: return 'mbway'; // Padrão para MB WAY
     }
   };
 
@@ -392,69 +383,19 @@ export default function Checkout() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-[#333]">
-                    <SelectItem value="cartao" className="text-white hover:bg-[#333]">
-                      Cartão de Crédito/Débito
+                    <SelectItem value="mbway" className="text-white hover:bg-[#333]">
+                      💚 MB WAY (Recomendado)
                     </SelectItem>
                     <SelectItem value="transferencia" className="text-white hover:bg-[#333]">
-                      Transferência Bancária
+                      🏧 Multibanco
                     </SelectItem>
-                    <SelectItem value="mbway" className="text-white hover:bg-[#333]">
-                      MB WAY
+                    <SelectItem value="payshop" className="text-white hover:bg-[#333]">
+                      🏪 Payshop
                     </SelectItem>
                   </SelectContent>
                 </Select>
 
-                {paymentData.metodoPagamento === 'cartao' && (
-                  <div className="space-y-4 p-4 bg-[#0a0a0a] rounded border border-[#333]">
-                    <div>
-                      <Label htmlFor="numeroCartao" className="text-gray-300">Número do Cartão *</Label>
-                      <Input
-                        id="numeroCartao"
-                        value={paymentData.numeroCartao}
-                        onChange={(e) => setPaymentData({...paymentData, numeroCartao: e.target.value})}
-                        placeholder="0000 0000 0000 0000"
-                        className="bg-[#111111] border-[#333] text-white"
-                        required
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="nomeTitular" className="text-gray-300">Nome do Titular *</Label>
-                      <Input
-                        id="nomeTitular"
-                        value={paymentData.nomeTitular}
-                        onChange={(e) => setPaymentData({...paymentData, nomeTitular: e.target.value})}
-                        className="bg-[#111111] border-[#333] text-white"
-                        required
-                      />
-                    </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="validade" className="text-gray-300">Validade *</Label>
-                        <Input
-                          id="validade"
-                          value={paymentData.validade}
-                          onChange={(e) => setPaymentData({...paymentData, validade: e.target.value})}
-                          placeholder="MM/AA"
-                          className="bg-[#111111] border-[#333] text-white"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="cvv" className="text-gray-300">CVV *</Label>
-                        <Input
-                          id="cvv"
-                          value={paymentData.cvv}
-                          onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
-                          placeholder="000"
-                          className="bg-[#111111] border-[#333] text-white"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
 
                 {paymentData.metodoPagamento === 'transferencia' && (
                   <div className="p-4 bg-[#0a0a0a] rounded border border-[#333]">
@@ -466,8 +407,28 @@ export default function Checkout() {
 
                 {paymentData.metodoPagamento === 'mbway' && (
                   <div className="p-4 bg-[#0a0a0a] rounded border border-[#333]">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
+                        <span className="text-white text-xs">✓</span>
+                      </div>
+                      <span className="text-green-400 font-medium">MB WAY - Pagamento Instantâneo</span>
+                    </div>
                     <p className="text-gray-300 text-sm">
-                      Será enviado um pedido MB WAY para o número de telefone indicado.
+                      Será enviado um pedido MB WAY para o número de telefone indicado. Confirme no seu telemóvel para finalizar o pagamento.
+                    </p>
+                  </div>
+                )}
+
+                {paymentData.metodoPagamento === 'payshop' && (
+                  <div className="p-4 bg-[#0a0a0a] rounded border border-[#333]">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="w-6 h-6 bg-orange-600 rounded-full flex items-center justify-center">
+                        <span className="text-white text-xs">🏪</span>
+                      </div>
+                      <span className="text-orange-400 font-medium">Payshop - Pagamento em Loja</span>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      Após confirmar o pedido, receberá uma referência para pagar em qualquer loja Payshop.
                     </p>
                   </div>
                 )}
