@@ -50,7 +50,7 @@ export const siteConfig = {
     facebook: "https://facebook.com/domrealce",
     instagram: "https://instagram.com/domrealce", 
     linkedin: "https://linkedin.com/company/domrealce",
-    whatsapp: "https://wa.me/351123456789"
+    whatsapp: "https://wa.me/351930682725"
   },
 
   // CONFIGURAÇÕES DE CONTACTO

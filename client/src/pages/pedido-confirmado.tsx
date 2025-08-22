@@ -85,8 +85,8 @@ export default function PedidoConfirmado() {
                 
                 <p className="text-sm text-gray-400">
                   Dúvidas? Entre em contacto connosco através do WhatsApp: 
-                  <a href="https://wa.me/351912345678" className="text-[#FFD700] hover:text-[#20B2AA] ml-1">
-                    +351 912 345 678
+                  <a href="https://wa.me/351930682725" className="text-[#FFD700] hover:text-[#20B2AA] ml-1">
+                    +351 930 682 725
                   </a>
                 </p>
               </div>

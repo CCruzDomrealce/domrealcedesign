@@ -640,7 +640,7 @@ export default function Carrinho() {
                 <div className="bg-[#0a0a0a] rounded-lg p-6 border border-[#333]">
                   <h3 className="text-xl font-bold text-[#FFD700] mb-4">Contacto Direto</h3>
                   <div className="space-y-3 text-gray-300">
-                    <p><strong>WhatsApp:</strong> <a href="https://wa.me/351917570649" className="text-[#FFD700] hover:text-[#20B2AA]">+351 917 570 649</a></p>
+                    <p><strong>WhatsApp:</strong> <a href="https://wa.me/351930682725" className="text-[#FFD700] hover:text-[#20B2AA]">+351 930 682 725</a></p>
                     <p><strong>Email:</strong> <a href="mailto:geral@domrealce.com" className="text-[#FFD700] hover:text-[#20B2AA]">geral@domrealce.com</a></p>
                     <p className="text-sm text-gray-400 mt-4">
                       💡 Para um orçamento mais rápido, pode contactar-nos diretamente via WhatsApp com as fotos do espaço e medidas.

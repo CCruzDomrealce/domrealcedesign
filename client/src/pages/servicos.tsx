@@ -153,26 +153,26 @@ export default function Servicos() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {services.map((service, index) => (
               <Card key={service.id} className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group">
-                <CardContent className="p-8">
-                  <div className="flex items-start gap-6">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-xl flex items-center justify-center text-black flex-shrink-0`}>
+                <CardContent className="p-4 sm:p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                    <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${service.color} rounded-xl flex items-center justify-center text-black flex-shrink-0`}>
                       {service.icon}
                     </div>
                     
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-3 group-hover:text-[#FFD700] transition-colors">
+                    <div className="flex-1 min-w-0 w-full">
+                      <h3 className="text-xl sm:text-2xl font-bold mb-3 group-hover:text-[#FFD700] transition-colors">
                         {service.title}
                       </h3>
                       
-                      <p className="text-gray-400 mb-4 leading-relaxed">
+                      <p className="text-gray-400 mb-4 leading-relaxed text-sm sm:text-base">
                         {service.description}
                       </p>
                       
                       <ul className="space-y-2 mb-6">
                         {service.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-center text-sm text-gray-300">
-                            <div className="w-1.5 h-1.5 bg-[#FFD700] rounded-full mr-3 flex-shrink-0"></div>
-                            {feature}
+                          <li key={featureIndex} className="flex items-start text-xs sm:text-sm text-gray-300">
+                            <div className="w-1.5 h-1.5 bg-[#FFD700] rounded-full mr-3 flex-shrink-0 mt-2"></div>
+                            <span className="break-words">{feature}</span>
                           </li>
                         ))}
                       </ul>
