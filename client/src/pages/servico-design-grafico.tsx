@@ -39,7 +39,7 @@ export default function ServicoDesignGrafico() {
     {
       icon: <FileImage className="w-6 h-6" />,
       title: "Material Publicitário",
-      description: "Criação de flyers, cartões de visita, brochuras e muito mais"
+      description: "Criação de design de identidade visual e material promocional"
     },
     {
       icon: <Monitor className="w-6 h-6" />,

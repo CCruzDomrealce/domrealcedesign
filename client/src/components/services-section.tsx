@@ -42,7 +42,7 @@ const services = [
     description: "Reduzem o calor, protegem do UV e proporcionam privacidade, mantendo a luminosidade natural",
     color: "from-brand-yellow to-brand-turquoise",
     titleColor: "text-brand-yellow",
-    link: "/servicos"
+    link: "/servico-peliculas-protecao-solar"
   },
   {
     icon: Car,

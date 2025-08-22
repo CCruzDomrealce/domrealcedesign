@@ -21,8 +21,8 @@ export default function ServicoImpressaoDigital() {
   const features = [
     {
       icon: <Maximize className="w-6 h-6" />,
-      title: "Grande Formato",
-      description: "Impressões até 3.2m de largura com qualidade fotográfica excepcional"
+      title: "Tintas Látex Premium",
+      description: "Impressões com tintas látex de alta qualidade, sem odor e resistentes ao desbotamento"
     },
     {
       icon: <Shield className="w-6 h-6" />,
@@ -68,9 +68,9 @@ export default function ServicoImpressaoDigital() {
       applications: ["Fachadas", "Eventos", "Obras"]
     },
     {
-      name: "Mesh Perfurado",
-      description: "Permite passagem de vento, ideal para vedações",
-      applications: ["Andaimes", "Vedações", "Eventos"]
+      name: "Lona Perfurada",
+      description: "Permite passagem de vento, ideal para vedações e fachadas",
+      applications: ["Andaimes", "Vedações", "Fachadas"]
     }
   ];
 
@@ -250,7 +250,7 @@ export default function ServicoImpressaoDigital() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <CheckCircle className="w-6 h-6 text-brand-turquoise flex-shrink-0" />
-                    <span className="text-white">Largura máxima: 3.2 metros</span>
+                    <span className="text-white">Tintas látex sem odor</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle className="w-6 h-6 text-brand-turquoise flex-shrink-0" />
@@ -258,7 +258,7 @@ export default function ServicoImpressaoDigital() {
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle className="w-6 h-6 text-brand-turquoise flex-shrink-0" />
-                    <span className="text-white">Tintas UV resistentes</span>
+                    <span className="text-white">Resistência superior ao desbotamento</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <CheckCircle className="w-6 h-6 text-brand-turquoise flex-shrink-0" />

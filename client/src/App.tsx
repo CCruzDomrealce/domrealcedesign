@@ -22,6 +22,7 @@ import ServicoTelasArtisticas from "@/pages/servico-telas-artisticas";
 import ServicoAutocolantes from "@/pages/servico-autocolantes";
 import ServicoDecoracaoViaturas from "@/pages/servico-decoracao-viaturas";
 import ServicoEspacosComerciais from "@/pages/servico-espacos-comerciais";
+import ServicoPeliculasProtecaoSolar from "@/pages/servico-peliculas-protecao-solar";
 import Checkout from "@/pages/checkout";
 import PedidoConfirmado from "@/pages/pedido-confirmado";
 import InstrucoesPagamento from "@/pages/instrucoes-pagamento";
@@ -49,6 +50,7 @@ function Router() {
       <Route path="/servico-autocolantes" component={ServicoAutocolantes} />
       <Route path="/servico-decoracao-viaturas" component={ServicoDecoracaoViaturas} />
       <Route path="/servico-espacos-comerciais" component={ServicoEspacosComerciais} />
+      <Route path="/servico-peliculas-protecao-solar" component={ServicoPeliculasProtecaoSolar} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/pedido-confirmado" component={PedidoConfirmado} />
       <Route path="/instrucoes-pagamento" component={InstrucoesPagamento} />

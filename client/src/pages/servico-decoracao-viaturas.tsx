@@ -32,10 +32,10 @@ export default function ServicoDecoracaoViaturas() {
       features: ["Branding empresarial", "Informações de contacto", "Promoções", "Logótipos"]
     },
     {
-      icon: <Settings className="w-8 h-8" />,
-      title: "Máquinas de Obras",
-      description: "Identificação e personalização de equipamentos",
-      features: ["Numeração", "Logótipos da empresa", "Informações de segurança", "Cores corporativas"]
+      icon: <Car className="w-8 h-8" />,
+      title: "Viaturas de Competição",
+      description: "Decoração para desportos motorizados",
+      features: ["Patrocinadores", "Numeração", "Designs aerodinâmicos", "Materiais especiais"]
     },
     {
       icon: <Bus className="w-8 h-8" />,
@@ -50,10 +50,10 @@ export default function ServicoDecoracaoViaturas() {
       features: ["Designs únicos", "Protecção do tanque", "Detalhes cromados", "Efeitos especiais"]
     },
     {
-      icon: <Car className="w-8 h-8" />,
-      title: "Viaturas de Competição",
-      description: "Decoração para desportos motorizados",
-      features: ["Patrocinadores", "Numeração", "Designs aerodinâmicos", "Materiais especiais"]
+      icon: <Settings className="w-8 h-8" />,
+      title: "Máquinas de Obras",
+      description: "Identificação e personalização de equipamentos",
+      features: ["Numeração", "Logótipos da empresa", "Informações de segurança", "Cores corporativas"]
     }
   ];
 
@@ -65,7 +65,7 @@ export default function ServicoDecoracaoViaturas() {
       applications: ["Wrapping completo", "Mudança de cor", "Protecção"]
     },
     {
-      name: "Vinil Calendário", 
+      name: "Vinil Promocional", 
       description: "Económico para aplicações de média duração",
       durability: "3-5 anos",
       applications: ["Publicidade", "Rotulação", "Detalhes"]
@@ -77,8 +77,8 @@ export default function ServicoDecoracaoViaturas() {
       applications: ["Protecção frontal", "Portas", "Espelhos"]
     },
     {
-      name: "Vinil Carbono",
-      description: "Textura de fibra de carbono realística",
+      name: "Vinil de Texturas",
+      description: "Texturas realistas para decoração de viaturas",
       durability: "5-7 anos",
       applications: ["Detalhes interiores", "Spoilers", "Capôs"]
     }
@@ -101,7 +101,7 @@ export default function ServicoDecoracaoViaturas() {
       benefits: ["Publicidade móvel", "Profissionalismo", "Alcance geográfico", "Custo-benefício"]
     },
     {
-      title: "Protecção PPF",
+      title: "Película de Proteção",
       description: "Aplicação de película protetora transparente",
       benefits: ["Protege de riscos", "Invisível", "Auto-regeneração", "Longa duração"]
     }
@@ -335,7 +335,7 @@ export default function ServicoDecoracaoViaturas() {
                   </div>
                   <div className="flex items-center gap-3">
                     <Shield className="w-6 h-6 text-orange-400 flex-shrink-0" />
-                    <span className="text-white">Materiais certificados 3M e Avery</span>
+                    <span className="text-white">Materiais certificados Hexis, Oracal e Mactac</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Shield className="w-6 h-6 text-orange-400 flex-shrink-0" />
