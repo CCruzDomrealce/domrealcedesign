@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ShoppingCart, Package, Sparkles, Eye, ChevronLeft, ChevronRight } from "lucide-react";
-import { Link, useParams } from "wouter";
+import { Link, useParams, useLocation } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { useToast } from "@/hooks/use-toast";
@@ -27,6 +27,7 @@ interface CartItem {
 export default function LojaTexturaDetalhes() {
   const { textura } = useParams();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   
   const [selectedTexture, setSelectedTexture] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
@@ -129,8 +130,13 @@ export default function LojaTexturaDetalhes() {
 
     toast({
       title: "Produto adicionado!",
-      description: "Textura adicionada ao carrinho. Personalize no carrinho!",
+      description: "Redirecionando para o carrinho para personalizar...",
     });
+
+    // Redirecionar automaticamente para o carrinho
+    setTimeout(() => {
+      setLocation('/carrinho');
+    }, 1000);
   };
 
   const handlePreview = () => {
