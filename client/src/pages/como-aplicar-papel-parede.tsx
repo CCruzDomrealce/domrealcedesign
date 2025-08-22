@@ -46,14 +46,14 @@ export default function ComoAplicarPapelParede() {
                   <h3 className="text-xl font-bold text-[#20B2AA]">Com Cola</h3>
                 </div>
                 <p className="text-gray-300 mb-4">
-                  Papel de parede em vinil autocolante, pronto a aplicar. Material pré-colado que apenas necessita ativar a cola com água.
+                  Papel de parede em vinil autocolante. Aplicação a seco, recomendada instalação por profissional.
                 </p>
                 <ul className="text-sm text-gray-400 space-y-1">
                   <li>• Material: Vinil autocolante</li>
-                  <li>• Aplicação mais rápida</li>
-                  <li>• Menos materiais necessários</li>
-                  <li>• Ideal para principiantes</li>
-                  <li>• Ativação com água morna</li>
+                  <li>• Aplicação a seco (sem água)</li>
+                  <li>• Requer sobreposição de 5mm</li>
+                  <li>• Recomendada aplicação profissional</li>
+                  <li>• Maior precisão necessária</li>
                 </ul>
               </CardContent>
             </Card>
@@ -82,40 +82,47 @@ export default function ComoAplicarPapelParede() {
         {/* Guia para Papel COM Cola */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-[#20B2AA] mb-6">
-            Aplicação - Papel de Parede COM Cola
+            Aplicação - Vinil Autocolante (Aplicação a Seco)
           </h2>
+          
+          <div className="mb-6 p-4 bg-[#FF6347]/10 border border-[#FF6347] rounded-lg">
+            <p className="text-[#FF6347] font-semibold mb-2">⚠️ Recomendação Importante</p>
+            <p className="text-gray-300 text-sm">
+              A aplicação de vinil autocolante requer técnica específica e é fortemente recomendada a instalação por profissional qualificado para garantir resultado perfeito.
+            </p>
+          </div>
           
           <div className="space-y-6">
             {[
               {
                 step: "1",
                 title: "Preparação da Parede",
-                description: "Limpe bem a parede, remova papéis antigos e certifique-se que está lisa e seca.",
-                details: ["Parede limpa e seca", "Sem buracos ou imperfeições", "Tinta em bom estado"]
+                description: "Parede deve estar perfeitamente lisa, limpa e seca. Qualquer imperfeição será visível.",
+                details: ["Parede completamente lisa", "Sem buracos ou riscos", "Superfície seca", "Tinta em perfeito estado"]
               },
               {
                 step: "2", 
-                title: "Medição e Corte",
-                description: "Meça a altura da parede e corte o papel com 10cm extra (5cm em cima e 5cm em baixo).",
-                details: ["Medir altura + 10cm", "Cortar com estilete afiado", "Numerar as tiras por ordem"]
+                title: "Medição e Corte Preciso",
+                description: "Meça com precisão e corte considerando sobreposição de 5mm entre tiras.",
+                details: ["Medir altura exata + 5cm extra", "Sobreposição de 5mm obrigatória", "Corte preciso com estilete profissional", "Marcar sequência das tiras"]
               },
               {
                 step: "3",
-                title: "Ativação da Cola do Vinil",
-                description: "Para o vinil autocolante, mergulhe o papel em água morna por 30 segundos ou use esponja húmida no verso.",
-                details: ["Água morna (não quente)", "30 segundos de imersão para vinil", "Dobrar em acordeão por 5 min"]
+                title: "Aplicação a Seco",
+                description: "Aplicação direta sem água. Remover proteção adesiva gradualmente durante a colagem.",
+                details: ["SEM água - aplicação a seco", "Remover proteção gradualmente", "Trabalhar devagar e com precisão", "Temperatura ambiente ideal"]
               },
               {
                 step: "4",
-                title: "Aplicação na Parede", 
-                description: "Cole de cima para baixo, alisando com escova macia para remover bolhas de ar.",
-                details: ["Começar pelo topo", "Alisar do centro para fora", "Remover excesso de água"]
+                title: "Colagem e Alisamento", 
+                description: "Cole de cima para baixo, alisando constantemente para evitar bolhas de ar.",
+                details: ["Começar pelo topo", "Alisar continuamente", "Evitar bolhas de ar", "Pressão uniforme"]
               },
               {
                 step: "5",
-                title: "Acabamentos",
-                description: "Corte os excessos e alise as juntas com rolo de costura.",
-                details: ["Cortar excessos com estilete", "Alisar juntas", "Limpar restos de cola"]
+                title: "Sobreposição e Acabamentos",
+                description: "Garantir sobreposição de 5mm e fazer corte duplo para juntas invisíveis.",
+                details: ["Sobreposição exata de 5mm", "Corte duplo nas juntas", "Acabamento profissional", "Verificar aderência"]
               }
             ].map((item, index) => (
               <Card key={index} className="bg-[#111111] border-[#333]">
@@ -215,7 +222,8 @@ export default function ComoAplicarPapelParede() {
               <div>
                 <h3 className="font-bold text-white mb-3">Antes de Começar</h3>
                 <ul className="text-gray-300 space-y-2 text-sm">
-                  <li>• Teste sempre numa área pequena primeiro</li>
+                  <li>• <strong>Vinil:</strong> Aplicação a seco, sem água</li>
+                  <li>• <strong>Papel tradicional:</strong> Teste área pequena primeiro</li>
                   <li>• Trabalhe com boa iluminação</li>
                   <li>• Mantenha temperatura ambiente estável</li>
                   <li>• Tenha todas as ferramentas preparadas</li>
@@ -224,10 +232,10 @@ export default function ComoAplicarPapelParede() {
               <div>
                 <h3 className="font-bold text-white mb-3">Problemas Comuns</h3>
                 <ul className="text-gray-300 space-y-2 text-sm">
-                  <li>• Bolhas: alisar imediatamente</li>
+                  <li>• <strong>Vinil:</strong> Sobreposição inadequada (mín. 5mm)</li>
+                  <li>• <strong>Papel:</strong> Bolhas - alisar imediatamente</li>
                   <li>• Juntas visíveis: pressionar bem</li>
-                  <li>• Papel a descolar: verificar cola</li>
-                  <li>• Padrão desalinhado: medir bem</li>
+                  <li>• Padrão desalinhado: medir com precisão</li>
                 </ul>
               </div>
             </div>
@@ -242,7 +250,7 @@ export default function ComoAplicarPapelParede() {
                 Precisa de Ajuda Profissional?
               </h2>
               <p className="text-gray-300 mb-6">
-                Oferecemos serviço de instalação profissional. Solicite um orçamento sem compromisso.
+                Oferecemos serviço de instalação profissional. Especialmente recomendado para vinil autocolante. Solicite um orçamento sem compromisso.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/loja/papel-parede">
