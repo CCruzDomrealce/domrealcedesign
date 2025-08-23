@@ -130,10 +130,10 @@ export default function Navigation() {
             {/* Cart Button */}
             <Link 
               href="/carrinho" 
-              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md flex items-center gap-2 ${
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md flex items-center gap-2 bg-gradient-to-r from-brand-coral to-brand-turquoise hover:from-brand-turquoise hover:to-brand-coral ${
                 location === "/carrinho" 
-                  ? "bg-brand-yellow text-brand-dark" 
-                  : "text-white hover:text-brand-yellow"
+                  ? "text-black" 
+                  : "text-black hover:text-black"
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
@@ -238,10 +238,10 @@ export default function Navigation() {
               {/* Cart Button Mobile */}
               <Link 
                 href="/carrinho" 
-                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left flex items-center gap-2 ${
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left flex items-center gap-2 bg-gradient-to-r from-brand-coral to-brand-turquoise hover:from-brand-turquoise hover:to-brand-coral ${
                   location === "/carrinho" 
-                    ? "bg-brand-yellow text-brand-dark" 
-                    : "text-white hover:text-brand-yellow"
+                    ? "text-black" 
+                    : "text-black hover:text-black"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
