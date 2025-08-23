@@ -4,15 +4,12 @@ import { siteConfig } from "@/config/site-config";
 
 export default function HeroSection() {
   return (
-    <section className="min-h-screen flex items-center justify-center relative pt-20">
-      {/* Main background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-        style={{
-          backgroundImage: "url('/attached_assets/AdobeStock_756714315_1755959760920.webp')"
-        }}
-      ></div>
-      
+    <section 
+      className="min-h-screen flex items-center justify-center relative pt-20 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/attached_assets/AdobeStock_756714315_1755959760920.webp')"
+      }}
+    >
       <div className="container mx-auto px-4 relative z-10 text-center">
         <div className="max-w-4xl mx-auto p-8 md:p-12">
           <h2 className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight">
