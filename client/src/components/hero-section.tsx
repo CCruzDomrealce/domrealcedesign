@@ -25,7 +25,7 @@ export default function HeroSection() {
   return (
     <section className="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       {/* Parallax Background Layers */}
-      <div className="absolute inset-0 bg-black/75"></div>
+      <div className="absolute inset-0 bg-black/50"></div>
       
       {/* Main background with parallax */}
       <div 
