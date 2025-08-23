@@ -274,49 +274,59 @@ export default function Carrinho() {
                             </p>
                           </div>
 
+                          {/* Informação sobre medidas mínimas */}
+                          <div className="mb-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+                            <h4 className="text-brand-yellow text-sm font-semibold mb-2">📏 Medidas Mínimas:</h4>
+                            <div className="text-xs text-blue-200">
+                              <p>• Largura mínima: <strong>100cm</strong></p>
+                              <p>• Altura mínima: <strong>150cm</strong></p>
+                            </div>
+                          </div>
+
                           {/* Medidas */}
                           <div className="grid grid-cols-2 gap-3">
                             <div>
                               <label className="block text-sm font-medium text-brand-yellow mb-2">
-                                Largura (cm)
+                                Largura (cm) - Min: 100cm
                               </label>
                               <input
                                 type="text"
-                                placeholder="Largura da parede em centímetros"
+                                placeholder="Min: 100cm"
                                 value={item.larguraCm || ''}
                                 required
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
-                                  if (!isNaN(numericValue) && numericValue > 0) {
-                                    const larguraM = numericValue / 100
-                                      ;
+                                  if (!isNaN(numericValue) && numericValue >= 100) {
+                                    const larguraM = numericValue / 100;
                                     updateItem(item.id, { larguraCm: numericValue, largura: larguraM });
                                   } else if (value === '') {
                                     updateItem(item.id, { larguraCm: 0, largura: 0 });
                                   }
                                 }}
                                 className={`w-full px-3 py-2 bg-[#0a0a0a] border rounded text-white text-sm focus:border-[#FFD700] focus:outline-none ${
-                                  !item.larguraCm || item.larguraCm === 0 ? 'border-red-500' : 'border-[#333]'
+                                  !item.larguraCm || item.larguraCm < 100 ? 'border-red-500' : 'border-[#333]'
                                 }`}
                               />
-                              {(!item.larguraCm || item.larguraCm === 0) && (
-                                <p className="text-red-400 text-xs mt-1">Campo obrigatório</p>
+                              {(!item.larguraCm || item.larguraCm < 100) && (
+                                <p className="text-red-400 text-xs mt-1">
+                                  {!item.larguraCm ? 'Campo obrigatório' : 'Mínimo 100cm'}
+                                </p>
                               )}
                             </div>
                             <div>
                               <label className="block text-sm font-medium text-brand-yellow mb-2">
-                                Altura (cm)
+                                Altura (cm) - Min: 150cm
                               </label>
                               <input
                                 type="text"
-                                placeholder="Altura da parede em centímetros"
+                                placeholder="Min: 150cm"
                                 value={item.alturaCm || ''}
                                 required
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
-                                  if (!isNaN(numericValue) && numericValue > 0) {
+                                  if (!isNaN(numericValue) && numericValue >= 150) {
                                     const alturaM = numericValue / 100;
                                     updateItem(item.id, { alturaCm: numericValue, altura: alturaM });
                                   } else if (value === '') {
@@ -324,11 +334,13 @@ export default function Carrinho() {
                                   }
                                 }}
                                 className={`w-full px-3 py-2 bg-[#0a0a0a] border rounded text-white text-sm focus:border-[#FFD700] focus:outline-none ${
-                                  !item.alturaCm || item.alturaCm === 0 ? 'border-red-500' : 'border-[#333]'
+                                  !item.alturaCm || item.alturaCm < 150 ? 'border-red-500' : 'border-[#333]'
                                 }`}
                               />
-                              {(!item.alturaCm || item.alturaCm === 0) && (
-                                <p className="text-red-400 text-xs mt-1">Campo obrigatório</p>
+                              {(!item.alturaCm || item.alturaCm < 150) && (
+                                <p className="text-red-400 text-xs mt-1">
+                                  {!item.alturaCm ? 'Campo obrigatório' : 'Mínimo 150cm'}
+                                </p>
                               )}
                             </div>
                           </div>
