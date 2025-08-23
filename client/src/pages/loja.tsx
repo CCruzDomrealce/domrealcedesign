@@ -76,39 +76,54 @@ export default function Loja() {
         </div>
       </section>
 
-
-
       {/* Main Category Section */}
-      <section className="py-16">
+      <section className="py-4">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-8 text-[#FFD700]">
+            <h2 className="text-3xl font-bold mb-4 text-[#FFD700]">
               Categoria Disponível
             </h2>
             
-            {/* Papel de Parede Card */}
-            <Link href="/loja/papel-parede">
-              <Card className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group cursor-pointer max-w-md mx-auto">
-                <CardContent className="p-8">
-                  <div className="w-24 h-24 bg-gradient-to-br from-[#FFD700] to-[#20B2AA] rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <span className="text-4xl">🎨</span>
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold mb-4 group-hover:text-[#FFD700] transition-colors">
-                    Papel de Parede
-                  </h3>
-                  
-                  <p className="text-gray-400 mb-6">
-                    Explore nossa vasta coleção de texturas e padrões para papel de parede. 
-                    Mais de 2.700 texturas organizadas por categorias.
-                  </p>
-                  
-                  <Button className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90">
-                    Ver Coleção
-                  </Button>
-                </CardContent>
-              </Card>
-            </Link>
+            {/* Grid de 4 colunas com Papel de Parede + placeholders */}
+            <div className="grid grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
+              {/* Papel de Parede */}
+              <Link href="/loja/papel-parede">
+                <Card className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group cursor-pointer">
+                  <CardContent className="p-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#FFD700] to-[#20B2AA] rounded-lg mx-auto mb-4 flex items-center justify-center">
+                      <span className="text-2xl">🎨</span>
+                    </div>
+                    
+                    <h3 className="text-lg font-bold mb-2 group-hover:text-[#FFD700] transition-colors text-center">
+                      Papel de Parede
+                    </h3>
+                    
+                    <p className="text-gray-400 text-sm text-center">
+                      Mais de 2.700 texturas organizadas por categorias.
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              {/* Placeholders para outras categorias */}
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="bg-[#111111] border-[#333] opacity-50">
+                  <CardContent className="p-4">
+                    <div className="w-16 h-16 bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                      <span className="text-gray-500 text-xl">📦</span>
+                    </div>
+                    
+                    <h3 className="text-lg font-bold mb-2 text-gray-400 text-center">
+                      Em Breve
+                    </h3>
+                    
+                    <p className="text-gray-500 text-sm text-center">
+                      Mais produtos brevemente
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
             
             {/* Info about more categories */}
             <div className="mt-12 p-6 bg-[#111111] rounded-lg border border-[#333]">

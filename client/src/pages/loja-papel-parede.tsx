@@ -20,7 +20,7 @@ export default function LojaPapelParede() {
   });
 
   // Filter and format texture cover images
-  const actualCovers: TextureCover[] = (images as { images: string[] })?.images
+  const textureCovers: TextureCover[] = (images as { images: string[] })?.images
     ?.filter((path: string) => path.includes('capas-texturas'))
     ?.map((path: string) => {
       const fileName = path.split('/').pop()?.replace('.webp', '') || '';
@@ -45,27 +45,6 @@ export default function LojaPapelParede() {
     // Only show categories that have at least 1 texture
     ?.filter((texture: TextureCover & { textureCount: number }) => texture.textureCount > 0) || [];
 
-  // Create grid with 4 columns per row, filling empty slots with "Em breve mais produtos"
-  const textureCovers: (TextureCover | { placeholder: true })[] = [];
-  const itemsPerRow = 4;
-  
-  for (let i = 0; i < actualCovers.length; i += itemsPerRow) {
-    const rowItems = actualCovers.slice(i, i + itemsPerRow);
-    textureCovers.push(...rowItems);
-    
-    // Fill remaining slots in the row with placeholders
-    while (textureCovers.length % itemsPerRow !== 0) {
-      textureCovers.push({ placeholder: true });
-    }
-  }
-  
-  // If no actual covers, show at least one row of placeholders
-  if (actualCovers.length === 0) {
-    for (let i = 0; i < itemsPerRow; i++) {
-      textureCovers.push({ placeholder: true });
-    }
-  }
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] py-16">
@@ -84,7 +63,7 @@ export default function LojaPapelParede() {
       <Navigation />
       {/* Header */}
       <div className="bg-[#111111] border-b border-[#333] mt-16">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-8">
           <div className="flex items-center gap-4 mb-6">
             <Link href="/loja">
               <Button variant="outline" size="sm" className="gap-2 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black">
@@ -103,7 +82,7 @@ export default function LojaPapelParede() {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-8">
         {textureCovers.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-gray-600 dark:text-gray-400">
@@ -111,47 +90,35 @@ export default function LojaPapelParede() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-4 gap-4 md:gap-6">
-            {textureCovers.map((item, index) => {
-              if ('placeholder' in item) {
-                // Placeholder item
-                return (
-                  <div key={`placeholder-${index}`} className="text-center">
-                    <div className="bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-lg aspect-square flex items-center justify-center mb-3">
-                      <div className="text-center p-4">
-                        <div className="text-gray-500 text-2xl mb-2">📦</div>
-                        <p className="text-gray-400 text-xs leading-tight">Em breve mais produtos</p>
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3">
+            {textureCovers.map((texture: TextureCover) => (
+              <Link key={texture.fileName} href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace(/_/g, '-')}`}>
+                <div className="group text-center cursor-pointer">
+                  {/* Imagem com overlay "Ver Mais" no hover */}
+                  <div className="relative overflow-hidden rounded-lg mb-1 md:mb-2">
+                    <img
+                      src={texture.path}
+                      alt={texture.name}
+                      className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {/* Overlay com texto "Ver Mais" que aparece no hover */}
+                    <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-lg">
+                      <div className="text-center">
+                        <Eye className="w-4 h-4 md:w-5 md:h-5 text-[#FFD700] mx-auto mb-1" />
+                        <span className="text-[#FFD700] font-bold text-xs">Ver Mais</span>
                       </div>
                     </div>
-                    <h3 className="text-xs font-bold text-gray-400">Em Breve</h3>
                   </div>
-                );
-              } else {
-                // Actual texture category
-                const texture = item as TextureCover;
-                return (
-                  <Link key={texture.fileName} href={`/loja/papel-parede/textura/${texture.fileName.toLowerCase().replace(/_/g, '-')}`}>
-                    <div className="group text-center cursor-pointer">
-                      {/* Imagem sem overlay */}
-                      <div className="relative overflow-hidden rounded-lg mb-3">
-                        <img
-                          src={texture.path}
-                          alt={texture.name}
-                          className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      
-                      {/* Nome por baixo da imagem */}
-                      <div>
-                        <h3 className="text-sm font-bold text-[#FFD700] group-hover:text-[#20B2AA] transition-colors leading-tight">
-                          {texture.name}
-                        </h3>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              }
-            })}
+                  
+                  {/* Nome por baixo */}
+                  <div>
+                    <h3 className="text-xs font-bold text-[#FFD700] group-hover:text-[#20B2AA] transition-colors leading-tight">
+                      {texture.name}
+                    </h3>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
 
