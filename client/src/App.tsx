@@ -32,6 +32,7 @@ import TermosCondicoes from "@/pages/termos-condicoes";
 import PoliticaCookies from "@/pages/politica-cookies";
 import AvisoLegal from "@/pages/aviso-legal";
 import ComoAplicarPapelParede from "@/pages/como-aplicar-papel-parede";
+import AdminContactos from "@/pages/admin-contactos";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -61,6 +62,7 @@ function Router() {
       <Route path="/como-aplicar-papel-parede" component={ComoAplicarPapelParede} />
       <Route path="/carrinho" component={Carrinho} />
       <Route path="/admin/texturas" component={AdminTexturas} />
+      <Route path="/admin/contactos" component={AdminContactos} />
       <Route path="/noticias" component={Noticias} />
       <Route path="/contactos" component={Contactos} />
       <Route path="/politica-privacidade" component={PoliticaPrivacidade} />

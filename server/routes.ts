@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema } from "@shared/schema";
+import { insertContactSchema, type Contact } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
 import { createIfthenPayService, type PaymentMethod } from "./ifthenpay";
@@ -272,6 +272,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error in individual textures upload:", error);
       res.status(500).json({ error: "Failed to upload individual textures" });
+    }
+  });
+
+  // Admin endpoint to get all contacts for email marketing
+  app.get("/api/admin/contacts", async (req, res) => {
+    try {
+      const contacts = await storage.getAllContacts();
+      res.json({ contacts });
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+      res.status(500).json({ error: "Failed to fetch contacts" });
+    }
+  });
+
+  // Admin endpoint to export contacts as CSV for email marketing
+  app.get("/api/admin/contacts/export", async (req, res) => {
+    try {
+      const contacts = await storage.getAllContacts();
+      
+      // Create CSV content
+      const csvHeader = "Nome,Email,Telefone,Empresa,Data,Mensagem\n";
+      const csvContent = contacts.map((contact: Contact) => {
+        const date = contact.createdAt ? new Date(contact.createdAt).toLocaleDateString('pt-PT') : '';
+        return `"${contact.nome}","${contact.email}","${contact.telefone || ''}","${contact.empresa || ''}","${date}","${contact.mensagem.replace(/"/g, '""')}"`;
+      }).join('\n');
+      
+      const csv = csvHeader + csvContent;
+      
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename="contactos-domrealce.csv"');
+      res.send('\uFEFF' + csv); // Add BOM for Excel compatibility
+    } catch (error) {
+      console.error('Error exporting contacts:', error);
+      res.status(500).json({ error: "Failed to export contacts" });
     }
   });
 

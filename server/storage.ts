@@ -1,7 +1,7 @@
 import { type User, type InsertUser, type Contact, type InsertContact, users, contacts } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -12,6 +12,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   createContact(contact: InsertContact): Promise<Contact>;
   getContacts(): Promise<Contact[]>;
+  getAllContacts(): Promise<Contact[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -57,6 +58,12 @@ export class MemStorage implements IStorage {
   async getContacts(): Promise<Contact[]> {
     return Array.from(this.contacts.values());
   }
+
+  async getAllContacts(): Promise<Contact[]> {
+    return Array.from(this.contacts.values()).sort((a, b) => 
+      new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+    );
+  }
 }
 
 export class DatabaseStorage implements IStorage {
@@ -82,6 +89,10 @@ export class DatabaseStorage implements IStorage {
 
   async getContacts(): Promise<Contact[]> {
     return await db.select().from(contacts);
+  }
+
+  async getAllContacts(): Promise<Contact[]> {
+    return await db.select().from(contacts).orderBy(desc(contacts.createdAt));
   }
 }
 
