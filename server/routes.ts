@@ -357,6 +357,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get featured products for homepage
+  app.get("/api/products/featured", async (req, res) => {
+    try {
+      const products = await storage.getFeaturedProducts();
+      res.json(products);
+    } catch (error) {
+      console.error("Error fetching featured products:", error);
+      res.status(500).json({ error: "Failed to fetch featured products" });
+    }
+  });
+
+  // Get recent news for homepage
+  app.get("/api/news/recent", async (req, res) => {
+    try {
+      const news = await storage.getRecentNews();
+      res.json(news);
+    } catch (error) {
+      console.error("Error fetching recent news:", error);
+      res.status(500).json({ error: "Failed to fetch recent news" });
+    }
+  });
+
   // Payment routes
   
   // Create payment

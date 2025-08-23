@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, decimal, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -17,6 +17,27 @@ export const contacts = pgTable("contacts", {
   empresa: text("empresa"),
   mensagem: text("mensagem").notNull(),
   ficheiros: text("ficheiros").array().default([]),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const products = pgTable("products", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  titulo: text("titulo").notNull(),
+  descricao: text("descricao").notNull(),
+  preco: text("preco").notNull(),
+  imagem: text("imagem").notNull(),
+  categoria: text("categoria").notNull(),
+  destaque: boolean("destaque").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const news = pgTable("news", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  titulo: text("titulo").notNull(),
+  descricao: text("descricao").notNull(),
+  categoria: text("categoria").notNull(),
+  imagem: text("imagem").notNull(),
+  data: timestamp("data").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -41,7 +62,28 @@ export const insertContactSchema = createInsertSchema(contacts).pick({
   ficheiros: z.array(z.string()).optional().default([]),
 });
 
+export const insertProductSchema = createInsertSchema(products).pick({
+  titulo: true,
+  descricao: true,
+  preco: true,
+  imagem: true,
+  categoria: true,
+  destaque: true,
+});
+
+export const insertNewsSchema = createInsertSchema(news).pick({
+  titulo: true,
+  descricao: true,
+  categoria: true,
+  imagem: true,
+  data: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
 export type Contact = typeof contacts.$inferSelect;
+export type InsertProduct = z.infer<typeof insertProductSchema>;
+export type Product = typeof products.$inferSelect;
+export type InsertNews = z.infer<typeof insertNewsSchema>;
+export type News = typeof news.$inferSelect;

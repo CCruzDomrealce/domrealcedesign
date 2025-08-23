@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Contact, type InsertContact, users, contacts } from "@shared/schema";
+import { type User, type InsertUser, type Contact, type InsertContact, type Product, type InsertProduct, type News, type InsertNews, users, contacts, products, news } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
@@ -13,6 +13,10 @@ export interface IStorage {
   createContact(contact: InsertContact): Promise<Contact>;
   getContacts(): Promise<Contact[]>;
   getAllContacts(): Promise<Contact[]>;
+  getFeaturedProducts(): Promise<Product[]>;
+  getRecentNews(): Promise<News[]>;
+  createProduct(product: InsertProduct): Promise<Product>;
+  createNews(news: InsertNews): Promise<News>;
 }
 
 export class MemStorage implements IStorage {
@@ -64,6 +68,26 @@ export class MemStorage implements IStorage {
       new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
     );
   }
+
+  async getFeaturedProducts(): Promise<Product[]> {
+    return [];
+  }
+
+  async getRecentNews(): Promise<News[]> {
+    return [];
+  }
+
+  async createProduct(product: InsertProduct): Promise<Product> {
+    const id = randomUUID();
+    const newProduct: Product = { ...product, id, createdAt: new Date(), destaque: product.destaque ?? false };
+    return newProduct;
+  }
+
+  async createNews(newsItem: InsertNews): Promise<News> {
+    const id = randomUUID();
+    const newNews: News = { ...newsItem, id, createdAt: new Date(), data: newsItem.data ?? new Date() };
+    return newNews;
+  }
 }
 
 export class DatabaseStorage implements IStorage {
@@ -93,6 +117,24 @@ export class DatabaseStorage implements IStorage {
 
   async getAllContacts(): Promise<Contact[]> {
     return await db.select().from(contacts).orderBy(desc(contacts.createdAt));
+  }
+
+  async getFeaturedProducts(): Promise<Product[]> {
+    return await db.select().from(products).where(eq(products.destaque, true)).orderBy(desc(products.createdAt));
+  }
+
+  async getRecentNews(): Promise<News[]> {
+    return await db.select().from(news).orderBy(desc(news.data)).limit(3);
+  }
+
+  async createProduct(insertProduct: InsertProduct): Promise<Product> {
+    const [product] = await db.insert(products).values(insertProduct).returning();
+    return product;
+  }
+
+  async createNews(insertNews: InsertNews): Promise<News> {
+    const [newsItem] = await db.insert(news).values(insertNews).returning();
+    return newsItem;
   }
 }
 
