@@ -297,11 +297,28 @@ export default function Carrinho() {
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
-                                  if (!isNaN(numericValue) && numericValue >= 100) {
-                                    const larguraM = numericValue / 100;
-                                    updateItem(item.id, { larguraCm: numericValue, largura: larguraM });
+                                  if (!isNaN(numericValue)) {
+                                    if (numericValue >= 100) {
+                                      const larguraM = numericValue / 100;
+                                      updateItem(item.id, { larguraCm: numericValue, largura: larguraM });
+                                    } else if (numericValue > 0) {
+                                      // Não permite valores entre 0 e 100, mantém o campo mas não salva
+                                      e.target.value = value;
+                                    }
                                   } else if (value === '') {
                                     updateItem(item.id, { larguraCm: 0, largura: 0 });
+                                  }
+                                }}
+                                onBlur={(e) => {
+                                  const value = parseFloat(e.target.value.replace(',', '.'));
+                                  if (!isNaN(value) && value < 100 && value > 0) {
+                                    // Força o mínimo se o valor for menor
+                                    updateItem(item.id, { larguraCm: 100, largura: 1 });
+                                    e.target.value = '100';
+                                    toast({
+                                      title: "Medida ajustada",
+                                      description: "Largura mínima é 100cm. Valor ajustado automaticamente.",
+                                    });
                                   }
                                 }}
                                 className={`w-full px-3 py-2 bg-[#0a0a0a] border rounded text-white text-sm focus:border-[#FFD700] focus:outline-none ${
@@ -326,11 +343,28 @@ export default function Carrinho() {
                                 onChange={(e) => {
                                   const value = e.target.value.replace(',', '.');
                                   const numericValue = parseFloat(value);
-                                  if (!isNaN(numericValue) && numericValue >= 150) {
-                                    const alturaM = numericValue / 100;
-                                    updateItem(item.id, { alturaCm: numericValue, altura: alturaM });
+                                  if (!isNaN(numericValue)) {
+                                    if (numericValue >= 150) {
+                                      const alturaM = numericValue / 100;
+                                      updateItem(item.id, { alturaCm: numericValue, altura: alturaM });
+                                    } else if (numericValue > 0) {
+                                      // Não permite valores entre 0 e 150, mantém o campo mas não salva
+                                      e.target.value = value;
+                                    }
                                   } else if (value === '') {
                                     updateItem(item.id, { alturaCm: 0, altura: 0 });
+                                  }
+                                }}
+                                onBlur={(e) => {
+                                  const value = parseFloat(e.target.value.replace(',', '.'));
+                                  if (!isNaN(value) && value < 150 && value > 0) {
+                                    // Força o mínimo se o valor for menor
+                                    updateItem(item.id, { alturaCm: 150, altura: 1.5 });
+                                    e.target.value = '150';
+                                    toast({
+                                      title: "Medida ajustada",
+                                      description: "Altura mínima é 150cm. Valor ajustado automaticamente.",
+                                    });
                                   }
                                 }}
                                 className={`w-full px-3 py-2 bg-[#0a0a0a] border rounded text-white text-sm focus:border-[#FFD700] focus:outline-none ${
