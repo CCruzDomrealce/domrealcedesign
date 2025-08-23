@@ -220,7 +220,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Starting individual textures upload...');
       
       const textureCategories = [
-        '3D', 'Animal', 'Arabesco', 'Azulejo', 'Baby', 'Baby-2.0', 
+        '3D', 'Amostras', 'Animal', 'Arabesco', 'Azulejo', 'Baby', 'Baby-2.0', 
         'Baby-Colors', 'Baby-Paineis', 'Baby-Pantone', 'Casual', 
         'Chevron', 'Couro', 'Floral', 'Folhas', 'Geometrico'
       ];
