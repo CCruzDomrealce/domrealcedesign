@@ -279,7 +279,7 @@ export default function Carrinho() {
                             <h4 className="text-brand-yellow text-sm font-semibold mb-2">📏 Medidas Mínimas:</h4>
                             <div className="text-xs text-blue-200">
                               <p>• Largura mínima: <strong>100cm</strong></p>
-                              <p>• Altura mínima: <strong>150cm</strong></p>
+                              <p>• Altura mínima: <strong>100cm</strong></p>
                             </div>
                           </div>
 
@@ -328,11 +328,11 @@ export default function Carrinho() {
                             </div>
                             <div>
                               <label className="block text-sm font-medium text-brand-yellow mb-2">
-                                Altura (cm) - Min: 150cm
+                                Altura (cm) - Min: 100cm
                               </label>
                               <input
                                 type="text"
-                                placeholder="Min: 150cm"
+                                placeholder="Min: 100cm"
                                 value={item.alturaCm || ''}
                                 required
                                 onChange={(e) => {
@@ -347,23 +347,23 @@ export default function Carrinho() {
                                 }}
                                 onBlur={(e) => {
                                   const value = parseFloat(e.target.value.replace(',', '.'));
-                                  if (!isNaN(value) && value < 150 && value > 0) {
+                                  if (!isNaN(value) && value < 100 && value > 0) {
                                     // Força o mínimo se o valor for menor
-                                    updateItem(item.id, { alturaCm: 150, altura: 1.5 });
-                                    e.target.value = '150';
+                                    updateItem(item.id, { alturaCm: 100, altura: 1 });
+                                    e.target.value = '100';
                                     toast({
                                       title: "Medida ajustada",
-                                      description: "Altura mínima é 150cm. Valor ajustado automaticamente.",
+                                      description: "Altura mínima é 100cm. Valor ajustado automaticamente.",
                                     });
                                   }
                                 }}
                                 className={`w-full px-3 py-2 bg-[#0a0a0a] border rounded text-white text-sm focus:border-[#FFD700] focus:outline-none ${
-                                  !item.alturaCm || item.alturaCm < 150 ? 'border-red-500' : 'border-[#333]'
+                                  !item.alturaCm || item.alturaCm < 100 ? 'border-red-500' : 'border-[#333]'
                                 }`}
                               />
-                              {(!item.alturaCm || item.alturaCm < 150) && (
+                              {(!item.alturaCm || item.alturaCm < 100) && (
                                 <p className="text-red-400 text-xs mt-1">
-                                  {!item.alturaCm ? 'Campo obrigatório' : 'Mínimo 150cm'}
+                                  {!item.alturaCm ? 'Campo obrigatório' : 'Mínimo 100cm'}
                                 </p>
                               )}
                             </div>
