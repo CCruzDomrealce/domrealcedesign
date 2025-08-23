@@ -6,6 +6,7 @@ import { Star, ShoppingCart, Settings } from "lucide-react";
 import { Link } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import wallpaperSamplesImage from "@assets/box_amostras_prodeccor_plus_1755963100331.webp";
 
 interface Product {
   id: number;
@@ -92,7 +93,7 @@ export default function Loja() {
                   <CardContent className="p-4">
                     <div className="w-16 h-16 rounded-lg mx-auto mb-4 overflow-hidden">
                       <img 
-                        src="/attached_assets/box_amostras_prodeccor_plus_1755963100331.webp" 
+                        src={wallpaperSamplesImage} 
                         alt="Papel de Parede Samples" 
                         className="w-full h-full object-cover rounded-lg"
                       />
