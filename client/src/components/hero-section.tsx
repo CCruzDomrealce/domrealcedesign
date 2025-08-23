@@ -24,15 +24,11 @@ export default function HeroSection() {
 
   return (
     <section className="hero-gradient min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      {/* Parallax Background Layers */}
-      <div className="absolute inset-0 bg-black/50"></div>
-      
-      {/* Main background with parallax */}
+      {/* Main background */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat parallax-slow" 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
         style={{
-          backgroundImage: "url('/attached_assets/AdobeStock_756714315_1755959760920.webp')",
-          transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.1)`
+          backgroundImage: "url('/attached_assets/AdobeStock_756714315_1755959760920.webp')"
         }}
       ></div>
       
