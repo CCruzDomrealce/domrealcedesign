@@ -295,16 +295,12 @@ export default function Carrinho() {
                                 value={item.larguraCm || ''}
                                 required
                                 onChange={(e) => {
-                                  const value = e.target.value.replace(',', '.');
-                                  const numericValue = parseFloat(value);
-                                  if (!isNaN(numericValue)) {
-                                    if (numericValue >= 100) {
-                                      const larguraM = numericValue / 100;
-                                      updateItem(item.id, { larguraCm: numericValue, largura: larguraM });
-                                    } else if (numericValue > 0) {
-                                      // Não permite valores entre 0 e 100, mantém o campo mas não salva
-                                      e.target.value = value;
-                                    }
+                                  const value = e.target.value;
+                                  // Permite introduzir qualquer número, validação só ao sair do campo
+                                  const numericValue = parseFloat(value.replace(',', '.'));
+                                  if (!isNaN(numericValue) && numericValue > 0) {
+                                    const larguraM = numericValue / 100;
+                                    updateItem(item.id, { larguraCm: numericValue, largura: larguraM });
                                   } else if (value === '') {
                                     updateItem(item.id, { larguraCm: 0, largura: 0 });
                                   }
@@ -341,16 +337,12 @@ export default function Carrinho() {
                                 value={item.alturaCm || ''}
                                 required
                                 onChange={(e) => {
-                                  const value = e.target.value.replace(',', '.');
-                                  const numericValue = parseFloat(value);
-                                  if (!isNaN(numericValue)) {
-                                    if (numericValue >= 150) {
-                                      const alturaM = numericValue / 100;
-                                      updateItem(item.id, { alturaCm: numericValue, altura: alturaM });
-                                    } else if (numericValue > 0) {
-                                      // Não permite valores entre 0 e 150, mantém o campo mas não salva
-                                      e.target.value = value;
-                                    }
+                                  const value = e.target.value;
+                                  // Permite introduzir qualquer número, validação só ao sair do campo
+                                  const numericValue = parseFloat(value.replace(',', '.'));
+                                  if (!isNaN(numericValue) && numericValue > 0) {
+                                    const alturaM = numericValue / 100;
+                                    updateItem(item.id, { alturaCm: numericValue, altura: alturaM });
                                   } else if (value === '') {
                                     updateItem(item.id, { alturaCm: 0, altura: 0 });
                                   }
