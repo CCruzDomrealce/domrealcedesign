@@ -269,7 +269,7 @@ export default function Carrinho() {
                             </Select>
                             <p className="text-xs text-gray-400 mt-1">
                               <a href="/como-aplicar-papel-parede" className="text-[#FFD700] hover:text-[#20B2AA] underline">
-                                Ver como aplicar cada tipo
+                                Download de manuais de aplicação
                               </a>
                             </p>
                           </div>
