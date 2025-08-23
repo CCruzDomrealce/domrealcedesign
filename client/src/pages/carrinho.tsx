@@ -482,11 +482,60 @@ export default function Carrinho() {
 
                   <hr className="border-[#333] my-4" />
 
-                  {/* Total */}
+                  {/* Breakdown of costs */}
+                  <div className="space-y-2 mb-4">
+                    {/* Subtotal */}
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">Subtotal:</span>
+                      <span className="text-white">€{calculateTotal().toFixed(2)}</span>
+                    </div>
+                    
+                    {/* Shipping */}
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">Portes de envio:</span>
+                      <span className="text-white">
+                        {calculateTotal() >= 100 ? (
+                          <span className="text-green-400">Grátis</span>
+                        ) : (
+                          "€15.00"
+                        )}
+                      </span>
+                    </div>
+                    
+                    {/* IVA */}
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">IVA (23%):</span>
+                      <span className="text-white">
+                        €{((calculateTotal() + (calculateTotal() >= 100 ? 0 : 15)) * 0.23).toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Free shipping message */}
+                  {calculateTotal() >= 100 && (
+                    <div className="bg-green-900/20 border border-green-500/30 rounded-lg p-3 mb-4">
+                      <p className="text-green-400 text-sm text-center">
+                        🚚 Portes grátis! Compra acima de €100
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Show how much more needed for free shipping */}
+                  {calculateTotal() < 100 && calculateTotal() > 0 && (
+                    <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-3 mb-4">
+                      <p className="text-blue-300 text-sm text-center">
+                        💡 Adicione €{(100 - calculateTotal()).toFixed(2)} para portes grátis
+                      </p>
+                    </div>
+                  )}
+
+                  <hr className="border-[#333] my-4" />
+
+                  {/* Total final */}
                   <div className="flex justify-between items-center mb-6">
-                    <span className="text-[#FFD700] font-bold text-lg">Total:</span>
+                    <span className="text-[#FFD700] font-bold text-lg">Total Final:</span>
                     <span className="text-[#FFD700] font-bold text-2xl">
-                      €{calculateTotal().toFixed(2)}
+                      €{((calculateTotal() + (calculateTotal() >= 100 ? 0 : 15)) * 1.23).toFixed(2)}
                     </span>
                   </div>
 
@@ -514,7 +563,7 @@ export default function Carrinho() {
                     disabled={cartItems.length === 0}
                     data-testid="button-checkout"
                   >
-                    Finalizar Compra - €{calculateTotal().toFixed(2)}
+                    Finalizar Compra - €{((calculateTotal() + (calculateTotal() >= 100 ? 0 : 15)) * 1.23).toFixed(2)}
                   </Button>
 
                   {/* Installation Quote Button */}
