@@ -90,17 +90,17 @@ export default function Loja() {
               <Link href="/loja/papel-parede">
                 <Card className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group cursor-pointer">
                   <CardContent className="p-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-[#FFD700] to-[#20B2AA] rounded-lg mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-2xl">🎨</span>
+                    <div className="w-16 h-16 rounded-lg mx-auto mb-4 overflow-hidden">
+                      <img 
+                        src="/attached_assets/box_amostras_prodeccor_plus_1755963100331.webp" 
+                        alt="Papel de Parede Samples" 
+                        className="w-full h-full object-cover rounded-lg"
+                      />
                     </div>
                     
-                    <h3 className="text-lg font-bold mb-2 group-hover:text-[#FFD700] transition-colors text-center">
+                    <h3 className="text-lg font-bold group-hover:text-[#FFD700] transition-colors text-center">
                       Papel de Parede
                     </h3>
-                    
-                    <p className="text-gray-400 text-sm text-center">
-                      Mais de 2.700 texturas organizadas por categorias.
-                    </p>
                   </CardContent>
                 </Card>
               </Link>
