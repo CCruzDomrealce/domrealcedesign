@@ -85,8 +85,9 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply text-foreground font-sans antialiased;
     font-family: var(--font-sans);
+    background: transparent;
   }
   
   h1, h2, h3, h4, h5, h6 {
