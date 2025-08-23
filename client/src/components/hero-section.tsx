@@ -74,7 +74,7 @@ export default function HeroSection() {
       
       <div className="container mx-auto px-4 relative z-10 text-center">
         <div 
-          className="max-w-4xl mx-auto bg-black/30 rounded-2xl p-8 md:p-12 hover-tilt transform-3d scroll-animate"
+          className="max-w-4xl mx-auto rounded-2xl p-8 md:p-12 hover-tilt transform-3d scroll-animate"
           style={{
             transform: `perspective(1000px) rotateX(${mousePosition.y * 5}deg) rotateY(${mousePosition.x * 5}deg)`
           }}
