@@ -8,7 +8,7 @@ import { SEOHead } from "@/components/seo-head";
 
 export default function Home() {
   return (
-    <div className="text-white overflow-x-hidden" style={{ background: 'transparent' }}>
+    <div className="overflow-x-hidden" style={{ background: 'none', backgroundColor: 'transparent' }}>
       <SEOHead 
         title="Comunicação Visual e Impressão Digital | Lisboa, Portugal"
         description="DOMREALCE - Especialista em comunicação visual, impressão digital, papel de parede, decoração de viaturas e sinalética comercial. 40 anos de experiência em Lisboa."

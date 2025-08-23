@@ -7,7 +7,7 @@ export default function HeroSection() {
     <section 
       className="min-h-screen flex items-center justify-center relative pt-20 bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: "url('/attached_assets/AdobeStock_756714315_1755959760920.webp')"
+        backgroundImage: "url('/hero-background.webp')"
       }}
     >
       <div className="container mx-auto px-4 relative z-10 text-center">
