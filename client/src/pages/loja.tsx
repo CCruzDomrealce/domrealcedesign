@@ -91,7 +91,7 @@ export default function Loja() {
               <Link href="/loja/papel-parede">
                 <Card className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group cursor-pointer">
                   <CardContent className="p-4">
-                    <div className="w-16 h-16 rounded-lg mx-auto mb-4 overflow-hidden">
+                    <div className="w-full h-16 rounded-lg mx-auto mb-4 overflow-hidden">
                       <img 
                         src={wallpaperSamplesImage} 
                         alt="Papel de Parede Samples" 
