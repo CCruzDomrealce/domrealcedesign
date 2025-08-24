@@ -149,11 +149,6 @@ export class IfthenPayService {
       description: request.description || `Pagamento ${request.orderId}`,
     };
 
-    // Debug: log payload (without exposing full key)
-    console.log('MB WAY Request:', {
-      ...payload,
-      mbwayKey: payload.mbwayKey ? `${payload.mbwayKey.substring(0, 3)}***` : 'undefined'
-    });
 
     try {
       const response = await fetch(url, {
@@ -170,23 +165,20 @@ export class IfthenPayService {
 
       const data = await response.json();
       
-      // Debug: log complete API response
-      console.log('MB WAY API Response:', JSON.stringify(data, null, 2));
-      
-      if (data.status !== '0') {
+      if (data.Status !== '000') {
         console.log('MB WAY Error Details:', {
-          status: data.status,
-          message: data.message,
+          status: data.Status,
+          message: data.Message,
           fullResponse: data
         });
-        throw new Error(`MB WAY error: ${data.message || `Status ${data.status}`}`);
+        throw new Error(`MB WAY error: ${data.Message || `Status ${data.Status}`}`);
       }
 
       return {
-        requestId: data.requestId,
+        requestId: data.RequestId,
         amount: request.amount,
         orderId: request.orderId,
-        status: data.status,
+        status: data.Status,
       };
     } catch (error) {
       console.error('Error creating MB WAY payment:', error);
