@@ -118,13 +118,13 @@ export class IfthenPayService {
 
       const data = await response.json();
       
-      if (data.status !== '0') {
-        throw new Error(`Multibanco error: ${data.message || 'Unknown error'}`);
+      if (data.Status !== '000') {
+        throw new Error(`Multibanco error: ${data.Message || 'Unknown error'}`);
       }
 
       return {
-        entity: data.entity,
-        reference: data.reference,
+        entity: data.Entity,
+        reference: data.Reference,
         amount: request.amount,
         orderId: request.orderId,
       };
@@ -215,15 +215,15 @@ export class IfthenPayService {
 
       const data = await response.json();
       
-      if (data.status !== '0') {
-        throw new Error(`Payshop error: ${data.message || 'Unknown error'}`);
+      if (data.Status !== '000') {
+        throw new Error(`Payshop error: ${data.Message || 'Unknown error'}`);
       }
 
       return {
-        reference: data.reference,
+        reference: data.Reference,
         amount: request.amount,
         orderId: request.orderId,
-        validUntil: data.validUntil,
+        validUntil: data.ValidUntil,
       };
     } catch (error) {
       console.error('Error creating Payshop payment:', error);
