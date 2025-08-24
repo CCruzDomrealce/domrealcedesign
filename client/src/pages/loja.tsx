@@ -141,7 +141,7 @@ export default function Loja() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 px-4 bg-[#111111]">
+      <section className="py-16 px-4 bg-black">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">

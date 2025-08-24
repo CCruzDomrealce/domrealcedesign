@@ -68,7 +68,7 @@ export default function Sobre() {
       </section>
 
       {/* Values Section */}
-      <section className="pt-0 pb-8 px-4 bg-[#111111]">
+      <section className="pt-0 pb-8 px-4 bg-black">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Nossos Valores</h2>
@@ -116,7 +116,7 @@ export default function Sobre() {
       </section>
 
       {/* Company Approach Section */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-[#0a0a0a]">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <div className="space-y-6 text-gray-300">
@@ -138,7 +138,7 @@ export default function Sobre() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 bg-[#111111]">
+      <section className="py-16 px-4 bg-black">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Pronto para trabalhar connosco?</h2>
           <p className="text-gray-300 mb-8 text-lg">

@@ -14,7 +14,7 @@ export default function NewsSection() {
 
   if (isLoading) {
     return (
-      <section id="noticias" className="py-20 bg-[#111111]">
+      <section id="noticias" className="py-20 bg-black">
         <div className="container mx-auto px-4 text-center">
           <div className="text-brand-coral">Carregando notícias...</div>
         </div>
@@ -27,7 +27,7 @@ export default function NewsSection() {
   }
 
   return (
-    <section id="noticias" className="py-20 bg-[#111111]">
+    <section id="noticias" className="py-20 bg-black">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 scroll-animate">
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
