@@ -118,8 +118,6 @@ export class IfthenPayService {
 
       const data = await response.json();
       
-      // Debug: log complete Multibanco API response
-      console.log('Multibanco API Response:', JSON.stringify(data, null, 2));
       
       if (data.Status !== '000') {
         console.log('Multibanco Error Details:', {
@@ -223,8 +221,6 @@ export class IfthenPayService {
 
       const data = await response.json();
       
-      // Debug: log complete Payshop API response
-      console.log('Payshop API Response:', JSON.stringify(data, null, 2));
       
       if (data.Status !== '000') {
         console.log('Payshop Error Details:', {
