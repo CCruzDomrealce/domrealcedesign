@@ -95,7 +95,7 @@ export class IfthenPayService {
       throw new Error('MB Key is required for Multibanco payments');
     }
 
-    const url = `${this.baseUrl}/api/multibanco/reference`;
+    const url = `${this.baseUrl}/multibanco`;
     const payload = {
       mbKey: this.config.mbKey,
       orderId: request.orderId,
@@ -203,7 +203,7 @@ export class IfthenPayService {
       throw new Error('Payshop Key is required for Payshop payments');
     }
 
-    const url = `${this.baseUrl}/api/payshop/reference`;
+    const url = `${this.baseUrl}/payshop`;
     const payload = {
       payshopKey: this.config.payshopKey,
       orderId: request.orderId,
