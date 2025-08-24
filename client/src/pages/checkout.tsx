@@ -83,7 +83,10 @@ export default function Checkout() {
   );
 
   const custoEnvio = totalCarrinho > 100 ? 0 : 15;
-  const totalFinal = totalCarrinho + custoEnvio;
+  const ivaRate = 0.23; // 23% IVA em Portugal
+  const totalSemIva = totalCarrinho + custoEnvio;
+  const valorIva = totalSemIva * ivaRate;
+  const totalFinal = totalSemIva + valorIva;
 
   const handleFinalizarPedido = async () => {
     // Validar dados obrigatórios
@@ -494,6 +497,10 @@ export default function Checkout() {
                   {custoEnvio === 0 && (
                     <p className="text-xs text-green-400">Envio grátis para compras acima de €100</p>
                   )}
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-300">IVA (23%):</span>
+                    <span className="text-white">€{valorIva.toFixed(2)}</span>
+                  </div>
                   
                   <Separator className="bg-[#333]" />
                   

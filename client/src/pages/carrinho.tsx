@@ -112,6 +112,19 @@ export default function Carrinho() {
     }, 0);
   };
 
+  const calculateTotalWithShippingAndIVA = () => {
+    const subtotal = calculateTotal();
+    const shipping = subtotal >= 100 ? 0 : 15;
+    const subtotalWithShipping = subtotal + shipping;
+    const iva = subtotalWithShipping * 0.23; // 23% IVA
+    return {
+      subtotal,
+      shipping,
+      iva,
+      total: subtotalWithShipping + iva
+    };
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] py-16">
@@ -484,31 +497,36 @@ export default function Carrinho() {
 
                   {/* Breakdown of costs */}
                   <div className="space-y-2 mb-4">
-                    {/* Subtotal */}
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-300">Subtotal:</span>
-                      <span className="text-white">€{calculateTotal().toFixed(2)}</span>
-                    </div>
-                    
-                    {/* Shipping */}
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-300">Portes de envio:</span>
-                      <span className="text-white">
-                        {calculateTotal() >= 100 ? (
-                          <span className="text-green-400">Grátis</span>
-                        ) : (
-                          "€15.00"
-                        )}
-                      </span>
-                    </div>
-                    
-                    {/* IVA */}
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-300">IVA (23%):</span>
-                      <span className="text-white">
-                        €{((calculateTotal() + (calculateTotal() >= 100 ? 0 : 15)) * 0.23).toFixed(2)}
-                      </span>
-                    </div>
+                    {(() => {
+                      const totals = calculateTotalWithShippingAndIVA();
+                      return (
+                        <>
+                          {/* Subtotal */}
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-300">Subtotal:</span>
+                            <span className="text-white">€{totals.subtotal.toFixed(2)}</span>
+                          </div>
+                          
+                          {/* Shipping */}
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-300">Portes de envio:</span>
+                            <span className="text-white">
+                              {totals.shipping === 0 ? (
+                                <span className="text-green-400">Grátis</span>
+                              ) : (
+                                `€${totals.shipping.toFixed(2)}`
+                              )}
+                            </span>
+                          </div>
+                          
+                          {/* IVA */}
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-300">IVA (23%):</span>
+                            <span className="text-white">€{totals.iva.toFixed(2)}</span>
+                          </div>
+                        </>
+                      );
+                    })()}
                   </div>
 
                   {/* Free shipping message */}
@@ -535,7 +553,7 @@ export default function Carrinho() {
                   <div className="flex justify-between items-center mb-6">
                     <span className="text-[#FFD700] font-bold text-lg">Total Final:</span>
                     <span className="text-[#FFD700] font-bold text-2xl">
-                      €{((calculateTotal() + (calculateTotal() >= 100 ? 0 : 15)) * 1.23).toFixed(2)}
+                      €{calculateTotalWithShippingAndIVA().total.toFixed(2)}
                     </span>
                   </div>
 
@@ -563,7 +581,7 @@ export default function Carrinho() {
                     disabled={cartItems.length === 0}
                     data-testid="button-checkout"
                   >
-                    Finalizar Compra - €{((calculateTotal() + (calculateTotal() >= 100 ? 0 : 15)) * 1.23).toFixed(2)}
+                    Finalizar Compra - €{calculateTotalWithShippingAndIVA().total.toFixed(2)}
                   </Button>
 
                   {/* Installation Quote Button */}
