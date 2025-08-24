@@ -95,13 +95,16 @@ export class IfthenPayService {
       throw new Error('MB Key is required for Multibanco payments');
     }
 
-    const url = `${this.baseUrl}/spg/payment/multibanco`;
+    const url = `${this.baseUrl}/api/multibanco/reference`;
     const payload = {
       mbKey: this.config.mbKey,
       orderId: request.orderId,
       amount: request.amount.toFixed(2),
       description: request.description || `Pagamento ${request.orderId}`,
     };
+    
+    console.log('Multibanco Request URL:', url);
+    console.log('Multibanco Payload:', payload);
 
     try {
       const response = await fetch(url, {
@@ -200,13 +203,16 @@ export class IfthenPayService {
       throw new Error('Payshop Key is required for Payshop payments');
     }
 
-    const url = `${this.baseUrl}/spg/payment/payshop`;
+    const url = `${this.baseUrl}/api/payshop/reference`;
     const payload = {
       payshopKey: this.config.payshopKey,
       orderId: request.orderId,
       amount: request.amount.toFixed(2),
       description: request.description || `Pagamento ${request.orderId}`,
     };
+    
+    console.log('Payshop Request URL:', url);
+    console.log('Payshop Payload:', payload);
 
     try {
       const response = await fetch(url, {
