@@ -14,7 +14,7 @@ export default function NewsSection() {
 
   if (isLoading) {
     return (
-      <section id="noticias" className="py-20 bg-black">
+      <section id="noticias" className="py-20 bg-[#111111]">
         <div className="container mx-auto px-4 text-center">
           <div className="text-brand-coral">Carregando notícias...</div>
         </div>
@@ -27,7 +27,7 @@ export default function NewsSection() {
   }
 
   return (
-    <section id="noticias" className="py-20 bg-black">
+    <section id="noticias" className="py-20 bg-[#111111]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 scroll-animate">
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
@@ -42,7 +42,7 @@ export default function NewsSection() {
           {news.map((article, index) => (
             <article 
               key={article.id} 
-              className="bg-gray-800 rounded-2xl overflow-hidden hover-lift transform-3d scroll-animate hover-tilt cursor-pointer"
+              className="bg-[#0a0a0a] border border-[#333] rounded-2xl overflow-hidden hover-lift transform-3d scroll-animate hover-tilt cursor-pointer"
               style={{
                 animationDelay: `${index * 0.1}s`
               }}

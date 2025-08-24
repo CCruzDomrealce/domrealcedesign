@@ -12,7 +12,7 @@ export default function PortfolioSection() {
 
   if (isLoading) {
     return (
-      <section id="portfolio" className="py-20 bg-gray-800">
+      <section id="portfolio" className="py-20 bg-[#0a0a0a]">
         <div className="container mx-auto px-4 text-center">
           <div className="text-brand-yellow">Carregando produtos...</div>
         </div>
@@ -25,7 +25,7 @@ export default function PortfolioSection() {
   }
 
   return (
-    <section id="portfolio" className="py-20 bg-gray-800">
+    <section id="portfolio" className="py-20 bg-[#0a0a0a]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 scroll-animate-right">
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-4">
@@ -38,7 +38,7 @@ export default function PortfolioSection() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
-            <div key={product.id} className="group relative overflow-hidden rounded-2xl bg-black hover-tilt scroll-animate transform-3d">
+            <div key={product.id} className="group relative overflow-hidden rounded-2xl bg-[#111111] border border-[#333] hover-tilt scroll-animate transform-3d">
               <img 
                 src={product.imagem} 
                 alt={product.titulo} 

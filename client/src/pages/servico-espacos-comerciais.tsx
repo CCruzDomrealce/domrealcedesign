@@ -142,7 +142,7 @@ export default function ServicoEspacosComerciais() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
       <Navigation />
       
       {/* Hero Section */}
@@ -191,7 +191,7 @@ export default function ServicoEspacosComerciais() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <Card key={index} className="bg-black/50 border-gray-800 hover:border-blue-400 transition-all duration-300">
+              <Card key={index} className="bg-[#0a0a0a] border-[#333] hover:border-blue-400 transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="text-blue-400 mb-4">
                     {service.icon}
@@ -214,7 +214,7 @@ export default function ServicoEspacosComerciais() {
       </section>
 
       {/* Sectors Section */}
-      <section className="pt-0 pb-8 bg-black">
+      <section className="pt-0 pb-8 bg-[#111111]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -263,7 +263,7 @@ export default function ServicoEspacosComerciais() {
           
           <div className="grid md:grid-cols-2 gap-8">
             {materials.map((material, index) => (
-              <Card key={index} className="bg-black/50 border-gray-800 hover:border-brand-yellow transition-all duration-300">
+              <Card key={index} className="bg-[#0a0a0a] border-[#333] hover:border-brand-yellow transition-all duration-300">
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-3 text-brand-yellow">{material.name}</h3>
                   <p className="text-gray-400 mb-4">{material.description}</p>
@@ -286,7 +286,7 @@ export default function ServicoEspacosComerciais() {
       </section>
 
       {/* Process Section */}
-      <section className="py-16 bg-black">
+      <section className="py-16 bg-[#0a0a0a]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -355,7 +355,7 @@ export default function ServicoEspacosComerciais() {
                 </div>
               </div>
               
-              <div className="bg-black/50 rounded-2xl p-8 border border-gray-800">
+              <div className="bg-[#0a0a0a] rounded-2xl p-8 border border-[#333]">
                 <div className="text-center mb-6">
                   <Star className="w-12 h-12 text-blue-400 mx-auto mb-4" />
                   <h3 className="text-2xl font-semibold mb-2 text-white">Resultados Garantidos</h3>
