@@ -153,9 +153,10 @@ export default function Checkout() {
       if (method === 'mbway') {
         // Mostrar instruções MB WAY
         toast({
-          title: "MB WAY enviado!",
+          title: "📱 MB WAY enviado!",
           description: `Pedido enviado para ${customerData.telefone}. Confirme no seu telemóvel.`,
-          duration: 5000,
+          className: "bg-yellow-800 text-white border-yellow-600",
+          duration: 8000,
         });
         
         // Monitorizar status do pagamento
@@ -240,13 +241,17 @@ export default function Checkout() {
   const showPaymentInstructions = (method: string, data: any, orderId: string) => {
     if (method === 'multibanco') {
       toast({
-        title: "Referência Multibanco gerada",
-        description: `Entidade: ${data.entity} | Referência: ${data.reference} | Valor: €${totalFinal.toFixed(2)}`,
+        title: "✅ Referência Multibanco gerada",
+        description: `🏦 Entidade: ${data.entity} | 🔢 Referência: ${data.reference} | 💰 Valor: €${totalFinal.toFixed(2)}`,
+        className: "bg-green-800 text-white border-green-600",
+        duration: 10000,
       });
     } else if (method === 'payshop') {
       toast({
-        title: "Referência Payshop gerada",
-        description: `Referência: ${data.reference} | Valor: €${totalFinal.toFixed(2)}`,
+        title: "✅ Referência Payshop gerada", 
+        description: `🔢 Referência: ${data.reference} | 💰 Valor: €${totalFinal.toFixed(2)}`,
+        className: "bg-blue-800 text-white border-blue-600",
+        duration: 10000,
       });
     }
 
