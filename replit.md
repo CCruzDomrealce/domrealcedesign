@@ -93,5 +93,23 @@ Preferred communication style: Simple, everyday language.
 
 ## Production Services
 - **Database Hosting**: Neon Database (serverless PostgreSQL)
+- **Payment Processing**: IfthenPay integration for MB WAY, Multibanco, and Payshop
 - **Environment Variables**: DATABASE_URL for database connection
 - **Asset Hosting**: Static assets served from Express in production
+
+## Critical Configuration
+### IfthenPay Payment Keys (REQUIRED FOR CHECKOUT)
+The following environment variables are ESSENTIAL for the payment system:
+- IFTHENPAY_MBWAY_KEY (MB WAY payments)
+- IFTHENPAY_MB_KEY (Multibanco references)  
+- IFTHENPAY_PAYSHOP_KEY (Payshop references)
+- IFTHENPAY_ANTI_PHISHING_KEY (Security validation)
+
+**IMPORTANT**: These keys are configured in Replit Secrets and MUST be maintained. 
+If these disappear, customers cannot complete purchases. The checkout will fail with 
+"Erro ao criar pagamento" message.
+
+### Tax Configuration
+- IVA (VAT) is set to 23% as required by Portuguese law
+- Applied to subtotal + shipping costs
+- Displayed clearly in both cart and checkout for legal compliance
