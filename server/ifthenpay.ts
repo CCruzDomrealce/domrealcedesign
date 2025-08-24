@@ -95,24 +95,19 @@ export class IfthenPayService {
       throw new Error('MB Key is required for Multibanco payments');
     }
 
-    const url = `${this.baseUrl}/multibanco`;
-    const payload = {
+    // Try GET with query parameters instead of POST
+    const params = new URLSearchParams({
       mbKey: this.config.mbKey,
       orderId: request.orderId,
       amount: request.amount.toFixed(2),
-      description: request.description || `Pagamento ${request.orderId}`,
-    };
+    });
+    const url = `${this.baseUrl}/multibanco?${params}`;
     
     console.log('Multibanco Request URL:', url);
-    console.log('Multibanco Payload:', payload);
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        method: 'GET',
       });
 
       if (!response.ok) {
@@ -203,24 +198,19 @@ export class IfthenPayService {
       throw new Error('Payshop Key is required for Payshop payments');
     }
 
-    const url = `${this.baseUrl}/payshop`;
-    const payload = {
+    // Try GET with query parameters instead of POST
+    const params = new URLSearchParams({
       payshopKey: this.config.payshopKey,
       orderId: request.orderId,
       amount: request.amount.toFixed(2),
-      description: request.description || `Pagamento ${request.orderId}`,
-    };
+    });
+    const url = `${this.baseUrl}/payshop?${params}`;
     
     console.log('Payshop Request URL:', url);
-    console.log('Payshop Payload:', payload);
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        method: 'GET',
       });
 
       if (!response.ok) {

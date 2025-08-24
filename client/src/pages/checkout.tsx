@@ -153,7 +153,8 @@ export default function Checkout() {
         // Mostrar instruções MB WAY
         toast({
           title: "MB WAY enviado!",
-          description: "Verifique o seu telemóvel para confirmar o pagamento.",
+          description: `Pedido enviado para ${customerData.telefone}. Confirme no seu telemóvel.`,
+          duration: 5000,
         });
         
         // Monitorizar status do pagamento
