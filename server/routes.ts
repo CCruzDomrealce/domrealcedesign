@@ -473,9 +473,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     } catch (error) {
       console.error('Error creating payment:', error);
+      console.error('Payment method was:', req.body.method);
+      console.error('Full error details:', error instanceof Error ? error.message : error);
       res.status(500).json({ 
         success: false, 
-        message: "Erro ao criar pagamento. Tente novamente." 
+        message: error instanceof Error ? error.message : "Erro ao criar pagamento. Tente novamente."
       });
     }
   });
