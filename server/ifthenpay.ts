@@ -118,8 +118,16 @@ export class IfthenPayService {
 
       const data = await response.json();
       
+      // Debug: log complete Multibanco API response
+      console.log('Multibanco API Response:', JSON.stringify(data, null, 2));
+      
       if (data.Status !== '000') {
-        throw new Error(`Multibanco error: ${data.Message || 'Unknown error'}`);
+        console.log('Multibanco Error Details:', {
+          status: data.Status,
+          message: data.Message,
+          fullResponse: data
+        });
+        throw new Error(`Multibanco error: ${data.Message || `Status ${data.Status}`}`);
       }
 
       return {
@@ -215,8 +223,16 @@ export class IfthenPayService {
 
       const data = await response.json();
       
+      // Debug: log complete Payshop API response
+      console.log('Payshop API Response:', JSON.stringify(data, null, 2));
+      
       if (data.Status !== '000') {
-        throw new Error(`Payshop error: ${data.Message || 'Unknown error'}`);
+        console.log('Payshop Error Details:', {
+          status: data.Status,
+          message: data.Message,
+          fullResponse: data
+        });
+        throw new Error(`Payshop error: ${data.Message || `Status ${data.Status}`}`);
       }
 
       return {
