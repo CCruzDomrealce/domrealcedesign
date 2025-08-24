@@ -149,6 +149,12 @@ export class IfthenPayService {
       description: request.description || `Pagamento ${request.orderId}`,
     };
 
+    // Debug: log payload (without exposing full key)
+    console.log('MB WAY Request:', {
+      ...payload,
+      mbwayKey: payload.mbwayKey ? `${payload.mbwayKey.substring(0, 3)}***` : 'undefined'
+    });
+
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -164,8 +170,16 @@ export class IfthenPayService {
 
       const data = await response.json();
       
+      // Debug: log complete API response
+      console.log('MB WAY API Response:', JSON.stringify(data, null, 2));
+      
       if (data.status !== '0') {
-        throw new Error(`MB WAY error: ${data.message || 'Unknown error'}`);
+        console.log('MB WAY Error Details:', {
+          status: data.status,
+          message: data.message,
+          fullResponse: data
+        });
+        throw new Error(`MB WAY error: ${data.message || `Status ${data.status}`}`);
       }
 
       return {
