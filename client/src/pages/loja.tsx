@@ -85,8 +85,8 @@ export default function Loja() {
               Categoria Disponível
             </h2>
             
-            {/* Grid de 4 colunas com Papel de Parede + placeholders */}
-            <div className="grid grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
+            {/* Grid responsivo: 2 cols mobile, 3 cols tablet, 4 cols desktop */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
               {/* Papel de Parede */}
               <Link href="/loja/papel-parede">
                 <Card className="bg-[#111111] border-[#333] hover:border-[#FFD700] transition-all duration-300 group cursor-pointer">
