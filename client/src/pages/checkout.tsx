@@ -141,6 +141,7 @@ export default function Checkout() {
       });
 
       const result = await response.json();
+      console.log('Payment API result:', result);
 
       if (!result.success) {
         throw new Error(result.message || 'Erro ao processar pagamento');
