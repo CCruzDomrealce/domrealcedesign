@@ -406,15 +406,6 @@ export function createIfthenPayService(): IfthenPayService {
     sandbox: process.env.NODE_ENV !== 'production',
   };
 
-  // Debug logging to check if keys are loaded
-  console.log('IfthenPay Config Check:', {
-    hasMbKey: !!config.mbKey,
-    hasMbwayKey: !!config.mbwayKey,
-    hasPayshopKey: !!config.payshopKey,
-    mbKey: config.mbKey ? `${config.mbKey.substring(0, 3)}***` : 'undefined',
-    mbwayKey: config.mbwayKey ? `${config.mbwayKey.substring(0, 3)}***` : 'undefined',
-    payshopKey: config.payshopKey ? `${config.payshopKey.substring(0, 3)}***` : 'undefined'
-  });
 
   return new IfthenPayService(config);
 }
