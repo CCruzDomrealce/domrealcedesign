@@ -114,6 +114,18 @@ export class IfthenPayService {
     try {
       const response = await fetch(url, {
         method: 'GET',
+        headers: {
+          'User-Agent': 'DOMREALCE/1.0',
+          'Accept': 'text/plain, application/json, */*'
+        }
+      });
+
+      console.log('🔍 Multibanco Response Details:', {
+        status: response.status,
+        statusText: response.statusText,
+        contentType: response.headers.get('content-type'),
+        contentLength: response.headers.get('content-length'),
+        server: response.headers.get('server')
       });
 
       if (!response.ok) {
