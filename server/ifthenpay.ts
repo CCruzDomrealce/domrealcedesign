@@ -495,7 +495,8 @@ export function createIfthenPayService(): IfthenPayService {
     ccardKey: process.env.IFTHENPAY_CCARD_KEY,
     gatewayKey: process.env.IFTHENPAY_GATEWAY_KEY,
     antiPhishingKey: process.env.IFTHENPAY_ANTI_PHISHING_KEY,
-    sandbox: process.env.NODE_ENV !== 'production',
+    // Forçar modo produção (init) para Multibanco e Payshop funcionarem
+    sandbox: false,
   };
 
   console.log('🔑 IfthenPay Config Debug:', {
