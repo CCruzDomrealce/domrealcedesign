@@ -216,7 +216,7 @@ export class IfthenPayService {
     }
 
     // Use POST method with JSON payload (correct endpoint from IfthenPay)
-    const url = `https://ifthenpay.com/api/payshop/reference/init`;
+    const url = `${this.baseUrl}/payshop/reference/init`;
     const payload = {
       payshopKey: this.config.payshopKey,
       orderId: request.orderId,
