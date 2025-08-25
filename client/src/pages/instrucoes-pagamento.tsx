@@ -7,7 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Copy, CheckCircle, Clock, MapPin, CreditCard } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Copy, CheckCircle, Clock, MapPin, CreditCard, CheckSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 
@@ -15,6 +17,12 @@ export default function InstrucoesPagamento() {
   const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const [orderData, setOrderData] = useState<any>(null);
+  const [confirmationData, setConfirmationData] = useState({
+    entity: "",
+    reference: "",
+    amount: "",
+  });
+  const [isValidating, setIsValidating] = useState(false);
 
   useEffect(() => {
     // Recuperar dados do pedido
@@ -43,6 +51,72 @@ export default function InstrucoesPagamento() {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+  };
+
+  const validatePayment = async () => {
+    if (!orderData) return;
+
+    setIsValidating(true);
+
+    try {
+      // Verificar se os dados introduzidos estão corretos
+      const expectedEntity = orderData.data.entity;
+      const expectedReference = orderData.data.reference;
+      const expectedAmount = orderData.amount.toFixed(2);
+
+      // Normalizar inputs (remover espaços)
+      const inputEntity = confirmationData.entity.trim();
+      const inputReference = confirmationData.reference.trim();
+      const inputAmount = parseFloat(confirmationData.amount.replace(",", ".")).toFixed(2);
+
+      if (inputEntity !== expectedEntity) {
+        toast({
+          title: "❌ Entidade incorreta",
+          description: `A entidade deve ser: ${expectedEntity}`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (inputReference !== expectedReference) {
+        toast({
+          title: "❌ Referência incorreta", 
+          description: `A referência deve ser: ${expectedReference}`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (inputAmount !== expectedAmount) {
+        toast({
+          title: "❌ Valor incorreto",
+          description: `O valor deve ser: €${expectedAmount}`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Todos os dados estão corretos
+      toast({
+        title: "✅ Dados confirmados!",
+        description: "Os dados estão corretos. Proceda com o pagamento no Multibanco/ATM.",
+      });
+
+      // Limpar localStorage e redirecionar após alguns segundos
+      setTimeout(() => {
+        localStorage.removeItem("pendingOrder");
+        setLocation("/pedido-confirmado?confirmed=true");
+      }, 2000);
+
+    } catch (error) {
+      toast({
+        title: "Erro na validação",
+        description: "Ocorreu um erro. Verifique os dados e tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsValidating(false);
+    }
   };
 
   if (!orderData || !method) {
