@@ -174,6 +174,47 @@ export class ObjectStorageService {
     throw new Error("Upload functionality not implemented for public storage");
   }
 
+  // Delete a file from public storage
+  async deletePublicFile(filePath: string): Promise<boolean> {
+    try {
+      for (const searchPath of this.getPublicObjectSearchPaths()) {
+        const fullPath = `${searchPath}/${filePath}`;
+        const { bucketName, objectName } = parseObjectPath(fullPath);
+        const bucket = objectStorageClient.bucket(bucketName);
+        const file = bucket.file(objectName);
+        
+        // Check if file exists first
+        const [exists] = await file.exists();
+        if (exists) {
+          await file.delete();
+          console.log(`Deleted file: ${filePath}`);
+          return true;
+        }
+      }
+      return false;
+    } catch (error) {
+      console.error(`Error deleting file ${filePath}:`, error);
+      return false;
+    }
+  }
+
+  // Batch delete files from public storage
+  async deleteMultiplePublicFiles(filePaths: string[]): Promise<{success: number, failed: number}> {
+    let success = 0;
+    let failed = 0;
+    
+    for (const filePath of filePaths) {
+      const deleted = await this.deletePublicFile(filePath);
+      if (deleted) {
+        success++;
+      } else {
+        failed++;
+      }
+    }
+    
+    return { success, failed };
+  }
+
   // Normalize object entity path
   normalizeObjectEntityPath(rawPath: string): string {
     // Simple normalization for public files

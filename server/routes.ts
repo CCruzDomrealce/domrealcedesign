@@ -214,6 +214,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+
   // API route to upload individual textures for each category
   app.post("/api/upload-individual-textures", async (req, res) => {
     try {
