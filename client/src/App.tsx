@@ -26,6 +26,7 @@ import ServicoPeliculasProtecaoSolar from "@/pages/servico-peliculas-protecao-so
 import Checkout from "@/pages/checkout";
 import PedidoConfirmado from "@/pages/pedido-confirmado";
 import InstrucoesPagamento from "@/pages/instrucoes-pagamento";
+import TesteCores from "@/pages/teste-cores";
 import Noticias from "@/pages/noticias";
 import PoliticaPrivacidade from "@/pages/politica-privacidade";
 import TermosCondicoes from "@/pages/termos-condicoes";
@@ -55,6 +56,7 @@ function Router() {
       <Route path="/checkout" component={Checkout} />
       <Route path="/pedido-confirmado" component={PedidoConfirmado} />
       <Route path="/instrucoes-pagamento" component={InstrucoesPagamento} />
+      <Route path="/teste-cores" component={TesteCores} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/loja" component={Loja} />
       <Route path="/loja/papel-parede" component={LojaPapelParede} />
