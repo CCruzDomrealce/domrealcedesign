@@ -281,39 +281,13 @@ export default function Checkout() {
     if (method === "multibanco") {
       toast({
         title: "✅ Referência Multibanco gerada",
-        description: (
-          <div className="space-y-1 text-black">
-            <p>
-              <strong>🏦 Entidade:</strong>{" "}
-              <span className="text-black">{data.entity}</span>
-            </p>
-            <p>
-              <strong>🔢 Referência:</strong>{" "}
-              <span className="text-black">{data.reference}</span>
-            </p>
-            <p>
-              <strong>💰 Valor:</strong> €{totalFinal.toFixed(2)}
-            </p>
-          </div>
-        ),
-        style: { backgroundColor: "#ffffff", border: "2px solid #000000" },
+        description: `🏦 Entidade: ${data.entity} | 🔢 Referência: ${data.reference} | 💰 Valor: €${totalFinal.toFixed(2)}`,
         duration: 10000,
       });
     } else if (method === "payshop") {
       toast({
         title: "✅ Referência Payshop gerada",
-        description: (
-          <div className="space-y-1 text-black">
-            <p>
-              <strong>🔢 Referência:</strong>{" "}
-              <span className="text-black">{data.reference}</span>
-            </p>
-            <p>
-              <strong>💰 Valor:</strong> €{totalFinal.toFixed(2)}
-            </p>
-          </div>
-        ),
-        style: { backgroundColor: "#ffffff", border: "2px solid #000000" },
+        description: `🔢 Referência: ${data.reference} | 💰 Valor: €${totalFinal.toFixed(2)}`,
         duration: 10000,
       });
     }

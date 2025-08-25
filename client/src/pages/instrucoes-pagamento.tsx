@@ -1,6 +1,12 @@
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Copy, CheckCircle, Clock, MapPin, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
@@ -12,15 +18,15 @@ export default function InstrucoesPagamento() {
 
   useEffect(() => {
     // Recuperar dados do pedido
-    const pendingOrder = localStorage.getItem('pendingOrder');
+    const pendingOrder = localStorage.getItem("pendingOrder");
     if (pendingOrder) {
       setOrderData(JSON.parse(pendingOrder));
     }
   }, []);
 
   const urlParams = new URLSearchParams(window.location.search);
-  const method = urlParams.get('method');
-  const orderId = urlParams.get('orderId');
+  const method = urlParams.get("method");
+  const orderId = urlParams.get("orderId");
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -31,11 +37,11 @@ export default function InstrucoesPagamento() {
   };
 
   const formatCurrency = (amount: number) => {
-    return amount.toLocaleString('pt-PT', {
-      style: 'currency',
-      currency: 'EUR',
+    return amount.toLocaleString("pt-PT", {
+      style: "currency",
+      currency: "EUR",
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     });
   };
 
@@ -44,9 +50,11 @@ export default function InstrucoesPagamento() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6">
-            <p className="text-center text-gray-600">Dados do pagamento não encontrados.</p>
-            <Button 
-              onClick={() => setLocation('/checkout')} 
+            <p className="text-center text-gray-600">
+              Dados do pagamento não encontrados.
+            </p>
+            <Button
+              onClick={() => setLocation("/checkout")}
               className="w-full mt-4"
             >
               Voltar ao Checkout
@@ -95,13 +103,15 @@ export default function InstrucoesPagamento() {
               <div className="flex justify-between">
                 <span className="text-gray-600">Método de Pagamento:</span>
                 <span className="font-semibold">
-                  {method === 'multibanco' ? 'Multibanco' : 'Payshop'}
+                  {method === "multibanco" ? "Multibanco" : "Payshop"}
                 </span>
               </div>
               <div className="pt-4 border-t">
                 <p className="text-sm text-gray-600">
-                  <strong>Cliente:</strong> {orderData.customerData.nome}<br />
-                  <strong>Email:</strong> {orderData.customerData.email}<br />
+                  <strong>Cliente:</strong> {orderData.customerData.nome}
+                  <br />
+                  <strong>Email:</strong> {orderData.customerData.email}
+                  <br />
                   <strong>Telefone:</strong> {orderData.customerData.telefone}
                 </p>
               </div>
@@ -109,7 +119,7 @@ export default function InstrucoesPagamento() {
           </Card>
 
           {/* Instruções de Pagamento */}
-          {method === 'multibanco' && (
+          {method === "multibanco" && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -117,7 +127,8 @@ export default function InstrucoesPagamento() {
                   Pagamento Multibanco
                 </CardTitle>
                 <CardDescription>
-                  Use os dados abaixo em qualquer ATM, homebanking ou app bancária
+                  Use os dados abaixo em qualquer ATM, homebanking ou app
+                  bancária
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -133,7 +144,9 @@ export default function InstrucoesPagamento() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => copyToClipboard(orderData.data.entity, 'Entidade')}
+                        onClick={() =>
+                          copyToClipboard(orderData.data.entity, "Entidade")
+                        }
                       >
                         <Copy className="w-4 h-4" />
                       </Button>
@@ -151,7 +164,12 @@ export default function InstrucoesPagamento() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => copyToClipboard(orderData.data.reference, 'Referência')}
+                        onClick={() =>
+                          copyToClipboard(
+                            orderData.data.reference,
+                            "Referência",
+                          )
+                        }
                       >
                         <Copy className="w-4 h-4" />
                       </Button>
@@ -169,7 +187,9 @@ export default function InstrucoesPagamento() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => copyToClipboard(orderData.amount.toFixed(2), 'Valor')}
+                        onClick={() =>
+                          copyToClipboard(orderData.amount.toFixed(2), "Valor")
+                        }
                       >
                         <Copy className="w-4 h-4" />
                       </Button>
@@ -178,13 +198,24 @@ export default function InstrucoesPagamento() {
                 </div>
 
                 <div className="bg-blue-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-blue-900 mb-2">Como Pagar:</h4>
+                  <h4 className="font-semibold text-blue-900 mb-2">
+                    Como Pagar:
+                  </h4>
                   <ol className="text-sm text-blue-800 space-y-1">
                     <li>1. Aceda ao seu homebanking ou dirija-se ao ATM</li>
                     <li>2. Escolha "Pagamentos" ou "Pagar Serviços"</li>
-                    <li>3. Introduza a Entidade: <strong>{orderData.data.entity}</strong></li>
-                    <li>4. Introduza a Referência: <strong>{orderData.data.reference}</strong></li>
-                    <li>5. Confirme o valor: <strong>{formatCurrency(orderData.amount)}</strong></li>
+                    <li>
+                      3. Introduza a Entidade:{" "}
+                      <strong>{orderData.data.entity}</strong>
+                    </li>
+                    <li>
+                      4. Introduza a Referência:{" "}
+                      <strong>{orderData.data.reference}</strong>
+                    </li>
+                    <li>
+                      5. Confirme o valor:{" "}
+                      <strong>{formatCurrency(orderData.amount)}</strong>
+                    </li>
                     <li>6. Confirme o pagamento</li>
                   </ol>
                 </div>
@@ -192,7 +223,7 @@ export default function InstrucoesPagamento() {
             </Card>
           )}
 
-          {method === 'payshop' && (
+          {method === "payshop" && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -208,7 +239,9 @@ export default function InstrucoesPagamento() {
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm text-gray-600">Referência Payshop</p>
+                        <p className="text-sm text-gray-600">
+                          Referência Payshop
+                        </p>
                         <p className="text-2xl font-mono font-bold">
                           {orderData.data.reference}
                         </p>
@@ -216,7 +249,12 @@ export default function InstrucoesPagamento() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => copyToClipboard(orderData.data.reference, 'Referência Payshop')}
+                        onClick={() =>
+                          copyToClipboard(
+                            orderData.data.reference,
+                            "Referência Payshop",
+                          )
+                        }
                       >
                         <Copy className="w-4 h-4" />
                       </Button>
@@ -234,7 +272,9 @@ export default function InstrucoesPagamento() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => copyToClipboard(orderData.amount.toFixed(2), 'Valor')}
+                        onClick={() =>
+                          copyToClipboard(orderData.amount.toFixed(2), "Valor")
+                        }
                       >
                         <Copy className="w-4 h-4" />
                       </Button>
@@ -244,19 +284,32 @@ export default function InstrucoesPagamento() {
                   {orderData.data.validUntil && (
                     <div className="bg-yellow-50 p-4 rounded-lg">
                       <p className="text-sm text-yellow-700">
-                        <strong>Válido até:</strong> {new Date(orderData.data.validUntil).toLocaleDateString('pt-PT')}
+                        <strong>Válido até:</strong>{" "}
+                        {new Date(orderData.data.validUntil).toLocaleDateString(
+                          "pt-PT",
+                        )}
                       </p>
                     </div>
                   )}
                 </div>
 
                 <div className="bg-orange-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-orange-900 mb-2">Como Pagar:</h4>
+                  <h4 className="font-semibold text-orange-900 mb-2">
+                    Como Pagar:
+                  </h4>
                   <ol className="text-sm text-orange-800 space-y-1">
-                    <li>1. Dirija-se a um agente Payshop (CTT, tabacarias, etc.)</li>
+                    <li>
+                      1. Dirija-se a um agente Payshop (CTT, tabacarias, etc.)
+                    </li>
                     <li>2. Informe que quer fazer um pagamento Payshop</li>
-                    <li>3. Forneça a referência: <strong>{orderData.data.reference}</strong></li>
-                    <li>4. Confirme o valor: <strong>{formatCurrency(orderData.amount)}</strong></li>
+                    <li>
+                      3. Forneça a referência:{" "}
+                      <strong>{orderData.data.reference}</strong>
+                    </li>
+                    <li>
+                      4. Confirme o valor:{" "}
+                      <strong>{formatCurrency(orderData.amount)}</strong>
+                    </li>
                     <li>5. Efetue o pagamento em dinheiro</li>
                     <li>6. Guarde o comprovativo</li>
                   </ol>
@@ -265,7 +318,12 @@ export default function InstrucoesPagamento() {
                 <div className="text-center">
                   <Button
                     variant="outline"
-                    onClick={() => window.open('https://www.payshop.pt/fepsagents/', '_blank')}
+                    onClick={() =>
+                      window.open(
+                        "https://www.payshop.pt/fepsagents/",
+                        "_blank",
+                      )
+                    }
                   >
                     <MapPin className="w-4 h-4 mr-2" />
                     Encontrar Agente Payshop
@@ -284,17 +342,19 @@ export default function InstrucoesPagamento() {
           <CardContent className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="bg-green-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-green-900 mb-2">Após o Pagamento</h4>
+                <h4 className="font-semibold text-green-900 mb-2">
+                  Após o Pagamento
+                </h4>
                 <p className="text-sm text-green-800">
-                  Receberá uma confirmação por email assim que o pagamento for processado. 
-                  O processamento pode demorar até 24 horas.
+                  Receberá uma confirmação por email assim que o pagamento for
+                  processado. O processamento pode demorar até 24 horas.
                 </p>
               </div>
               <div className="bg-blue-50 p-4 rounded-lg">
                 <h4 className="font-semibold text-blue-900 mb-2">Dúvidas?</h4>
                 <p className="text-sm text-blue-800">
-                  Se tiver alguma dúvida sobre o pagamento, contacte-nos através do 
-                  nosso formulário de contacto ou telefone.
+                  Se tiver alguma dúvida sobre o pagamento, contacte-nos através
+                  do nosso formulário de contacto ou telefone.
                 </p>
               </div>
             </div>
@@ -303,14 +363,11 @@ export default function InstrucoesPagamento() {
 
         {/* Botões de Ação */}
         <div className="flex gap-4 justify-center mt-8">
-          <Button 
-            variant="outline" 
-            onClick={() => setLocation('/checkout')}
-          >
+          <Button variant="outline" onClick={() => setLocation("/checkout")}>
             Voltar ao Checkout
           </Button>
-          <Button 
-            onClick={() => setLocation('/pedido-confirmado?orderId=' + orderId)}
+          <Button
+            onClick={() => setLocation("/pedido-confirmado?orderId=" + orderId)}
           >
             Já Paguei
           </Button>

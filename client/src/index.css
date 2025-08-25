@@ -42,19 +42,40 @@
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
   --radius: 0.75rem;
-  
+
   /* DOMREALCE Brand Colors - Extraídas do logótipo */
-  --brand-yellow: hsl(50, 100%, 60%);     /* Amarelo do "DOM" */
-  --brand-red: hsl(0, 85%, 50%);          /* Vermelho do "REALCE" */
-  --brand-turquoise: hsl(180, 70%, 50%);  /* Azul turquesa do círculo */
-  --brand-green: hsl(120, 60%, 40%);      /* Verde do círculo */
-  --brand-dark-red: hsl(0, 70%, 30%);     /* Vermelho escuro do círculo */
-  --brand-dark: hsl(0, 0%, 0%);           /* Preto para texto */
-  --brand-white: hsl(0, 0%, 100%);        /* Branco para fundos */
-  
+  --brand-yellow: hsl(50, 100%, 60%);
+  /* Amarelo do "DOM" */
+  --brand-red: hsl(0, 85%, 50%);
+  /* Vermelho do "REALCE" */
+  --brand-turquoise: hsl(180, 70%, 50%);
+  /* Azul turquesa do círculo */
+  --brand-green: hsl(120, 60%, 40%);
+  /* Verde do círculo */
+  --brand-dark-red: hsl(0, 70%, 30%);
+  /* Vermelho escuro do círculo */
+  --brand-dark: hsl(0, 0%, 0%);
+  /* Preto para texto */
+  --brand-white: hsl(0, 0%, 100%);
+  /* Branco para fundos */
+
   /* Alias para manter compatibilidade com código existente */
-  --brand-coral: var(--brand-red);        /* Coral = Vermelho */
-  --brand-blue: var(--brand-turquoise);   /* Azul = Turquesa */
+  --brand-coral: var(--brand-red);
+  /* Coral = Vermelho */
+  --brand-blue: var(--brand-turquoise);
+  /* Azul = Turquesa */
+}
+
+/* Ajuste de cores para Toast (força texto preto) */
+[data-sonner-toast] {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+}
+
+[data-sonner-toast] [data-title],
+[data-sonner-toast] [data-description] {
+  color: #000000 !important;
 }
 
 .dark {
@@ -90,8 +111,13 @@
     background: transparent;
     color: white;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
   }
 }
@@ -102,63 +128,138 @@
     padding: 2px;
     border-radius: 12px;
   }
-  
+
   .gradient-border-inner {
     background: var(--brand-dark);
     border-radius: 10px;
     height: 100%;
   }
-  
+
   .hero-gradient {
-    background: linear-gradient(135deg, 
-      hsla(50, 100%, 60%, 0.1) 0%, 
-      hsla(0, 85%, 50%, 0.1) 25%, 
-      hsla(180, 70%, 50%, 0.1) 50%, 
-      hsla(120, 60%, 40%, 0.1) 100%);
+    background: linear-gradient(135deg,
+        hsla(50, 100%, 60%, 0.1) 0%,
+        hsla(0, 85%, 50%, 0.1) 25%,
+        hsla(180, 70%, 50%, 0.1) 50%,
+        hsla(120, 60%, 40%, 0.1) 100%);
   }
-  
+
   /* Cores do logótipo DOMREALCE */
-  .text-brand-yellow { color: var(--brand-yellow); }
-  .text-brand-red { color: var(--brand-red); }
-  .text-brand-turquoise { color: var(--brand-turquoise); }
-  .text-brand-green { color: var(--brand-green); }
-  .text-brand-dark-red { color: var(--brand-dark-red); }
-  .text-brand-dark { color: var(--brand-dark); }
-  .text-brand-white { color: var(--brand-white); }
-  
+  .text-brand-yellow {
+    color: var(--brand-yellow);
+  }
+
+  .text-brand-red {
+    color: var(--brand-red);
+  }
+
+  .text-brand-turquoise {
+    color: var(--brand-turquoise);
+  }
+
+  .text-brand-green {
+    color: var(--brand-green);
+  }
+
+  .text-brand-dark-red {
+    color: var(--brand-dark-red);
+  }
+
+  .text-brand-dark {
+    color: var(--brand-dark);
+  }
+
+  .text-brand-white {
+    color: var(--brand-white);
+  }
+
   /* Compatibilidade com código existente */
-  .text-brand-coral { color: var(--brand-coral); }
-  .text-brand-blue { color: var(--brand-blue); }
-  
-  .bg-brand-yellow { background-color: var(--brand-yellow); }
-  .bg-brand-red { background-color: var(--brand-red); }
-  .bg-brand-turquoise { background-color: var(--brand-turquoise); }
-  .bg-brand-green { background-color: var(--brand-green); }
-  .bg-brand-dark-red { background-color: var(--brand-dark-red); }
-  .bg-brand-dark { background-color: var(--brand-dark); }
-  .bg-brand-white { background-color: var(--brand-white); }
-  
+  .text-brand-coral {
+    color: var(--brand-coral);
+  }
+
+  .text-brand-blue {
+    color: var(--brand-blue);
+  }
+
+  .bg-brand-yellow {
+    background-color: var(--brand-yellow);
+  }
+
+  .bg-brand-red {
+    background-color: var(--brand-red);
+  }
+
+  .bg-brand-turquoise {
+    background-color: var(--brand-turquoise);
+  }
+
+  .bg-brand-green {
+    background-color: var(--brand-green);
+  }
+
+  .bg-brand-dark-red {
+    background-color: var(--brand-dark-red);
+  }
+
+  .bg-brand-dark {
+    background-color: var(--brand-dark);
+  }
+
+  .bg-brand-white {
+    background-color: var(--brand-white);
+  }
+
   /* Compatibilidade com código existente */
-  .bg-brand-coral { background-color: var(--brand-coral); }
-  .bg-brand-blue { background-color: var(--brand-blue); }
-  
-  .border-brand-yellow { border-color: var(--brand-yellow); }
-  .border-brand-red { border-color: var(--brand-red); }
-  .border-brand-turquoise { border-color: var(--brand-turquoise); }
-  .border-brand-green { border-color: var(--brand-green); }
-  .border-brand-dark-red { border-color: var(--brand-dark-red); }
-  .border-brand-dark { border-color: var(--brand-dark); }
-  .border-brand-white { border-color: var(--brand-white); }
-  
+  .bg-brand-coral {
+    background-color: var(--brand-coral);
+  }
+
+  .bg-brand-blue {
+    background-color: var(--brand-blue);
+  }
+
+  .border-brand-yellow {
+    border-color: var(--brand-yellow);
+  }
+
+  .border-brand-red {
+    border-color: var(--brand-red);
+  }
+
+  .border-brand-turquoise {
+    border-color: var(--brand-turquoise);
+  }
+
+  .border-brand-green {
+    border-color: var(--brand-green);
+  }
+
+  .border-brand-dark-red {
+    border-color: var(--brand-dark-red);
+  }
+
+  .border-brand-dark {
+    border-color: var(--brand-dark);
+  }
+
+  .border-brand-white {
+    border-color: var(--brand-white);
+  }
+
   /* Compatibilidade com código existente */
-  .border-brand-coral { border-color: var(--brand-coral); }
-  .border-brand-blue { border-color: var(--brand-blue); }
-  
+  .border-brand-coral {
+    border-color: var(--brand-coral);
+  }
+
+  .border-brand-blue {
+    border-color: var(--brand-blue);
+  }
+
   /* Gradientes usando as cores do logótipo */
   .bg-gradient-logo {
     background: linear-gradient(135deg, var(--brand-yellow), var(--brand-red), var(--brand-turquoise));
   }
-  
+
   .bg-gradient-logo-hover:hover {
     background: linear-gradient(135deg, var(--brand-red), var(--brand-turquoise), var(--brand-green));
     transition: background 0.3s ease;
@@ -167,71 +268,86 @@
 
 /* Advanced Animations */
 @keyframes fadeInUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(30px); 
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes slideInRight {
-  from { 
-    opacity: 0; 
-    transform: translateX(50px); 
+  from {
+    opacity: 0;
+    transform: translateX(50px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateX(0); 
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 @keyframes slideInLeft {
-  from { 
-    opacity: 0; 
-    transform: translateX(-50px); 
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateX(0); 
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 @keyframes float {
-  0%, 100% { 
-    transform: translateY(0px); 
+
+  0%,
+  100% {
+    transform: translateY(0px);
   }
-  50% { 
-    transform: translateY(-20px); 
+
+  50% {
+    transform: translateY(-20px);
   }
 }
 
 @keyframes float-slow {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg); 
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
   }
-  50% { 
-    transform: translateY(-10px) rotate(3deg); 
+
+  50% {
+    transform: translateY(-10px) rotate(3deg);
   }
 }
 
 @keyframes glow {
-  0%, 100% { 
-    box-shadow: 0 0 20px rgba(51, 217, 178, 0.3); 
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(51, 217, 178, 0.3);
   }
-  50% { 
-    box-shadow: 0 0 40px rgba(51, 217, 178, 0.6); 
+
+  50% {
+    box-shadow: 0 0 40px rgba(51, 217, 178, 0.6);
   }
 }
 
 @keyframes pulse-brand {
-  0%, 100% { 
-    opacity: 1; 
+
+  0%,
+  100% {
+    opacity: 1;
   }
-  50% { 
-    opacity: 0.7; 
+
+  50% {
+    opacity: 0.7;
   }
 }
 
@@ -240,6 +356,7 @@
     opacity: 0;
     transform: scale(0.8);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -247,9 +364,12 @@
 }
 
 @keyframes bounce-subtle {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-5px);
   }
@@ -326,17 +446,26 @@ body {
 }
 
 /* Cursor específico para elementos interativos */
-button, a, [role="button"], [onClick], .cursor-pointer {
+button,
+a,
+[role="button"],
+[onClick],
+.cursor-pointer {
   cursor: pointer !important;
 }
 
 /* Cursor de texto para inputs */
-input[type="text"], input[type="email"], input[type="tel"], textarea {
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
   cursor: text !important;
 }
 
 /* Garante cursor visível em imagens clicáveis */
-img[data-clickable], .hover-lift img, .group img {
+img[data-clickable],
+.hover-lift img,
+.group img {
   cursor: pointer !important;
 }
 
@@ -399,7 +528,15 @@ img[data-clickable], .hover-lift img, .group img {
 }
 
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
