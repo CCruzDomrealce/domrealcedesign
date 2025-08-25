@@ -421,14 +421,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           });
           break;
 
-        case 'payshop':
-          paymentData = await ifthenPayService.createPayshopPayment({
-            orderId,
-            amount: parseFloat(amount),
-            description: `Papel de parede - Pedido ${orderId}`,
-            customerEmail: customerData?.email,
-          });
-          break;
 
         case 'creditcard':
           if (!returnUrls) {
@@ -454,7 +446,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             amount: parseFloat(amount),
             description: `Papel de parede - Pedido ${orderId}`,
             expiryDays: 3,
-            methods: ['multibanco', 'mbway', 'payshop', 'creditcard'],
+            methods: ['multibanco', 'mbway', 'creditcard'],
           });
           break;
 

@@ -185,7 +185,7 @@ export default function Checkout() {
         // Monitorizar status do pagamento
         monitorMBWayPayment(result.data.requestId, orderId);
       } else {
-        // Multibanco ou Payshop - mostrar referências
+        // Multibanco - mostrar referências
         showPaymentInstructions(method, result.data, orderId);
       }
     } catch (error) {
@@ -209,8 +209,6 @@ export default function Checkout() {
         return "multibanco";
       case "mbway":
         return "mbway";
-      case "payshop":
-        return "payshop";
       default:
         return "mbway"; // Padrão para MB WAY
     }
@@ -276,12 +274,6 @@ export default function Checkout() {
     if (method === "multibanco") {
       toast({
         title: "✅ Referência Multibanco gerada",
-        description: "Consulte os detalhes de pagamento abaixo.",
-        duration: 5000,
-      });
-    } else if (method === "payshop") {
-      toast({
-        title: "✅ Referência Payshop gerada", 
         description: "Consulte os detalhes de pagamento abaixo.",
         duration: 5000,
       });
@@ -499,12 +491,6 @@ export default function Checkout() {
                     >
                       🏧 Multibanco
                     </SelectItem>
-                    <SelectItem
-                      value="payshop"
-                      className="text-white hover:bg-[#333]"
-                    >
-                      🏪 Payshop
-                    </SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -535,22 +521,6 @@ export default function Checkout() {
                   </div>
                 )}
 
-                {paymentData.metodoPagamento === "payshop" && (
-                  <div className="p-4 bg-[#0a0a0a] rounded border border-[#333]">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <div className="w-6 h-6 bg-orange-600 rounded-full flex items-center justify-center">
-                        <span className="text-white text-xs">🏪</span>
-                      </div>
-                      <span className="text-orange-400 font-medium">
-                        Payshop - Pagamento em Loja
-                      </span>
-                    </div>
-                    <p className="text-gray-300 text-sm">
-                      Após confirmar o pedido, receberá uma referência para
-                      pagar em qualquer loja Payshop.
-                    </p>
-                  </div>
-                )}
               </CardContent>
             </Card>
           </div>

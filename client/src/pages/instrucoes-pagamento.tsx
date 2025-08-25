@@ -177,7 +177,7 @@ export default function InstrucoesPagamento() {
               <div className="flex justify-between">
                 <span className="text-gray-600">Método de Pagamento:</span>
                 <span className="font-semibold">
-                  {method === "multibanco" ? "Multibanco" : "Payshop"}
+                  Multibanco
                 </span>
               </div>
               <div className="pt-4 border-t">
@@ -297,113 +297,6 @@ export default function InstrucoesPagamento() {
             </Card>
           )}
 
-          {method === "payshop" && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-orange-600" />
-                  Pagamento Payshop
-                </CardTitle>
-                <CardDescription>
-                  Dirija-se a um agente Payshop com os dados abaixo
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <div className="bg-orange-50 p-6 rounded-lg border-2 border-orange-200">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-sm font-semibold text-orange-700 uppercase tracking-wide">
-                          🔢 Referência Payshop
-                        </p>
-                        <p className="text-4xl font-mono font-black text-orange-900 mt-1">
-                          {orderData.data.reference}
-                        </p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          copyToClipboard(
-                            orderData.data.reference,
-                            "Referência Payshop",
-                          )
-                        }
-                      >
-                        <Copy className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="bg-green-50 p-6 rounded-lg border-2 border-green-200">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-sm font-semibold text-green-700 uppercase tracking-wide">💰 Valor a Pagar</p>
-                        <p className="text-4xl font-black text-green-800 mt-1">
-                          {formatCurrency(orderData.amount)}
-                        </p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          copyToClipboard(orderData.amount.toFixed(2), "Valor")
-                        }
-                      >
-                        <Copy className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  {orderData.data.validUntil && (
-                    <div className="bg-yellow-50 p-6 rounded-lg border-2 border-yellow-200">
-                      <p className="text-sm font-semibold text-yellow-700 uppercase tracking-wide">📅 Válido até</p>
-                      <p className="text-2xl font-bold text-yellow-900 mt-1">
-                        {new Date(orderData.data.validUntil).toLocaleDateString("pt-PT")}
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                <div className="bg-orange-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-orange-900 mb-2">
-                    Como Pagar:
-                  </h4>
-                  <ol className="text-sm text-orange-800 space-y-1">
-                    <li>
-                      1. Dirija-se a um agente Payshop (CTT, tabacarias, etc.)
-                    </li>
-                    <li>2. Informe que quer fazer um pagamento Payshop</li>
-                    <li>
-                      3. Forneça a referência:{" "}
-                      <strong>{orderData.data.reference}</strong>
-                    </li>
-                    <li>
-                      4. Confirme o valor:{" "}
-                      <strong>{formatCurrency(orderData.amount)}</strong>
-                    </li>
-                    <li>5. Efetue o pagamento em dinheiro</li>
-                    <li>6. Guarde o comprovativo</li>
-                  </ol>
-                </div>
-
-                <div className="text-center">
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      window.open(
-                        "https://www.payshop.pt/fepsagents/",
-                        "_blank",
-                      )
-                    }
-                  >
-                    <MapPin className="w-4 h-4 mr-2" />
-                    Encontrar Agente Payshop
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </div>
 
         {/* Informações Importantes */}
