@@ -133,11 +133,11 @@ export default function InstrucoesPagamento() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="bg-yellow-50 p-6 rounded-lg border-2 border-yellow-200">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm text-gray-600">Entidade</p>
-                        <p className="text-2xl font-mono font-bold">
+                        <p className="text-sm font-semibold text-yellow-700 uppercase tracking-wide">🏦 Entidade</p>
+                        <p className="text-4xl font-mono font-black text-yellow-900 mt-1">
                           {orderData.data.entity}
                         </p>
                       </div>
@@ -153,11 +153,11 @@ export default function InstrucoesPagamento() {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="bg-blue-50 p-6 rounded-lg border-2 border-blue-200">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm text-gray-600">Referência</p>
-                        <p className="text-2xl font-mono font-bold">
+                        <p className="text-sm font-semibold text-blue-700 uppercase tracking-wide">🔢 Referência</p>
+                        <p className="text-4xl font-mono font-black text-blue-900 mt-1">
                           {orderData.data.reference}
                         </p>
                       </div>
@@ -176,11 +176,11 @@ export default function InstrucoesPagamento() {
                     </div>
                   </div>
 
-                  <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="bg-green-50 p-6 rounded-lg border-2 border-green-200">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm text-green-700">Valor a Pagar</p>
-                        <p className="text-2xl font-bold text-green-800">
+                        <p className="text-sm font-semibold text-green-700 uppercase tracking-wide">💰 Valor a Pagar</p>
+                        <p className="text-4xl font-black text-green-800 mt-1">
                           {formatCurrency(orderData.amount)}
                         </p>
                       </div>
@@ -236,13 +236,13 @@ export default function InstrucoesPagamento() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="bg-orange-50 p-6 rounded-lg border-2 border-orange-200">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm text-gray-600">
-                          Referência Payshop
+                        <p className="text-sm font-semibold text-orange-700 uppercase tracking-wide">
+                          🔢 Referência Payshop
                         </p>
-                        <p className="text-2xl font-mono font-bold">
+                        <p className="text-4xl font-mono font-black text-orange-900 mt-1">
                           {orderData.data.reference}
                         </p>
                       </div>
@@ -261,11 +261,11 @@ export default function InstrucoesPagamento() {
                     </div>
                   </div>
 
-                  <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="bg-green-50 p-6 rounded-lg border-2 border-green-200">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm text-green-700">Valor a Pagar</p>
-                        <p className="text-2xl font-bold text-green-800">
+                        <p className="text-sm font-semibold text-green-700 uppercase tracking-wide">💰 Valor a Pagar</p>
+                        <p className="text-4xl font-black text-green-800 mt-1">
                           {formatCurrency(orderData.amount)}
                         </p>
                       </div>
@@ -282,12 +282,10 @@ export default function InstrucoesPagamento() {
                   </div>
 
                   {orderData.data.validUntil && (
-                    <div className="bg-yellow-50 p-4 rounded-lg">
-                      <p className="text-sm text-yellow-700">
-                        <strong>Válido até:</strong>{" "}
-                        {new Date(orderData.data.validUntil).toLocaleDateString(
-                          "pt-PT",
-                        )}
+                    <div className="bg-yellow-50 p-6 rounded-lg border-2 border-yellow-200">
+                      <p className="text-sm font-semibold text-yellow-700 uppercase tracking-wide">📅 Válido até</p>
+                      <p className="text-2xl font-bold text-yellow-900 mt-1">
+                        {new Date(orderData.data.validUntil).toLocaleDateString("pt-PT")}
                       </p>
                     </div>
                   )}
