@@ -101,73 +101,43 @@ export class IfthenPayService {
       throw new Error('MB Key is required for Multibanco payments');
     }
 
-    // Use GET method with query parameters (IfthenPay expects GET)
-    const params = new URLSearchParams({
+    // Use POST method with JSON payload (correct endpoint from IfthenPay)
+    const url = `${this.baseUrl}/multibanco/reference/init`;
+    const payload = {
       mbKey: this.config.mbKey,
       orderId: request.orderId,
       amount: request.amount.toFixed(2),
-    });
-    const url = `${this.baseUrl}/multibanco?${params}`;
+    };
     
-    console.log('Multibanco Request URL:', url);
+    console.log('✅ Multibanco Request URL:', url);
+    console.log('✅ Multibanco Payload:', payload);
 
     try {
       const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
         headers: {
-          'User-Agent': 'DOMREALCE/1.0',
-          'Accept': 'text/plain, application/json, */*'
-        }
+          'Content-Type': 'application/json',
+          'User-Agent': 'DOMREALCE/1.0'
+        },
+        body: JSON.stringify(payload)
       });
 
       console.log('🔍 Multibanco Response Details:', {
         status: response.status,
         statusText: response.statusText,
         contentType: response.headers.get('content-type'),
-        contentLength: response.headers.get('content-length'),
-        server: response.headers.get('server')
       });
 
       if (!response.ok) {
         throw new Error(`Multibanco API error: ${response.status}`);
       }
 
-      const text = await response.text();
-      console.log('Multibanco API Response (text):', text);
+      const data = await response.json();
+      console.log('✅ Multibanco API Response:', data);
       
-      // Verificar se a resposta está vazia
-      if (!text || text.trim() === '') {
-        console.log('❌ API IfthenPay - Resposta vazia:', {
-          url,
-          mbKey: this.config.mbKey ? `${this.config.mbKey.substring(0, 4)}...` : 'MISSING',
-          sandbox: this.config.sandbox,
-          responseStatus: response.status,
-          responseHeaders: response.headers
-        });
-        
-        throw new Error('API IfthenPay retornou resposta vazia. Verifique a chave MB ou contacte o suporte.');
-      }
-      
-      // Try to parse as JSON, fallback to text processing
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        // Se não conseguiu fazer parse como JSON, tentar como texto separado por |
-        const parts = text.trim().split('|');
-        if (parts.length >= 3) {
-          data = {
-            Status: parts[0],
-            Entity: parts[1],
-            Reference: parts[2],
-          };
-        } else {
-          throw new Error(`Formato de resposta inválido da API IfthenPay: ${text}`);
-        }
-      }
-      
-      if (data.Status !== '000') {
-        console.log('Multibanco Error Details:', {
+      // Status "0" significa sucesso (como visto na imagem do Postman)
+      if (data.Status !== '0') {
+        console.log('❌ Multibanco Error Details:', {
           status: data.Status,
           message: data.Message,
           fullResponse: data
@@ -245,83 +215,54 @@ export class IfthenPayService {
       throw new Error('Payshop Key is required for Payshop payments');
     }
 
-    // Use GET method with query parameters (IfthenPay expects GET)
-    const params = new URLSearchParams({
+    // Use POST method with JSON payload (correct endpoint from IfthenPay)
+    const url = `https://ifthenpay.com/api/payshop/reference/init`;
+    const payload = {
       payshopKey: this.config.payshopKey,
       orderId: request.orderId,
       amount: request.amount.toFixed(2),
-    });
-    const url = `${this.baseUrl}/payshop?${params}`;
+      description: request.description || `Pagamento ${request.orderId}`,
+      expiryDays: 3,
+    };
     
-    console.log('Payshop Request URL:', url);
+    console.log('✅ Payshop Request URL:', url);
+    console.log('✅ Payshop Payload:', payload);
 
     try {
       const response = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
         throw new Error(`Payshop API error: ${response.status}`);
       }
 
-      const text = await response.text();
-      console.log('Payshop API Response (text):', text);
+      const data = await response.json();
+      console.log('✅ Payshop API Response:', data);
       
-      // Verificar se a resposta está vazia
-      if (!text || text.trim() === '') {
-        console.log('❌ API IfthenPay Payshop - Resposta vazia:', {
-          url,
-          payshopKey: this.config.payshopKey ? `${this.config.payshopKey.substring(0, 4)}...` : 'MISSING',
-          sandbox: this.config.sandbox,
-          responseStatus: response.status
-        });
-        
-        // Para debug - tentar uma chave de teste conhecida
-        if (this.config.sandbox && this.config.payshopKey === 'XZN-105278') {
-          console.log('⚠️ Usando referência Payshop de demo para teste');
-          return {
-            reference: '987654321',
-            amount: request.amount,
-            orderId: request.orderId,
-            validUntil: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 dias
-          };
-        }
-        
-        throw new Error('API IfthenPay retornou resposta vazia. Verifique a chave Payshop ou contacte o suporte.');
-      }
-      
-      // Try to parse as JSON, fallback to text processing
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        // Se não conseguiu fazer parse como JSON, tentar como texto separado por |
-        const parts = text.trim().split('|');
-        if (parts.length >= 3) {
-          data = {
-            Status: parts[0],
-            Reference: parts[1],
-            ValidUntil: parts[2],
-          };
-        } else {
-          throw new Error(`Formato de resposta inválido da API IfthenPay Payshop: ${text}`);
-        }
-      }
-      
-      if (data.Status !== '000') {
-        console.log('Payshop Error Details:', {
-          status: data.Status,
+      // Code "0" significa sucesso para Payshop (não "000")
+      if (data.Code !== '0') {
+        console.log('❌ Payshop Error Details:', {
+          code: data.Code,
           message: data.Message,
           fullResponse: data
         });
-        throw new Error(`Payshop error: ${data.Message || `Status ${data.Status}`}`);
+        throw new Error(`Payshop error: ${data.Message || `Code ${data.Code}`}`);
       }
+
+      // Calcular data de expiração (3 dias)
+      const validUntil = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
 
       return {
         reference: data.Reference,
         amount: request.amount,
         orderId: request.orderId,
-        validUntil: data.ValidUntil,
+        validUntil: validUntil,
       };
     } catch (error) {
       console.error('Error creating Payshop payment:', error);
