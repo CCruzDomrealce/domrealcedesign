@@ -133,17 +133,6 @@ export class IfthenPayService {
           responseHeaders: response.headers
         });
         
-        // Para debug - tentar uma chave de teste conhecida
-        if (this.config.sandbox && this.config.mbKey === 'EMN-816904') {
-          console.log('⚠️ Usando referência de demo para teste');
-          return {
-            entity: '11249',
-            reference: '123456789', 
-            amount: request.amount,
-            orderId: request.orderId,
-          };
-        }
-        
         throw new Error('API IfthenPay retornou resposta vazia. Verifique a chave MB ou contacte o suporte.');
       }
       
