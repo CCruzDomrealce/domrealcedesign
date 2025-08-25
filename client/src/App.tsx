@@ -4,6 +4,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useScrollToTop } from "@/hooks/use-scroll-to-top";
+import SEO from "@/components/seo";
+import StructuredData from "@/components/structured-data";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Contactos from "@/pages/contactos";
@@ -41,7 +43,10 @@ function Router() {
   useScrollToTop();
   
   return (
-    <Switch>
+    <>
+      <SEO />
+      <StructuredData />
+      <Switch>
       <Route path="/" component={Home} />
       <Route path="/sobre" component={Sobre} />
       <Route path="/servicos" component={Servicos} />
@@ -73,6 +78,7 @@ function Router() {
       <Route path="/aviso-legal" component={AvisoLegal} />
       <Route component={NotFound} />
     </Switch>
+    </>
   );
 }
 
