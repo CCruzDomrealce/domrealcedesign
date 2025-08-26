@@ -71,10 +71,13 @@ export default function NewsSection() {
                   {article.descricao}
                 </p>
                 <Button 
+                  asChild
                   variant="link" 
                   className="text-brand-turquoise hover:text-brand-turquoise font-semibold transition-colors p-0 hover-lift group"
                 >
-                  Ler mais <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={16} />
+                  <Link href={`/noticias#${article.id}`}>
+                    Ler mais <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={16} />
+                  </Link>
                 </Button>
               </div>
             </article>
@@ -87,7 +90,7 @@ export default function NewsSection() {
             variant="outline" 
             className="px-8 py-3 border-2 border-brand-coral text-brand-coral font-heading font-semibold rounded-lg hover:bg-brand-coral hover:text-white hover-lift transition-all duration-300 animate-bounce-subtle"
           >
-            <Link href="/">Ver Todas as Notícias</Link>
+            <Link href="/noticias">Ver Todas as Notícias</Link>
           </Button>
         </div>
       </div>
