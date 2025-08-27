@@ -3,8 +3,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const heroImages = [
   '/hero-background.webp',
-  '/hero-2.jpg',
-  '/hero-3.jpg'
+  '/hero-2.webp',
+  '/hero-3.webp'
 ];
 
 const heroAltTexts = [
@@ -15,7 +15,7 @@ const heroAltTexts = [
 
 export default function HeroSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loadedImages, setLoadedImages] = useState(new Set([0, 1, 2])); // Carregar todas as imagens
+  const [loadedImages, setLoadedImages] = useState(new Set([0])); // Primeira imagem pré-carregada
 
   const totalSlides = heroImages.length;
   const AUTOPLAY_MS = 5500;
@@ -85,14 +85,17 @@ export default function HeroSlider() {
         {heroImages.map((src, index) => (
           <img
             key={index}
-            src={src}
+            src={loadedImages.has(index) ? src : undefined}
             alt={heroAltTexts[index]}
             className={`
               absolute inset-0 w-full h-full object-cover hero-slider-img
-              transition-opacity duration-700 ease-in-out will-change-opacity
+              slider-fade will-change-opacity
               ${index === currentIndex ? 'opacity-100' : 'opacity-0'}
             `}
-            {...(index === 0 && { fetchPriority: 'high' })}
+            style={{
+              ...(index === 0 && { fetchPriority: 'high' as const }),
+              ...(index > 0 && !loadedImages.has(index) && { display: 'none' })
+            }}
             loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
             width={1920}
