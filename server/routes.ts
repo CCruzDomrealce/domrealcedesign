@@ -287,6 +287,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin Portfolio - Delete image
+  app.delete("/api/admin/portfolio/delete", async (req, res) => {
+    try {
+      const { filename } = req.body;
+      
+      if (!filename) {
+        return res.status(400).json({ error: "Filename is required" });
+      }
+
+      // Validate that it's a portfolio image
+      if (!filename.startsWith('portfolio/')) {
+        return res.status(400).json({ error: "Only portfolio images can be deleted" });
+      }
+
+      const deleted = await objectStorageService.deletePublicFile(filename);
+      
+      if (deleted) {
+        res.json({ success: true, message: "Image deleted successfully" });
+      } else {
+        res.status(404).json({ error: "Image not found" });
+      }
+    } catch (error) {
+      console.error('Error deleting portfolio image:', error);
+      res.status(500).json({ error: "Failed to delete image" });
+    }
+  });
+
   // Admin endpoint to export contacts as CSV for email marketing
   app.get("/api/admin/contacts/export", async (req, res) => {
     try {
