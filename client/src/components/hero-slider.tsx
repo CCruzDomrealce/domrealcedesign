@@ -89,7 +89,7 @@ export default function HeroSlider() {
             alt={heroAltTexts[index]}
             className={`
               absolute inset-0 w-full h-full object-cover hero-slider-img
-              slider-fade will-change-opacity
+              transition-opacity duration-700 ease-in-out will-change-opacity
               ${index === currentIndex ? 'opacity-100' : 'opacity-0'}
             `}
             {...(index === 0 && { fetchPriority: 'high' })}
