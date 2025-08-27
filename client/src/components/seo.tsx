@@ -16,9 +16,9 @@ interface PageSEOData {
 
 const pageSEOData: PageSEOData = {
   '/': {
-    title: 'DOMREALCE - Comunicação Visual e Impressão Digital | Lisboa',
-    description: 'Especialista em comunicação visual, impressão digital, papel de parede, decoração de viaturas e sinalética comercial. 40 anos de experiência em Lisboa.',
-    keywords: ['comunicação visual', 'impressão digital', 'papel de parede', 'Lisboa', 'DOMREALCE'],
+    title: 'DOMREALCE | Design Gráfico, Impressão Digital e Papel de Parede em Portugal',
+    description: 'Comunicação visual, impressão digital e aplicação de papel de parede. Orçamentos rápidos, qualidade e alto acabamento. Fale com a DOMREALCE.',
+    keywords: ['comunicação visual', 'impressão digital', 'papel de parede', 'design gráfico', 'Lisboa', 'Portugal', 'DOMREALCE', 'orçamento', 'qualidade'],
     type: 'website'
   },
   '/servicos': {
@@ -126,9 +126,20 @@ export default function SEO({ title, description, image, type = 'website', keywo
     updateMetaProperty('og:image', finalImage);
     
     // Update Twitter Card tags
+    updateMetaName('twitter:card', 'summary_large_image');
     updateMetaName('twitter:title', finalTitle);
     updateMetaName('twitter:description', finalDescription);
     updateMetaName('twitter:image', finalImage);
+    
+    // Update additional SEO tags
+    updateMetaName('author', 'DOMREALCE');
+    updateMetaProperty('og:locale', 'pt_PT');
+    updateMetaProperty('og:site_name', 'DOMREALCE');
+    
+    // Add preconnect for performance
+    addPreconnectLink('https://fonts.googleapis.com');
+    addPreconnectLink('https://fonts.gstatic.com');
+    addPreconnectLink('https://www.google-analytics.com');
     
   }, [location, title, description, image, type, keywords, noIndex]);
   
@@ -173,4 +184,14 @@ function updateLinkTag(rel: string, href: string) {
     document.head.appendChild(link);
   }
   link.setAttribute('href', href);
+}
+
+function addPreconnectLink(href: string) {
+  if (!document.querySelector(`link[href="${href}"][rel="preconnect"]`)) {
+    const link = document.createElement('link');
+    link.setAttribute('rel', 'preconnect');
+    link.setAttribute('href', href);
+    link.setAttribute('crossorigin', 'anonymous');
+    document.head.appendChild(link);
+  }
 }

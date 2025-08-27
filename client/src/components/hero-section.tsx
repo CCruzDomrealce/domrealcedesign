@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { siteConfig } from "@/config/site-config";
+import HeroOverlay from "@/components/hero-overlay";
 
 export default function HeroSection() {
   return (
-    <section 
-      className="min-h-screen flex items-center justify-center relative pt-20 bg-cover bg-center bg-no-repeat"
+    <HeroOverlay className="min-h-screen flex items-center justify-center relative pt-20 bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: "url('/hero-background.webp')"
       }}
+      overlayOpacity="medium"
     >
       <div className="container mx-auto px-4 relative z-10 text-center">
         <div className="max-w-4xl mx-auto p-8 md:p-12">
@@ -34,6 +35,6 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
+    </HeroOverlay>
   );
 }

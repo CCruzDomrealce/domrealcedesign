@@ -6,6 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useScrollToTop } from "@/hooks/use-scroll-to-top";
 import SEO from "@/components/seo";
 import StructuredData from "@/components/structured-data";
+import WhatsAppFAB from "@/components/whatsapp-fab";
+import PerformanceOptimizer from "@/components/performance-optimizer";
+import { useLazyImages } from "@/hooks/use-lazy-images";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Contactos from "@/pages/contactos";
@@ -83,13 +86,18 @@ function Router() {
 }
 
 function App() {
+  // Initialize performance optimizations
+  useLazyImages();
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <PerformanceOptimizer />
         {/* <CustomCursor />
         <ScrollAnimations /> */}
         <Toaster />
         <Router />
+        <WhatsAppFAB />
       </TooltipProvider>
     </QueryClientProvider>
   );
