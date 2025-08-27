@@ -767,6 +767,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin Loja routes (specialized for store products)
+  app.get("/api/admin/loja", async (req, res) => {
+    try {
+      const produtos = await storage.getAllProducts();
+      // Filter products that are store-related (Papel de Parede or texture categories)
+      res.json({ produtos });
+    } catch (error) {
+      console.error("Error fetching loja products:", error);
+      res.status(500).json({ error: "Failed to fetch loja products" });
+    }
+  });
+
+  app.post("/api/admin/loja", async (req, res) => {
+    try {
+      const productData = insertProductSchema.parse(req.body);
+      const produto = await storage.createProduct(productData);
+      res.json({ success: true, produto });
+    } catch (error) {
+      console.error("Error creating loja product:", error);
+      res.status(500).json({ error: "Failed to create loja product" });
+    }
+  });
+
+  app.put("/api/admin/loja/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const productData = insertProductSchema.parse(req.body);
+      const produto = await storage.updateProduct(id, productData);
+      res.json({ success: true, produto });
+    } catch (error) {
+      console.error("Error updating loja product:", error);
+      res.status(500).json({ error: "Failed to update loja product" });
+    }
+  });
+
+  app.delete("/api/admin/loja/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteProduct(id);
+      res.json({ success });
+    } catch (error) {
+      console.error("Error deleting loja product:", error);
+      res.status(500).json({ error: "Failed to delete loja product" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

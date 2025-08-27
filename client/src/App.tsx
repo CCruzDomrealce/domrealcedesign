@@ -44,6 +44,7 @@ import AdminSlider from "@/pages/admin-slider";
 import AdminProdutos from "@/pages/admin-produtos";
 import AdminNoticias from "@/pages/admin-noticias";
 import AdminDashboard from "@/pages/admin-dashboard";
+import AdminLoja from "@/pages/admin-loja";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -83,6 +84,7 @@ function Router() {
       <Route path="/admin/slider" component={AdminSlider} />
       <Route path="/admin/produtos" component={AdminProdutos} />
       <Route path="/admin/noticias" component={AdminNoticias} />
+      <Route path="/admin/loja" component={AdminLoja} />
       <Route path="/noticias" component={Noticias} />
       <Route path="/contactos" component={Contactos} />
       <Route path="/politica-privacidade" component={PoliticaPrivacidade} />

@@ -46,10 +46,10 @@ const adminSections = [
     bg: "hover:bg-purple-400/10",
   },
   {
-    title: "Texturas Papel Parede",
-    description: "Administre texturas da loja online",
-    href: "/admin/texturas",
-    icon: Palette,
+    title: "Loja Online",
+    description: "Administre produtos e texturas da loja",
+    href: "/admin/loja",
+    icon: Store,
     color: "text-pink-400",
     bg: "hover:bg-pink-400/10",
   },
@@ -182,10 +182,10 @@ export default function AdminDashboard() {
                   </Button>
                 </Link>
                 
-                <Link href="/admin/portfolio">
+                <Link href="/admin/loja">
                   <Button variant="outline" className="w-full gap-2 border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-black">
-                    <Image className="h-4 w-4" />
-                    Ver Portfólio
+                    <Store className="h-4 w-4" />
+                    Gerir Loja
                   </Button>
                 </Link>
               </div>
