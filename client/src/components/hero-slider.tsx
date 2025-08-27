@@ -3,8 +3,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const heroImages = [
   '/hero-background.webp',
-  '/portfolio/Autocolantes/IMG_20210215_143758.jpg',
-  '/portfolio/Decoracao-Viaturas/IMG_20200921_164829.jpg'
+  '/hero-2.webp',
+  '/hero-3.webp'
+];
+
+const heroAltTexts = [
+  'DOMREALCE - Comunicação visual e impressão digital profissional',
+  'Equipamentos modernos de impressão digital de alta qualidade',
+  'Serviço profissional de decoração e personalização de viaturas'
 ];
 
 export default function HeroSlider() {
@@ -80,7 +86,7 @@ export default function HeroSlider() {
           <img
             key={index}
             src={loadedImages.has(index) ? src : undefined}
-            alt=""
+            alt={heroAltTexts[index]}
             className={`
               absolute inset-0 w-full h-full object-cover hero-slider-img
               slider-fade will-change-opacity
