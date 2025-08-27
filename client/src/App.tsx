@@ -9,6 +9,8 @@ import StructuredData from "@/components/structured-data";
 import WhatsAppFAB from "@/components/whatsapp-fab";
 import PerformanceOptimizer from "@/components/performance-optimizer";
 import { useLazyImages } from "@/hooks/use-lazy-images";
+// DOMREALCE: Accessibility and performance components
+import SkipLink from "@/components/skip-link";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Contactos from "@/pages/contactos";
@@ -47,6 +49,8 @@ function Router() {
   
   return (
     <>
+      {/* DOMREALCE: Skip link for accessibility */}
+      <SkipLink />
       <SEO />
       <StructuredData />
       <Switch>

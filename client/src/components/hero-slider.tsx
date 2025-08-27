@@ -87,9 +87,10 @@ export default function HeroSlider() {
               ${index === currentIndex ? 'opacity-100' : 'opacity-0'}
             `}
             style={{
-              ...(index === 0 && { fetchPriority: 'high' as const }),
               ...(index > 0 && !loadedImages.has(index) && { display: 'none' })
             }}
+            // DOMREALCE: fetchpriority para primeira imagem
+            {...(index === 0 && { fetchpriority: 'high' })}
             loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
             width={1920}
