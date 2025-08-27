@@ -23,25 +23,71 @@
   object-fit: cover;
 }
 
+/* Texto centralizado */
 .text-overlay {
   position: absolute;
-  bottom: 20%;
-  left: 10%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
   color: white;
-  max-width: 500px;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+  max-width: 900px;
+  padding: 20px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
 }
 
 .text-overlay h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
 }
 
 .text-overlay p {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
 }
 
+/* Botões */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: #ffcc00;
+  color: #000;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #e6b800;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.btn-outline:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
-  .text-overlay h1 { font-size: 1.8rem; }
+  .text-overlay h1 { font-size: 2rem; }
   .text-overlay p { font-size: 1rem; }
+
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

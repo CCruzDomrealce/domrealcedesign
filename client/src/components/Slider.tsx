@@ -37,6 +37,10 @@ export default function Slider() {
           <div className="text-overlay">
             <h1>{slide.title}</h1>
             <p>{slide.text}</p>
+            <div className="buttons">
+              <a href="#servicos" className="btn">Explorar Serviços</a>
+              <a href="#portfolio" className="btn btn-outline">Ver Portfólio</a>
+            </div>
           </div>
         </div>
       ))}
