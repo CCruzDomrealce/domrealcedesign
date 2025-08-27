@@ -90,7 +90,7 @@ export default function HeroSlider() {
               ...(index > 0 && !loadedImages.has(index) && { display: 'none' })
             }}
             // DOMREALCE: fetchpriority para primeira imagem
-            {...(index === 0 && { fetchpriority: 'high' })}
+            {...(index === 0 && { fetchPriority: 'high' } as any)}
             loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
             width={1920}

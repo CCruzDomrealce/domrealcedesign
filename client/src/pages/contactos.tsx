@@ -27,13 +27,7 @@ export default function Contactos() {
 
   const mutation = useMutation({
     mutationFn: async (data: InsertContact) => {
-      return await apiRequest('/api/contact', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      return await apiRequest('/api/contact', 'POST', data);
     },
     onSuccess: (data: any) => {
       // DOMREALCE: GA4 form submit tracking on success
@@ -102,9 +96,7 @@ export default function Contactos() {
 
   const handleFileUpload = async () => {
     try {
-      const response = await apiRequest('/api/objects/upload', {
-        method: 'POST',
-      });
+      const response = await apiRequest('/api/objects/upload', 'POST');
       return {
         method: 'PUT' as const,
         url: (response as any).uploadURL,

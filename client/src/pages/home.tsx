@@ -5,8 +5,6 @@ import PortfolioSection from "@/components/portfolio-section";
 import NewsSection from "@/components/news-section";
 import Footer from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
-// DOMREALCE: Social proof component
-import SocialProof from "@/components/social-proof";
 
 export default function Home() {
   return (
@@ -18,18 +16,10 @@ export default function Home() {
         canonicalUrl="https://www.domrealce.com/"
       />
       <Navigation />
-      {/* DOMREALCE: Main content wrapper with ID for skip link */}
-      <main id="conteudo">
-        <HeroSection />
-        {/* DOMREALCE: Social proof below hero */}
-        <SocialProof />
-        {/* DOMREALCE: Apply below-the-fold optimization */}
-        <div className="below-the-fold">
-          <ServicesSection />
-          <PortfolioSection />
-          <NewsSection />
-        </div>
-      </main>
+      <HeroSection />
+      <ServicesSection />
+      <PortfolioSection />
+      <NewsSection />
       <Footer />
     </div>
   );
