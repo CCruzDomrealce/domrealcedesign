@@ -602,6 +602,32 @@ img {
   }
 }
 
+/* DOMREALCE: Hero Slider Specific Styles */
+.duration-600 {
+  transition-duration: 600ms;
+}
+
+/* Hero slider image optimization */
+.hero-slider-img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Smooth fade transitions for slider */
+.slider-fade {
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Controls hover effects */
+.slider-control {
+  backdrop-filter: blur(4px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slider-control:hover {
+  transform: scale(1.05);
+}
+
 .whatsapp-pulse {
   animation: whatsapp-pulse 2s ease-in-out infinite;
 }
