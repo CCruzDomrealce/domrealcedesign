@@ -1,5 +1,5 @@
 import Navigation from "@/components/navigation";
-import HeroSection from "@/components/hero-section";
+import Slider from "@/components/Slider";
 import ServicesSection from "@/components/services-section";
 import PortfolioSection from "@/components/portfolio-section";
 import NewsSection from "@/components/news-section";
@@ -16,7 +16,7 @@ export default function Home() {
         canonicalUrl="https://www.domrealce.com/"
       />
       <Navigation />
-      <HeroSection />
+      <Slider />
       <ServicesSection />
       <PortfolioSection />
       <NewsSection />
