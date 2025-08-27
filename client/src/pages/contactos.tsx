@@ -9,8 +9,6 @@ import { Link } from "wouter";
 import { ObjectUploader } from "@/components/ObjectUploader";
 import { Button } from "@/components/ui/button";
 import { Shield, Upload, FileText, X } from "lucide-react";
-// DOMREALCE: GA4 tracking
-import { trackFormSubmit } from "@/lib/analytics";
 
 export default function Contactos() {
   const { toast } = useToast();
@@ -30,13 +28,6 @@ export default function Contactos() {
       return await apiRequest('/api/contact', 'POST', data);
     },
     onSuccess: (data: any) => {
-      // DOMREALCE: GA4 form submit tracking on success
-      trackFormSubmit('orcamento_contactos', {
-        form_type: 'contact_form',
-        has_files: uploadedFiles.length > 0,
-        company_provided: Boolean(formData.empresa)
-      });
-      
       toast({
         title: "Sucesso!",
         description: data.message || "Mensagem enviada com sucesso!",
