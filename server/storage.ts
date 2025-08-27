@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Contact, type InsertContact, type Product, type InsertProduct, type News, type InsertNews, users, contacts, products, news } from "@shared/schema";
+import { type User, type InsertUser, type Contact, type InsertContact, type Product, type InsertProduct, type News, type InsertNews, type Slide, type InsertSlide, users, contacts, products, news, slides } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
 import { eq, desc } from "drizzle-orm";
@@ -14,9 +14,19 @@ export interface IStorage {
   getContacts(): Promise<Contact[]>;
   getAllContacts(): Promise<Contact[]>;
   getFeaturedProducts(): Promise<Product[]>;
+  getAllProducts(): Promise<Product[]>;
+  updateProduct(id: string, product: InsertProduct): Promise<Product>;
+  deleteProduct(id: string): Promise<boolean>;
   getRecentNews(): Promise<News[]>;
+  getAllNews(): Promise<News[]>;
+  updateNews(id: string, news: InsertNews): Promise<News>;
+  deleteNews(id: string): Promise<boolean>;
   createProduct(product: InsertProduct): Promise<Product>;
   createNews(news: InsertNews): Promise<News>;
+  getSlides(): Promise<Slide[]>;
+  createSlide(slide: InsertSlide): Promise<Slide>;
+  updateSlide(id: string, slide: InsertSlide): Promise<Slide>;
+  deleteSlide(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
@@ -73,8 +83,32 @@ export class MemStorage implements IStorage {
     return [];
   }
 
+  async getAllProducts(): Promise<Product[]> {
+    return [];
+  }
+
+  async updateProduct(id: string, product: InsertProduct): Promise<Product> {
+    throw new Error("Product update not implemented in memory storage");
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    return false;
+  }
+
   async getRecentNews(): Promise<News[]> {
     return [];
+  }
+
+  async getAllNews(): Promise<News[]> {
+    return [];
+  }
+
+  async updateNews(id: string, news: InsertNews): Promise<News> {
+    throw new Error("News update not implemented in memory storage");
+  }
+
+  async deleteNews(id: string): Promise<boolean> {
+    return false;
   }
 
   async createProduct(product: InsertProduct): Promise<Product> {
@@ -87,6 +121,22 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const newNews: News = { ...newsItem, id, createdAt: new Date(), data: newsItem.data ?? new Date() };
     return newNews;
+  }
+
+  async getSlides(): Promise<Slide[]> {
+    return [];
+  }
+
+  async createSlide(slide: InsertSlide): Promise<Slide> {
+    throw new Error("Slide creation not implemented in memory storage");
+  }
+
+  async updateSlide(id: string, slide: InsertSlide): Promise<Slide> {
+    throw new Error("Slide update not implemented in memory storage");
+  }
+
+  async deleteSlide(id: string): Promise<boolean> {
+    return false;
   }
 }
 
@@ -135,6 +185,53 @@ export class DatabaseStorage implements IStorage {
   async createNews(insertNews: InsertNews): Promise<News> {
     const [newsItem] = await db.insert(news).values(insertNews).returning();
     return newsItem;
+  }
+
+  async getAllProducts(): Promise<Product[]> {
+    return await db.select().from(products).orderBy(desc(products.createdAt));
+  }
+
+  async updateProduct(id: string, product: InsertProduct): Promise<Product> {
+    const [updatedProduct] = await db.update(products).set(product).where(eq(products.id, id)).returning();
+    return updatedProduct;
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    const result = await db.delete(products).where(eq(products.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async getAllNews(): Promise<News[]> {
+    return await db.select().from(news).orderBy(desc(news.data));
+  }
+
+  async updateNews(id: string, newsData: InsertNews): Promise<News> {
+    const [updatedNews] = await db.update(news).set(newsData).where(eq(news.id, id)).returning();
+    return updatedNews;
+  }
+
+  async deleteNews(id: string): Promise<boolean> {
+    const result = await db.delete(news).where(eq(news.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async getSlides(): Promise<Slide[]> {
+    return await db.select().from(slides).where(eq(slides.active, true)).orderBy(slides.order_position);
+  }
+
+  async createSlide(slide: InsertSlide): Promise<Slide> {
+    const [newSlide] = await db.insert(slides).values(slide).returning();
+    return newSlide;
+  }
+
+  async updateSlide(id: string, slide: InsertSlide): Promise<Slide> {
+    const [updatedSlide] = await db.update(slides).set(slide).where(eq(slides.id, id)).returning();
+    return updatedSlide;
+  }
+
+  async deleteSlide(id: string): Promise<boolean> {
+    const result = await db.delete(slides).where(eq(slides.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
   }
 }
 

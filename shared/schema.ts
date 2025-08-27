@@ -41,6 +41,16 @@ export const news = pgTable("news", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const slides = pgTable("slides", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  image: text("image").notNull(),
+  title: text("title").notNull(),
+  text: text("text").notNull(),
+  order_position: text("order_position").default("1"),
+  active: boolean("active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -79,6 +89,14 @@ export const insertNewsSchema = createInsertSchema(news).pick({
   data: true,
 });
 
+export const insertSlideSchema = createInsertSchema(slides).pick({
+  image: true,
+  title: true,
+  text: true,
+  order_position: true,
+  active: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
@@ -87,3 +105,5 @@ export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type Product = typeof products.$inferSelect;
 export type InsertNews = z.infer<typeof insertNewsSchema>;
 export type News = typeof news.$inferSelect;
+export type InsertSlide = z.infer<typeof insertSlideSchema>;
+export type Slide = typeof slides.$inferSelect;

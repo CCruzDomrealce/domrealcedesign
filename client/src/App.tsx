@@ -40,6 +40,10 @@ import AvisoLegal from "@/pages/aviso-legal";
 import ComoAplicarPapelParede from "@/pages/como-aplicar-papel-parede";
 import AdminContactos from "@/pages/admin-contactos";
 import AdminPortfolio from "@/pages/admin-portfolio";
+import AdminSlider from "@/pages/admin-slider";
+import AdminProdutos from "@/pages/admin-produtos";
+import AdminNoticias from "@/pages/admin-noticias";
+import AdminDashboard from "@/pages/admin-dashboard";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -75,6 +79,10 @@ function Router() {
       <Route path="/admin/texturas" component={AdminTexturas} />
       <Route path="/admin/contactos" component={AdminContactos} />
       <Route path="/admin/portfolio" component={AdminPortfolio} />
+      <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/slider" component={AdminSlider} />
+      <Route path="/admin/produtos" component={AdminProdutos} />
+      <Route path="/admin/noticias" component={AdminNoticias} />
       <Route path="/noticias" component={Noticias} />
       <Route path="/contactos" component={Contactos} />
       <Route path="/politica-privacidade" component={PoliticaPrivacidade} />

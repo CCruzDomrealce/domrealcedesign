@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, type Contact } from "@shared/schema";
+import { insertContactSchema, insertProductSchema, insertNewsSchema, insertSlideSchema, type Contact } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
 import { createIfthenPayService, type PaymentMethod } from "./ifthenpay";
@@ -628,6 +628,143 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/payments/cancel", (req, res) => {
     const { orderId } = req.query;
     res.redirect(`/checkout?cancelled=true&orderId=${orderId}`);
+  });
+
+  // Admin API routes for managing content
+  
+  // Admin Slider routes
+  app.get("/api/admin/slider", async (req, res) => {
+    try {
+      const slides = await storage.getSlides();
+      res.json({ slides });
+    } catch (error) {
+      console.error("Error fetching slides:", error);
+      res.status(500).json({ error: "Failed to fetch slides" });
+    }
+  });
+
+  app.post("/api/admin/slider", async (req, res) => {
+    try {
+      const slideData = insertSlideSchema.parse(req.body);
+      const slide = await storage.createSlide(slideData);
+      res.json({ success: true, slide });
+    } catch (error) {
+      console.error("Error creating slide:", error);
+      res.status(500).json({ error: "Failed to create slide" });
+    }
+  });
+
+  app.put("/api/admin/slider/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const slideData = insertSlideSchema.parse(req.body);
+      const slide = await storage.updateSlide(id, slideData);
+      res.json({ success: true, slide });
+    } catch (error) {
+      console.error("Error updating slide:", error);
+      res.status(500).json({ error: "Failed to update slide" });
+    }
+  });
+
+  app.delete("/api/admin/slider/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteSlide(id);
+      res.json({ success });
+    } catch (error) {
+      console.error("Error deleting slide:", error);
+      res.status(500).json({ error: "Failed to delete slide" });
+    }
+  });
+
+  // Admin Products routes
+  app.get("/api/admin/produtos", async (req, res) => {
+    try {
+      const produtos = await storage.getAllProducts();
+      res.json({ produtos });
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).json({ error: "Failed to fetch products" });
+    }
+  });
+
+  app.post("/api/admin/produtos", async (req, res) => {
+    try {
+      const productData = insertProductSchema.parse(req.body);
+      const produto = await storage.createProduct(productData);
+      res.json({ success: true, produto });
+    } catch (error) {
+      console.error("Error creating product:", error);
+      res.status(500).json({ error: "Failed to create product" });
+    }
+  });
+
+  app.put("/api/admin/produtos/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const productData = insertProductSchema.parse(req.body);
+      const produto = await storage.updateProduct(id, productData);
+      res.json({ success: true, produto });
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ error: "Failed to update product" });
+    }
+  });
+
+  app.delete("/api/admin/produtos/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteProduct(id);
+      res.json({ success });
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      res.status(500).json({ error: "Failed to delete product" });
+    }
+  });
+
+  // Admin News routes
+  app.get("/api/admin/noticias", async (req, res) => {
+    try {
+      const noticias = await storage.getAllNews();
+      res.json({ noticias });
+    } catch (error) {
+      console.error("Error fetching news:", error);
+      res.status(500).json({ error: "Failed to fetch news" });
+    }
+  });
+
+  app.post("/api/admin/noticias", async (req, res) => {
+    try {
+      const newsData = insertNewsSchema.parse(req.body);
+      const noticia = await storage.createNews(newsData);
+      res.json({ success: true, noticia });
+    } catch (error) {
+      console.error("Error creating news:", error);
+      res.status(500).json({ error: "Failed to create news" });
+    }
+  });
+
+  app.put("/api/admin/noticias/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const newsData = insertNewsSchema.parse(req.body);
+      const noticia = await storage.updateNews(id, newsData);
+      res.json({ success: true, noticia });
+    } catch (error) {
+      console.error("Error updating news:", error);
+      res.status(500).json({ error: "Failed to update news" });
+    }
+  });
+
+  app.delete("/api/admin/noticias/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteNews(id);
+      res.json({ success });
+    } catch (error) {
+      console.error("Error deleting news:", error);
+      res.status(500).json({ error: "Failed to delete news" });
+    }
   });
 
   const httpServer = createServer(app);
