@@ -73,6 +73,20 @@ export default function Loja() {
             <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
               Produtos personalizáveis prontos para entrega. Qualidade profissional com a comodidade de compra online.
             </p>
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <span className="text-brand-yellow">✓</span>
+                <span className="text-sm">Entrega rápida</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <span className="text-brand-turquoise">✓</span>
+                <span className="text-sm">Qualidade garantida</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                <span className="text-brand-coral">✓</span>
+                <span className="text-sm">Personalização total</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

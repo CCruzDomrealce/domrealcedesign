@@ -66,11 +66,22 @@ export default function PerformanceOptimizer() {
           img.setAttribute('decoding', 'async');
         }
 
-        // Add fetchpriority for above-the-fold images
-        const rect = img.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          img.setAttribute('fetchpriority', 'high');
+        // Add loading="lazy" for below-the-fold images
+        if (!img.hasAttribute('loading')) {
+          const rect = img.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            img.setAttribute('fetchpriority', 'high');
+            img.setAttribute('loading', 'eager');
+          } else {
+            img.setAttribute('loading', 'lazy');
+          }
         }
+
+        // Add error handling for broken images
+        img.onerror = function() {
+          this.style.display = 'none';
+          console.warn('Failed to load image:', this.src);
+        };
       });
     };
 
@@ -103,8 +114,32 @@ export default function PerformanceOptimizer() {
       optimizeImages();
     }, 1000);
 
+    // Optimize images when new ones are added to the DOM
+    const imageObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          const addedImages = Array.from(mutation.addedNodes)
+            .filter(node => node.nodeType === 1)
+            .flatMap(node => {
+              const element = node as Element;
+              return element.tagName === 'IMG' ? [element] : Array.from(element.querySelectorAll('img'));
+            });
+          
+          if (addedImages.length > 0) {
+            setTimeout(optimizeImages, 100);
+          }
+        }
+      });
+    });
+
+    imageObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
     return () => {
       clearTimeout(timeout);
+      imageObserver.disconnect();
     };
   }, []);
 

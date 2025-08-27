@@ -33,6 +33,22 @@ export default function Navigation() {
     setIsMenuOpen(false);
   };
 
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      const nav = document.querySelector('nav');
+      if (isMenuOpen && nav && !nav.contains(target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isMenuOpen]);
+
   return (
     <header className={`fixed w-full top-0 z-50 transition-all duration-300 border-b border-brand-yellow ${
       isScrolled ? "bg-black" : "bg-black/90 backdrop-blur-md"
