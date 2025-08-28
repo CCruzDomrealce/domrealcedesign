@@ -22,12 +22,16 @@ export default function HeroOverlay({
   return (
     <section 
       className={`
-        relative isolate
+        relative isolate bg-cover bg-center
         after:content-[''] after:absolute after:inset-0 after:z-[-1]
         ${overlayClasses[overlayOpacity]}
         ${className}
       `}
-      style={style}
+      style={{
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        ...style, // <- a tua imagem passada em HeroSection vai sobrescrever
+      }}
     >
       {children}
     </section>
