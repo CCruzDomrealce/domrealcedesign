@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden" style={{ background: 'none', backgroundColor: 'transparent' }}>
       <SEOHead 
-        title="Comunicação Visual e Impressão Digital | Lisboa, Portugal"
+        title="Comunicação Visual e Impressão Digital ! Portugal"
         description="DOMREALCE - Especialista em comunicação visual, impressão digital, papel de parede, decoração de viaturas e sinalética comercial. 40 anos de experiência em Lisboa."
-        keywords="comunicação visual, impressão digital, papel de parede, decoração viaturas, sinalética, publicidade, Lisboa, Portugal, DOMREALCE"
+        keywords="comunicação visual, impressão digital, papel de parede, decoração viaturas, sinalética, publicidade, Portugal, DOMREALCE"
         canonicalUrl="https://www.domrealce.com/"
       />
       <Navigation />
