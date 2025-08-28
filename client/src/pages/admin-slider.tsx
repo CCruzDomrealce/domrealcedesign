@@ -46,6 +46,31 @@ export default function AdminSlider() {
     }
   };
 
+  const syncSliderImages = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/slider/images');
+      if (response.ok) {
+        await fetchSlides();
+        toast({
+          title: "Sucesso",
+          description: "Imagens sincronizadas automaticamente",
+        });
+      } else {
+        throw new Error('Falha na sincronização');
+      }
+    } catch (error) {
+      console.error('Error syncing images:', error);
+      toast({
+        title: "Erro",
+        description: "Falha ao sincronizar imagens",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const saveSlide = async (slideData: Omit<SlideData, 'id'>, slideId?: number) => {
     try {
       const url = slideId ? `/api/admin/slider/${slideId}` : '/api/admin/slider';
@@ -179,6 +204,28 @@ export default function AdminSlider() {
               <div className="text-sm text-gray-400">Altura Total</div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-4 mb-8">
+          <Button 
+            onClick={() => setEditingId(-1)}
+            className="bg-[#FFD700] text-black hover:bg-yellow-400"
+            disabled={loading}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Adicionar Novo Slide
+          </Button>
+          
+          <Button 
+            onClick={syncSliderImages}
+            variant="outline"
+            className="border-[#00d4aa] text-[#00d4aa] hover:bg-[#00d4aa] hover:text-black"
+            disabled={loading}
+          >
+            <Image className="h-4 w-4 mr-2" />
+            Detectar Imagens Automaticamente
+          </Button>
         </div>
 
         {/* Add New Slide */}

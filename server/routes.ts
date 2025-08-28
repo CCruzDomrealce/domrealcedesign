@@ -214,6 +214,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API route to list slider images and auto-sync with database
+  app.get("/api/slider/images", async (req, res) => {
+    try {
+      const files = await objectStorageService.listPublicFiles();
+      
+      // Filter only slider images
+      const sliderImages = files.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file) && 
+        file.startsWith('inicio/slider/')
+      );
+      
+      // Auto-sync slider images to database
+      for (const imagePath of sliderImages) {
+        const fileName = imagePath.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || '';
+        const imageUrl = `http://localhost:5000/${imagePath}`;
+        
+        // Check if slide already exists
+        const existingSlides = await storage.getSlides();
+        const slideExists = existingSlides.some(slide => slide.image === imageUrl);
+        
+        if (!slideExists) {
+          // Create new slide automatically
+          const slideData = {
+            image: imageUrl,
+            title: fileName.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
+            text: `Conheça os nossos serviços de qualidade`,
+            order_position: (existingSlides.length + 1).toString(),
+            active: true
+          };
+          
+          await storage.createSlide(slideData);
+          console.log(`Auto-created slide for: ${fileName}`);
+        }
+      }
+      
+      res.json({ images: sliderImages });
+    } catch (error) {
+      console.error("Error processing slider images:", error);
+      res.status(500).json({ error: "Failed to process slider images" });
+    }
+  });
 
   // API route to upload individual textures for each category
   app.post("/api/upload-individual-textures", async (req, res) => {
