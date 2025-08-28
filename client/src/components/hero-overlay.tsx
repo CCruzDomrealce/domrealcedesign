@@ -1,37 +1,21 @@
 interface HeroOverlayProps {
   children: React.ReactNode;
   className?: string;
-  overlayOpacity?: "none" | "light" | "medium" | "dark"; // agora aceita "none"
   style?: React.CSSProperties;
 }
 
 export default function HeroOverlay({
   children,
   className = "",
-  overlayOpacity = "medium",
   style = {},
 }: HeroOverlayProps) {
-  const overlayClasses = {
-    none: "",
-    light: "after:bg-gradient-to-b after:from-black/20 after:to-black/10",
-    medium: "after:bg-gradient-to-b after:from-black/40 after:to-black/20",
-    dark: "after:bg-gradient-to-b after:from-black/60 after:to-black/30",
-  };
-
   return (
     <section
-      className={`
-        relative isolate bg-cover bg-center
-        ${overlayOpacity !== "none"
-          ? "after:content-[''] after:absolute after:inset-0 after:z-[-1] " +
-            overlayClasses[overlayOpacity]
-          : ""}
-        ${className}
-      `}
+      className={`relative bg-cover bg-center ${className}`}
       style={{
         backgroundSize: "cover",
         backgroundPosition: "center",
-        ...style, // <- a imagem passada no HeroSection vem para aqui
+        ...style,
       }}
     >
       {children}
