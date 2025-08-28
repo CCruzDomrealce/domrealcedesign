@@ -229,7 +229,7 @@ export function ImageSelector({ selectedImage, onImageSelect, placeholder = "Sel
                   Carregar Imagem para Slider
                 </ObjectUploader>
                 <p className="text-sm text-gray-400 mt-2">
-                  Formatos suportados: JPG, PNG, WEBP (máx. 10MB)
+                  Formatos suportados: JPG, PNG, GIF (máx. 10MB)
                 </p>
               </div>
             </TabsContent>
