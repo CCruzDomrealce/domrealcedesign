@@ -3,16 +3,7 @@ import "./Slider.css";
 export default function Slider() {
   return (
     <div className="slider">
-      <div
-        className="slide active"
-        style={{
-          backgroundImage: "url('/inicio/Imagem-1.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          minHeight: "100vh",
-        }}
-      >
+      <div className="slide active">
         <div className="text-overlay">
           <h1>Realce sua marca com criatividade e alta definição</h1>
           <p>
