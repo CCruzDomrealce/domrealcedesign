@@ -8,7 +8,7 @@ const categoryColors = ["bg-brand-yellow text-black", "bg-brand-turquoise text-b
 const titleHoverColors = ["hover:text-brand-yellow", "hover:text-brand-turquoise", "hover:text-brand-coral"];
 
 export default function NewsSection() {
-  const { data: news = [], isLoading } = useQuery<News[]>({
+  const { data: news = [], isLoading, error } = useQuery<News[]>({
     queryKey: ["/api/news/recent"]
   });
 
@@ -17,6 +17,16 @@ export default function NewsSection() {
       <section id="noticias" className="py-20 bg-black">
         <div className="container mx-auto px-4 text-center">
           <div className="text-brand-coral">Carregando notícias...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="noticias" className="py-20 bg-black">
+        <div className="container mx-auto px-4 text-center">
+          <div className="text-red-400">Erro ao carregar notícias. Tente novamente mais tarde.</div>
         </div>
       </section>
     );

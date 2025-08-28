@@ -601,12 +601,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // For now, return success - status API has issues
-      res.json({
-        success: true,
-        status: "pending",
-        message: "Aguarde confirmação no seu telemóvel"
-      });
+      try {
+        // Try to check real status with IfthenPay
+        const statusResponse = await ifthenPayService.checkMBWayStatus(requestId);
+        
+        res.json({
+          success: true,
+          status: statusResponse.status,
+          message: statusResponse.status === "paid" 
+            ? "Pagamento confirmado!" 
+            : "Aguarde confirmação no seu telemóvel"
+        });
+      } catch (statusError) {
+        // If status check fails, return pending (fallback behavior)
+        console.warn('MB WAY status check failed, returning pending:', statusError);
+        res.json({
+          success: true,
+          status: "pending",
+          message: "Aguarde confirmação no seu telemóvel"
+        });
+      }
 
     } catch (error) {
       console.error('Error checking MB WAY status:', error);
@@ -702,13 +716,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Payment success page
   app.get("/api/payments/success", (req, res) => {
     const { orderId, amount } = req.query;
+    
+    // Validate required parameters
+    if (!orderId || !amount) {
+      console.error('Payment success callback missing required parameters:', { orderId, amount });
+      return res.redirect(`/checkout?error=missing-parameters`);
+    }
+    
+    // Validate amount format
+    const amountNum = parseFloat(amount as string);
+    if (isNaN(amountNum) || amountNum <= 0) {
+      console.error('Payment success callback invalid amount:', amount);
+      return res.redirect(`/checkout?error=invalid-amount&orderId=${orderId}`);
+    }
+    
     res.redirect(`/pedido-confirmado?orderId=${orderId}&amount=${amount}`);
   });
 
   // Payment error page
   app.get("/api/payments/error", (req, res) => {
     const { orderId, error } = req.query;
-    res.redirect(`/checkout?error=${error}&orderId=${orderId}`);
+    
+    // Log error for debugging
+    console.error('Payment error callback received:', { orderId, error });
+    
+    // Ensure we have at least an error message
+    const errorMsg = error || 'unknown-error';
+    const orderParam = orderId ? `&orderId=${orderId}` : '';
+    
+    res.redirect(`/checkout?error=${errorMsg}${orderParam}`);
   });
 
   // Payment cancel page

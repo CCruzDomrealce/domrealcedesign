@@ -6,7 +6,7 @@ import type { Product } from "@shared/schema";
 const titleColors = ["text-brand-yellow", "text-brand-turquoise", "text-brand-coral"];
 
 export default function PortfolioSection() {
-  const { data: products = [], isLoading } = useQuery<Product[]>({
+  const { data: products = [], isLoading, error } = useQuery<Product[]>({
     queryKey: ["/api/products/featured"]
   });
 
@@ -15,6 +15,16 @@ export default function PortfolioSection() {
       <section id="portfolio" className="py-20 bg-[#0a0a0a]">
         <div className="container mx-auto px-4 text-center">
           <div className="text-brand-yellow">Carregando produtos...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="portfolio" className="py-20 bg-[#0a0a0a]">
+        <div className="container mx-auto px-4 text-center">
+          <div className="text-red-400">Erro ao carregar portfolio. Tente novamente mais tarde.</div>
         </div>
       </section>
     );

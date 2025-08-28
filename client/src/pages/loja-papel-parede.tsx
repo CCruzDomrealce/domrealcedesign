@@ -15,7 +15,7 @@ interface TextureCover {
 }
 
 export default function LojaPapelParede() {
-  const { data: images, isLoading } = useQuery({
+  const { data: images, isLoading, error } = useQuery({
     queryKey: ["/api/loja/images"],
   });
 
@@ -54,6 +54,27 @@ export default function LojaPapelParede() {
             <p className="mt-4 text-gray-300">A carregar texturas...</p>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] py-16">
+        <Navigation />
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <div className="text-red-400 text-xl mb-4">Erro ao carregar texturas</div>
+            <p className="text-gray-300 mb-8">Tente novamente mais tarde.</p>
+            <Link href="/loja">
+              <Button variant="outline" className="border-brand-yellow text-brand-yellow hover:bg-brand-yellow hover:text-black">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Voltar à Loja
+              </Button>
+            </Link>
+          </div>
+        </div>
+        <Footer />
       </div>
     );
   }

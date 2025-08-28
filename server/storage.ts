@@ -32,10 +32,16 @@ export interface IStorage {
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private contacts: Map<string, Contact>;
+  private products: Map<string, Product>;
+  private news: Map<string, News>;
+  private slides: Map<string, Slide>;
 
   constructor() {
     this.users = new Map();
     this.contacts = new Map();
+    this.products = new Map();
+    this.news = new Map();
+    this.slides = new Map();
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -80,63 +86,122 @@ export class MemStorage implements IStorage {
   }
 
   async getFeaturedProducts(): Promise<Product[]> {
-    return [];
+    return Array.from(this.products.values())
+      .filter(product => product.destaque)
+      .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   }
 
   async getAllProducts(): Promise<Product[]> {
-    return [];
+    return Array.from(this.products.values())
+      .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   }
 
   async updateProduct(id: string, product: InsertProduct): Promise<Product> {
-    throw new Error("Product update not implemented in memory storage");
+    const existingProduct = this.products.get(id);
+    if (!existingProduct) {
+      throw new Error(`Product with id ${id} not found`);
+    }
+    
+    const updatedProduct: Product = {
+      ...existingProduct,
+      ...product,
+      id,
+      destaque: product.destaque ?? existingProduct.destaque
+    };
+    
+    this.products.set(id, updatedProduct);
+    return updatedProduct;
   }
 
   async deleteProduct(id: string): Promise<boolean> {
-    return false;
+    return this.products.delete(id);
   }
 
   async getRecentNews(): Promise<News[]> {
-    return [];
+    return Array.from(this.news.values())
+      .sort((a, b) => new Date(b.data || 0).getTime() - new Date(a.data || 0).getTime())
+      .slice(0, 6);
   }
 
   async getAllNews(): Promise<News[]> {
-    return [];
+    return Array.from(this.news.values())
+      .sort((a, b) => new Date(b.data || 0).getTime() - new Date(a.data || 0).getTime());
   }
 
-  async updateNews(id: string, news: InsertNews): Promise<News> {
-    throw new Error("News update not implemented in memory storage");
+  async updateNews(id: string, newsItem: InsertNews): Promise<News> {
+    const existingNews = this.news.get(id);
+    if (!existingNews) {
+      throw new Error(`News with id ${id} not found`);
+    }
+    
+    const updatedNews: News = {
+      ...existingNews,
+      ...newsItem,
+      id,
+      data: newsItem.data ?? existingNews.data
+    };
+    
+    this.news.set(id, updatedNews);
+    return updatedNews;
   }
 
   async deleteNews(id: string): Promise<boolean> {
-    return false;
+    return this.news.delete(id);
   }
 
   async createProduct(product: InsertProduct): Promise<Product> {
     const id = randomUUID();
     const newProduct: Product = { ...product, id, createdAt: new Date(), destaque: product.destaque ?? false };
+    this.products.set(id, newProduct);
     return newProduct;
   }
 
   async createNews(newsItem: InsertNews): Promise<News> {
     const id = randomUUID();
     const newNews: News = { ...newsItem, id, createdAt: new Date(), data: newsItem.data ?? new Date() };
+    this.news.set(id, newNews);
     return newNews;
   }
 
   async getSlides(): Promise<Slide[]> {
-    return [];
+    return Array.from(this.slides.values())
+      .filter(slide => slide.active)
+      .sort((a, b) => parseInt(a.order_position || "1") - parseInt(b.order_position || "1"));
   }
 
   async createSlide(slide: InsertSlide): Promise<Slide> {
-    throw new Error("Slide creation not implemented in memory storage");
+    const id = randomUUID();
+    const newSlide: Slide = { 
+      ...slide, 
+      id, 
+      createdAt: new Date(),
+      order_position: slide.order_position ?? "1",
+      active: slide.active ?? true
+    };
+    this.slides.set(id, newSlide);
+    return newSlide;
   }
 
   async updateSlide(id: string, slide: InsertSlide): Promise<Slide> {
-    throw new Error("Slide update not implemented in memory storage");
+    const existingSlide = this.slides.get(id);
+    if (!existingSlide) {
+      throw new Error(`Slide with id ${id} not found`);
+    }
+    
+    const updatedSlide: Slide = {
+      ...existingSlide,
+      ...slide,
+      id,
+      order_position: slide.order_position ?? existingSlide.order_position,
+      active: slide.active ?? existingSlide.active
+    };
+    
+    this.slides.set(id, updatedSlide);
+    return updatedSlide;
   }
 
   async deleteSlide(id: string): Promise<boolean> {
-    return false;
+    return this.slides.delete(id);
   }
 }
 
