@@ -83,8 +83,20 @@ export default function DynamicSlider() {
               <a href="#servicos" className="btn">Explorar Serviços</a>
               <a href="#portfolio" className="btn btn-outline">Ver Portfólio</a>
             </div>
-            <div className="mt-8 text-sm text-yellow-300 bg-black/50 px-4 py-2 rounded">
-              💡 Para adicionar imagens ao slider, carregue ficheiros na pasta "inicio/slider/" no Object Storage
+            <div className="mt-8 space-y-4">
+              <div className="text-sm text-yellow-300 bg-black/50 px-4 py-2 rounded">
+                📁 **Como adicionar imagens ao slider:**
+              </div>
+              <div className="text-xs text-gray-300 bg-black/30 px-4 py-3 rounded space-y-2">
+                <div>1. Abra o painel <strong>"Object Storage"</strong> no Replit</div>
+                <div>2. Navegue para <strong>Objects → public → inicio</strong></div>
+                <div>3. Crie a pasta <strong>"slider"</strong> se não existir</div>
+                <div>4. Carregue as suas imagens (.jpg, .png, .webp) na pasta slider</div>
+                <div>5. As imagens aparecerão automaticamente aqui!</div>
+              </div>
+              <div className="text-xs text-blue-300">
+                🔄 Atualize a página após carregar as imagens
+              </div>
             </div>
           </div>
         </div>

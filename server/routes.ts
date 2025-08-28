@@ -220,7 +220,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const files = await objectStorageService.listPublicFiles();
       
-      // Filter only slider images
+      // Filter only slider images in specific slider directory
       const sliderImages = files.filter(file => 
         /\.(jpg|jpeg|png|gif|webp)$/i.test(file) && 
         file.startsWith('inicio/slider/')
