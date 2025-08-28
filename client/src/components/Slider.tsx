@@ -50,7 +50,7 @@ export default function Slider() {
 
   const getButtonsForSlide = (slide: Slide) => {
     // Check if this is the solar film slide
-    if (slide.title.toLowerCase().includes("película solar")) {
+    if (slide.title.toLowerCase().includes("película") && slide.title.toLowerCase().includes("solar")) {
       return (
         <div className="buttons">
           <Link href="/servico-pelicula-solar" className="btn">

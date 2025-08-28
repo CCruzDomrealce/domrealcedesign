@@ -44,8 +44,8 @@ export default function ServicoPeliculaSolar() {
 
   const services = [
     {
-      title: "Película Solar Automotiva",
-      description: "Aplicação profissional em vidros laterais e traseiros",
+      title: "Película Solar Residencial",
+      description: "Aplicação profissional em janelas de habitações",
       features: ["Várias tonalidades", "Garantia de 5 anos", "Aplicação sem bolhas"]
     },
     {
@@ -93,16 +93,16 @@ export default function ServicoPeliculaSolar() {
           <div className="max-w-4xl mx-auto text-center">
             <Badge variant="outline" className="mb-6 border-[#FFD700] text-[#FFD700] bg-[#FFD700]/10">
               <Sun className="w-4 h-4 mr-2" />
-              Película Solar Profissional
+              Proteção Solar Residencial
             </Badge>
             
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#FFD700] via-[#00d4aa] to-[#4dabf7] bg-clip-text text-transparent">
-              Película Solar Premium
+              Película de Proteção Solar
             </h1>
             
             <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              Proteja o seu veículo e economize energia com as melhores películas solares do mercado. 
-              Aplicação profissional com garantia de qualidade.
+              Proteja a sua habitação e economize energia com as melhores películas de proteção solar. 
+              Aplicação profissional com garantia de qualidade para janelas residenciais.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -129,7 +129,7 @@ export default function ServicoPeliculaSolar() {
               Benefícios da <span className="text-[#FFD700]">Película Solar</span>
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Descubra como a película solar pode transformar o conforto e segurança do seu veículo
+              Descubra como a película solar pode transformar o conforto e eficiência energética da sua habitação
             </p>
           </div>
 
@@ -286,10 +286,10 @@ export default function ServicoPeliculaSolar() {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Pronto para <span className="text-[#FFD700]">Proteger</span> o seu Veículo?
+              Pronto para <span className="text-[#FFD700]">Proteger</span> a sua Habitação?
             </h2>
             <p className="text-xl text-gray-300 mb-8">
-              Entre em contacto connosco e descubra a solução ideal de película solar para as suas necessidades.
+              Entre em contacto connosco e descubra a solução ideal de película de proteção solar para a sua casa.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
