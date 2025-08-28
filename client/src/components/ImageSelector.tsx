@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ObjectUploader } from "./ObjectUploader";
 import { Image, Upload, FolderOpen, X, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -167,6 +169,42 @@ export function ImageSelector({ selectedImage, onImageSelect, placeholder = "Sel
             </TabsList>
             
             <TabsContent value="storage" className="space-y-4">
+              <div className="mb-4 p-4 bg-[#333] rounded border border-[#444]">
+                <Label className="text-white">URL da Imagem (temporário)</Label>
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    placeholder="https://exemplo.com/imagem.jpg"
+                    className="bg-[#222] border-[#444] text-white flex-1"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        const input = e.target as HTMLInputElement;
+                        if (input.value) {
+                          onImageSelect(input.value);
+                          setSelectedImagePreview(input.value);
+                          setOpen(false);
+                        }
+                      }
+                    }}
+                  />
+                  <Button 
+                    onClick={(e) => {
+                      const input = e.currentTarget.previousElementSibling as HTMLInputElement;
+                      if (input?.value) {
+                        onImageSelect(input.value);
+                        setSelectedImagePreview(input.value);
+                        setOpen(false);
+                      }
+                    }}
+                    className="bg-[#FFD700] text-black hover:bg-yellow-400"
+                  >
+                    Usar
+                  </Button>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">
+                  Cole a URL de uma imagem e pressione Enter ou clique em "Usar"
+                </p>
+              </div>
+              
               {loading ? (
                 <div className="flex items-center justify-center h-32">
                   <div className="text-gray-400">Carregando imagens...</div>

@@ -167,11 +167,24 @@ export class ObjectStorageService {
     });
   }
 
-  // Get upload URL for object entity (simplified for public uploads)
+  // Get upload URL for object entity (for public uploads)
   async getObjectEntityUploadURL(): Promise<string> {
-    // For public uploads, we'll need a different implementation
-    // This is a placeholder that should be implemented based on your needs
-    throw new Error("Upload functionality not implemented for public storage");
+    const publicSearchPaths = this.getPublicObjectSearchPaths();
+    if (publicSearchPaths.length === 0) {
+      throw new Error("No public search paths configured");
+    }
+    
+    // Generate a unique file name for upload
+    const objectId = randomUUID();
+    const fullPath = `${publicSearchPaths[0]}/inicio/slider/uploads/${objectId}`;
+    const { bucketName, objectName } = parseObjectPath(fullPath);
+    
+    return await signObjectURL({
+      bucketName,
+      objectName,
+      method: "PUT",
+      ttlSec: 900,
+    });
   }
 
   // Delete a file from public storage
