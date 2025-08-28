@@ -134,7 +134,6 @@ export default function AdminSlider() {
   const startEdit = (slide: SlideData) => {
     setEditingId(slide.id);
     setEditForm({ image: slide.image, title: slide.title, text: slide.text });
-    console.log('Editando slide:', slide);
   };
 
   const cancelEdit = () => {
@@ -329,13 +328,7 @@ export default function AdminSlider() {
                               selectedImage={editForm.image}
                               onImageSelect={(imageUrl) => {
                                 // Apenas atualizar a imagem, preservar título e texto
-                                console.log('Nova imagem selecionada:', imageUrl);
-                                console.log('Estado anterior:', editForm);
-                                setEditForm(prev => {
-                                  const newState = { ...prev, image: imageUrl };
-                                  console.log('Novo estado:', newState);
-                                  return newState;
-                                });
+                                setEditForm(prev => ({ ...prev, image: imageUrl }));
                               }}
                               placeholder="Alterar Imagem"
                             />
