@@ -5,14 +5,14 @@ import HeroOverlay from "@components/hero-overlay";
 
 export default function HeroSection() {
   return (
-      <HeroOverlay
-        className="min-h-screen flex items-center justify-center relative pt-20 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('/inicio/Imagem-1.jpg')",
-          }}
-        overlayOpacity="medium"
-      >
-<div className="container mx-auto px-4 relative z-10 text-center">
+    <HeroOverlay
+      className="min-h-screen flex items-center justify-center relative pt-20 bg-no-repeat"
+      style={{
+        backgroundImage: "url('/inicio/Imagem-1.jpg')",
+      }}
+      overlayOpacity="none" // 👉 sem overlay preto
+    >
+      <div className="container mx-auto px-4 relative z-10 text-center">
         <div className="max-w-4xl mx-auto p-8 md:p-12">
           <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight">
             <span className="text-brand-yellow">Realce</span> sua marca com<br />
