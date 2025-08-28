@@ -1,5 +1,5 @@
 import Navigation from "@/components/navigation";
-import Slider from "@/components/Slider";
+import DynamicSlider from "@/components/DynamicSlider";
 import ServicesSection from "@/components/services-section";
 import PortfolioSection from "@/components/portfolio-section";
 import NewsSection from "@/components/news-section";
@@ -16,7 +16,7 @@ export default function Home() {
         canonicalUrl="https://www.domrealce.com/"
       />
       <Navigation />
-      <Slider />
+      <DynamicSlider />
       <ServicesSection />
       <PortfolioSection />
       <NewsSection />
