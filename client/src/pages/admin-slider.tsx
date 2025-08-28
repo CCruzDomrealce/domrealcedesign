@@ -9,6 +9,7 @@ import Navigation from "@/components/navigation";
 import { ArrowLeft, Plus, Edit, Trash2, Save, X, Image, Monitor } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { ImageSelector } from "@/components/ImageSelector";
 
 interface SlideData {
   id: number;
@@ -236,14 +237,14 @@ export default function AdminSlider() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="new-image" className="text-white">URL da Imagem</Label>
-                <Input
-                  id="new-image"
-                  value={editForm.image}
-                  onChange={(e) => setEditForm({ ...editForm, image: e.target.value })}
-                  placeholder="https://exemplo.com/imagem.jpg"
-                  className="bg-[#222] border-[#444] text-white mt-1"
-                />
+                <Label className="text-white">Imagem do Slide</Label>
+                <div className="mt-2">
+                  <ImageSelector 
+                    selectedImage={editForm.image}
+                    onImageSelect={(imageUrl) => setEditForm({ ...editForm, image: imageUrl })}
+                    placeholder="Adicionar Imagem"
+                  />
+                </div>
               </div>
               <div>
                 <Label htmlFor="new-title" className="text-white">Título</Label>
@@ -321,12 +322,14 @@ export default function AdminSlider() {
                     {editingId === slide.id ? (
                       <div className="p-6 space-y-4">
                         <div>
-                          <Label className="text-white">URL da Imagem</Label>
-                          <Input
-                            value={editForm.image}
-                            onChange={(e) => setEditForm({ ...editForm, image: e.target.value })}
-                            className="bg-[#333] border-[#444] text-white mt-1"
-                          />
+                          <Label className="text-white">Imagem do Slide</Label>
+                          <div className="mt-2">
+                            <ImageSelector 
+                              selectedImage={editForm.image}
+                              onImageSelect={(imageUrl) => setEditForm({ ...editForm, image: imageUrl })}
+                              placeholder="Alterar Imagem"
+                            />
+                          </div>
                         </div>
                         <div>
                           <Label className="text-white">Título</Label>

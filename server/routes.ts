@@ -228,7 +228,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Auto-sync slider images to database
       for (const imagePath of sliderImages) {
         const fileName = imagePath.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || '';
-        const imageUrl = `http://localhost:5000/${imagePath}`;
+        const imageUrl = `/public-objects/${imagePath}`;
         
         // Check if slide already exists
         const existingSlides = await storage.getSlides();
@@ -253,6 +253,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error processing slider images:", error);
       res.status(500).json({ error: "Failed to process slider images" });
+    }
+  });
+
+  // API route to upload slider images
+  app.post("/api/upload-slider-image", async (req, res) => {
+    try {
+      const { fileName, targetPath } = req.body;
+      
+      if (!fileName || !targetPath) {
+        return res.status(400).json({ error: "fileName and targetPath are required" });
+      }
+
+      // The file should already be uploaded via the object uploader
+      // This endpoint just confirms the upload location
+      const imageUrl = `/public-objects/${targetPath}`;
+      
+      res.json({ 
+        success: true,
+        imageUrl,
+        path: targetPath
+      });
+    } catch (error) {
+      console.error("Error processing slider image upload:", error);
+      res.status(500).json({ error: "Failed to process slider image upload" });
     }
   });
 
