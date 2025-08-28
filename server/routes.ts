@@ -219,15 +219,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const files = await objectStorageService.listPublicFiles();
       
-      // Filter only slider images (excluding webp)
+      // Filter only slider images
       const sliderImages = files.filter(file => 
-        /\.(jpg|jpeg|png|gif)$/i.test(file) && 
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file) && 
         file.startsWith('inicio/slider/')
       );
       
       // Auto-sync slider images to database
       for (const imagePath of sliderImages) {
-        const fileName = imagePath.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif)$/i, '') || '';
+        const fileName = imagePath.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || '';
         const imageUrl = `/public-objects/${imagePath}`;
         
         // Check if slide already exists
