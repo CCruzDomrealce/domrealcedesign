@@ -45,6 +45,7 @@ import AdminProdutos from "@/pages/admin-produtos";
 import AdminNoticias from "@/pages/admin-noticias";
 import AdminDashboard from "@/pages/admin-dashboard";
 import AdminLoja from "@/pages/admin-loja";
+import ServicoPeliculaSolar from "@/pages/servico-pelicula-solar";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -66,6 +67,7 @@ function Router() {
       <Route path="/servico-autocolantes" component={ServicoAutocolantes} />
       <Route path="/servico-decoracao-viaturas" component={ServicoDecoracaoViaturas} />
       <Route path="/servico-espacos-comerciais" component={ServicoEspacosComerciais} />
+      <Route path="/servico-pelicula-solar" component={ServicoPeliculaSolar} />
       <Route path="/servico-peliculas-protecao-solar" component={ServicoPeliculasProtecaoSolar} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/pedido-confirmado" component={PedidoConfirmado} />
