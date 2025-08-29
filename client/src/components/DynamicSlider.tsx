@@ -111,10 +111,7 @@ export default function DynamicSlider() {
           key={slide.id}
           className={`slide ${index === currentSlide ? 'active' : ''}`}
           style={{
-            backgroundImage: `url('${slide.image}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            backgroundImage: `url('${slide.image}')`
           }}
         >
           <div className="text-overlay">
