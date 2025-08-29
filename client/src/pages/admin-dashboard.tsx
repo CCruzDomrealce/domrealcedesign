@@ -14,6 +14,14 @@ const adminSections = [
     bg: "hover:bg-[#FFD700]/10",
   },
   {
+    title: "Configurações de Páginas",
+    description: "Edite textos, cores, tamanhos e imagens de todas as páginas",
+    href: "/admin/pages",
+    icon: Palette,
+    color: "text-[#e84b5e]",
+    bg: "hover:bg-[#e84b5e]/10",
+  },
+  {
     title: "Produtos em Destaque",
     description: "Administre os produtos exibidos na homepage",
     href: "/admin/produtos",

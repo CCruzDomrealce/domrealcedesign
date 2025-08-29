@@ -51,6 +51,19 @@ export const slides = pgTable("slides", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const pageConfigs = pgTable("page_configs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  page: text("page").notNull().unique(), // home, about, services, portfolio, contact, etc.
+  section: text("section").notNull(), // hero, features, about, etc.
+  element: text("element").notNull(), // title, subtitle, description, image, etc.
+  type: text("type").notNull(), // text, color, size, image, number
+  value: text("value").notNull(),
+  defaultValue: text("default_value"),
+  metadata: text("metadata"), // JSON string for additional config like font-size units, color format, etc.
+  updatedAt: timestamp("updated_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -97,6 +110,26 @@ export const insertSlideSchema = createInsertSchema(slides).pick({
   active: true,
 });
 
+export const insertPageConfigSchema = createInsertSchema(pageConfigs).pick({
+  page: true,
+  section: true,
+  element: true,
+  type: true,
+  value: true,
+  defaultValue: true,
+  metadata: true,
+}).extend({
+  page: z.string().min(1, "Página é obrigatória"),
+  section: z.string().min(1, "Secção é obrigatória"),
+  element: z.string().min(1, "Elemento é obrigatório"),
+  type: z.enum(["text", "color", "size", "image", "number"], {
+    errorMap: () => ({ message: "Tipo deve ser: text, color, size, image ou number" })
+  }),
+  value: z.string().min(1, "Valor é obrigatório"),
+  defaultValue: z.string().optional(),
+  metadata: z.string().optional(),
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
@@ -107,3 +140,5 @@ export type InsertNews = z.infer<typeof insertNewsSchema>;
 export type News = typeof news.$inferSelect;
 export type InsertSlide = z.infer<typeof insertSlideSchema>;
 export type Slide = typeof slides.$inferSelect;
+export type InsertPageConfig = z.infer<typeof insertPageConfigSchema>;
+export type PageConfig = typeof pageConfigs.$inferSelect;

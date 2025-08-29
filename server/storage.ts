@@ -1,7 +1,7 @@
-import { type User, type InsertUser, type Contact, type InsertContact, type Product, type InsertProduct, type News, type InsertNews, type Slide, type InsertSlide, users, contacts, products, news, slides } from "@shared/schema";
+import { type User, type InsertUser, type Contact, type InsertContact, type Product, type InsertProduct, type News, type InsertNews, type Slide, type InsertSlide, type PageConfig, type InsertPageConfig, users, contacts, products, news, slides, pageConfigs } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -27,6 +27,12 @@ export interface IStorage {
   createSlide(slide: InsertSlide): Promise<Slide>;
   updateSlide(id: string, slide: InsertSlide): Promise<Slide>;
   deleteSlide(id: string): Promise<boolean>;
+  getPageConfigs(page?: string): Promise<PageConfig[]>;
+  getPageConfig(page: string, section: string, element: string): Promise<PageConfig | undefined>;
+  createPageConfig(config: InsertPageConfig): Promise<PageConfig>;
+  updatePageConfig(id: string, config: InsertPageConfig): Promise<PageConfig>;
+  deletePageConfig(id: string): Promise<boolean>;
+  upsertPageConfig(config: InsertPageConfig): Promise<PageConfig>;
 }
 
 export class MemStorage implements IStorage {
@@ -35,6 +41,7 @@ export class MemStorage implements IStorage {
   private products: Map<string, Product>;
   private news: Map<string, News>;
   private slides: Map<string, Slide>;
+  private pageConfigs: Map<string, PageConfig>;
 
   constructor() {
     this.users = new Map();
@@ -42,6 +49,7 @@ export class MemStorage implements IStorage {
     this.products = new Map();
     this.news = new Map();
     this.slides = new Map();
+    this.pageConfigs = new Map();
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -203,6 +211,64 @@ export class MemStorage implements IStorage {
   async deleteSlide(id: string): Promise<boolean> {
     return this.slides.delete(id);
   }
+
+  async getPageConfigs(page?: string): Promise<PageConfig[]> {
+    const configs = Array.from(this.pageConfigs.values());
+    return page ? configs.filter(config => config.page === page) : configs;
+  }
+
+  async getPageConfig(page: string, section: string, element: string): Promise<PageConfig | undefined> {
+    return Array.from(this.pageConfigs.values()).find(
+      config => config.page === page && config.section === section && config.element === element
+    );
+  }
+
+  async createPageConfig(config: InsertPageConfig): Promise<PageConfig> {
+    const id = randomUUID();
+    const newConfig: PageConfig = { 
+      ...config, 
+      id, 
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      defaultValue: config.defaultValue ?? null,
+      metadata: config.metadata ?? null
+    };
+    this.pageConfigs.set(id, newConfig);
+    return newConfig;
+  }
+
+  async updatePageConfig(id: string, config: InsertPageConfig): Promise<PageConfig> {
+    const existingConfig = this.pageConfigs.get(id);
+    if (!existingConfig) {
+      throw new Error(`PageConfig with id ${id} not found`);
+    }
+    
+    const updatedConfig: PageConfig = {
+      ...existingConfig,
+      ...config,
+      id,
+      updatedAt: new Date(),
+      defaultValue: config.defaultValue ?? existingConfig.defaultValue,
+      metadata: config.metadata ?? existingConfig.metadata
+    };
+    
+    this.pageConfigs.set(id, updatedConfig);
+    return updatedConfig;
+  }
+
+  async deletePageConfig(id: string): Promise<boolean> {
+    return this.pageConfigs.delete(id);
+  }
+
+  async upsertPageConfig(config: InsertPageConfig): Promise<PageConfig> {
+    const existingConfig = await this.getPageConfig(config.page, config.section, config.element);
+    
+    if (existingConfig) {
+      return await this.updatePageConfig(existingConfig.id, config);
+    } else {
+      return await this.createPageConfig(config);
+    }
+  }
 }
 
 export class DatabaseStorage implements IStorage {
@@ -297,6 +363,51 @@ export class DatabaseStorage implements IStorage {
   async deleteSlide(id: string): Promise<boolean> {
     const result = await db.delete(slides).where(eq(slides.id, id));
     return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async getPageConfigs(page?: string): Promise<PageConfig[]> {
+    if (page) {
+      return await db.select().from(pageConfigs).where(eq(pageConfigs.page, page));
+    }
+    return await db.select().from(pageConfigs);
+  }
+
+  async getPageConfig(page: string, section: string, element: string): Promise<PageConfig | undefined> {
+    const [config] = await db.select().from(pageConfigs)
+      .where(and(
+        eq(pageConfigs.page, page),
+        eq(pageConfigs.section, section),
+        eq(pageConfigs.element, element)
+      ));
+    return config;
+  }
+
+  async createPageConfig(config: InsertPageConfig): Promise<PageConfig> {
+    const [newConfig] = await db.insert(pageConfigs).values(config).returning();
+    return newConfig;
+  }
+
+  async updatePageConfig(id: string, config: InsertPageConfig): Promise<PageConfig> {
+    const [updatedConfig] = await db.update(pageConfigs).set({
+      ...config,
+      updatedAt: new Date()
+    }).where(eq(pageConfigs.id, id)).returning();
+    return updatedConfig;
+  }
+
+  async deletePageConfig(id: string): Promise<boolean> {
+    const result = await db.delete(pageConfigs).where(eq(pageConfigs.id, id));
+    return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async upsertPageConfig(config: InsertPageConfig): Promise<PageConfig> {
+    const existingConfig = await this.getPageConfig(config.page, config.section, config.element);
+    
+    if (existingConfig) {
+      return await this.updatePageConfig(existingConfig.id, config);
+    } else {
+      return await this.createPageConfig(config);
+    }
   }
 }
 

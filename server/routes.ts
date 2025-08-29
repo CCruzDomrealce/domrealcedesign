@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, insertProductSchema, insertNewsSchema, insertSlideSchema, type Contact } from "@shared/schema";
+import { insertContactSchema, insertProductSchema, insertNewsSchema, insertSlideSchema, insertPageConfigSchema, type Contact } from "@shared/schema";
 import { sendContactEmail, sendAutoReplyEmail } from "./email";
 import { ObjectStorageService } from "./objectStorage";
 import { createIfthenPayService, type PaymentMethod } from "./ifthenpay";
@@ -933,6 +933,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting loja product:", error);
       res.status(500).json({ error: "Failed to delete loja product" });
+    }
+  });
+
+  // Admin Contacts routes
+  app.get("/api/admin/contacts", async (req, res) => {
+    try {
+      const contacts = await storage.getAllContacts();
+      res.json({ contacts });
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      res.status(500).json({ error: "Failed to fetch contacts" });
+    }
+  });
+
+  // Admin Page Config routes
+  app.get("/api/admin/pages", async (req, res) => {
+    try {
+      const { page } = req.query;
+      const configs = await storage.getPageConfigs(page as string);
+      res.json({ configs });
+    } catch (error) {
+      console.error("Error fetching page configs:", error);
+      res.status(500).json({ error: "Failed to fetch page configs" });
+    }
+  });
+
+  app.get("/api/admin/pages/:page", async (req, res) => {
+    try {
+      const { page } = req.params;
+      const configs = await storage.getPageConfigs(page);
+      res.json({ configs });
+    } catch (error) {
+      console.error("Error fetching page configs:", error);
+      res.status(500).json({ error: "Failed to fetch page configs" });
+    }
+  });
+
+  app.post("/api/admin/pages", async (req, res) => {
+    try {
+      const configData = insertPageConfigSchema.parse(req.body);
+      const config = await storage.createPageConfig(configData);
+      res.json({ success: true, config });
+    } catch (error) {
+      console.error("Error creating page config:", error);
+      res.status(500).json({ error: "Failed to create page config" });
+    }
+  });
+
+  app.put("/api/admin/pages/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const configData = insertPageConfigSchema.parse(req.body);
+      const config = await storage.updatePageConfig(id, configData);
+      res.json({ success: true, config });
+    } catch (error) {
+      console.error("Error updating page config:", error);
+      res.status(500).json({ error: "Failed to update page config" });
+    }
+  });
+
+  app.delete("/api/admin/pages/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deletePageConfig(id);
+      res.json({ success });
+    } catch (error) {
+      console.error("Error deleting page config:", error);
+      res.status(500).json({ error: "Failed to delete page config" });
+    }
+  });
+
+  app.post("/api/admin/pages/upsert", async (req, res) => {
+    try {
+      const configData = insertPageConfigSchema.parse(req.body);
+      const config = await storage.upsertPageConfig(configData);
+      res.json({ success: true, config });
+    } catch (error) {
+      console.error("Error upserting page config:", error);
+      res.status(500).json({ error: "Failed to upsert page config" });
+    }
+  });
+
+  // API endpoint to get page configurations for frontend rendering
+  app.get("/api/page-config/:page", async (req, res) => {
+    try {
+      const { page } = req.params;
+      const configs = await storage.getPageConfigs(page);
+      
+      // Transform configs into a structured object for easier frontend use
+      const structuredConfigs: Record<string, Record<string, any>> = {};
+      
+      configs.forEach(config => {
+        if (!structuredConfigs[config.section]) {
+          structuredConfigs[config.section] = {};
+        }
+        structuredConfigs[config.section][config.element] = {
+          value: config.value,
+          type: config.type,
+          metadata: config.metadata ? JSON.parse(config.metadata) : null
+        };
+      });
+      
+      res.json({ configs: structuredConfigs });
+    } catch (error) {
+      console.error("Error fetching page config:", error);
+      res.status(500).json({ error: "Failed to fetch page config" });
     }
   });
 
