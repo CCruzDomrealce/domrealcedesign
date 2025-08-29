@@ -4,9 +4,18 @@ import { Link } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { SEOHead } from "@/components/seo-head";
+import { usePageConfig } from "@/hooks/use-page-config";
 import sobreImage from "@assets/Create a colorful im_1755881158641.png";
 
 export default function Sobre() {
+  const { getConfig, isLoading } = usePageConfig('about');
+
+  // Get image URLs from config or use defaults
+  const mainImage = getConfig('hero', 'main_image', sobreImage);
+  const teamPhoto = getConfig('gallery', 'team_photo', sobreImage);
+  const imageAlt = getConfig('hero', 'image_alt', 'DOMREALCE - Comunicação Visual e Impressão Digital em Lisboa');
+  const pageTitle = getConfig('hero', 'title', 'Sobre Nós');
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <SEOHead 
@@ -21,7 +30,7 @@ export default function Sobre() {
       <section className="pt-32 pb-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Sobre Nós
+            {pageTitle}
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Conhece a história por trás da Domrealce e a experiência de Carlos Cruz em 40 anos dedicados à comunicação visual e publicidade.
@@ -52,8 +61,8 @@ export default function Sobre() {
             </div>
             <div className="relative">
               <img 
-                src={sobreImage} 
-                alt="DOMREALCE - Comunicação Visual e Impressão Digital em Lisboa"
+                src={mainImage.startsWith('@assets/') ? sobreImage : mainImage} 
+                alt={imageAlt}
                 className="w-full h-auto rounded-lg shadow-2xl"
                 loading="lazy"
               />
