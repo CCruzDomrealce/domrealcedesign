@@ -21,11 +21,14 @@ export default function Home() {
       <Navigation />
       
       {/* Título antes do slider com fundo preto */}
-      <section className="py-8 px-4 bg-black">
+      <section className="py-12 px-4 bg-black text-white">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#FFD700] mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4" style={{ color: '#FFD700' }}>
             Bem-vindos à DOMREALCE
           </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Comunicação visual de excelência há 40 anos
+          </p>
         </div>
       </section>
       
