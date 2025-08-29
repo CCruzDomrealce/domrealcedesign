@@ -53,7 +53,7 @@ export const slides = pgTable("slides", {
 
 export const pageConfigs = pgTable("page_configs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  page: text("page").notNull().unique(), // home, about, services, portfolio, contact, etc.
+  page: text("page").notNull(), // home, about, services, portfolio, contact, etc.
   section: text("section").notNull(), // hero, features, about, etc.
   element: text("element").notNull(), // title, subtitle, description, image, etc.
   type: text("type").notNull(), // text, color, size, image, number
