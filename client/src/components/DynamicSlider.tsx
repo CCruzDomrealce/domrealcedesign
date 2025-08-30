@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import { Link } from "wouter";   // ✅ Wouter SPA navigation
 import type { Slide } from "@shared/schema";
 import "./Slider.css";
 
@@ -104,12 +105,12 @@ export default function DynamicSlider() {
             {/* ✅ Só mostra botões se NÃO for o primeiro slide */}
             {index !== 0 && (
               <div className="buttons">
-                <a href="#servicos" className="btn">
-                  Explorar Serviços
-                </a>
-                <a href="#portfolio" className="btn btn-outline">
-                  Ver Portfólio
-                </a>
+                <Link href="/servicos">
+                  <a className="btn">Explorar Serviços</a>
+                </Link>
+                <Link href="/portfolio">
+                  <a className="btn btn-outline">Ver Portfólio</a>
+                </Link>
               </div>
             )}
           </div>

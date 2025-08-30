@@ -39,6 +39,17 @@
   font-weight: 800;
   color: #FFD700;
   line-height: 1.2;
+  margin: 0 auto 1rem auto;
+  max-width: 90%;
+}
+
+/* 👉 Forçar largura aproximada dos botões no mobile */
+@media (max-width: 767px) {
+  .text-overlay h1 {
+    display: inline-block;
+    min-width: 260px;   /* largura mínima igual à soma dos botões */
+    text-align: center;
+  }
 }
 
 .text-overlay p {
@@ -80,6 +91,7 @@
 @media (min-width: 768px) {
   .text-overlay h1 {
     font-size: 3.5rem;
+    min-width: unset;  /* remove limite no desktop */
   }
 
   .text-overlay p {
