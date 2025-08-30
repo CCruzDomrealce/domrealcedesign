@@ -1,109 +1,135 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import { Link } from "wouter";   // ✅ Wouter SPA navigation
+import type { Slide } from "@shared/schema";
+import "./Slider.css";
 
-const slides = [
-  {
-    id: 1,
-    image: "/inicio/slider/bem-vindo-domrealce.webp",
-    title: "Impacto na Pista",
-    description:
-      "Personalizações dinâmicas que destacam marcas e patrocinadores em cada corrida.",
-    buttons: [
-      { text: "Explorar Serviços", href: "/servicos", primary: true },
-      { text: "Ver Portfólio", href: "/portfolio", primary: false },
-    ],
-  },
-  {
-    id: 2,
-    image: "/inicio/slider/Camiao-corrida-reboconorte.webp",
-    title: "Design Inovador",
-    description: "Transforme sua ideia em realidade com nossa criatividade.",
-    buttons: [
-      { text: "Conheça Mais", href: "/sobre", primary: true },
-      { text: "Fale Conosco", href: "/contactos", primary: false },
-    ],
-  },
-  {
-    id: 3,
-    image: "/inicio/slider/Honda.webp",
-    title: "Alta Definição",
-    description: "Impressões de qualidade para destacar sua marca.",
-    buttons: [{ text: "Ver Serviços", href: "/servicos", primary: true }],
-  },
-  {
-    id: 4,
-    image: "/inicio/slider/viatura-pao-de-lo-forno.webp",
-    title: "Soluções Criativas",
-    description: "Do conceito à execução, nós damos vida às suas ideias.",
-    buttons: [{ text: "Explorar Mais", href: "/portfolio", primary: true }],
-  },
-];
+interface SliderResponse {
+  slides: Slide[];
+}
 
 export default function DynamicSlider() {
-  const [current, setCurrent] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const { data, isLoading, error } = useQuery<SliderResponse>({
+    queryKey: ["/api/admin/slider"]
+  });
 
+  let activeSlides = data?.slides?.filter((slide: Slide) => slide.active) || [];
+
+  // 👉 Forçar que o 2º slide (index 1) fique sempre em 1º
+  if (activeSlides.length > 1) {
+    const second = activeSlides.splice(1, 1)[0];
+    activeSlides.unshift(second);
+  }
+
+  // Auto-advance slides every 3.5s
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+    if (activeSlides.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
+      }, 3500);
+      return () => clearInterval(interval);
+    }
+  }, [activeSlides.length]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="slider">
+        <div className="slide active loading">
+          <div className="text-overlay">
+            <div className="animate-pulse">
+              <div className="h-12 bg-gray-700 rounded mb-4"></div>
+              <div className="h-6 bg-gray-700 rounded mb-6"></div>
+              <div className="flex justify-center gap-4">
+                <div className="h-12 w-32 bg-gray-700 rounded"></div>
+                <div className="h-12 w-32 bg-gray-700 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="slider">
+        <div className="slide active fallback">
+          <div className="text-overlay">
+            <h1>Realce sua marca com criatividade e alta definição</h1>
+            <p>
+              Transformamos as suas ideias em comunicação visual de excelência.
+              Design gráfico, impressão digital, papel de parede e soluções
+              personalizadas para empresas e particulares.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Sem slides
+  if (activeSlides.length === 0) {
+    return (
+      <div className="slider">
+        <div className="slide active fallback">
+          <div className="text-overlay">
+            <h1>Realce sua marca com criatividade e alta definição</h1>
+            <p>
+              Transformamos as suas ideias em comunicação visual de excelência.
+              Design gráfico, impressão digital, papel de parede e soluções
+              personalizadas para empresas e particulares.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
-      {slides.map((slide, index) => (
+    <div className="slider">
+      {activeSlides.map((slide: Slide, index: number) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === current ? "opacity-100 z-10" : "opacity-0 z-0"
-          }`}
+          className={`slide ${index === currentSlide ? "active" : ""}`}
+          style={{
+            backgroundImage: `url('${slide.image}')`
+          }}
         >
-          {/* Imagem de fundo */}
-          <img
-            src={slide.image}
-            alt={slide.title}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <div className="text-overlay">
+            <h1>{slide.title}</h1>
+            <p>{slide.text}</p>
 
-          {/* Conteúdo do Slide */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20 px-4">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-brand-yellow drop-shadow-lg">
-              {slide.title}
-            </h2>
-
-            <p className="mt-3 text-base sm:text-lg md:text-xl lg:text-2xl text-white max-w-2xl mx-auto drop-shadow-md">
-              {slide.description}
-            </p>
-
-            <div className="mt-6 flex flex-wrap justify-center gap-4">
-              {slide.buttons.map((btn, i) => (
-                <a
-                  key={i}
-                  href={btn.href}
-                  className={`px-5 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-lg transition ${
-                    btn.primary
-                      ? "bg-brand-yellow text-black hover:bg-yellow-500"
-                      : "border border-white text-white hover:bg-white hover:text-black"
-                  }`}
-                >
-                  {btn.text}
-                </a>
-              ))}
-            </div>
+            {/* ✅ Só mostra botões se NÃO for o primeiro slide */}
+            {index !== 0 && (
+              <div className="buttons">
+                <Link href="/servicos">
+                  <a className="btn">Explorar Serviços</a>
+                </Link>
+                <Link href="/portfolio">
+                  <a className="btn btn-outline">Ver Portfólio</a>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       ))}
 
-      {/* Indicadores (bolinhas) */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
-        {slides.map((_, i) => (
-          <span
-            key={i}
-            className={`w-3 h-3 rounded-full ${
-              i === current ? "bg-brand-yellow" : "bg-gray-400"
-            }`}
-          />
-        ))}
-      </div>
+      {/* Navigation dots */}
+      {activeSlides.length > 1 && (
+        <div className="slider-dots">
+          {activeSlides.map((_: Slide, index: number) => (
+            <button
+              key={index}
+              className={`dot ${index === currentSlide ? "active" : ""}`}
+              onClick={() => setCurrentSlide(index)}
+              data-testid={`slider-dot-${index}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
