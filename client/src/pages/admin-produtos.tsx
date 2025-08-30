@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/navigation";
 import { ArrowLeft, Plus, Edit, Trash2, Save, X, Package, Star, Euro } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";

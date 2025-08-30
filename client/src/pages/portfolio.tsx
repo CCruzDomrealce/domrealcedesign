@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { DynamicGallery } from "@/components/dynamic-gallery";
 import { Button } from "@/components/ui/button";

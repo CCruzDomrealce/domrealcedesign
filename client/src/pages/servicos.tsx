@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Palette, Printer, Wallpaper, Image, Sticker, Car, Building, Shield } from "lucide-react";
 import { Link } from "wouter";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 
 interface Service {

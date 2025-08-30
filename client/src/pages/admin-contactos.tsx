@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Download, Mail, Phone, Building2, Calendar, MessageSquare } from "lucide-react";
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { type Contact } from "@shared/schema";
 
