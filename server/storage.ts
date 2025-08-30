@@ -24,7 +24,6 @@ export interface IStorage {
   createProduct(product: InsertProduct): Promise<Product>;
   createNews(news: InsertNews): Promise<News>;
   getSlides(): Promise<Slide[]>;
-  getSlideById(id: string): Promise<Slide | undefined>;
   createSlide(slide: InsertSlide): Promise<Slide>;
   updateSlide(id: string, slide: InsertSlide): Promise<Slide>;
   deleteSlide(id: string): Promise<boolean>;
@@ -176,10 +175,6 @@ export class MemStorage implements IStorage {
     return Array.from(this.slides.values())
       .filter(slide => slide.active)
       .sort((a, b) => parseInt(a.order_position || "1") - parseInt(b.order_position || "1"));
-  }
-
-  async getSlideById(id: string): Promise<Slide | undefined> {
-    return this.slides.get(id);
   }
 
   async createSlide(slide: InsertSlide): Promise<Slide> {
@@ -353,11 +348,6 @@ export class DatabaseStorage implements IStorage {
 
   async getSlides(): Promise<Slide[]> {
     return await db.select().from(slides).where(eq(slides.active, true)).orderBy(slides.order_position);
-  }
-
-  async getSlideById(id: string): Promise<Slide | undefined> {
-    const [slide] = await db.select().from(slides).where(eq(slides.id, id));
-    return slide;
   }
 
   async createSlide(slide: InsertSlide): Promise<Slide> {

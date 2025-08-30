@@ -19,12 +19,18 @@ export default function Home() {
         canonicalUrl="https://www.domrealce.com/"
       />
       <Navigation />
-
-      {/* Espaço preto acima do slider com linha amarela */}
-      <section className="pt-8 md:pt-16 bg-black border-b-4 border-yellow-500"></section>
-
+      
+      {/* Título antes do slider com fundo preto */}
+      <section className="pt-16 md:pt-24 pb-4 md:pb-8 px-4 bg-black text-white">
+        <div className="container mx-auto text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold" style={{ color: '#FFD700' }}>
+            Bem-vindos à DOMREALCE
+          </h1>
+        </div>
+      </section>
+      
       <DynamicSlider />
-
+      
       <ServicesSection />
       <PortfolioSection />
       <NewsSection />
