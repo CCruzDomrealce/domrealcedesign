@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

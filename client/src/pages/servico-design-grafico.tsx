@@ -1,4 +1,4 @@
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,7 +33,7 @@ export default function ServicoDesignGrafico() {
     },
     {
       icon: <Eye className="w-6 h-6" />,
-      title: "Maquetes 3D",
+      title: "Maquetes",
       description: "Visualização realista dos seus projetos antes da produção final"
     },
     {
@@ -44,7 +44,7 @@ export default function ServicoDesignGrafico() {
     {
       icon: <Monitor className="w-6 h-6" />,
       title: "Design Digital",
-      description: "Adaptação para web, redes sociais e plataformas digitais"
+      description: "Páginas web, e plataformas digitais"
     },
     {
       icon: <Target className="w-6 h-6" />,

@@ -1,4 +1,4 @@
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import DynamicSlider from "@/components/DynamicSlider";
 import ServicesSection from "@/components/services-section";
 import PortfolioSection from "@/components/portfolio-section";
@@ -22,13 +22,7 @@ export default function Home() {
         canonicalUrl="https://www.domrealce.com/"
       />
 
-      {/* Navigation (menu fixo no topo) */}
-      <Navigation />
-
-      {/* Slider em tela cheia */}
-      <section className="relative w-full h-screen">
-        <DynamicSlider />
-      </section>
+      <DynamicSlider />
 
       {/* Restante conteúdo */}
       <ServicesSection />

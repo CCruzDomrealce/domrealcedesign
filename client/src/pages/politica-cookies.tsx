@@ -1,4 +1,4 @@
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/footer";
 
 export default function PoliticaCookies() {

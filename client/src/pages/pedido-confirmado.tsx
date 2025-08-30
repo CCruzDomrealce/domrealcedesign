@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/footer";
 import { CheckCircle, Package, Mail, Phone, Home } from "lucide-react";
 import { Link } from "wouter";

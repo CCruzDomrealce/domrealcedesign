@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle, AlertCircle, Download } from "lucide-react";
 import { Link } from "wouter";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/footer";
 
 export default function ComoAplicarPapelParede() {

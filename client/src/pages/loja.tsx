@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, ShoppingCart, Settings } from "lucide-react";
 import { Link } from "wouter";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/footer";
 import wallpaperSamplesImage from "@assets/box_amostras_prodeccor_plus_1755963100331.webp";
 

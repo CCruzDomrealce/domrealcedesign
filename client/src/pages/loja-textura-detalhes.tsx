@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ShoppingCart, Package, Sparkles, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useParams, useLocation } from "wouter";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import Footer from "@/components/footer";
 import { useToast } from "@/hooks/use-toast";
 

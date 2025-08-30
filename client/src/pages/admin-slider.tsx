@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import { ArrowLeft, Plus, Edit, Trash2, Save, X, Image, Monitor } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
