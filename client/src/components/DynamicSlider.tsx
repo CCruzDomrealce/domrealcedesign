@@ -26,7 +26,7 @@ export default function DynamicSlider() {
     if (activeSlides.length > 1) {
       const interval = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
-      }, 5000);
+      }, 3500);
       return () => clearInterval(interval);
     }
   }, [activeSlides.length]);
