@@ -50,7 +50,6 @@ import ServicoPeliculaSolar from "@/pages/servico-pelicula-solar";
 
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import backlink from "@/components/backlink"; // ✅ sempre em minúsculas
 
 function Router() {
   useScrollToTop();
@@ -62,7 +61,6 @@ function Router() {
 
       {/* Cabeçalho fixo */}
       <Navigation />
-      <backlink /> {/* aparece em todas as páginas exceto na Home */}
 
       {/* Conteúdo principal */}
       <Switch>

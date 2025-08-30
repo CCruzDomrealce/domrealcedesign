@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
 
 const slides = [
   {
@@ -59,12 +58,10 @@ export default function DynamicSlider() {
           }`}
         >
           {/* Imagem de fundo */}
-          <Image
+          <img
             src={slide.image}
             alt={slide.title}
-            fill
-            className="object-cover"
-            priority={index === current}
+            className="absolute inset-0 w-full h-full object-cover"
           />
 
           {/* Conteúdo do Slide */}
