@@ -104,14 +104,14 @@ export default function DynamicSlider() {
 
             {/* ✅ Botões lado a lado - corrigido para mobile/tablet */}
             {index !== 0 && (
-              <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-[280px] sm:max-w-md md:max-w-lg mx-auto">
+              <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3 w-full max-w-[260px] sm:max-w-sm md:max-w-md mx-auto">
                 <Link href="/servicos" className="flex-1">
-                  <button className="w-full px-4 py-3 rounded-lg font-semibold text-sm sm:text-base transition text-center bg-brand-yellow text-black hover:bg-yellow-500">
+                  <button className="w-full px-3 py-2 rounded-md font-medium text-xs sm:text-sm transition text-center bg-brand-yellow text-black hover:bg-yellow-500">
                     Explorar Serviços
                   </button>
                 </Link>
                 <Link href="/portfolio" className="flex-1">
-                  <button className="w-full px-4 py-3 rounded-lg font-semibold text-sm sm:text-base transition text-center border border-white text-white hover:bg-white hover:text-black">
+                  <button className="w-full px-3 py-2 rounded-md font-medium text-xs sm:text-sm transition text-center border border-white text-white hover:bg-white hover:text-black">
                     Ver Portfólio
                   </button>
                 </Link>
