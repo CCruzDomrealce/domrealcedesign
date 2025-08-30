@@ -1,9 +1,23 @@
-/* Slider ocupa tela cheia */
+/* Slider responsivo */
 .slider {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 55vh; /* Mobile otimizado */
   overflow: hidden;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .slider {
+    height: 65vh;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .slider {
+    height: 80vh;
+  }
 }
 
 .slide {
@@ -24,39 +38,46 @@
 
 .text-overlay {
   position: absolute;
-  top: 50%;
+  top: 55%; /* Ligeiramente mais abaixo */
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   color: white;
   padding: 1rem;
   max-width: 90%;
+  width: 100%;
 }
 
 /* --- Mobile --- */
 .text-overlay h1 {
-  font-size: 1.8rem;
+  font-size: 1.4rem; /* Menor para mobile */
   font-weight: 800;
   color: #FFD700;
   line-height: 1.2;
-  margin: 0 auto 1rem auto;
-  max-width: 90%;
+  margin: 0 auto 0.8rem auto;
+  max-width: 95%;
 }
 
-/* 👉 Forçar largura aproximada dos botões no mobile */
+/* Mobile específico */
 @media (max-width: 767px) {
   .text-overlay h1 {
-    display: inline-block;
-    min-width: 260px;   /* largura mínima igual à soma dos botões */
-    text-align: center;
+    font-size: 1.4rem;
+  }
+  
+  .text-overlay p {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
   }
 }
 
 .text-overlay p {
-  font-size: 1rem;
+  font-size: 0.85rem; /* Menor para mobile */
   line-height: 1.4;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   color: #fff;
+  max-width: 95%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .text-overlay .buttons {
@@ -87,21 +108,27 @@
   color: #fff;
 }
 
-/* --- Desktop --- */
+/* --- Tablet --- */
 @media (min-width: 768px) {
   .text-overlay h1 {
+    font-size: 2.2rem;
+  }
+
+  .text-overlay p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* --- Desktop --- */
+@media (min-width: 1024px) {
+  .text-overlay h1 {
     font-size: 3.5rem;
-    min-width: unset;  /* remove limite no desktop */
   }
 
   .text-overlay p {
     font-size: 1.4rem;
     margin-bottom: 2rem;
-  }
-
-  .text-overlay .btn {
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
   }
 }
 

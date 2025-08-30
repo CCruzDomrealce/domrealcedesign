@@ -102,18 +102,18 @@ export default function DynamicSlider() {
             <h1>{slide.title}</h1>
             <p>{slide.text}</p>
 
-            {/* ✅ Botões lado a lado (grid 2 colunas) */}
+            {/* ✅ Botões lado a lado - corrigido para mobile/tablet */}
             {index !== 0 && (
-              <div className="mt-6 grid grid-cols-2 gap-4 w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto">
-                <Link href="/servicos">
-                  <a className="w-full px-5 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-lg transition text-center bg-brand-yellow text-black hover:bg-yellow-500">
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-[280px] sm:max-w-md md:max-w-lg mx-auto">
+                <Link href="/servicos" className="flex-1">
+                  <button className="w-full px-4 py-3 rounded-lg font-semibold text-sm sm:text-base transition text-center bg-brand-yellow text-black hover:bg-yellow-500">
                     Explorar Serviços
-                  </a>
+                  </button>
                 </Link>
-                <Link href="/portfolio">
-                  <a className="w-full px-5 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-lg transition text-center border border-white text-white hover:bg-white hover:text-black">
+                <Link href="/portfolio" className="flex-1">
+                  <button className="w-full px-4 py-3 rounded-lg font-semibold text-sm sm:text-base transition text-center border border-white text-white hover:bg-white hover:text-black">
                     Ver Portfólio
-                  </a>
+                  </button>
                 </Link>
               </div>
             )}
