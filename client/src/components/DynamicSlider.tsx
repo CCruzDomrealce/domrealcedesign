@@ -13,7 +13,13 @@ export default function DynamicSlider() {
     queryKey: ["/api/admin/slider"]
   });
 
-  const activeSlides = data?.slides?.filter((slide: Slide) => slide.active) || [];
+  let activeSlides = data?.slides?.filter((slide: Slide) => slide.active) || [];
+
+  // 👉 Forçar que o 3º slide (index 2) fique sempre em 1º
+  if (activeSlides.length > 2) {
+    const third = activeSlides.splice(2, 1)[0];
+    activeSlides.unshift(third);
+  }
 
   // Auto-advance slides every 5 seconds
   useEffect(() => {
@@ -57,17 +63,13 @@ export default function DynamicSlider() {
               Design gráfico, impressão digital, papel de parede e soluções
               personalizadas para empresas e particulares.
             </p>
-            <div className="buttons">
-              <a href="#servicos" className="btn">Explorar Serviços</a>
-              <a href="#portfolio" className="btn btn-outline">Ver Portfólio</a>
-            </div>
           </div>
         </div>
       </div>
     );
   }
 
-  // If no slides, show default content
+  // Se não houver slides
   if (activeSlides.length === 0) {
     return (
       <div className="slider">
@@ -79,25 +81,6 @@ export default function DynamicSlider() {
               Design gráfico, impressão digital, papel de parede e soluções
               personalizadas para empresas e particulares.
             </p>
-            <div className="buttons">
-              <a href="#servicos" className="btn">Explorar Serviços</a>
-              <a href="#portfolio" className="btn btn-outline">Ver Portfólio</a>
-            </div>
-            <div className="mt-8 space-y-4">
-              <div className="text-sm text-yellow-300 bg-black/50 px-4 py-2 rounded">
-                📁 **Como adicionar imagens ao slider:**
-              </div>
-              <div className="text-xs text-gray-300 bg-black/30 px-4 py-3 rounded space-y-2">
-                <div>1. Abra o painel <strong>"Object Storage"</strong> no Replit</div>
-                <div>2. Navegue para <strong>Objects → public → inicio</strong></div>
-                <div>3. Crie a pasta <strong>"slider"</strong> se não existir</div>
-                <div>4. Carregue as suas imagens (.jpg, .png, .webp) na pasta slider</div>
-                <div>5. As imagens aparecerão automaticamente aqui!</div>
-              </div>
-              <div className="text-xs text-blue-300">
-                🔄 Atualize a página após carregar as imagens
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -114,17 +97,20 @@ export default function DynamicSlider() {
             backgroundImage: `url('${slide.image}')`
           }}
         >
-          <div className="text-overlay">
-            <h1>{slide.title}</h1>
-            <p>{slide.text}</p>
-            <div className="buttons">
-              <a href="#servicos" className="btn">Explorar Serviços</a>
-              <a href="#portfolio" className="btn btn-outline">Ver Portfólio</a>
+          {/* 👉 Slide 0 (o antigo 3º) não tem texto nem botões */}
+          {index !== 0 && (
+            <div className="text-overlay">
+              <h1>{slide.title}</h1>
+              <p>{slide.text}</p>
+              <div className="buttons">
+                <a href="#servicos" className="btn">Explorar Serviços</a>
+                <a href="#portfolio" className="btn btn-outline">Ver Portfólio</a>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ))}
-      
+
       {/* Navigation dots */}
       {activeSlides.length > 1 && (
         <div className="slider-dots">
