@@ -21,21 +21,17 @@
   opacity: 1;
 }
 
-/* Texto centralizado com melhor enquadramento */
+/* Texto centralizado */
 .text-overlay {
   position: absolute;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   color: white;
   max-width: 900px;
-  padding: 30px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
+  padding: 20px;
   text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .text-overlay h1 {
@@ -60,6 +56,7 @@
   display: flex;
   justify-content: center;
   gap: 20px;
+  flex-direction: row;
 }
 
 .btn {
@@ -131,9 +128,7 @@
   
   .text-overlay {
     max-width: 85%;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
+    padding: 15px;
   }
   
   .text-overlay h1 { 
@@ -149,8 +144,8 @@
   }
 
   .buttons {
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 10px;
   }
   
   .btn {
@@ -172,29 +167,30 @@
   
   .slide {
     background-size: cover !important;
-    background-position: center 30% !important; /* Melhor enquadramento em mobile */
+    background-position: center center !important;
   }
   
   .text-overlay {
     max-width: 90%;
-    padding: 16px;
-    top: 40%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    padding: 10px;
+    top: 50%;
   }
   
   .text-overlay h1 { 
     font-size: 1.4rem;
     margin-bottom: 8px;
     line-height: 1.1;
-    color: #FFD700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,1);
   }
   
   .text-overlay p { 
     font-size: 0.8rem;
     margin-bottom: 15px;
     line-height: 1.2;
+  }
+  
+  .buttons {
+    flex-direction: row;
+    gap: 8px;
   }
   
   .btn {
