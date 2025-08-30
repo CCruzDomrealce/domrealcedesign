@@ -10,32 +10,50 @@ interface SliderResponse {
 export default function DynamicSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { data, isLoading, error } = useQuery<SliderResponse>({
-    queryKey: ["/api/admin/slider"]
+    queryKey: ["/api/admin/slider"],
   });
 
-  let activeSlides = data?.slides?.filter((slide: Slide) => slide.active) || [];
+  // 👉 altura real da viewport (corrige 100vh no mobile)
+  useEffect(() => {
+    const setVh = () => {
+      const h =
+        (window as any).visualViewport?.height ??
+        window.innerHeight;
+      document.documentElement.style.setProperty("--vh", `${h * 0.01}px`);
+    };
+    setVh();
+    window.addEventListener("resize", setVh);
+    window.addEventListener("orientationchange", setVh);
+    return () => {
+      window.removeEventListener("resize", setVh);
+      window.removeEventListener("orientationchange", setVh);
+    };
+  }, []);
 
-  // 👉 Forçar que o 3º slide (index 2) fique sempre em 1º
+  let activeSlides = data?.slides?.filter((s: Slide) => s.active) || [];
+
+  // 👉 força o 3º slide para 1º
   if (activeSlides.length > 2) {
     const third = activeSlides.splice(2, 1)[0];
     activeSlides.unshift(third);
   }
 
-  // Auto-advance slides every 5 seconds
+  // autoplay
   useEffect(() => {
     if (activeSlides.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
-      }, 3500);
-      return () => clearInterval(interval);
+      const i = setInterval(
+        () => setCurrentSlide((p) => (p + 1) % activeSlides.length),
+        3500
+      );
+      return () => clearInterval(i);
     }
   }, [activeSlides.length]);
 
-  // Loading state
+  // loading
   if (isLoading) {
     return (
       <div className="slider">
-        <div className="slide active" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' }}>
+        <div className="slide active loading">
           <div className="text-overlay">
             <div className="animate-pulse">
               <div className="h-12 bg-gray-700 rounded mb-4"></div>
@@ -51,11 +69,11 @@ export default function DynamicSlider() {
     );
   }
 
-  // Error state
+  // erro
   if (error) {
     return (
       <div className="slider">
-        <div className="slide active" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' }}>
+        <div className="slide active fallback">
           <div className="text-overlay">
             <h1>Realce sua marca com criatividade e alta definição</h1>
             <p>
@@ -69,11 +87,11 @@ export default function DynamicSlider() {
     );
   }
 
-  // Se não houver slides
+  // sem slides
   if (activeSlides.length === 0) {
     return (
       <div className="slider">
-        <div className="slide active" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' }}>
+        <div className="slide active fallback">
           <div className="text-overlay">
             <h1>Realce sua marca com criatividade e alta definição</h1>
             <p>
@@ -92,12 +110,9 @@ export default function DynamicSlider() {
       {activeSlides.map((slide: Slide, index: number) => (
         <div
           key={slide.id}
-          className={`slide ${index === currentSlide ? 'active' : ''}`}
-          style={{
-            backgroundImage: `url('${slide.image}')`
-          }}
+          className={`slide ${index === currentSlide ? "active" : ""}`}
+          style={{ backgroundImage: `url('${slide.image}')` }}
         >
-          {/* 👉 Slide 0 (o antigo 3º) não tem texto nem botões */}
           {index !== 0 && (
             <div className="text-overlay">
               <h1>{slide.title}</h1>
@@ -111,15 +126,14 @@ export default function DynamicSlider() {
         </div>
       ))}
 
-      {/* Navigation dots */}
       {activeSlides.length > 1 && (
         <div className="slider-dots">
-          {activeSlides.map((_: Slide, index: number) => (
+          {activeSlides.map((_: Slide, i: number) => (
             <button
-              key={index}
-              className={`dot ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => setCurrentSlide(index)}
-              data-testid={`slider-dot-${index}`}
+              key={i}
+              className={`dot ${i === currentSlide ? "active" : ""}`}
+              onClick={() => setCurrentSlide(i)}
+              data-testid={`slider-dot-${i}`}
             />
           ))}
         </div>
