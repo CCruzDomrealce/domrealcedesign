@@ -23,7 +23,7 @@ export default function Sobre() {
   const carlosTitle = getConfig('carlos', 'title', 'Carlos Cruz');
   const carlosSubtitle = getConfig('carlos', 'subtitle', 'Fundador & Diretor Criativo');
   const carlosStoryTitle = getConfig('carlos', 'story_title', 'A História do Carlos Cruz');
-  const carlosStory1 = getConfig('carlos', 'story_1', 'Com 40 anos de experiência no setor da publicidade e comunicação visual, Carlos Cruz é o fundador e alma da Domrealce. A sua jornada começou numa época em que a criatividade e o trabalho manual eram a base de tudo.');
+  const carlosStory1 = getConfig('carlos', 'story_1', 'Com Experiência no setor da publicidade e comunicação visual, Carlos Cruz é o fundador e alma da Domrealce. A sua jornada começou numa época em que a criatividade e o trabalho manual eram a base de tudo.');
   const carlosStory2 = getConfig('carlos', 'story_2', 'Ao longo dos anos, Carlos especializou-se em várias áreas da publicidade, incluindo decoração de espaços comerciais, serigrafia, tampografia e decoração de viaturas de competição. Esta vasta experiência permite-lhe compreender as necessidades específicas de cada cliente.');
   const carlosStory3 = getConfig('carlos', 'story_3', 'Atualmente, a Domrealce foca-se na área de impressão digital e decoração, mantendo sempre os valores fundamentais de qualidade, pontualidade e honestidade que sempre caracterizaram o trabalho de Carlos Cruz.');
   const companyText1 = getConfig('company', 'text_1', 'A Domrealce é uma empresa pequena, com um atelier que privilegia o atendimento personalizado. Esta abordagem permite-nos dedicar toda a atenção necessária a cada projeto, garantindo resultados únicos e adaptados às necessidades específicas de cada cliente.');
@@ -58,8 +58,8 @@ export default function Sobre() {
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <SEOHead 
         title="Sobre Nós - Carlos Cruz e 40 Anos de Comunicação Visual"
-        description="Conheça a história da DOMREALCE e Carlos Cruz, com 40 anos de experiência em comunicação visual, impressão digital e publicidade em Lisboa."
-        keywords="Carlos Cruz, DOMREALCE história, comunicação visual Lisboa, 40 anos experiência, empresa publicidade"
+        description="Conheça a história da DOMREALCE e Carlos Cruz, com 40 anos de experiência em comunicação visual, impressão digital e publicidade."
+        keywords="Carlos Cruz, DOMREALCE história, comunicação visual, 40 anos experiência, empresa publicidade"
         canonicalUrl="https://www.domrealce.com/sobre"
       />
       <Navigation />
@@ -204,7 +204,7 @@ export default function Sobre() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-lg"></div>
               <div className="absolute bottom-4 left-4 right-4 text-white">
                 <h4 className="text-xl font-bold mb-2">Carlos Cruz</h4>
-                <p className="text-sm opacity-90">40 anos de experiência em comunicação visual</p>
+                <p className="text-sm opacity-90">Responsável de produção</p>
               </div>
             </div>
           </div>
