@@ -10,46 +10,28 @@ interface SliderResponse {
 export default function DynamicSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { data, isLoading, error } = useQuery<SliderResponse>({
-    queryKey: ["/api/admin/slider"],
+    queryKey: ["/api/admin/slider"]
   });
 
-  // 👉 altura real da viewport (corrige 100vh no mobile)
-  useEffect(() => {
-    const setVh = () => {
-      const h =
-        (window as any).visualViewport?.height ??
-        window.innerHeight;
-      document.documentElement.style.setProperty("--vh", `${h * 0.01}px`);
-    };
-    setVh();
-    window.addEventListener("resize", setVh);
-    window.addEventListener("orientationchange", setVh);
-    return () => {
-      window.removeEventListener("resize", setVh);
-      window.removeEventListener("orientationchange", setVh);
-    };
-  }, []);
+  let activeSlides = data?.slides?.filter((slide: Slide) => slide.active) || [];
 
-  let activeSlides = data?.slides?.filter((s: Slide) => s.active) || [];
-
-  // 👉 força o 3º slide para 1º
-  if (activeSlides.length > 2) {
-    const third = activeSlides.splice(2, 1)[0];
-    activeSlides.unshift(third);
+  // 👉 Forçar que o 2º slide (index 1) fique sempre em 1º
+  if (activeSlides.length > 1) {
+    const second = activeSlides.splice(1, 1)[0];
+    activeSlides.unshift(second);
   }
 
-  // autoplay
+  // Auto-advance slides every 3.5s
   useEffect(() => {
     if (activeSlides.length > 1) {
-      const i = setInterval(
-        () => setCurrentSlide((p) => (p + 1) % activeSlides.length),
-        3500
-      );
-      return () => clearInterval(i);
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % activeSlides.length);
+      }, 3500);
+      return () => clearInterval(interval);
     }
   }, [activeSlides.length]);
 
-  // loading
+  // Loading state
   if (isLoading) {
     return (
       <div className="slider">
@@ -69,7 +51,7 @@ export default function DynamicSlider() {
     );
   }
 
-  // erro
+  // Error state
   if (error) {
     return (
       <div className="slider">
@@ -87,7 +69,7 @@ export default function DynamicSlider() {
     );
   }
 
-  // sem slides
+  // Sem slides
   if (activeSlides.length === 0) {
     return (
       <div className="slider">
@@ -111,29 +93,38 @@ export default function DynamicSlider() {
         <div
           key={slide.id}
           className={`slide ${index === currentSlide ? "active" : ""}`}
-          style={{ backgroundImage: `url('${slide.image}')` }}
+          style={{
+            backgroundImage: `url('${slide.image}')`
+          }}
         >
-          {index !== 0 && (
-            <div className="text-overlay">
-              <h1>{slide.title}</h1>
-              <p>{slide.text}</p>
+          <div className="text-overlay">
+            <h1>{slide.title}</h1>
+            <p>{slide.text}</p>
+
+            {/* ✅ Só mostra botões se NÃO for o primeiro slide */}
+            {index !== 0 && (
               <div className="buttons">
-                <a href="#servicos" className="btn">Explorar Serviços</a>
-                <a href="#portfolio" className="btn btn-outline">Ver Portfólio</a>
+                <a href="#servicos" className="btn">
+                  Explorar Serviços
+                </a>
+                <a href="#portfolio" className="btn btn-outline">
+                  Ver Portfólio
+                </a>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       ))}
 
+      {/* Navigation dots */}
       {activeSlides.length > 1 && (
         <div className="slider-dots">
-          {activeSlides.map((_: Slide, i: number) => (
+          {activeSlides.map((_: Slide, index: number) => (
             <button
-              key={i}
-              className={`dot ${i === currentSlide ? "active" : ""}`}
-              onClick={() => setCurrentSlide(i)}
-              data-testid={`slider-dot-${i}`}
+              key={index}
+              className={`dot ${index === currentSlide ? "active" : ""}`}
+              onClick={() => setCurrentSlide(index)}
+              data-testid={`slider-dot-${index}`}
             />
           ))}
         </div>
