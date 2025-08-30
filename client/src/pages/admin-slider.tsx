@@ -6,13 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import Navigation from "@/components/navigation";
-import { ArrowLeft, Plus, Edit, Trash2, Save, X, Image, Monitor } from "lucide-react";
+import { ArrowLeft, Plus, Edit, Trash2, Save, X, Image, Monitor, Copy } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { ImageSelector } from "@/components/ImageSelector";
 
 interface SlideData {
-  id: number;
+  id: string;
   image: string;
   title: string;
   text: string;
@@ -22,7 +22,7 @@ export default function AdminSlider() {
   const { toast } = useToast();
   const [slides, setSlides] = useState<SlideData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({ image: "", title: "", text: "" });
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function AdminSlider() {
     }
   };
 
-  const saveSlide = async (slideData: Omit<SlideData, 'id'>, slideId?: number) => {
+  const saveSlide = async (slideData: Omit<SlideData, 'id'>, slideId?: string) => {
     try {
       const url = slideId ? `/api/admin/slider/${slideId}` : '/api/admin/slider';
       const method = slideId ? 'PUT' : 'POST';
@@ -104,7 +104,7 @@ export default function AdminSlider() {
     }
   };
 
-  const deleteSlide = async (slideId: number) => {
+  const deleteSlide = async (slideId: string) => {
     if (!confirm('Tem certeza que deseja remover este slide?')) return;
 
     try {
@@ -126,6 +126,31 @@ export default function AdminSlider() {
       toast({
         title: "Erro",
         description: "Falha ao remover slide",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const duplicateSlide = async (slideId: string) => {
+    try {
+      const response = await fetch(`/api/admin/slider/${slideId}/duplicate`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        await fetchSlides();
+        toast({
+          title: "Sucesso",
+          description: "Slide duplicado com sucesso",
+        });
+      } else {
+        throw new Error('Falha ao duplicar slide');
+      }
+    } catch (error) {
+      console.error('Error duplicating slide:', error);
+      toast({
+        title: "Erro",
+        description: "Falha ao duplicar slide",
         variant: "destructive",
       });
     }
@@ -210,7 +235,7 @@ export default function AdminSlider() {
         {/* Action Buttons */}
         <div className="flex gap-4 mb-8">
           <Button 
-            onClick={() => setEditingId(-1)}
+            onClick={() => setEditingId("new")}
             className="bg-[#FFD700] text-black hover:bg-yellow-400"
             disabled={loading}
           >
@@ -230,7 +255,7 @@ export default function AdminSlider() {
         </div>
 
         {/* Add New Slide */}
-        {editingId === -1 && (
+        {editingId === "new" && (
           <Card className="bg-[#111111] border-[#333] mb-8">
             <CardHeader>
               <CardTitle className="text-[#FFD700]">Novo Slide</CardTitle>
@@ -284,11 +309,11 @@ export default function AdminSlider() {
         )}
 
         {/* Add Button */}
-        {editingId !== -1 && (
+        {editingId !== "new" && (
           <Card className="bg-[#111111] border-[#333] mb-8">
             <CardContent className="p-6 text-center">
               <Button 
-                onClick={() => setEditingId(-1)}
+                onClick={() => setEditingId("new")}
                 className="bg-[#FFD700] text-black hover:bg-yellow-400"
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -391,13 +416,27 @@ export default function AdminSlider() {
                                 size="sm"
                                 variant="outline"
                                 onClick={() => startEdit(slide)}
+                                title="Editar slide"
+                                data-testid={`button-edit-slide-${slide.id}`}
                               >
                                 <Edit className="h-4 w-4" />
                               </Button>
                               <Button
                                 size="sm"
+                                variant="outline"
+                                onClick={() => duplicateSlide(slide.id)}
+                                className="border-[#00d4aa] text-[#00d4aa] hover:bg-[#00d4aa] hover:text-black"
+                                title="Duplicar slide"
+                                data-testid={`button-duplicate-slide-${slide.id}`}
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                size="sm"
                                 variant="destructive"
                                 onClick={() => deleteSlide(slide.id)}
+                                title="Remover slide"
+                                data-testid={`button-delete-slide-${slide.id}`}
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>

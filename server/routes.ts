@@ -800,6 +800,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/admin/slider/:id/duplicate", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const originalSlide = await storage.getSlideById(id);
+      
+      if (!originalSlide) {
+        return res.status(404).json({ error: "Slide not found" });
+      }
+
+      // Criar slide duplicado sem o ID original
+      const duplicateData = {
+        image: originalSlide.image,
+        title: `${originalSlide.title} (Cópia)`,
+        text: originalSlide.text,
+        order_position: originalSlide.order_position,
+        active: originalSlide.active
+      };
+
+      const newSlide = await storage.createSlide(duplicateData);
+      res.json({ success: true, slide: newSlide });
+    } catch (error) {
+      console.error("Error duplicating slide:", error);
+      res.status(500).json({ error: "Failed to duplicate slide" });
+    }
+  });
+
   // Admin Products routes
   app.get("/api/admin/produtos", async (req, res) => {
     try {
