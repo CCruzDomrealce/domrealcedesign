@@ -1,14 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PageConfig } from "@shared/schema";
+import { apiRequest } from "@/lib/queryClient";
 
 interface PageConfigsResponse {
   configs: PageConfig[];
 }
 
 export function usePageConfig(page: string) {
+  const queryClient = useQueryClient();
   const { data, isLoading, error } = useQuery<PageConfigsResponse>({
     queryKey: ['/api/admin/pages', page],
     enabled: !!page,
+  });
+  
+  const updateConfigMutation = useMutation({
+    mutationFn: async ({ section, element, value }: { section: string; element: string; value: string }) => {
+      return apiRequest(`/api/admin/pages/${page}/config`, {
+        method: 'POST',
+        body: { section, element, value }
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/pages', page] });
+    }
   });
 
   // Helper function to get a specific config value
@@ -38,6 +52,10 @@ export function usePageConfig(page: string) {
     );
   };
 
+  const updateConfig = async (section: string, element: string, value: string) => {
+    return updateConfigMutation.mutateAsync({ section, element, value });
+  };
+
   return {
     configs: data?.configs || [],
     isLoading,
@@ -45,5 +63,7 @@ export function usePageConfig(page: string) {
     getConfig,
     getSectionConfigs,
     hasConfig,
+    updateConfig,
+    isUpdating: updateConfigMutation.isPending,
   };
 }
