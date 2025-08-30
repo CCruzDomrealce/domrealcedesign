@@ -1,23 +1,9 @@
-/* Slider responsivo */
+/* Slider ocupa tela cheia */
 .slider {
   position: relative;
   width: 100%;
-  height: 55vh; /* Mobile otimizado */
+  height: 100vh; /* 100% da altura da tela */
   overflow: hidden;
-}
-
-/* Tablet */
-@media (min-width: 768px) {
-  .slider {
-    height: 65vh;
-  }
-}
-
-/* Desktop */
-@media (min-width: 1024px) {
-  .slider {
-    height: 80vh;
-  }
 }
 
 .slide {
