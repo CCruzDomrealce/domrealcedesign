@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { Link } from "wouter";   // ✅ Wouter SPA navigation
 import type { Slide } from "@shared/schema";
+import { useQuery } from "@tanstack/react-query";
 import "./Slider.css";
 
 interface SliderResponse {
@@ -102,14 +102,18 @@ export default function DynamicSlider() {
             <h1>{slide.title}</h1>
             <p>{slide.text}</p>
 
-            {/* ✅ Só mostra botões se NÃO for o primeiro slide */}
+            {/* ✅ Botões lado a lado (grid 2 colunas) */}
             {index !== 0 && (
-              <div className="buttons">
+              <div className="mt-6 grid grid-cols-2 gap-4 w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto">
                 <Link href="/servicos">
-                  <a className="btn">Explorar Serviços</a>
+                  <a className="w-full px-5 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-lg transition text-center bg-brand-yellow text-black hover:bg-yellow-500">
+                    Explorar Serviços
+                  </a>
                 </Link>
                 <Link href="/portfolio">
-                  <a className="btn btn-outline">Ver Portfólio</a>
+                  <a className="w-full px-5 py-2 rounded-lg font-semibold text-sm sm:text-base md:text-lg transition text-center border border-white text-white hover:bg-white hover:text-black">
+                    Ver Portfólio
+                  </a>
                 </Link>
               </div>
             )}
