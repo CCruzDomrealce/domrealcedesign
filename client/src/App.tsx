@@ -41,62 +41,73 @@ import ComoAplicarPapelParede from "@/pages/como-aplicar-papel-parede";
 import AdminContactos from "@/pages/admin-contactos";
 import AdminPortfolio from "@/pages/admin-portfolio";
 import AdminSlider from "@/pages/admin-slider";
-import AdminProdutos from "@/pages/admin-produtos";
+import AdminProdutos from "@/pages/admin-produtos"; // ✅ Corrigido
 import AdminNoticias from "@/pages/admin-noticias";
 import AdminDashboard from "@/pages/admin-dashboard";
 import AdminLoja from "@/pages/admin-loja";
 import AdminPages from "@/pages/admin-pages";
 import ServicoPeliculaSolar from "@/pages/servico-pelicula-solar";
-// import CustomCursor from "@/components/custom-cursor";
-// import ScrollAnimations from "@/components/scroll-animations";
+
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+import backlink from "@/components/backlink"; // ✅ sempre em minúsculas
 
 function Router() {
   useScrollToTop();
-  
+
   return (
     <>
       <SEO />
       <StructuredData />
+
+      {/* Cabeçalho fixo */}
+      <Navigation />
+      <backlink /> {/* aparece em todas as páginas exceto na Home */}
+
+      {/* Conteúdo principal */}
       <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/sobre" component={Sobre} />
-      <Route path="/servicos" component={Servicos} />
-      <Route path="/servico-design-grafico" component={ServicoDesignGrafico} />
-      <Route path="/servico-impressao-digital" component={ServicoImpressaoDigital} />
-      <Route path="/servico-papel-parede" component={ServicoPapelParede} />
-      <Route path="/servico-telas-artisticas" component={ServicoTelasArtisticas} />
-      <Route path="/servico-autocolantes" component={ServicoAutocolantes} />
-      <Route path="/servico-decoracao-viaturas" component={ServicoDecoracaoViaturas} />
-      <Route path="/servico-espacos-comerciais" component={ServicoEspacosComerciais} />
-      <Route path="/servico-pelicula-solar" component={ServicoPeliculaSolar} />
-      <Route path="/servico-peliculas-protecao-solar" component={ServicoPeliculasProtecaoSolar} />
-      <Route path="/checkout" component={Checkout} />
-      <Route path="/pedido-confirmado" component={PedidoConfirmado} />
-      <Route path="/instrucoes-pagamento" component={InstrucoesPagamento} />
-      <Route path="/teste-cores" component={TesteCores} />
-      <Route path="/portfolio" component={Portfolio} />
-      <Route path="/loja" component={Loja} />
-      <Route path="/loja/papel-parede" component={LojaPapelParede} />
-      <Route path="/loja/papel-parede/textura/:textura" component={LojaTexturaDetalhes} />
-      <Route path="/como-aplicar-papel-parede" component={ComoAplicarPapelParede} />
-      <Route path="/carrinho" component={Carrinho} />
-      <Route path="/admin/texturas" component={AdminTexturas} />
-      <Route path="/admin/contactos" component={AdminContactos} />
-      <Route path="/admin/portfolio" component={AdminPortfolio} />
-      <Route path="/admin" component={AdminDashboard} />
-      <Route path="/admin/slider" component={AdminSlider} />
-      <Route path="/admin/pages" component={AdminPages} />
-      <Route path="/admin/produtos" component={AdminProdutos} />
-      <Route path="/admin/noticias" component={AdminNoticias} />
-      <Route path="/admin/loja" component={AdminLoja} />
-      <Route path="/noticias" component={Noticias} />
-      <Route path="/contactos" component={Contactos} />
-      <Route path="/politica-privacidade" component={PoliticaPrivacidade} />
-      <Route path="/termos-condicoes" component={TermosCondicoes} />
-      <Route path="/politica-cookies" component={PoliticaCookies} />
-      <Route path="/aviso-legal" component={AvisoLegal} />
-      <Route component={NotFound} />
-    </Switch>
+        <Route path="/" component={Home} />
+        <Route path="/sobre" component={Sobre} />
+        <Route path="/servicos" component={Servicos} />
+        <Route path="/servico-design-grafico" component={ServicoDesignGrafico} />
+        <Route path="/servico-impressao-digital" component={ServicoImpressaoDigital} />
+        <Route path="/servico-papel-parede" component={ServicoPapelParede} />
+        <Route path="/servico-telas-artisticas" component={ServicoTelasArtisticas} />
+        <Route path="/servico-autocolantes" component={ServicoAutocolantes} />
+        <Route path="/servico-decoracao-viaturas" component={ServicoDecoracaoViaturas} />
+        <Route path="/servico-espacos-comerciais" component={ServicoEspacosComerciais} />
+        <Route path="/servico-pelicula-solar" component={ServicoPeliculaSolar} />
+        <Route path="/servico-peliculas-protecao-solar" component={ServicoPeliculasProtecaoSolar} />
+        <Route path="/checkout" component={Checkout} />
+        <Route path="/pedido-confirmado" component={PedidoConfirmado} />
+        <Route path="/instrucoes-pagamento" component={InstrucoesPagamento} />
+        <Route path="/teste-cores" component={TesteCores} />
+        <Route path="/portfolio" component={Portfolio} />
+        <Route path="/loja" component={Loja} />
+        <Route path="/loja/papel-parede" component={LojaPapelParede} />
+        <Route path="/loja/papel-parede/textura/:textura" component={LojaTexturaDetalhes} />
+        <Route path="/como-aplicar-papel-parede" component={ComoAplicarPapelParede} />
+        <Route path="/carrinho" component={Carrinho} />
+        <Route path="/admin/texturas" component={AdminTexturas} />
+        <Route path="/admin/contactos" component={AdminContactos} />
+        <Route path="/admin/portfolio" component={AdminPortfolio} />
+        <Route path="/admin" component={AdminDashboard} />
+        <Route path="/admin/slider" component={AdminSlider} />
+        <Route path="/admin/pages" component={AdminPages} />
+        <Route path="/admin/produtos" component={AdminProdutos} />
+        <Route path="/admin/noticias" component={AdminNoticias} />
+        <Route path="/admin/loja" component={AdminLoja} />
+        <Route path="/noticias" component={Noticias} />
+        <Route path="/contactos" component={Contactos} />
+        <Route path="/politica-privacidade" component={PoliticaPrivacidade} />
+        <Route path="/termos-condicoes" component={TermosCondicoes} />
+        <Route path="/politica-cookies" component={PoliticaCookies} />
+        <Route path="/aviso-legal" component={AvisoLegal} />
+        <Route component={NotFound} />
+      </Switch>
+
+      {/* Rodapé em todas as páginas */}
+      <Footer />
     </>
   );
 }
@@ -109,8 +120,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <PerformanceOptimizer />
-        {/* <CustomCursor />
-        <ScrollAnimations /> */}
         <Toaster />
         <Router />
         <WhatsAppFAB />
