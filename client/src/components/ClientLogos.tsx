@@ -31,7 +31,7 @@ export default function ClientLogos() {
   // Carregar logótipos da API (object storage)
   const { data: logosData, isLoading, error } = useQuery<LogosResponse>({
     queryKey: ['/api/client-logos'],
-    refetchInterval: 30000, // Atualizar a cada 30 segundos
+    refetchInterval: 10000, // Atualizar a cada 10 segundos para novos logótipos
   });
 
   // Usar logótipos reais ou fallback
@@ -110,17 +110,6 @@ export default function ClientLogos() {
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Orgulhamo-nos de trabalhar com empresas e particulares que valorizam a qualidade e criatividade.
           </p>
-          {/* Debug Info */}
-          {logosData?.logos && logosData.logos.length > 0 && (
-            <p className="text-xs text-green-400 mt-2">
-              ✓ {logosData.logos.length} logótipos carregados da storage
-            </p>
-          )}
-          {(!logosData?.logos || logosData.logos.length === 0) && (
-            <p className="text-xs text-yellow-400 mt-2">
-              ⚠️ A usar placeholders - adicione logótipos na pasta "logos-clientes"
-            </p>
-          )}
         </div>
 
         {/* Carrossel de Logótipos */}
@@ -133,7 +122,7 @@ export default function ClientLogos() {
             {visibleLogos.map((logo, index) => (
               <div
                 key={`${logo.id}-${currentIndex}-${index}`}
-                className={`flex-none w-1/2 md:w-1/3 lg:w-1/4 px-4 animate-fade-in-scale`}
+                className={`flex-none w-1/2 md:w-1/3 lg:w-1/4 px-2 animate-fade-in-scale`}
                 style={{
                   animationDelay: `${index * 0.1}s`
                 }}
@@ -146,7 +135,7 @@ export default function ClientLogos() {
                       <img 
                         src={logo.url} 
                         alt={`Logótipo ${logo.clientName}`}
-                        className="max-h-16 w-auto object-contain transition-transform duration-300"
+                        className="max-h-32 w-auto object-contain transition-transform duration-300"
                         loading="lazy"
                         onError={(e) => {
                           console.log('Erro ao carregar logótipo:', logo.url);
@@ -194,12 +183,6 @@ export default function ClientLogos() {
           ))}
         </div>
 
-        {/* Status do Carrossel */}
-        <div className="text-center mt-4">
-          <p className="text-xs text-gray-500">
-            {isHovered ? '⏸️ Pausado' : '▶️ A deslizar automaticamente'}
-          </p>
-        </div>
       </div>
     </section>
   );
