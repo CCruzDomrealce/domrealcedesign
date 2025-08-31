@@ -13,7 +13,6 @@ interface LogosResponse {
   logos: ClientLogo[];
 }
 
-// 🎯 PLACEHOLDER DATA - usado apenas quando não há logótipos na storage
 const fallbackLogos: ClientLogo[] = [
   { id: "placeholder-1", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-1" },
   { id: "placeholder-2", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-2" },
@@ -24,28 +23,62 @@ const fallbackLogos: ClientLogo[] = [
 ];
 
 export default function ClientLogos() {
-  // Carregar logótipos da API (object storage)
-  const { data: logosData, isLoading, error } = useQuery<LogosResponse>({
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [visibleLogos, setVisibleLogos] = useState<ClientLogo[]>([]);
+
+  const { data: logosData, isLoading } = useQuery<LogosResponse>({
     queryKey: ['/api/client-logos'],
-    refetchInterval: 10000, // Atualizar a cada 10 segundos para novos logótipos
+    refetchInterval: 30000,
   });
 
-  // Usar logótipos reais ou fallback
   const clientLogos = (logosData?.logos && logosData.logos.length > 0) ? logosData.logos : fallbackLogos;
 
-  // Mostrar loading enquanto carrega
+  const getLogosPerView = () => {
+    if (window.innerWidth >= 1024) return 4;
+    if (window.innerWidth >= 768) return 3;
+    return 2;
+  };
+
+  const [logosPerView, setLogosPerView] = useState(2);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setLogosPerView(getLogosPerView());
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!isHovered && clientLogos.length > logosPerView) {
+      const interval = setInterval(() => {
+        setCurrentIndex(prev =>
+          prev + logosPerView >= clientLogos.length ? 0 : prev + 1
+        );
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [isHovered, logosPerView, clientLogos.length]);
+
+  useEffect(() => {
+    const visible = [];
+    for (let i = 0; i < logosPerView; i++) {
+      const index = (currentIndex + i) % clientLogos.length;
+      visible.push(clientLogos[index]);
+    }
+    setVisibleLogos(visible);
+  }, [currentIndex, logosPerView, clientLogos]);
+
   if (isLoading) {
     return (
       <section className="py-16 px-4 bg-[#0a0a0a]">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-800 rounded w-64 mx-auto mb-4"></div>
-            <div className="h-4 bg-gray-800 rounded w-96 mx-auto mb-12"></div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="bg-gray-800 rounded-lg h-32 animate-pulse"></div>
-              ))}
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="bg-gray-800 rounded-lg h-32"></div>
+            ))}
           </div>
         </div>
       </section>
@@ -55,7 +88,6 @@ export default function ClientLogos() {
   return (
     <section className="py-16 px-4 bg-[#0a0a0a]">
       <div className="max-w-6xl mx-auto">
-        {/* Título da Secção */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
             Clientes que Confiam em Nós
@@ -65,28 +97,25 @@ export default function ClientLogos() {
           </p>
         </div>
 
-        {/* Linha Horizontal de Logótipos */}
-        <div className="flex items-center justify-center gap-8">
-          {clientLogos.map((logo, index) => (
-            <div
-              key={logo.id}
-              className="flex-shrink-0 animate-fade-in-scale"
-              style={{
-                animationDelay: `${index * 0.1}s`
-              }}
-            >
-              {/* Container do Logótipo */}
-              <div className="flex items-center justify-center group">
-                {/* IMAGEM DO LOGÓTIPO */}
-                {logo.url ? (
-                  <div className="flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                    <img 
-                      src={logo.url} 
+        <div
+          className="relative overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="flex">
+            {visibleLogos.map((logo, index) => (
+              <div
+                key={`${logo.id}-${currentIndex}-${index}`}
+                className="flex-none w-1/2 md:w-1/3 lg:w-1/4 px-4"
+              >
+                <div className="flex items-center justify-center">
+                  {logo.url ? (
+                    <img
+                      src={logo.url}
                       alt={`Logótipo ${logo.clientName}`}
-                      className="max-h-32 w-auto object-contain transition-transform duration-300"
+                      className="max-h-16 w-auto object-contain"
                       loading="lazy"
                       onError={(e) => {
-                        console.log('Erro ao carregar logótipo:', logo.url);
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                         const fallback = target.nextElementSibling as HTMLElement;
@@ -95,26 +124,18 @@ export default function ClientLogos() {
                         }
                       }}
                     />
-                    {/* Fallback para erro de imagem */}
-                    <div className="hidden bg-gray-800 rounded-lg p-4 border-2 border-dashed border-gray-600">
+                  ) : (
+                    <div className="bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-600">
                       <span className="text-gray-400 text-sm font-medium text-center">
                         COLE LOGO AQUI
                       </span>
                     </div>
-                  </div>
-                ) : (
-                  <div className="bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-600 group-hover:border-brand-yellow transition-colors">
-                    <span className="text-gray-400 text-sm font-medium text-center">
-                      COLE LOGO AQUI
-                    </span>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-
-
       </div>
     </section>
   );
