@@ -25,6 +25,7 @@ const fallbackLogos: ClientLogo[] = [
 export default function ClientLogos() {
   const [translateX, setTranslateX] = useState(0);
   const [mousePosition, setMousePosition] = useState(0.5); // 0.5 = centro
+  const [isMouseOver, setIsMouseOver] = useState(false);
   const animationRef = useRef<number>();
 
   // Carregar logótipos da API (object storage)
@@ -36,17 +37,23 @@ export default function ClientLogos() {
   // Usar logótipos reais ou fallback
   const clientLogos = (logosData?.logos && logosData.logos.length > 0) ? logosData.logos : fallbackLogos;
 
-  // Controlar movimento baseado na posição do rato
+  // Controlar movimento baseado na posição do rato ou movimento automático
   useEffect(() => {
     const animate = () => {
-      if (mousePosition < 0.4) {
-        // Rato à esquerda - mover logótipos para a direita
-        setTranslateX(prev => prev + 2);
-      } else if (mousePosition > 0.6) {
-        // Rato à direita - mover logótipos para a esquerda
-        setTranslateX(prev => prev - 2);
+      if (isMouseOver) {
+        // Rato sobre os logótipos - controlo manual
+        if (mousePosition < 0.4) {
+          // Rato à esquerda - mover logótipos para a direita
+          setTranslateX(prev => prev + 2);
+        } else if (mousePosition > 0.6) {
+          // Rato à direita - mover logótipos para a esquerda
+          setTranslateX(prev => prev - 2);
+        }
+        // Entre 0.4 e 0.6 (centro) - não mexer
+      } else {
+        // Sem rato - movimento automático para a direita
+        setTranslateX(prev => prev - 1);
       }
-      // Entre 0.4 e 0.6 (centro) - não mexer
 
       animationRef.current = requestAnimationFrame(animate);
     };
@@ -58,7 +65,7 @@ export default function ClientLogos() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [mousePosition]);
+  }, [mousePosition, isMouseOver]);
 
   // Detectar posição do rato
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -66,6 +73,16 @@ export default function ClientLogos() {
     const x = e.clientX - rect.left;
     const width = rect.width;
     setMousePosition(x / width); // Normalizar entre 0 e 1
+  };
+
+  // Detectar quando rato entra e sai
+  const handleMouseEnter = () => {
+    setIsMouseOver(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMouseOver(false);
+    setMousePosition(0.5); // Voltar ao centro
   };
 
   if (isLoading) {
@@ -90,16 +107,15 @@ export default function ClientLogos() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
             Clientes que Confiam em Nós
           </h2>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Orgulhamo-nos de trabalhar com empresas e particulares que valorizam a qualidade e criatividade.
-          </p>
+
         </div>
 
         {/* Linha Horizontal de Logótipos com Movimento */}
         <div 
           className="relative overflow-hidden cursor-none"
           onMouseMove={handleMouseMove}
-          onMouseLeave={() => setMousePosition(0.5)} // Voltar ao centro quando sair
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <div 
             className="flex items-center justify-center gap-8 transition-transform duration-100 ease-linear"
