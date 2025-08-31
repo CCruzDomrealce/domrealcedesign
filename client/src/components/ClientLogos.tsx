@@ -66,11 +66,11 @@ export default function ClientLogos() {
         </div>
 
         {/* Linha Horizontal de Logótipos */}
-        <div className="flex items-center justify-center gap-8 flex-wrap">
+        <div className="flex items-center justify-center gap-8 overflow-x-auto">
           {clientLogos.map((logo, index) => (
             <div
               key={logo.id}
-              className="animate-fade-in-scale"
+              className="flex-shrink-0 animate-fade-in-scale"
               style={{
                 animationDelay: `${index * 0.1}s`
               }}
