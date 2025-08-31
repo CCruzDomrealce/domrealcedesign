@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import "./ClientLogos.css";
 
@@ -23,53 +23,50 @@ const fallbackLogos: ClientLogo[] = [
 ];
 
 export default function ClientLogos() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [visibleLogos, setVisibleLogos] = useState<ClientLogo[]>([]);
+  const [translateX, setTranslateX] = useState(0);
+  const [mousePosition, setMousePosition] = useState(0.5); // 0.5 = centro
+  const animationRef = useRef<number>();
 
+  // Carregar logótipos da API (object storage)
   const { data: logosData, isLoading } = useQuery<LogosResponse>({
     queryKey: ['/api/client-logos'],
-    refetchInterval: 30000,
+    refetchInterval: 10000, // Atualizar a cada 10 segundos para novos logótipos
   });
 
+  // Usar logótipos reais ou fallback
   const clientLogos = (logosData?.logos && logosData.logos.length > 0) ? logosData.logos : fallbackLogos;
 
-  const getLogosPerView = () => {
-    if (window.innerWidth >= 1024) return 4;
-    if (window.innerWidth >= 768) return 3;
-    return 2;
-  };
-
-  const [logosPerView, setLogosPerView] = useState(2);
-
+  // Controlar movimento baseado na posição do rato
   useEffect(() => {
-    const handleResize = () => {
-      setLogosPerView(getLogosPerView());
+    const animate = () => {
+      if (mousePosition < 0.4) {
+        // Rato à esquerda - mover logótipos para a direita
+        setTranslateX(prev => prev + 2);
+      } else if (mousePosition > 0.6) {
+        // Rato à direita - mover logótipos para a esquerda
+        setTranslateX(prev => prev - 2);
+      }
+      // Entre 0.4 e 0.6 (centro) - não mexer
+
+      animationRef.current = requestAnimationFrame(animate);
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
-  useEffect(() => {
-    if (!isHovered && clientLogos.length > logosPerView) {
-      const interval = setInterval(() => {
-        setCurrentIndex(prev =>
-          prev + logosPerView >= clientLogos.length ? 0 : prev + 1
-        );
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [isHovered, logosPerView, clientLogos.length]);
+    animationRef.current = requestAnimationFrame(animate);
 
-  useEffect(() => {
-    const visible = [];
-    for (let i = 0; i < logosPerView; i++) {
-      const index = (currentIndex + i) % clientLogos.length;
-      visible.push(clientLogos[index]);
-    }
-    setVisibleLogos(visible);
-  }, [currentIndex, logosPerView, clientLogos]);
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [mousePosition]);
+
+  // Detectar posição do rato
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    setMousePosition(x / width); // Normalizar entre 0 e 1
+  };
 
   if (isLoading) {
     return (
@@ -88,6 +85,7 @@ export default function ClientLogos() {
   return (
     <section className="py-16 px-4 bg-[#0a0a0a]">
       <div className="max-w-6xl mx-auto">
+        {/* Título */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
             Clientes que Confiam em Nós
@@ -97,35 +95,55 @@ export default function ClientLogos() {
           </p>
         </div>
 
-        <div
-          className="relative overflow-hidden"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+        {/* Linha Horizontal de Logótipos com Movimento */}
+        <div 
+          className="relative overflow-hidden cursor-none"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => setMousePosition(0.5)} // Voltar ao centro quando sair
         >
-          <div className="flex">
-            {visibleLogos.map((logo, index) => (
+          <div 
+            className="flex items-center justify-center gap-8 transition-transform duration-100 ease-linear"
+            style={{
+              transform: `translateX(${translateX}px)`
+            }}
+          >
+            {clientLogos.map((logo, index) => (
               <div
-                key={`${logo.id}-${currentIndex}-${index}`}
-                className="flex-none w-1/2 md:w-1/3 lg:w-1/4 px-4"
+                key={logo.id}
+                className="flex-shrink-0 animate-fade-in-scale"
+                style={{
+                  animationDelay: `${index * 0.1}s`
+                }}
               >
-                <div className="flex items-center justify-center">
+                {/* Container do Logótipo */}
+                <div className="flex items-center justify-center group">
+                  {/* IMAGEM DO LOGÓTIPO */}
                   {logo.url ? (
-                    <img
-                      src={logo.url}
-                      alt={`Logótipo ${logo.clientName}`}
-                      className="max-h-16 w-auto object-contain"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const fallback = target.nextElementSibling as HTMLElement;
-                        if (fallback) {
-                          fallback.classList.remove('hidden');
-                        }
-                      }}
-                    />
+                    <div className="flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                      <img 
+                        src={logo.url} 
+                        alt={`Logótipo ${logo.clientName}`}
+                        className="max-h-32 w-auto object-contain transition-transform duration-300"
+                        loading="lazy"
+                        onError={(e) => {
+                          console.log('Erro ao carregar logótipo:', logo.url);
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) {
+                            fallback.classList.remove('hidden');
+                          }
+                        }}
+                      />
+                      {/* Fallback para erro de imagem */}
+                      <div className="hidden bg-gray-800 rounded-lg p-4 border-2 border-dashed border-gray-600">
+                        <span className="text-gray-400 text-sm font-medium text-center">
+                          COLE LOGO AQUI
+                        </span>
+                      </div>
+                    </div>
                   ) : (
-                    <div className="bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-600">
+                    <div className="bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-600 group-hover:border-brand-yellow transition-colors">
                       <span className="text-gray-400 text-sm font-medium text-center">
                         COLE LOGO AQUI
                       </span>
@@ -136,6 +154,7 @@ export default function ClientLogos() {
             ))}
           </div>
         </div>
+
       </div>
     </section>
   );
