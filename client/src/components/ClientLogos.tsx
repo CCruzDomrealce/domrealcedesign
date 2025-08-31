@@ -24,10 +24,6 @@ const fallbackLogos: ClientLogo[] = [
 ];
 
 export default function ClientLogos() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [visibleLogos, setVisibleLogos] = useState<ClientLogo[]>([]);
-
   // Carregar logótipos da API (object storage)
   const { data: logosData, isLoading, error } = useQuery<LogosResponse>({
     queryKey: ['/api/client-logos'],
@@ -36,49 +32,6 @@ export default function ClientLogos() {
 
   // Usar logótipos reais ou fallback
   const clientLogos = (logosData?.logos && logosData.logos.length > 0) ? logosData.logos : fallbackLogos;
-
-  // Configuração responsiva: quantos logótipos mostrar por vez
-  const getLogosPerView = () => {
-    if (window.innerWidth >= 1024) return 4; // Desktop: 4 logótipos
-    if (window.innerWidth >= 768) return 3;  // Tablet: 3 logótipos
-    return 2; // Mobile: 2 logótipos
-  };
-
-  const [logosPerView, setLogosPerView] = useState(2);
-
-  // Atualizar responsividade no resize
-  useEffect(() => {
-    const handleResize = () => {
-      setLogosPerView(getLogosPerView());
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Carrossel automático com pausa no hover
-  useEffect(() => {
-    if (!isHovered && clientLogos.length > logosPerView) {
-      const interval = setInterval(() => {
-        setCurrentIndex(prev => 
-          prev + logosPerView >= clientLogos.length ? 0 : prev + 1
-        );
-      }, 3000); // 3 segundos
-
-      return () => clearInterval(interval);
-    }
-  }, [isHovered, logosPerView, clientLogos.length]);
-
-  // Calcular logótipos visíveis
-  useEffect(() => {
-    const visible = [];
-    for (let i = 0; i < logosPerView; i++) {
-      const index = (currentIndex + i) % clientLogos.length;
-      visible.push(clientLogos[index]);
-    }
-    setVisibleLogos(visible);
-  }, [currentIndex, logosPerView, clientLogos]);
 
   // Mostrar loading enquanto carrega
   if (isLoading) {
@@ -112,76 +65,55 @@ export default function ClientLogos() {
           </p>
         </div>
 
-        {/* Carrossel de Logótipos */}
-        <div 
-          className="relative overflow-hidden"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div className="flex transition-transform duration-700 ease-in-out">
-            {visibleLogos.map((logo, index) => (
-              <div
-                key={`${logo.id}-${currentIndex}-${index}`}
-                className={`flex-none w-1/2 md:w-1/3 lg:w-1/4 px-2 animate-fade-in-scale`}
-                style={{
-                  animationDelay: `${index * 0.1}s`
-                }}
-              >
-                {/* Container do Logótipo */}
-                <div className="flex items-center justify-center group">
-                  {/* IMAGEM DO LOGÓTIPO */}
-                  {logo.url ? (
-                    <div className="flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                      <img 
-                        src={logo.url} 
-                        alt={`Logótipo ${logo.clientName}`}
-                        className="max-h-32 w-auto object-contain transition-transform duration-300"
-                        loading="lazy"
-                        onError={(e) => {
-                          console.log('Erro ao carregar logótipo:', logo.url);
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const fallback = target.nextElementSibling as HTMLElement;
-                          if (fallback) {
-                            fallback.classList.remove('hidden');
-                          }
-                        }}
-                      />
-                      {/* Fallback para erro de imagem */}
-                      <div className="hidden bg-gray-800 rounded-lg p-4 border-2 border-dashed border-gray-600">
-                        <span className="text-gray-400 text-sm font-medium text-center">
-                          COLE LOGO AQUI
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-600 group-hover:border-brand-yellow transition-colors">
+        {/* Linha Horizontal de Logótipos */}
+        <div className="flex items-center justify-center gap-8 flex-wrap">
+          {clientLogos.map((logo, index) => (
+            <div
+              key={logo.id}
+              className="animate-fade-in-scale"
+              style={{
+                animationDelay: `${index * 0.1}s`
+              }}
+            >
+              {/* Container do Logótipo */}
+              <div className="flex items-center justify-center group">
+                {/* IMAGEM DO LOGÓTIPO */}
+                {logo.url ? (
+                  <div className="flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                    <img 
+                      src={logo.url} 
+                      alt={`Logótipo ${logo.clientName}`}
+                      className="max-h-32 w-auto object-contain transition-transform duration-300"
+                      loading="lazy"
+                      onError={(e) => {
+                        console.log('Erro ao carregar logótipo:', logo.url);
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = target.nextElementSibling as HTMLElement;
+                        if (fallback) {
+                          fallback.classList.remove('hidden');
+                        }
+                      }}
+                    />
+                    {/* Fallback para erro de imagem */}
+                    <div className="hidden bg-gray-800 rounded-lg p-4 border-2 border-dashed border-gray-600">
                       <span className="text-gray-400 text-sm font-medium text-center">
                         COLE LOGO AQUI
                       </span>
                     </div>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className="bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-600 group-hover:border-brand-yellow transition-colors">
+                    <span className="text-gray-400 text-sm font-medium text-center">
+                      COLE LOGO AQUI
+                    </span>
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Indicadores de Progresso */}
-        <div className="flex justify-center mt-8 gap-2">
-          {Array.from({ length: Math.ceil(clientLogos.length / logosPerView) }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index * logosPerView)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                Math.floor(currentIndex / logosPerView) === index
-                  ? 'bg-brand-yellow shadow-lg'
-                  : 'bg-gray-600 hover:bg-gray-500'
-              }`}
-              data-testid={`client-logos-indicator-${index}`}
-            />
+            </div>
           ))}
         </div>
+
 
       </div>
     </section>
