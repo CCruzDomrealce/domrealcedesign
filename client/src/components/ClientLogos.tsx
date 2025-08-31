@@ -138,15 +138,15 @@ export default function ClientLogos() {
                   animationDelay: `${index * 0.1}s`
                 }}
               >
-                {/* Quadro do Logótipo */}
-                <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group">
+                {/* Container do Logótipo */}
+                <div className="flex items-center justify-center group">
                   {/* IMAGEM DO LOGÓTIPO */}
                   {logo.url ? (
-                    <div className="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    <div className="flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                       <img 
                         src={logo.url} 
                         alt={`Logótipo ${logo.clientName}`}
-                        className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                        className="max-h-16 w-auto object-contain transition-transform duration-300"
                         loading="lazy"
                         onError={(e) => {
                           console.log('Erro ao carregar logótipo:', logo.url);
@@ -159,26 +159,19 @@ export default function ClientLogos() {
                         }}
                       />
                       {/* Fallback para erro de imagem */}
-                      <div className="hidden w-full h-full bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                        <span className="text-gray-400 text-sm font-medium text-center px-2">
+                      <div className="hidden bg-gray-800 rounded-lg p-4 border-2 border-dashed border-gray-600">
+                        <span className="text-gray-400 text-sm font-medium text-center">
                           COLE LOGO AQUI
                         </span>
                       </div>
                     </div>
                   ) : (
-                    <div className="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center border-2 border-dashed border-gray-300 group-hover:border-brand-yellow transition-colors">
-                      <span className="text-gray-400 text-sm font-medium text-center px-2">
+                    <div className="bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-600 group-hover:border-brand-yellow transition-colors">
+                      <span className="text-gray-400 text-sm font-medium text-center">
                         COLE LOGO AQUI
                       </span>
                     </div>
                   )}
-                  
-                  {/* NOME DO CLIENTE */}
-                  <div className="text-center">
-                    <p className="text-gray-600 font-medium text-sm group-hover:text-brand-yellow transition-colors">
-                      {logo.clientName}
-                    </p>
-                  </div>
                 </div>
               </div>
             ))}
