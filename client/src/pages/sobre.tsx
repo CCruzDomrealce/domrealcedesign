@@ -58,7 +58,7 @@ export default function Sobre() {
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <SEOHead 
         title="Sobre Nós - Carlos Cruz e 40 Anos de Comunicação Visual"
-        description="Conheça a história da DOMREALCE e Carlos Cruz, com 40 anos de experiência em comunicação visual, impressão digital e publicidade."
+        description="Conheça a história da DOMREALCE e Carlos Cruz, com 40 anos de experiência em comunicação visual, impressão digital e publicidade em Lisboa."
         keywords="Carlos Cruz, DOMREALCE história, comunicação visual, 40 anos experiência, empresa publicidade"
         canonicalUrl="https://www.domrealce.com/sobre"
       />
