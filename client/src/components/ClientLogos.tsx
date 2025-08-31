@@ -1,49 +1,211 @@
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import "./ClientLogos.css";
+
+interface ClientLogo {
+  id: string;
+  url: string;
+  clientName: string;
+  fileName: string;
+}
+
+interface LogosResponse {
+  logos: ClientLogo[];
+}
+
+// 🎯 PLACEHOLDER DATA - usado apenas quando não há logótipos na storage
+const fallbackLogos: ClientLogo[] = [
+  { id: "placeholder-1", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-1" },
+  { id: "placeholder-2", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-2" },
+  { id: "placeholder-3", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-3" },
+  { id: "placeholder-4", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-4" },
+  { id: "placeholder-5", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-5" },
+  { id: "placeholder-6", url: "", clientName: "COLE O NOME DO CLIENTE AQUI", fileName: "placeholder-6" },
+];
+
 export default function ClientLogos() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [visibleLogos, setVisibleLogos] = useState<ClientLogo[]>([]);
+
+  // Carregar logótipos da API (object storage)
+  const { data: logosData, isLoading, error } = useQuery<LogosResponse>({
+    queryKey: ['/api/client-logos'],
+    refetchInterval: 30000, // Atualizar a cada 30 segundos
+  });
+
+  // Usar logótipos reais ou fallback
+  const clientLogos = (logosData?.logos && logosData.logos.length > 0) ? logosData.logos : fallbackLogos;
+
+  // Configuração responsiva: quantos logótipos mostrar por vez
+  const getLogosPerView = () => {
+    if (window.innerWidth >= 1024) return 4; // Desktop: 4 logótipos
+    if (window.innerWidth >= 768) return 3;  // Tablet: 3 logótipos
+    return 2; // Mobile: 2 logótipos
+  };
+
+  const [logosPerView, setLogosPerView] = useState(2);
+
+  // Atualizar responsividade no resize
+  useEffect(() => {
+    const handleResize = () => {
+      setLogosPerView(getLogosPerView());
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Carrossel automático com pausa no hover
+  useEffect(() => {
+    if (!isHovered && clientLogos.length > logosPerView) {
+      const interval = setInterval(() => {
+        setCurrentIndex(prev => 
+          prev + logosPerView >= clientLogos.length ? 0 : prev + 1
+        );
+      }, 3000); // 3 segundos
+
+      return () => clearInterval(interval);
+    }
+  }, [isHovered, logosPerView, clientLogos.length]);
+
+  // Calcular logótipos visíveis
+  useEffect(() => {
+    const visible = [];
+    for (let i = 0; i < logosPerView; i++) {
+      const index = (currentIndex + i) % clientLogos.length;
+      visible.push(clientLogos[index]);
+    }
+    setVisibleLogos(visible);
+  }, [currentIndex, logosPerView, clientLogos]);
+
+  // Mostrar loading enquanto carrega
+  if (isLoading) {
+    return (
+      <section className="py-16 px-4 bg-[#0a0a0a]">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-800 rounded w-64 mx-auto mb-4"></div>
+            <div className="h-4 bg-gray-800 rounded w-96 mx-auto mb-12"></div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="bg-gray-800 rounded-lg h-32 animate-pulse"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 px-4 bg-[#0a0a0a]">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-8 text-white">Clientes que confiam em nós</h2>
-        <p className="text-gray-400 mb-12">
-          Uma seleção de marcas fictícias que representam a confiança e qualidade do nosso trabalho.
-        </p>
+      <div className="max-w-6xl mx-auto">
+        {/* Título da Secção */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+            Clientes que Confiam em Nós
+          </h2>
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            Orgulhamo-nos de trabalhar com empresas e particulares que valorizam a qualidade e criatividade.
+          </p>
+          {/* Debug Info */}
+          {logosData?.logos && logosData.logos.length > 0 && (
+            <p className="text-xs text-green-400 mt-2">
+              ✓ {logosData.logos.length} logótipos carregados da storage
+            </p>
+          )}
+          {(!logosData?.logos || logosData.logos.length === 0) && (
+            <p className="text-xs text-yellow-400 mt-2">
+              ⚠️ A usar placeholders - adicione logótipos na pasta "logos-clientes"
+            </p>
+          )}
+        </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 items-center justify-center">
-
-          {/* 🔧 QUADRO 1 - COLE AQUI O LOGÓTIPO SVG DO CLIENTE */}
-          <div className="flex flex-col items-center">
-            <img
-              src="/inicio/logos-clientes/logo1.svg"
-              alt="Logótipo do cliente 1"
-              className="h-16 object-contain"
-            />
+        {/* Carrossel de Logótipos */}
+        <div 
+          className="relative overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="flex transition-transform duration-700 ease-in-out">
+            {visibleLogos.map((logo, index) => (
+              <div
+                key={`${logo.id}-${currentIndex}-${index}`}
+                className={`flex-none w-1/2 md:w-1/3 lg:w-1/4 px-4 animate-fade-in-scale`}
+                style={{
+                  animationDelay: `${index * 0.1}s`
+                }}
+              >
+                {/* Quadro do Logótipo */}
+                <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group">
+                  {/* IMAGEM DO LOGÓTIPO */}
+                  {logo.url ? (
+                    <div className="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                      <img 
+                        src={logo.url} 
+                        alt={`Logótipo ${logo.clientName}`}
+                        className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                        loading="lazy"
+                        onError={(e) => {
+                          console.log('Erro ao carregar logótipo:', logo.url);
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) {
+                            fallback.classList.remove('hidden');
+                          }
+                        }}
+                      />
+                      {/* Fallback para erro de imagem */}
+                      <div className="hidden w-full h-full bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                        <span className="text-gray-400 text-sm font-medium text-center px-2">
+                          COLE LOGO AQUI
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="aspect-square bg-gray-100 rounded-lg mb-4 flex items-center justify-center border-2 border-dashed border-gray-300 group-hover:border-brand-yellow transition-colors">
+                      <span className="text-gray-400 text-sm font-medium text-center px-2">
+                        COLE LOGO AQUI
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* NOME DO CLIENTE */}
+                  <div className="text-center">
+                    <p className="text-gray-600 font-medium text-sm group-hover:text-brand-yellow transition-colors">
+                      {logo.clientName}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* 🔧 QUADRO 2 - COLE AQUI O LOGÓTIPO SVG DO CLIENTE */}
-          <div className="flex flex-col items-center">
-            <img
-              src="/inicio/logos-clientes/logo2.svg"
-              alt="Logótipo do cliente 2"
-              className="h-16 object-contain"
+        {/* Indicadores de Progresso */}
+        <div className="flex justify-center mt-8 gap-2">
+          {Array.from({ length: Math.ceil(clientLogos.length / logosPerView) }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index * logosPerView)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                Math.floor(currentIndex / logosPerView) === index
+                  ? 'bg-brand-yellow shadow-lg'
+                  : 'bg-gray-600 hover:bg-gray-500'
+              }`}
+              data-testid={`client-logos-indicator-${index}`}
             />
-          </div>
+          ))}
+        </div>
 
-          {/* 🔧 QUADRO 3 - COLE AQUI O LOGÓTIPO SVG DO CLIENTE */}
-          <div className="flex flex-col items-center">
-            <img
-              src="/inicio/logos-clientes/logo3.svg"
-              alt="Logótipo do cliente 3"
-              className="h-16 object-contain"
-            />
-          </div>
-
-          {/* 🔧 QUADRO 4 - COLE AQUI O LOGÓTIPO SVG DO CLIENTE */}
-          <div className="flex flex-col items-center">
-            <img
-              src="/inicio/logos-clientes/logo4.svg"
-              alt="Logótipo do cliente 4"
-              className="h-16 object-contain"
-            />
-          </div>
+        {/* Status do Carrossel */}
+        <div className="text-center mt-4">
+          <p className="text-xs text-gray-500">
+            {isHovered ? '⏸️ Pausado' : '▶️ A deslizar automaticamente'}
+          </p>
         </div>
       </div>
     </section>

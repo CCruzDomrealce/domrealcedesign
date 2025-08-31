@@ -62,6 +62,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API route to list client logos from logos-clientes folder
+  app.get("/api/client-logos", async (req, res) => {
+    try {
+      const files = await objectStorageService.listPublicFiles();
+      
+      // Filter only logo images from logos-clientes folder
+      const logoImages = files.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file) && 
+        file.startsWith('logos-clientes/')
+      );
+      
+      // Transform file paths to usable URLs and extract client names
+      const logos = logoImages.map(file => {
+        const fileName = file.split('/').pop() || '';
+        const clientName = fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '')
+          .replace(/[-_]/g, ' ')
+          .replace(/\b\w/g, l => l.toUpperCase());
+        
+        return {
+          id: fileName,
+          url: `/public-objects/${file}`,
+          clientName: clientName || 'Cliente',
+          fileName: fileName
+        };
+      });
+      
+      res.json({ logos });
+    } catch (error) {
+      console.error("Error listing client logos:", error);
+      res.status(500).json({ error: "Failed to list client logos" });
+    }
+  });
+
   // API route to auto-generate texture covers from available texture folders
   app.post("/api/auto-generate-covers", async (req, res) => {
     try {
