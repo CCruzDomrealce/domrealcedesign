@@ -67,10 +67,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const files = await objectStorageService.listPublicFiles();
       
-      // Filter only logo images from logos-clientes folder
+      // Filter logo images from inicio/logos-clientes folder
       const logoImages = files.filter(file => 
         /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file) && 
-        file.startsWith('logos-clientes/')
+        (file.startsWith('inicio/logos-clientes/') || 
+         file.startsWith('logos-clientes/') ||
+         file.includes('logos-clientes'))
       );
       
       // Transform file paths to usable URLs and extract client names
