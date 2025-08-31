@@ -66,7 +66,7 @@ export default function ClientLogos() {
         </div>
 
         {/* Linha Horizontal de Logótipos */}
-        <div className="flex items-center justify-center gap-8 overflow-x-auto">
+        <div className="flex items-center justify-center gap-8">
           {clientLogos.map((logo, index) => (
             <div
               key={logo.id}
