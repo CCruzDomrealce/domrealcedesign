@@ -115,24 +115,22 @@ export default function ClientLogos() {
   }
 
   return (
-    <section className="py-16 px-4 bg-[#0a0a0a]">
-      <div className="max-w-6xl mx-auto">
-        {/* Título */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            Clientes que Confiam em Nós
-          </h2>
+    <section className="py-16 bg-[#0a0a0a] w-full">
+      {/* Título */}
+      <div className="text-center mb-12 px-4">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+          Clientes que Confiam em Nós
+        </h2>
+      </div>
 
-        </div>
-
-        {/* Linha Horizontal de Logótipos com Movimento */}
-        <div 
-          ref={containerRef}
-          className="relative overflow-hidden cursor-none"
-          onMouseMove={handleMouseMove}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
+      {/* Linha Horizontal de Logótipos com Movimento */}
+      <div 
+        ref={containerRef}
+        className="relative overflow-hidden cursor-none w-full"
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
           <div 
             className="flex items-center gap-8 transition-transform duration-100 ease-linear"
             style={{
@@ -187,8 +185,6 @@ export default function ClientLogos() {
             ))}
           </div>
         </div>
-
-      </div>
     </section>
   );
 }
