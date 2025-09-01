@@ -27,6 +27,7 @@ export default function ClientLogos() {
   const [mousePosition, setMousePosition] = useState(0.5); // 0.5 = centro
   const [isMouseOver, setIsMouseOver] = useState(false);
   const animationRef = useRef<number>();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Carregar logótipos da API (object storage)
   const { data: logosData, isLoading } = useQuery<LogosResponse>({
@@ -36,6 +37,9 @@ export default function ClientLogos() {
 
   // Usar logótipos reais ou fallback
   const clientLogos = (logosData?.logos && logosData.logos.length > 0) ? logosData.logos : fallbackLogos;
+  
+  // Duplicar os logos para criar o efeito infinito
+  const duplicatedLogos = [...clientLogos, ...clientLogos];
 
   // Controlar movimento baseado na posição do rato ou movimento automático
   useEffect(() => {
@@ -51,8 +55,19 @@ export default function ClientLogos() {
         }
         // Entre 0.4 e 0.6 (centro) - não mexer
       } else {
-        // Sem rato - movimento automático para a direita
-        setTranslateX(prev => prev - 1);
+        // Sem rato - movimento automático para a esquerda
+        setTranslateX(prev => {
+          const newTranslateX = prev - 1;
+          // Resetar quando completamos um ciclo completo
+          // Cada logo tem aprox. 200px de largura (incluindo gap)
+          const logoWidth = 200;
+          const totalWidth = clientLogos.length * logoWidth;
+          
+          if (Math.abs(newTranslateX) >= totalWidth) {
+            return 0;
+          }
+          return newTranslateX;
+        });
       }
 
       animationRef.current = requestAnimationFrame(animate);
@@ -65,7 +80,7 @@ export default function ClientLogos() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [mousePosition, isMouseOver]);
+  }, [mousePosition, isMouseOver, clientLogos.length]);
 
   // Detectar posição do rato
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -112,20 +127,22 @@ export default function ClientLogos() {
 
         {/* Linha Horizontal de Logótipos com Movimento */}
         <div 
+          ref={containerRef}
           className="relative overflow-hidden cursor-none"
           onMouseMove={handleMouseMove}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <div 
-            className="flex items-center justify-center gap-8 transition-transform duration-100 ease-linear"
+            className="flex items-center gap-8 transition-transform duration-100 ease-linear"
             style={{
-              transform: `translateX(${translateX}px)`
+              transform: `translateX(${translateX}px)`,
+              width: 'fit-content'
             }}
           >
-            {clientLogos.map((logo, index) => (
+            {duplicatedLogos.map((logo, index) => (
               <div
-                key={logo.id}
+                key={`${logo.id}-${index}`}
                 className="flex-shrink-0 animate-fade-in-scale"
                 style={{
                   animationDelay: `${index * 0.1}s`
