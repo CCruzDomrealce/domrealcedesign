@@ -52,27 +52,13 @@ import ServicoPeliculaSolar from "@/pages/servico-pelicula-solar";
 // import ScrollAnimations from "@/components/scroll-animations";
 
 import React, { useEffect } from "react";
-
-// Função global do GA4
-declare global {
-  interface Window {
-    dataLayer: any[];
-  }
-}
+import { initGA } from "../lib/analytics";
+import { useAnalytics } from "../hooks/use-analytics";
 
 function Router() {
   useScrollToTop();
-  const [location] = useLocation();
-
-  // Dispara pageview quando a rota muda
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.dataLayer) {
-      function gtag(...args: any[]) {
-        window.dataLayer.push(args);
-      }
-      gtag("config", "G-X8YYC3X3E0", { page_path: location });
-    }
-  }, [location]);
+  // Track page views when routes change
+  useAnalytics();
 
   return (
     <>
@@ -125,20 +111,14 @@ function Router() {
 function App() {
   useLazyImages();
 
+  // Initialize Google Analytics when app loads
   useEffect(() => {
-    // Injetar o script do GA4 apenas uma vez
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://www.googletagmanager.com/gtag/js?id=G-X8YYC3X3E0";
-    document.head.appendChild(script);
-
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) {
-      window.dataLayer.push(args);
+    // Verify required environment variable is present
+    if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
+      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
+    } else {
+      initGA();
     }
-
-    gtag("js", new Date());
-    gtag("config", "G-X8YYC3X3E0", { page_path: window.location.pathname });
   }, []);
 
   return (
