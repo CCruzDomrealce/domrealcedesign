@@ -8,6 +8,7 @@ import SEO from "@/components/seo";
 import StructuredData from "@/components/structured-data";
 import WhatsAppFAB from "@/components/whatsapp-fab";
 import PerformanceOptimizer from "@/components/performance-optimizer";
+import PerformancePreloader from "@/components/performance-preloader";
 import { useLazyImages } from "@/hooks/use-lazy-images";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
@@ -109,6 +110,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <PerformanceOptimizer />
+        <PerformancePreloader />
         {/* <CustomCursor />
         <ScrollAnimations /> */}
         <Toaster />

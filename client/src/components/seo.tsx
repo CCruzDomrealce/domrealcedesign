@@ -57,7 +57,7 @@ const pageSEOData: PageSEOData = {
     keywords: ['loja online', 'comprar', 'papel de parede', 'impressão digital'],
     type: 'website'
   },
-  '/loja/papel-parede': {
+  '/loja-papel-parede': {
     title: 'Papel de Parede Online - Texturas e Medidas Personalizadas | DOMREALCE',
     description: 'Escolha entre centenas de texturas de papel de parede. Calculadora automática de medidas e preços transparentes.',
     keywords: ['papel de parede online', 'texturas', 'comprar papel parede', 'medidas'],
@@ -86,6 +86,64 @@ const pageSEOData: PageSEOData = {
     description: 'Fique a par das últimas novidades, projetos e inovações da DOMREALCE. Blog com dicas e tendências de comunicação visual.',
     keywords: ['notícias', 'novidades', 'blog', 'tendências', 'comunicação visual'],
     type: 'website'
+  },
+  '/servico-telas-artisticas': {
+    title: 'Telas Artísticas Personalizadas | DOMREALCE Lisboa',
+    description: 'Impressão de telas artísticas em alta qualidade. Canvas personalizado, reproduções de arte e impressões decorativas.',
+    keywords: ['telas artísticas', 'canvas', 'impressão arte', 'decoração'],
+    type: 'website'
+  },
+  '/servico-autocolantes': {
+    title: 'Autocolantes e Vinil Adesivo | DOMREALCE Lisboa',
+    description: 'Autocolantes personalizados, vinil adesivo para decoração e publicidade. Corte automático e aplicação profissional.',
+    keywords: ['autocolantes', 'vinil adesivo', 'corte automático', 'personalização'],
+    type: 'website'
+  },
+  '/servico-espacos-comerciais': {
+    title: 'Sinalética Comercial e Decoração de Espaços | DOMREALCE',
+    description: 'Sinalética para espaços comerciais, decoração de montras e ambientes corporativos. Soluções completas de comunicação visual.',
+    keywords: ['sinalética comercial', 'decoração espaços', 'montras', 'empresas'],
+    type: 'website'
+  },
+  '/servico-peliculas-protecao-solar': {
+    title: 'Películas de Proteção Solar | DOMREALCE Lisboa',
+    description: 'Películas de proteção solar para janelas. Redução de calor, proteção UV e maior privacidade para casa e escritório.',
+    keywords: ['películas solares', 'proteção UV', 'janelas', 'isolamento'],
+    type: 'website'
+  },
+  '/como-aplicar-papel-parede': {
+    title: 'Como Aplicar Papel de Parede - Guia Completo | DOMREALCE',
+    description: 'Guia passo a passo para aplicar papel de parede. Dicas profissionais, ferramentas necessárias e técnicas de aplicação.',
+    keywords: ['aplicar papel parede', 'tutorial', 'guia', 'dicas'],
+    type: 'article'
+  },
+  '/politica-privacidade': {
+    title: 'Política de Privacidade | DOMREALCE',
+    description: 'Política de privacidade da DOMREALCE. Como protegemos e utilizamos os seus dados pessoais.',
+    keywords: ['política privacidade', 'dados pessoais', 'RGPD'],
+    type: 'website',
+    noIndex: false
+  },
+  '/termos-condicoes': {
+    title: 'Termos e Condições | DOMREALCE',
+    description: 'Termos e condições de utilização dos serviços DOMREALCE. Regulamentos e políticas comerciais.',
+    keywords: ['termos condições', 'regulamento', 'políticas'],
+    type: 'website',
+    noIndex: false
+  },
+  '/politica-cookies': {
+    title: 'Política de Cookies | DOMREALCE',
+    description: 'Política de utilização de cookies no site DOMREALCE. Informações sobre cookies e preferências.',
+    keywords: ['política cookies', 'privacidade', 'navegação'],
+    type: 'website',
+    noIndex: false
+  },
+  '/aviso-legal': {
+    title: 'Aviso Legal | DOMREALCE',
+    description: 'Aviso legal do site DOMREALCE. Informações legais, propriedade intelectual e responsabilidades.',
+    keywords: ['aviso legal', 'informações legais', 'propriedade intelectual'],
+    type: 'website',
+    noIndex: false
   }
 };
 

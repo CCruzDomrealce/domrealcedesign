@@ -28,6 +28,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // IfthenPay service
   const ifthenPayService = createIfthenPayService();
 
+  // Sitemap.xml generator
+  app.get("/sitemap.xml", (req, res) => {
+    const baseUrl = 'https://www.domrealce.com';
+    const pages = [
+      { url: '/', priority: '1.0', changefreq: 'daily' },
+      { url: '/servicos', priority: '0.9', changefreq: 'weekly' },
+      { url: '/portfolio', priority: '0.8', changefreq: 'weekly' },
+      { url: '/loja', priority: '0.8', changefreq: 'daily' },
+      { url: '/loja-papel-parede', priority: '0.8', changefreq: 'daily' },
+      { url: '/contactos', priority: '0.7', changefreq: 'monthly' },
+      { url: '/sobre', priority: '0.6', changefreq: 'monthly' },
+      { url: '/noticias', priority: '0.7', changefreq: 'weekly' },
+      { url: '/servico-design-grafico', priority: '0.8', changefreq: 'monthly' },
+      { url: '/servico-impressao-digital', priority: '0.8', changefreq: 'monthly' },
+      { url: '/servico-papel-parede', priority: '0.8', changefreq: 'monthly' },
+      { url: '/servico-telas-artisticas', priority: '0.7', changefreq: 'monthly' },
+      { url: '/servico-autocolantes', priority: '0.7', changefreq: 'monthly' },
+      { url: '/servico-decoracao-viaturas', priority: '0.8', changefreq: 'monthly' },
+      { url: '/servico-espacos-comerciais', priority: '0.7', changefreq: 'monthly' },
+      { url: '/servico-peliculas-protecao-solar', priority: '0.7', changefreq: 'monthly' },
+      { url: '/como-aplicar-papel-parede', priority: '0.6', changefreq: 'monthly' },
+      { url: '/politica-privacidade', priority: '0.3', changefreq: 'yearly' },
+      { url: '/termos-condicoes', priority: '0.3', changefreq: 'yearly' },
+      { url: '/politica-cookies', priority: '0.3', changefreq: 'yearly' },
+      { url: '/aviso-legal', priority: '0.3', changefreq: 'yearly' }
+    ];
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${pages.map(page => `  <url>
+    <loc>${baseUrl}${page.url}</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+    res.set('Content-Type', 'text/xml');
+    res.send(sitemap);
+  });
+
+  // Robots.txt
+  app.get("/robots.txt", (req, res) => {
+    const robots = `User-agent: *
+Allow: /
+
+Sitemap: https://www.domrealce.com/sitemap.xml`;
+    res.set('Content-Type', 'text/plain');
+    res.send(robots);
+  });
+
   // Serve public images from object storage
   app.get("/public-objects/:filePath(*)", async (req, res) => {
     const filePath = req.params.filePath;
