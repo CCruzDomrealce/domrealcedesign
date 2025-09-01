@@ -68,12 +68,9 @@ function Router() {
   // Track page views when routes change
   useEffect(() => {
     if (typeof window !== 'undefined' && window.gtag) {
-      const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-      if (measurementId) {
-        window.gtag('config', measurementId, {
-          page_path: location
-        });
-      }
+      window.gtag('config', 'G-S51RFB39HK', {
+        page_path: location
+      });
     }
   }, [location]);
 
@@ -130,17 +127,10 @@ function App() {
 
   // Initialize Google Analytics when app loads
   useEffect(() => {
-    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-    
-    if (!measurementId) {
-      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
-      return;
-    }
-
     // Add Google Analytics script to the head
     const script1 = document.createElement('script');
     script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-S51RFB39HK';
     document.head.appendChild(script1);
 
     // Initialize gtag
@@ -149,7 +139,7 @@ function App() {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', '${measurementId}');
+      gtag('config', 'G-S51RFB39HK');
     `;
     document.head.appendChild(script2);
     
