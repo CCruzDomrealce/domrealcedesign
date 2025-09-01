@@ -52,13 +52,30 @@ import ServicoPeliculaSolar from "@/pages/servico-pelicula-solar";
 // import ScrollAnimations from "@/components/scroll-animations";
 
 import React, { useEffect } from "react";
-import { initGA } from "../lib/analytics";
-import { useAnalytics } from "../hooks/use-analytics";
+
+// Declaração global para o Google Analytics
+declare global {
+  interface Window {
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
+}
 
 function Router() {
   useScrollToTop();
+  const [location] = useLocation();
+
   // Track page views when routes change
-  useAnalytics();
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+      if (measurementId) {
+        window.gtag('config', measurementId, {
+          page_path: location
+        });
+      }
+    }
+  }, [location]);
 
   return (
     <>
@@ -113,12 +130,34 @@ function App() {
 
   // Initialize Google Analytics when app loads
   useEffect(() => {
-    // Verify required environment variable is present
-    if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
+    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    
+    if (!measurementId) {
       console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
-    } else {
-      initGA();
+      return;
     }
+
+    // Add Google Analytics script to the head
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    document.head.appendChild(script1);
+
+    // Initialize gtag
+    const script2 = document.createElement('script');
+    script2.textContent = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${measurementId}');
+    `;
+    document.head.appendChild(script2);
+    
+    // Make gtag globally available
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() {
+      window.dataLayer.push(arguments);
+    };
   }, []);
 
   return (
@@ -126,8 +165,6 @@ function App() {
       <TooltipProvider>
         <PerformanceOptimizer />
         <PerformancePreloader />
-        {/* <CustomCursor /> */}
-        {/* <ScrollAnimations /> */}
         <Toaster />
         <Router />
         <WhatsAppFAB />
