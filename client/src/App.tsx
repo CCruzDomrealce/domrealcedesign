@@ -67,10 +67,20 @@ function Router() {
 
   // Track page views when routes change
   useEffect(() => {
+    console.log('📍 Mudança de página para:', location);
     if (typeof window !== 'undefined' && window.gtag) {
+      console.log('📊 Enviando pageview para GA4:', location);
       window.gtag('config', 'G-S51RFB39HK', {
         page_path: location
       });
+      // Enviar evento adicional de page_view
+      window.gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: location
+      });
+    } else {
+      console.warn('⚠️ window.gtag não disponível ainda');
     }
   }, [location]);
 
@@ -127,25 +137,41 @@ function App() {
 
   // Initialize Google Analytics when app loads
   useEffect(() => {
+    console.log('🔍 Inicializando Google Analytics...');
+    
     // Add Google Analytics script to the head
     const script1 = document.createElement('script');
     script1.async = true;
     script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-S51RFB39HK';
+    script1.onload = () => {
+      console.log('✅ Script GA4 carregado com sucesso');
+    };
+    script1.onerror = () => {
+      console.error('❌ Erro ao carregar script GA4');
+    };
     document.head.appendChild(script1);
 
-    // Initialize gtag
+    // Initialize gtag with debug
     const script2 = document.createElement('script');
     script2.textContent = `
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(){
+        console.log('📊 GA4 Event:', arguments);
+        dataLayer.push(arguments);
+      }
       gtag('js', new Date());
-      gtag('config', 'G-S51RFB39HK');
+      gtag('config', 'G-S51RFB39HK', {
+        'debug_mode': true,
+        'send_page_view': true
+      });
+      console.log('🎯 GA4 configurado para G-S51RFB39HK');
     `;
     document.head.appendChild(script2);
     
     // Make gtag globally available
     window.dataLayer = window.dataLayer || [];
     window.gtag = function() {
+      console.log('📊 GA4 Global Event:', arguments);
       window.dataLayer.push(arguments);
     };
   }, []);
