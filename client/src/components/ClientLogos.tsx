@@ -39,7 +39,7 @@ export default function ClientLogos() {
   const clientLogos = (logosData?.logos && logosData.logos.length > 0) ? logosData.logos : fallbackLogos;
   
   // Duplicar os logos para criar o efeito infinito
-  const duplicatedLogos = [...clientLogos, ...clientLogos];
+  const duplicatedLogos = [...clientLogos, ...clientLogos, ...clientLogos];
 
   // Controlar movimento baseado na posição do rato ou movimento automático
   useEffect(() => {
