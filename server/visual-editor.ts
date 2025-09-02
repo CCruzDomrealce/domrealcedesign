@@ -155,14 +155,63 @@ function generateAltFromFilename(filename: string): string {
 export async function getPageContent(req: Request, res: Response) {
   try {
     const { route } = req.params;
-    const sanitizedRoute = sanitizeRoute(route);
+    let sanitizedRoute = sanitizeRoute(route);
+    
+    // Convert 'index' to '/' for home page
+    if (sanitizedRoute === 'index') {
+      sanitizedRoute = '/';
+    } else if (!sanitizedRoute.startsWith('/')) {
+      sanitizedRoute = '/' + sanitizedRoute;
+    }
     
     const pageContent = loadPageContent(sanitizedRoute);
     
     if (pageContent) {
       res.json(pageContent);
     } else {
-      res.status(404).json({ error: 'Page not found' });
+      // Create a new empty page if it doesn't exist
+      const newPage: PageContent = {
+        id: crypto.createHash('md5').update(sanitizedRoute + Date.now()).digest('hex'),
+        route: sanitizedRoute,
+        title: sanitizedRoute === '/' ? 'Página Inicial' : 
+               sanitizedRoute === '/sobre' ? 'Sobre Nós' :
+               sanitizedRoute === '/servicos' ? 'Serviços' :
+               sanitizedRoute === '/portfolio' ? 'Portfólio' :
+               sanitizedRoute === '/contactos' ? 'Contactos' :
+               sanitizedRoute === '/loja' ? 'Loja Online' : 'Nova Página',
+        blocks: [
+          {
+            id: crypto.createHash('md5').update('default-hero' + Date.now()).digest('hex'),
+            type: 'hero',
+            content: {
+              title: 'Bem-vindo',
+              subtitle: 'Esta é uma página nova criada no Editor Visual',
+              backgroundImage: '',
+              buttonText: 'Saiba Mais',
+              buttonLink: '#'
+            },
+            styles: {
+              backgroundColor: '#0a0a0a',
+              textColor: '#ffffff',
+              padding: '4rem 1rem',
+              textAlign: 'center'
+            },
+            position: 0
+          }
+        ],
+        metadata: {
+          seoTitle: sanitizedRoute === '/' ? 'DOMREALCE - Comunicação Visual' : 'DOMREALCE',
+          seoDescription: 'Comunicação visual e impressão digital em Portugal',
+          keywords: 'comunicação visual, impressão digital, design gráfico'
+        },
+        version: 1,
+        status: 'draft',
+        updatedAt: new Date().toISOString()
+      };
+      
+      // Save the new page
+      savePageContent(newPage);
+      res.json(newPage);
     }
   } catch (error) {
     console.error('Error getting page content:', error);

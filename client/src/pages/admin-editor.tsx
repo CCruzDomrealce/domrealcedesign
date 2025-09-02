@@ -85,7 +85,7 @@ export default function AdminEditor() {
   const loadPageContent = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/admin/editor/page${selectedPage === '/' ? '/index' : selectedPage}`);
+      const response = await fetch(`/api/editor/page${selectedPage === '/' ? '/index' : selectedPage}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -131,7 +131,7 @@ export default function AdminEditor() {
         updatedAt: new Date().toISOString()
       };
 
-      const response = await fetch('/api/admin/editor/save', {
+      const response = await fetch('/api/editor/page', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedContent),
