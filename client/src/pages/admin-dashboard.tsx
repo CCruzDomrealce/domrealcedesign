@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/navigation";
-import { ArrowLeft, Monitor, Package, FileText, Image, Users, Palette, Store } from "lucide-react";
+import { ArrowLeft, Monitor, Package, FileText, Image, Users, Palette, Store, FolderOpen, Wand2 } from "lucide-react";
 import { Link } from "wouter";
 
 const adminSections = [
@@ -60,6 +60,22 @@ const adminSections = [
     icon: Store,
     color: "text-pink-400",
     bg: "hover:bg-pink-400/10",
+  },
+  {
+    title: "Editor Visual",
+    description: "Editor WYSIWYG para criar páginas com drag & drop",
+    href: "/admin/editor",
+    icon: Wand2,
+    color: "text-[#FFD700]",
+    bg: "hover:bg-[#FFD700]/10",
+  },
+  {
+    title: "Gestor de Mídia",
+    description: "Centralize e organize todas as imagens do site",
+    href: "/admin/media",
+    icon: FolderOpen,
+    color: "text-[#4dabf7]",
+    bg: "hover:bg-[#4dabf7]/10",
   },
 ];
 

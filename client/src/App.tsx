@@ -47,6 +47,8 @@ import AdminNoticias from "@/pages/admin-noticias";
 import AdminDashboard from "@/pages/admin-dashboard";
 import AdminLoja from "@/pages/admin-loja";
 import AdminPages from "@/pages/admin-pages";
+import AdminEditor from "@/pages/admin-editor";
+import AdminMedia from "@/pages/admin-media";
 import ServicoPeliculaSolar from "@/pages/servico-pelicula-solar";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
@@ -120,6 +122,8 @@ function Router() {
         <Route path="/admin/produtos" component={AdminProdutos} />
         <Route path="/admin/noticias" component={AdminNoticias} />
         <Route path="/admin/loja" component={AdminLoja} />
+        <Route path="/admin/editor" component={AdminEditor} />
+        <Route path="/admin/media" component={AdminMedia} />
         <Route path="/noticias" component={Noticias} />
         <Route path="/contactos" component={Contactos} />
         <Route path="/politica-privacidade" component={PoliticaPrivacidade} />

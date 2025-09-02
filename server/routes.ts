@@ -8,6 +8,16 @@ import { createIfthenPayService, type PaymentMethod } from "./ifthenpay";
 import rateLimit from 'express-rate-limit';
 import fs from 'fs';
 import path from 'path';
+import multer from 'multer';
+import {
+  getPageContent,
+  savePageContentEndpoint,
+  getMediaIndex,
+  getMediaFolders,
+  syncGlobalImages,
+  uploadMediaFiles,
+  deleteMediaFiles
+} from "./visual-editor";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Rate limiting for contact form
@@ -1127,6 +1137,23 @@ Sitemap: https://www.domrealce.com/sitemap.xml`;
       res.status(500).json({ error: "Failed to fetch page config" });
     }
   });
+
+  // Configure multer for file uploads
+  const upload = multer({ 
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+  });
+
+  // Visual Editor API routes
+  app.get("/api/editor/page/:route", getPageContent);
+  app.post("/api/editor/page", savePageContentEndpoint);
+  
+  // Media Manager API routes
+  app.get("/api/media/index", getMediaIndex);
+  app.get("/api/media/folders", getMediaFolders);
+  app.post("/api/media/sync", syncGlobalImages);
+  app.post("/api/media/upload", upload.array('files'), uploadMediaFiles);
+  app.delete("/api/media/files", deleteMediaFiles);
 
   const httpServer = createServer(app);
 
