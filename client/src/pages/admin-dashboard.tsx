@@ -184,32 +184,39 @@ export default function AdminDashboard() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Link href="/admin/slider">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <Link href="/admin/editor">
                   <Button variant="outline" className="w-full gap-2 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black">
+                    <Wand2 className="h-4 w-4" />
+                    Editor Visual
+                  </Button>
+                </Link>
+                
+                <Link href="/admin/pages">
+                  <Button variant="outline" className="w-full gap-2 border-[#e84b5e] text-[#e84b5e] hover:bg-[#e84b5e] hover:text-black">
+                    <Palette className="h-4 w-4" />
+                    Config. Páginas
+                  </Button>
+                </Link>
+                
+                <Link href="/admin/media">
+                  <Button variant="outline" className="w-full gap-2 border-[#4dabf7] text-[#4dabf7] hover:bg-[#4dabf7] hover:text-black">
+                    <FolderOpen className="h-4 w-4" />
+                    Gestor Mídia
+                  </Button>
+                </Link>
+                
+                <Link href="/admin/slider">
+                  <Button variant="outline" className="w-full gap-2 border-[#00d4aa] text-[#00d4aa] hover:bg-[#00d4aa] hover:text-black">
                     <Monitor className="h-4 w-4" />
                     Novo Slide
                   </Button>
                 </Link>
                 
                 <Link href="/admin/produtos">
-                  <Button variant="outline" className="w-full gap-2 border-[#00d4aa] text-[#00d4aa] hover:bg-[#00d4aa] hover:text-black">
+                  <Button variant="outline" className="w-full gap-2 border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-black">
                     <Package className="h-4 w-4" />
                     Novo Produto
-                  </Button>
-                </Link>
-                
-                <Link href="/admin/noticias">
-                  <Button variant="outline" className="w-full gap-2 border-[#4dabf7] text-[#4dabf7] hover:bg-[#4dabf7] hover:text-black">
-                    <FileText className="h-4 w-4" />
-                    Nova Notícia
-                  </Button>
-                </Link>
-                
-                <Link href="/admin/loja">
-                  <Button variant="outline" className="w-full gap-2 border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-black">
-                    <Store className="h-4 w-4" />
-                    Gerir Loja
                   </Button>
                 </Link>
               </div>
