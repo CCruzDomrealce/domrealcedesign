@@ -48,11 +48,6 @@ export default function Portfolio() {
                   Serviços
                 </Button>
               </Link>
-              <Link href="/admin/portfolio">
-                <Button size="lg" variant="outline" className="border-brand-turquoise text-brand-turquoise hover:bg-brand-turquoise hover:text-black">
-                  Administrar Portfólio
-                </Button>
-              </Link>
             </div>
           </div>
         </div>

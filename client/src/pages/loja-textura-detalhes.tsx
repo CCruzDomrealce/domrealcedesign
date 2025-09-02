@@ -536,8 +536,7 @@ export default function LojaTexturaDetalhes() {
             {/* Info about uploading missing parts */}
             <div className="mt-8 p-4 bg-[#0a0a0a] rounded-lg border border-[#333] text-center">
               <p className="text-gray-300 text-sm">
-                💡 Para adicionar as partes em falta, carregue as pastas "Baby-Pantone-1", "Baby-Pantone-2" e "Baby-Pantone-3" 
-                através do <a href="/admin/texturas" className="text-[#FFD700] hover:text-[#20B2AA] underline">painel administrativo</a>
+                💡 Novas texturas serão adicionadas em breve. Fique atento às atualizações!
               </p>
             </div>
           </div>
@@ -618,8 +617,7 @@ export default function LojaTexturaDetalhes() {
             {/* Info about uploading missing parts */}
             <div className="mt-8 p-4 bg-[#0a0a0a] rounded-lg border border-[#333] text-center">
               <p className="text-gray-300 text-sm">
-                💡 Para adicionar as partes em falta, carregue as pastas "Baby-Colors-1", "Baby-Colors-2" e "Baby-Colors-3" 
-                através do <a href="/admin/texturas" className="text-[#FFD700] hover:text-[#20B2AA] underline">painel administrativo</a>
+                💡 Novas texturas serão adicionadas em breve. Fique atento às atualizações!
               </p>
             </div>
           </div>
