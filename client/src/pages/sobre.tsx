@@ -7,15 +7,9 @@ import { SEOHead } from "@/components/seo-head";
 import { usePageConfig } from "@/hooks/use-page-config";
 import sobreImage from "@assets/Create a colorful im_1755881158641.png";
 import carlosCruzImage from "@/assets/carlos-cruz.webp";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Pencil, Save, X } from "lucide-react";
 
 export default function Sobre() {
   const { getConfig, isLoading } = usePageConfig('about');
-  const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState({});
 
   // Get content from config or use defaults
   const pageTitle = getConfig('hero', 'title', 'Sobre Nós');
@@ -29,30 +23,6 @@ export default function Sobre() {
   const companyText1 = getConfig('company', 'text_1', 'A Domrealce é uma empresa pequena, com um atelier que privilegia o atendimento personalizado. Esta abordagem permite-nos dedicar toda a atenção necessária a cada projeto, garantindo resultados únicos e adaptados às necessidades específicas de cada cliente.');
   const companyText2 = getConfig('company', 'text_2', 'Ao contrário das grandes empresas, oferecemos um serviço próximo e humano, onde cada cliente é tratado de forma individual. Esta proximidade permite-nos compreender melhor as suas necessidades e entregar soluções verdadeiramente personalizadas.');
   const companyQuote = getConfig('company', 'quote', 'Na Domrealce, não somos apenas um fornecedor, somos um parceiro criativo.');
-  
-  const handleEdit = (section: string, field: string, value: string) => {
-    setEditData(prev => ({
-      ...prev,
-      [`${section}_${field}`]: value
-    }));
-  };
-  
-  const handleSave = async () => {
-    // Simplified save - in a real implementation this would save to the server
-    console.log('Saving configuration changes:', editData);
-    setEditData({});
-    setIsEditing(false);
-  };
-  
-  const handleCancel = () => {
-    setEditData({});
-    setIsEditing(false);
-  };
-  
-  const getCurrentValue = (section: string, field: string, defaultValue: string) => {
-    const key = `${section}_${field}`;
-    return editData[key as keyof typeof editData] || getConfig(section, field, defaultValue);
-  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -64,66 +34,15 @@ export default function Sobre() {
       />
       <Navigation />
       
-      {/* Editor Controls */}
-      {!isEditing ? (
-        <div className="fixed top-24 right-4 z-50">
-          <Button
-            onClick={() => setIsEditing(true)}
-            className="bg-brand-yellow text-black hover:bg-yellow-500"
-            size="sm"
-          >
-            <Pencil className="h-4 w-4 mr-2" />
-            Editar Conteúdo
-          </Button>
-        </div>
-      ) : (
-        <div className="fixed top-24 right-4 z-50 flex gap-2">
-          <Button
-            onClick={handleSave}
-            className="bg-green-600 text-white hover:bg-green-700"
-            size="sm"
-          >
-            <Save className="h-4 w-4 mr-2" />
-            Guardar
-          </Button>
-          <Button
-            onClick={handleCancel}
-            variant="outline"
-            className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
-            size="sm"
-          >
-            <X className="h-4 w-4 mr-2" />
-            Cancelar
-          </Button>
-        </div>
-      )}
-      
       {/* Hero Section */}
       <section className="pt-32 pb-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          {isEditing ? (
-            <Input
-              value={getCurrentValue('hero', 'title', pageTitle)}
-              onChange={(e) => handleEdit('hero', 'title', e.target.value)}
-              className="text-4xl md:text-6xl font-bold mb-6 bg-gray-800 text-white text-center"
-            />
-          ) : (
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              {getCurrentValue('hero', 'title', pageTitle)}
-            </h1>
-          )}
-          {isEditing ? (
-            <Textarea
-              value={getCurrentValue('hero', 'description', heroDescription)}
-              onChange={(e) => handleEdit('hero', 'description', e.target.value)}
-              className="text-xl text-gray-300 max-w-3xl mx-auto bg-gray-800 text-white"
-              rows={3}
-            />
-          ) : (
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {getCurrentValue('hero', 'description', heroDescription)}
-            </p>
-          )}
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            {pageTitle}
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            {heroDescription}
+          </p>
         </div>
       </section>
 
@@ -132,66 +51,15 @@ export default function Sobre() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              {isEditing ? (
-                <Input
-                  value={getCurrentValue('carlos', 'title', carlosTitle)}
-                  onChange={(e) => handleEdit('carlos', 'title', e.target.value)}
-                  className="text-3xl font-bold mb-4 text-[#FFD700] bg-gray-800"
-                />
-              ) : (
-                <h2 className="text-3xl font-bold mb-4 text-[#FFD700]">{getCurrentValue('carlos', 'title', carlosTitle)}</h2>
-              )}
-              {isEditing ? (
-                <Input
-                  value={getCurrentValue('carlos', 'subtitle', carlosSubtitle)}
-                  onChange={(e) => handleEdit('carlos', 'subtitle', e.target.value)}
-                  className="text-lg text-gray-300 mb-6 bg-gray-800"
-                />
-              ) : (
-                <p className="text-lg text-gray-300 mb-6">{getCurrentValue('carlos', 'subtitle', carlosSubtitle)}</p>
-              )}
+              <h2 className="text-3xl font-bold mb-4 text-[#FFD700]">{carlosTitle}</h2>
+              <p className="text-lg text-gray-300 mb-6">{carlosSubtitle}</p>
               
-              {isEditing ? (
-                <Input
-                  value={getCurrentValue('carlos', 'story_title', carlosStoryTitle)}
-                  onChange={(e) => handleEdit('carlos', 'story_title', e.target.value)}
-                  className="text-2xl font-bold mb-4 bg-gray-800 text-white"
-                />
-              ) : (
-                <h3 className="text-2xl font-bold mb-4">{getCurrentValue('carlos', 'story_title', carlosStoryTitle)}</h3>
-              )}
+              <h3 className="text-2xl font-bold mb-4">{carlosStoryTitle}</h3>
               
               <div className="space-y-4 text-gray-300">
-                {isEditing ? (
-                  <Textarea
-                    value={getCurrentValue('carlos', 'story_1', carlosStory1)}
-                    onChange={(e) => handleEdit('carlos', 'story_1', e.target.value)}
-                    className="bg-gray-800 text-white"
-                    rows={3}
-                  />
-                ) : (
-                  <p>{getCurrentValue('carlos', 'story_1', carlosStory1)}</p>
-                )}
-                {isEditing ? (
-                  <Textarea
-                    value={getCurrentValue('carlos', 'story_2', carlosStory2)}
-                    onChange={(e) => handleEdit('carlos', 'story_2', e.target.value)}
-                    className="bg-gray-800 text-white"
-                    rows={3}
-                  />
-                ) : (
-                  <p>{getCurrentValue('carlos', 'story_2', carlosStory2)}</p>
-                )}
-                {isEditing ? (
-                  <Textarea
-                    value={getCurrentValue('carlos', 'story_3', carlosStory3)}
-                    onChange={(e) => handleEdit('carlos', 'story_3', e.target.value)}
-                    className="bg-gray-800 text-white"
-                    rows={3}
-                  />
-                ) : (
-                  <p>{getCurrentValue('carlos', 'story_3', carlosStory3)}</p>
-                )}
+                <p>{carlosStory1}</p>
+                <p>{carlosStory2}</p>
+                <p>{carlosStory3}</p>
               </div>
             </div>
             <div className="relative">
@@ -264,41 +132,14 @@ export default function Sobre() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <div className="space-y-6 text-gray-300">
-              {isEditing ? (
-                <Textarea
-                  value={getCurrentValue('company', 'text_1', companyText1)}
-                  onChange={(e) => handleEdit('company', 'text_1', e.target.value)}
-                  className="text-lg bg-gray-800 text-white"
-                  rows={4}
-                />
-              ) : (
-                <p className="text-lg">{getCurrentValue('company', 'text_1', companyText1)}</p>
-              )}
-              {isEditing ? (
-                <Textarea
-                  value={getCurrentValue('company', 'text_2', companyText2)}
-                  onChange={(e) => handleEdit('company', 'text_2', e.target.value)}
-                  className="text-lg bg-gray-800 text-white"
-                  rows={4}
-                />
-              ) : (
-                <p className="text-lg">{getCurrentValue('company', 'text_2', companyText2)}</p>
-              )}
+              <p className="text-lg">{companyText1}</p>
+              <p className="text-lg">{companyText2}</p>
             </div>
             
             <div className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] p-8 rounded-lg mt-12">
-              {isEditing ? (
-                <Textarea
-                  value={getCurrentValue('company', 'quote', companyQuote)}
-                  onChange={(e) => handleEdit('company', 'quote', e.target.value)}
-                  className="text-xl font-bold text-black italic bg-transparent border-black"
-                  rows={2}
-                />
-              ) : (
-                <blockquote className="text-xl font-bold text-black italic">
-                  "{getCurrentValue('company', 'quote', companyQuote)}"
-                </blockquote>
-              )}
+              <blockquote className="text-xl font-bold text-black italic">
+                "{companyQuote}"
+              </blockquote>
             </div>
           </div>
         </div>
