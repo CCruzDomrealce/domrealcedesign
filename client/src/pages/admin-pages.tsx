@@ -7,9 +7,174 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Navigation from "@/components/navigation";
-import { ArrowLeft, Plus, Edit, Trash2, Save, X, Palette, Monitor, Settings } from "lucide-react";
+import { ArrowLeft, Plus, Edit, Trash2, Save, X, Palette, Monitor, Settings, Upload, Image, ExternalLink } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+
+interface ImageSelectorProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+function ImageSelector({ value, onChange }: ImageSelectorProps) {
+  const [showGallery, setShowGallery] = useState(false);
+  const { toast } = useToast();
+
+  const { data: galleryData } = useQuery({
+    queryKey: ['/api/gallery/images'],
+    enabled: showGallery
+  });
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Erro",
+        description: "Por favor selecione apenas imagens",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('files', file);
+      formData.append('folder', 'pages');
+
+      const response = await fetch('/api/media/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.files && result.files.length > 0) {
+          onChange(result.files[0].url);
+          toast({
+            title: "Sucesso",
+            description: "Imagem carregada com sucesso",
+          });
+        }
+      } else {
+        throw new Error('Upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Erro",
+        description: "Falha no upload da imagem",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const allImages = (galleryData?.images || []).map((img: string) => `/public-objects/${img}`);
+
+  return (
+    <div className="space-y-4">
+      {/* Current Image Preview */}
+      {value && (
+        <div className="flex items-center gap-4 p-4 bg-gray-800 rounded-lg border border-gray-600">
+          <img 
+            src={value} 
+            alt="Preview" 
+            className="w-16 h-16 object-cover rounded border border-gray-500"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          <div className="flex-1">
+            <p className="text-white text-sm font-medium">Imagem Selecionada:</p>
+            <p className="text-gray-300 text-xs truncate">{value}</p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onChange('')}
+            className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+
+      {/* Input Field */}
+      <div className="flex gap-2">
+        <Input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="URL da imagem ou caminho..."
+          className="flex-1 bg-gray-800 border-gray-600 text-white"
+        />
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => setShowGallery(!showGallery)}
+          className="border-[#4dabf7] text-[#4dabf7] hover:bg-[#4dabf7] hover:text-white"
+        >
+          <Image className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {/* Upload Button */}
+      <div className="flex gap-2">
+        <label className="flex-1">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileUpload}
+            className="hidden"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full border-[#00d4aa] text-[#00d4aa] hover:bg-[#00d4aa] hover:text-black"
+            onClick={() => document.querySelector('input[type="file"]')?.click()}
+          >
+            <Upload className="h-4 w-4 mr-2" />
+            Fazer Upload de Nova Imagem
+          </Button>
+        </label>
+      </div>
+
+      {/* Gallery */}
+      {showGallery && (
+        <div className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-600">
+          <h4 className="text-white font-medium mb-3">Selecionar da Galeria:</h4>
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 max-h-64 overflow-y-auto">
+            {allImages.map((imgUrl, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => {
+                  onChange(imgUrl);
+                  setShowGallery(false);
+                }}
+                className="aspect-square border border-gray-600 rounded hover:border-[#4dabf7] transition-colors group"
+              >
+                <img
+                  src={imgUrl}
+                  alt={`Gallery ${index}`}
+                  className="w-full h-full object-cover rounded group-hover:opacity-80"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+          {allImages.length === 0 && (
+            <p className="text-gray-400 text-center py-4">Nenhuma imagem encontrada</p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface PageConfig {
   id: string;
@@ -199,7 +364,18 @@ export default function AdminPages() {
       case 'image':
         return (
           <div className="flex items-center gap-2">
-            <Monitor className="h-4 w-4 text-gray-400" />
+            {config.value && config.value.startsWith('/') ? (
+              <img 
+                src={config.value} 
+                alt="Preview" 
+                className="w-8 h-8 object-cover rounded border border-gray-600"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            ) : (
+              <Monitor className="h-4 w-4 text-gray-400" />
+            )}
             <span className="text-sm text-gray-300 truncate max-w-[200px]">{config.value}</span>
           </div>
         );
@@ -242,6 +418,8 @@ export default function AdminPages() {
             rows={3}
           />
         );
+      case 'image':
+        return <ImageSelector value={editForm.value} onChange={(value) => setEditForm({ ...editForm, value })} />;
       case 'number':
         return (
           <Input
