@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Calendar, Clock, Share2, Facebook, Instagram, Linkedin, Search, Filter, Eye, Heart, MessageCircle } from "lucide-react";
+import { Calendar, Clock, Share2, Facebook, Instagram, Linkedin, Search, Filter, Eye, Heart, MessageCircle, Play, ArrowRight } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "wouter";
 
@@ -150,6 +150,30 @@ export default function Noticias() {
 
             <div className="text-sm text-muted-foreground">
               {noticiasFiltradas.length} {noticiasFiltradas.length === 1 ? 'resultado' : 'resultados'}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Destaque - Demonstração Interativa */}
+      <section className="pt-0 pb-4">
+        <div className="container mx-auto px-4">
+          <div className="relative bg-gradient-to-r from-[#e84b5e] to-[#4dabf7] rounded-2xl p-8 mb-8 shadow-2xl">
+            <div className="absolute inset-0 bg-black/20 rounded-2xl"></div>
+            <div className="relative z-10 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                🎬 Experimente Nossa Nova Demonstração Interativa!
+              </h2>
+              <p className="text-white/90 mb-6 text-lg">
+                Descubra tudo sobre a DOMREALCE numa jornada guiada de 6 passos - como um vídeo que pode controlar!
+              </p>
+              <Link href="/demo-interativo">
+                <Button className="bg-white text-[#e84b5e] hover:bg-gray-100 font-bold px-8 py-3 text-lg">
+                  <Play className="h-5 w-5 mr-2" />
+                  Ver Demonstração Agora
+                  <ArrowRight className="h-5 w-5 ml-2" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

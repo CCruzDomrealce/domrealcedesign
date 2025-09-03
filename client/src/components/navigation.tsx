@@ -132,6 +132,17 @@ export default function Navigation() {
               Notícias
             </Link>
             <Link 
+              href="/demo-interativo" 
+              className={`transition-all duration-300 font-medium px-3 py-2 rounded-md bg-gradient-to-r from-[#e84b5e] to-[#4dabf7] hover:from-[#4dabf7] hover:to-[#e84b5e] text-white ${
+                location === "/demo-interativo" 
+                  ? "opacity-90" 
+                  : ""
+              }`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              🎬 Demo
+            </Link>
+            <Link 
               href="/contactos" 
               className={`transition-all duration-300 font-medium px-3 py-2 rounded-md ${
                 location === "/contactos" 
@@ -238,6 +249,17 @@ export default function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Notícias
+              </Link>
+              <Link 
+                href="/demo-interativo" 
+                className={`transition-all duration-300 font-medium py-3 px-4 rounded-md text-left bg-gradient-to-r from-[#e84b5e] to-[#4dabf7] hover:from-[#4dabf7] hover:to-[#e84b5e] text-white ${
+                  location === "/demo-interativo" 
+                    ? "opacity-90" 
+                    : ""
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                🎬 Demonstração Interativa
               </Link>
               <Link 
                 href="/contactos" 
