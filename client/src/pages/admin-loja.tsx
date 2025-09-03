@@ -30,6 +30,20 @@ interface TextureCover {
   textureCount: number;
 }
 
+interface CanvasCover {
+  name: string;
+  path: string;
+  fileName: string;
+  imageCount: number;
+}
+
+interface CanvasImage {
+  name: string;
+  path: string;
+  fileName: string;
+  category: string;
+}
+
 export default function AdminLoja() {
   const { toast } = useToast();
   const [produtos, setProdutos] = useState<Product[]>([]);
@@ -68,7 +82,7 @@ export default function AdminLoja() {
     }
   };
 
-  // Get texture categories from images
+  // Get texture categories from images (papel de parede)
   const textureCovers: TextureCover[] = (images as { images: string[] })?.images
     ?.filter((path: string) => path.includes('capas-texturas'))
     ?.map((path: string) => {
@@ -92,6 +106,54 @@ export default function AdminLoja() {
       };
     })
     ?.filter((texture) => texture.textureCount > 0) || [];
+
+  // Get canvas covers (capas dos quadros)
+  const canvasCovers: CanvasCover[] = (images as { images: string[] })?.images
+    ?.filter((path: string) => path.includes('Capas-quadros-em-canvas'))
+    ?.map((path: string) => {
+      const fileName = path.split('/').pop()?.replace('.webp', '') || '';
+      const displayName = fileName
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (l: string) => l.toUpperCase());
+      
+      // Count canvas images in this category
+      const categoryImages = (images as { images: string[] })?.images
+        ?.filter((imgPath: string) => 
+          imgPath.includes(`Quadros-em-canvas/${fileName}/`) &&
+          /\.(jpg|jpeg|png|gif|webp)$/i.test(imgPath)
+        ) || [];
+      
+      return {
+        name: displayName,
+        path: `/public-objects/${path}`,
+        fileName: fileName,
+        imageCount: categoryImages.length
+      };
+    })
+    ?.filter((cover) => cover.imageCount > 0) || [];
+
+  // Get all canvas images with their categories
+  const canvasImages: CanvasImage[] = (images as { images: string[] })?.images
+    ?.filter((path: string) => 
+      path.includes('Quadros-em-canvas/') && 
+      !path.includes('Capas-quadros-em-canvas') &&
+      /\.(jpg|jpeg|png|gif|webp)$/i.test(path)
+    )
+    ?.map((path: string) => {
+      const parts = path.split('/');
+      const fileName = parts.pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || '';
+      const category = parts[parts.length - 1] || '';
+      const displayName = fileName
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (l: string) => l.toUpperCase());
+      
+      return {
+        name: displayName,
+        path: `/public-objects/${path}`,
+        fileName: fileName,
+        category: category
+      };
+    }) || [];
 
   const saveProduto = async (produtoData: ProductForm, produtoId?: string) => {
     try {
@@ -208,7 +270,12 @@ export default function AdminLoja() {
     }
   };
 
-  const lojaProdutos = produtos.filter(p => p.categoria === "Papel de Parede" || textureCovers.some(t => t.name === p.categoria));
+  const lojaProdutos = produtos.filter(p => 
+    p.categoria === "Papel de Parede" || 
+    p.categoria === "Quadros Canvas" ||
+    textureCovers.some(t => t.name === p.categoria) ||
+    canvasCovers.some(c => c.name === p.categoria)
+  );
 
   if (loading) {
     return (
@@ -250,7 +317,7 @@ export default function AdminLoja() {
 
       <div className="container mx-auto px-4 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
           <Card className="bg-[#111111] border-[#333]">
             <CardContent className="p-6 text-center">
               <Store className="h-8 w-8 text-[#FFD700] mx-auto mb-2" />
@@ -269,11 +336,19 @@ export default function AdminLoja() {
           
           <Card className="bg-[#111111] border-[#333]">
             <CardContent className="p-6 text-center">
-              <Image className="h-8 w-8 text-[#4dabf7] mx-auto mb-2" />
+              <Image className="h-8 w-8 text-[#20B2AA] mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{canvasCovers.length}</div>
+              <div className="text-sm text-gray-400">Categorias Canvas</div>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-[#111111] border-[#333]">
+            <CardContent className="p-6 text-center">
+              <Store className="h-8 w-8 text-[#4dabf7] mx-auto mb-2" />
               <div className="text-2xl font-bold text-white">
-                {textureCovers.reduce((sum, texture) => sum + texture.textureCount, 0)}
+                {textureCovers.reduce((sum, texture) => sum + texture.textureCount, 0) + canvasImages.length}
               </div>
-              <div className="text-sm text-gray-400">Texturas Disponíveis</div>
+              <div className="text-sm text-gray-400">Total Imagens</div>
             </CardContent>
           </Card>
           
@@ -361,6 +436,117 @@ export default function AdminLoja() {
           </CardContent>
         </Card>
 
+        {/* Canvas Management */}
+        <Card className="bg-[#111111] border-[#333] mb-8">
+          <CardHeader>
+            <CardTitle className="text-[#FFD700] flex items-center gap-2">
+              <Image className="h-5 w-5" />
+              Gestão de Quadros em Canvas
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="mb-6">
+              <p className="text-white mb-4">
+                Capas e imagens dos quadros em canvas disponíveis no sistema
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center p-4 bg-[#222] rounded-lg">
+                  <div className="text-2xl font-bold text-[#20B2AA]">
+                    {canvasCovers.length}
+                  </div>
+                  <div className="text-sm text-gray-400">Categorias Canvas</div>
+                </div>
+                <div className="text-center p-4 bg-[#222] rounded-lg">
+                  <div className="text-2xl font-bold text-[#FFD700]">
+                    {canvasImages.length}
+                  </div>
+                  <div className="text-sm text-gray-400">Imagens Canvas</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Canvas Categories Grid */}
+            {canvasCovers.length > 0 && (
+              <div>
+                <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+                  <Package className="h-4 w-4" />
+                  Capas de Categorias Canvas
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                  {canvasCovers.map((cover) => (
+                    <Card key={cover.fileName} className="bg-[#222] border-[#333] overflow-hidden">
+                      <div className="aspect-video">
+                        <img 
+                          src={cover.path} 
+                          alt={cover.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <CardContent className="p-4">
+                        <h4 className="text-white font-medium mb-2">{cover.name}</h4>
+                        <Badge variant="outline" className="border-[#20B2AA] text-[#20B2AA]">
+                          {cover.imageCount} imagens
+                        </Badge>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Canvas Images Grid */}
+            {canvasImages.length > 0 && (
+              <div>
+                <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+                  <Image className="h-4 w-4" />
+                  Imagens Canvas Disponíveis
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                  {canvasImages.slice(0, 12).map((image, index) => (
+                    <div key={index} className="bg-[#222] border border-[#333] rounded overflow-hidden">
+                      <div className="aspect-square">
+                        <img 
+                          src={image.path} 
+                          alt={image.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-2">
+                        <div className="text-xs text-white truncate" title={image.name}>
+                          {image.name}
+                        </div>
+                        <div className="text-xs text-gray-400 truncate">
+                          {image.category}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {canvasImages.length > 12 && (
+                    <div className="bg-[#222] border border-[#333] rounded flex items-center justify-center text-center p-4">
+                      <div className="text-gray-400">
+                        <div className="text-lg font-bold">+{canvasImages.length - 12}</div>
+                        <div className="text-xs">mais imagens</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {canvasCovers.length === 0 && canvasImages.length === 0 && (
+              <div className="text-center py-8 text-gray-400">
+                <Image className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Nenhuma capa ou imagem de canvas encontrada</p>
+                <p className="text-sm mt-2">Faça upload de arquivos para as pastas:</p>
+                <div className="text-xs mt-2 bg-[#222] p-2 rounded">
+                  <div>• Capas-quadros-em-canvas/</div>
+                  <div>• Quadros-em-canvas/[categoria]/</div>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Add New Product */}
         {editingId === "new" && (
           <Card className="bg-[#111111] border-[#333] mb-8">
@@ -389,9 +575,15 @@ export default function AdminLoja() {
                   </SelectTrigger>
                   <SelectContent className="bg-[#222] border-[#444] text-white">
                     <SelectItem value="Papel de Parede">Papel de Parede</SelectItem>
+                    <SelectItem value="Quadros Canvas">Quadros Canvas</SelectItem>
                     {textureCovers.map((texture) => (
                       <SelectItem key={texture.fileName} value={texture.name}>
-                        {texture.name}
+                        {texture.name} (Textura)
+                      </SelectItem>
+                    ))}
+                    {canvasCovers.map((canvas) => (
+                      <SelectItem key={canvas.fileName} value={canvas.name}>
+                        {canvas.name} (Canvas)
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -509,9 +701,15 @@ export default function AdminLoja() {
                             </SelectTrigger>
                             <SelectContent className="bg-[#333] border-[#444] text-white">
                               <SelectItem value="Papel de Parede">Papel de Parede</SelectItem>
+                              <SelectItem value="Quadros Canvas">Quadros Canvas</SelectItem>
                               {textureCovers.map((texture) => (
                                 <SelectItem key={texture.fileName} value={texture.name}>
-                                  {texture.name}
+                                  {texture.name} (Textura)
+                                </SelectItem>
+                              ))}
+                              {canvasCovers.map((canvas) => (
+                                <SelectItem key={canvas.fileName} value={canvas.name}>
+                                  {canvas.name} (Canvas)
                                 </SelectItem>
                               ))}
                             </SelectContent>
