@@ -50,6 +50,7 @@ import AdminPages from "@/pages/admin-pages";
 import AdminEditor from "@/pages/admin-editor";
 import AdminMedia from "@/pages/admin-media";
 import ServicoPeliculaSolar from "@/pages/servico-pelicula-solar";
+import DemoInterativo from "@/pages/demo-interativo";
 // import CustomCursor from "@/components/custom-cursor";
 // import ScrollAnimations from "@/components/scroll-animations";
 
@@ -130,6 +131,9 @@ function Router() {
         <Route path="/termos-condicoes" component={TermosCondicoes} />
         <Route path="/politica-cookies" component={PoliticaCookies} />
         <Route path="/aviso-legal" component={AvisoLegal} />
+        {/* Demo Interativo */}
+        <Route path="/demo-interativo" component={DemoInterativo} />
+        
         <Route component={NotFound} />
       </Switch>
     </>

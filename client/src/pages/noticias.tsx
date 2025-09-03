@@ -12,6 +12,20 @@ import { Link } from "wouter";
 // Dados das notícias (em produção viria de uma base de dados)
 const noticias = [
   {
+    id: 2,
+    titulo: "🎬 Nova Demonstração Interativa - Conheça a DOMREALCE numa Jornada Guiada!",
+    resumo: "Descubra tudo sobre a DOMREALCE numa experiência interativa única! Explore nossos produtos, serviços, portfólio e simule uma compra completa numa apresentação envolvente.",
+    conteudo: "🌟 APRESENTAMOS A DEMONSTRAÇÃO INTERATIVA MAIS COMPLETA DO SETOR!\n\nQuer conhecer tudo sobre a DOMREALCE de forma divertida e envolvente? A nossa nova demonstração interativa é como um vídeo de apresentação, mas melhor - você controla o ritmo!\n\n🎯 O QUE VAI DESCOBRIR:\n\n🛍️ LOJA ONLINE EM AÇÃO\n• Veja os nossos produtos em destaque\n• Características detalhadas e diferenciais\n• Preços transparentes e qualidade garantida\n• Calculadora automática para papel de parede\n\n🎨 SERVIÇOS ESPECIALIZADOS\n• Design Gráfico profissional\n• Impressão Digital de alta qualidade  \n• Papel de Parede com instalação\n• Decoração de Viaturas personalizada\n\n📸 PORTFÓLIO IMPRESSIONANTE\n• Mais de 100 projetos realizados\n• Galeria interativa de trabalhos\n• Antes e depois dos nossos projetos\n• Inspiração para o seu próximo trabalho\n\n💳 SIMULAÇÃO DE COMPRA REALISTA\n• Processo de compra passo a passo\n• Opções de pagamento portuguesas (MB WAY, Multibanco, Payshop)\n• Informações de entrega e instalação\n• Experiência de compra simplificada\n\n🌐 REDES SOCIAIS INTEGRADAS\n• Links diretos para Facebook, Instagram e LinkedIn\n• Botões de ação para contacto imediato\n• Convites para visitar a nossa loja online\n\n⚡ CONTROLOS INTERATIVOS\n• Botão play/pause como num vídeo\n• Navegação por passos\n• Barra de progresso visual\n• Avance no seu próprio ritmo\n\n🚀 COMO FUNCIONA?\n1. Visite /demo-interativo no nosso site\n2. Clique em 'Play' para começar a jornada\n3. Navegue pelos 6 passos da apresentação\n4. Pause quando quiser explorar mais\n5. Salte para qualquer secção que lhe interesse\n\n💡 PERFEITO PARA:\n✓ Novos clientes que querem conhecer-nos\n✓ Quem procura inspiração para projetos\n✓ Empresas interessadas nos nossos serviços\n✓ Qualquer pessoa curiosa sobre comunicação visual\n\n🎉 EXPERIMENTE AGORA!\nA demonstração está disponível 24/7 no nosso website. É grátis, rápida e vai mostrar-lhe porque somos líderes em comunicação visual!\n\n👑 DOMREALCE - Onde cada ideia ganha vida!",
+    categoria: "Funcionalidades",
+    imagem: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080",
+    data: "2025-09-03",
+    autor: "Equipa Digital DOMREALCE",
+    tags: ["demo-interativo", "experiência-digital", "produtos", "serviços", "inovação"],
+    visualizacoes: 1,
+    likes: 0,
+    comentarios: 0
+  },
+  {
     id: 1,
     titulo: "🚀 DOMREALCE Digital: A Revolução na Comunicação Visual Portuguesa Chegou!",
     resumo: "Descobra a nova era da comunicação visual com a nossa plataforma digital revolucionária. Design profissional, tecnologia de ponta e a qualidade DOMREALCE que conhece - tudo num só lugar, à distância de um clique.",
@@ -27,7 +41,7 @@ const noticias = [
   }
 ];
 
-const categorias = ["Todas", "Novidades DOMREALCE"];
+const categorias = ["Todas", "Funcionalidades", "Novidades DOMREALCE"];
 
 export default function Noticias() {
   const [filtroCategoria, setFiltroCategoria] = useState("Todas");
