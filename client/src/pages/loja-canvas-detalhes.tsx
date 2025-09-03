@@ -212,24 +212,21 @@ export default function LojaCanvasDetalhes() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Canvas Grid */}
-          <div className="lg:col-span-3">
-            <div className="mb-6">
-              <h2 className="text-xl font-bold mb-4">Escolha o seu Quadro</h2>
-              
-              {canvasImages.length === 0 ? (
-                <div className="text-center py-12 bg-[#111111] rounded-lg border border-[#333]">
-                  <div className="text-6xl mb-4">🖼️</div>
-                  <h3 className="text-xl font-bold text-gray-400 mb-2">
-                    Nenhum quadro encontrado
-                  </h3>
-                  <p className="text-gray-500">
-                    Os quadros desta categoria estão sendo preparados.
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold mb-6 text-center">Clique numa imagem para visualizar em tamanho maior</h2>
+          
+          {canvasImages.length === 0 ? (
+            <div className="text-center py-12 bg-[#111111] rounded-lg border border-[#333]">
+              <div className="text-6xl mb-4">🖼️</div>
+              <h3 className="text-xl font-bold text-gray-400 mb-2">
+                Nenhum quadro encontrado
+              </h3>
+              <p className="text-gray-500">
+                Os quadros desta categoria estão sendo preparados.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                   {canvasImages.map((canvas) => (
                     <div
                       key={canvas.name}
@@ -266,107 +263,7 @@ export default function LojaCanvasDetalhes() {
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Sidebar - Selection Panel */}
-          <div className="lg:col-span-1">
-            <Card className="bg-[#111111] border-[#333] sticky top-24">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-bold mb-4 text-[#20B2AA]">
-                  <Ruler className="inline w-5 h-5 mr-2" />
-                  Personalizar
-                </h3>
-                
-                {/* Selected Canvas Preview */}
-                {selectedCanvas && (
-                  <div className="mb-4">
-                    <div className="aspect-square rounded-lg overflow-hidden mb-2">
-                      <img
-                        src={selectedCanvas}
-                        alt="Quadro selecionado"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <p className="text-xs text-gray-400 text-center">Quadro selecionado</p>
-                  </div>
-                )}
-
-                {/* Size Selection */}
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-2">
-                    Tamanho (cm):
-                  </label>
-                  <Select value={selectedSize} onValueChange={setSelectedSize}>
-                    <SelectTrigger className="bg-[#0a0a0a] border-[#333]">
-                      <SelectValue placeholder="Escolha o tamanho" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#0a0a0a] border-[#333]">
-                      {sizeOptions.map((option) => (
-                        <SelectItem key={option.size} value={option.size}>
-                          {option.size}cm - €{option.price.toFixed(2)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Price Display */}
-                {selectedSizeOption && (
-                  <div className="mb-6 p-4 bg-[#0a0a0a] rounded-lg border border-[#333]">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm">Preço Base:</span>
-                      <span className="text-sm">€{selectedSizeOption.price.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm">IVA (23%):</span>
-                      <span className="text-sm">€{(selectedSizeOption.price * 0.23).toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between items-center font-bold border-t border-[#333] pt-2">
-                      <span>Total:</span>
-                      <span className="text-[#20B2AA] text-lg">
-                        <Euro className="inline w-4 h-4" />
-                        {(selectedSizeOption.price * 1.23).toFixed(2)}
-                      </span>
-                    </div>
-                    <div className="text-xs text-gray-400 mt-2">
-                      Dimensões: {selectedSizeOption.width}×{selectedSizeOption.height}cm
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="space-y-3">
-                  <Button
-                    onClick={handlePreview}
-                    disabled={!selectedCanvas}
-                    variant="outline"
-                    className="w-full border-[#20B2AA] text-[#20B2AA] hover:bg-[#20B2AA] hover:text-white"
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    Pré-visualização
-                  </Button>
-                  
-                  <Button
-                    onClick={handleAddToCart}
-                    disabled={!selectedCanvas || !selectedSize}
-                    className="w-full bg-[#20B2AA] hover:bg-[#4169E1] text-white"
-                  >
-                    <ShoppingCart className="w-4 h-4 mr-2" />
-                    Adicionar ao Carrinho
-                  </Button>
-                </div>
-
-                {/* Continue Shopping Message */}
-                <div className="mt-6 p-4 bg-[#0a0a0a] rounded-lg border border-[#333]">
-                  <p className="text-sm text-gray-300 text-center">
-                    💡 Adicione mais produtos ao carrinho para otimizar o envio!
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
-      </div>
 
       {/* Preview Modal with Actions */}
       {showPreview && selectedCanvas && (
