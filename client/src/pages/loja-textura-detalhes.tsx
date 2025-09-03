@@ -219,24 +219,24 @@ export default function LojaTexturaDetalhes() {
                     }`}
                     onClick={() => setSelectedTexture(texture.path)}
                   >
-                    <div className="relative rounded-lg overflow-hidden">
+                    <div 
+                      className="relative rounded-lg overflow-hidden cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedTexture(texture.path);
+                        setShowPreview(true);
+                      }}
+                    >
                       <img
                         src={texture.path}
                         alt={texture.name}
                         className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       {/* Hover overlay "Ver Maior" */}
-                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedTexture(texture.path);
-                            setShowPreview(true);
-                          }}
-                          className="bg-[#FFD700] text-black px-3 py-1 rounded text-sm font-semibold hover:bg-[#20B2AA] transition-colors"
-                        >
+                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                        <div className="bg-[#FFD700] text-black px-3 py-1 rounded text-sm font-semibold">
                           Ver Maior
-                        </button>
+                        </div>
                       </div>
                     </div>
                     <p className="text-center mt-2 text-xs text-gray-300 group-hover:text-[#FFD700] transition-colors">

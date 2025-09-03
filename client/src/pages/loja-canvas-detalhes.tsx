@@ -238,24 +238,24 @@ export default function LojaCanvasDetalhes() {
                       }`}
                       onClick={() => setSelectedCanvas(canvas.path)}
                     >
-                      <div className="relative rounded-lg overflow-hidden">
+                      <div 
+                        className="relative rounded-lg overflow-hidden cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedCanvas(canvas.path);
+                          setShowPreview(true);
+                        }}
+                      >
                         <img
                           src={canvas.path}
                           alt={canvas.name}
                           className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                         {/* Hover overlay "Ver Maior" */}
-                        <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedCanvas(canvas.path);
-                              setShowPreview(true);
-                            }}
-                            className="bg-[#20B2AA] text-white px-3 py-1 rounded text-sm font-semibold hover:bg-[#4169E1] transition-colors"
-                          >
+                        <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                          <div className="bg-[#20B2AA] text-white px-3 py-1 rounded text-sm font-semibold">
                             Ver Maior
-                          </button>
+                          </div>
                         </div>
                       </div>
                       <p className="text-center mt-2 text-xs text-gray-300 group-hover:text-[#20B2AA] transition-colors">
