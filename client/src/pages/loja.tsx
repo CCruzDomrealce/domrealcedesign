@@ -25,7 +25,8 @@ const products: Product[] = [
 ];
 
 const categories = [
-  { id: 'papel-parede', name: 'Papel de Parede', href: '/loja/papel-parede' }
+  { id: 'papel-parede', name: 'Papel de Parede', href: '/loja/papel-parede' },
+  { id: 'quadros-canvas', name: 'Quadros em Canvas', href: '/loja/quadros-canvas' }
   // Outras categorias serão adicionadas conforme necessário
 ];
 
@@ -96,7 +97,7 @@ export default function Loja() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-4 text-[#FFD700]">
-              Categoria Disponível
+              Categorias Disponíveis
             </h2>
             
             {/* Grid responsivo: 2 cols mobile, 3 cols tablet, 4 cols desktop */}
@@ -120,8 +121,23 @@ export default function Loja() {
                 </Card>
               </Link>
 
+              {/* Quadros em Canvas */}
+              <Link href="/loja/quadros-canvas">
+                <Card className="bg-[#111111] border-[#333] hover:border-[#20B2AA] transition-all duration-300 group cursor-pointer">
+                  <CardContent className="p-4">
+                    <div className="w-full h-24 rounded-lg mx-auto mb-4 overflow-hidden bg-gradient-to-br from-[#20B2AA]/20 to-[#4169E1]/20 flex items-center justify-center">
+                      <span className="text-4xl">🖼️</span>
+                    </div>
+                    
+                    <h3 className="text-lg font-bold group-hover:text-[#20B2AA] transition-colors text-center">
+                      Quadros em Canvas
+                    </h3>
+                  </CardContent>
+                </Card>
+              </Link>
+
               {/* Placeholders para outras categorias */}
-              {[1, 2, 3].map((i) => (
+              {[1, 2].map((i) => (
                 <Card key={i} className="bg-[#111111] border-[#333] opacity-50">
                   <CardContent className="p-4">
                     <div className="w-16 h-16 bg-gray-800/50 border-2 border-dashed border-gray-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
