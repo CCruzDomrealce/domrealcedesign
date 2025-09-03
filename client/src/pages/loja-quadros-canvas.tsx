@@ -57,7 +57,7 @@ export default function LojaQuadrosCanvas() {
 
   // Filter and format canvas cover images
   const canvasCovers: CanvasCover[] = (images as { images: string[] })?.images
-    ?.filter((path: string) => path.includes('capas-quadros-em-canvas'))
+    ?.filter((path: string) => path.includes('Quadros-em-canvas/Capas-quadros-em-canvas'))
     ?.map((path: string) => {
       const fileName = path.split('/').pop()?.replace('.webp', '') || '';
       const displayName = fileName
@@ -67,7 +67,7 @@ export default function LojaQuadrosCanvas() {
       // Count canvas images in this category
       const categoryImages = (images as { images: string[] })?.images
         ?.filter((imgPath: string) => 
-          imgPath.includes(`quadros-em-canvas/${fileName}/`) &&
+          imgPath.includes(`Quadros-em-canvas/${fileName}/`) &&
           /\.(jpg|jpeg|png|gif|webp)$/i.test(imgPath)
         ) || [];
       
