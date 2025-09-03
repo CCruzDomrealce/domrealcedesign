@@ -17,6 +17,7 @@ import Sobre from "@/pages/sobre";
 import Loja from "@/pages/loja";
 import LojaPapelParede from "@/pages/loja-papel-parede";
 import LojaQuadrosCanvas from "@/pages/loja-quadros-canvas";
+import LojaCanvasDetalhes from "@/pages/loja-canvas-detalhes";
 import LojaTexturaDetalhes from "@/pages/loja-textura-detalhes";
 import Carrinho from "@/pages/carrinho";
 import AdminTexturas from "@/pages/admin-texturas";
@@ -113,6 +114,7 @@ function Router() {
         <Route path="/loja" component={Loja} />
         <Route path="/loja/papel-parede" component={LojaPapelParede} />
         <Route path="/loja/quadros-canvas" component={LojaQuadrosCanvas} />
+        <Route path="/loja/quadros-canvas/categoria/:categoria" component={LojaCanvasDetalhes} />
         <Route path="/loja/papel-parede/textura/:textura" component={LojaTexturaDetalhes} />
         <Route path="/como-aplicar-papel-parede" component={ComoAplicarPapelParede} />
         <Route path="/carrinho" component={Carrinho} />

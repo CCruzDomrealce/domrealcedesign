@@ -7,14 +7,6 @@ import { ShoppingCart, ArrowLeft, Ruler, Euro } from "lucide-react";
 import { Link } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { SEOHead } from "@/components/seo-head";
@@ -46,9 +38,6 @@ const sizeOptions: SizeOption[] = [
 ];
 
 export default function LojaQuadrosCanvas() {
-  const [selectedCanvas, setSelectedCanvas] = useState<CanvasCover | null>(null);
-  const [selectedSize, setSelectedSize] = useState<string>("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const { data: images, isLoading, error } = useQuery({
@@ -82,42 +71,10 @@ export default function LojaQuadrosCanvas() {
     ?.filter((canvas: CanvasCover & { canvasCount: number }) => canvas.canvasCount > 0) || [];
 
   const handleCanvasSelect = (canvas: CanvasCover) => {
-    setSelectedCanvas(canvas);
-    setSelectedSize("");
-    setIsDialogOpen(true);
+    // Navigate to canvas details page
+    window.location.href = `/loja/quadros-canvas/categoria/${canvas.fileName}`;
   };
 
-  const handleAddToCart = () => {
-    if (!selectedCanvas || !selectedSize) {
-      toast({
-        title: "Seleção incompleta",
-        description: "Por favor selecione um tamanho.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const sizeOption = sizeOptions.find(s => s.size === selectedSize);
-    if (!sizeOption) return;
-
-    // Calculate area and pricing
-    const area = (sizeOption.width * sizeOption.height) / 10000; // m²
-    const precoBase = sizeOption.price;
-    const iva = precoBase * 0.23;
-    const precoTotal = precoBase + iva;
-
-    // Here you would typically add to cart
-    toast({
-      title: "Adicionado ao carrinho!",
-      description: `${selectedCanvas.name} (${selectedSize}cm) - €${precoTotal.toFixed(2)}`,
-    });
-
-    setIsDialogOpen(false);
-    setSelectedCanvas(null);
-    setSelectedSize("");
-  };
-
-  const selectedSizeOption = sizeOptions.find(s => s.size === selectedSize);
 
   if (isLoading) {
     return (
@@ -274,76 +231,6 @@ export default function LojaQuadrosCanvas() {
         </div>
       </section>
 
-      {/* Selection Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-[#111111] border-[#333] text-white max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-[#20B2AA]">
-              Personalizar Quadro
-            </DialogTitle>
-            <DialogDescription className="text-gray-400">
-              {selectedCanvas?.name}
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">
-                Escolha o tamanho:
-              </label>
-              <Select value={selectedSize} onValueChange={setSelectedSize}>
-                <SelectTrigger className="bg-[#0a0a0a] border-[#333]">
-                  <SelectValue placeholder="Selecione um tamanho" />
-                </SelectTrigger>
-                <SelectContent className="bg-[#0a0a0a] border-[#333]">
-                  {sizeOptions.map((option) => (
-                    <SelectItem key={option.size} value={option.size}>
-                      {option.size}cm - €{option.price.toFixed(2)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            {selectedSizeOption && (
-              <div className="p-4 bg-[#0a0a0a] rounded-lg border border-[#333]">
-                <div className="flex justify-between items-center mb-2">
-                  <span>Preço Base:</span>
-                  <span>€{selectedSizeOption.price.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center mb-2">
-                  <span>IVA (23%):</span>
-                  <span>€{(selectedSizeOption.price * 0.23).toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center font-bold border-t border-[#333] pt-2">
-                  <span>Total:</span>
-                  <span className="text-[#20B2AA]">
-                    €{(selectedSizeOption.price * 1.23).toFixed(2)}
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-          
-          <DialogFooter className="gap-2">
-            <Button
-              variant="outline"
-              onClick={() => setIsDialogOpen(false)}
-              className="border-[#333] hover:bg-[#333]"
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={handleAddToCart}
-              disabled={!selectedSize}
-              className="bg-[#20B2AA] hover:bg-[#4169E1]"
-            >
-              <ShoppingCart className="w-4 h-4 mr-2" />
-              Adicionar ao Carrinho
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       <Footer />
     </div>
