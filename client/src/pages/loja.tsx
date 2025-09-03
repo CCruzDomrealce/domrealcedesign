@@ -7,6 +7,7 @@ import { Link } from "wouter";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import wallpaperSamplesImage from "@assets/box_amostras_prodeccor_plus_1755963100331.webp";
+import quadrosCanvasCover from "@assets/image_1756920896021.png";
 
 interface Product {
   id: number;
@@ -125,8 +126,12 @@ export default function Loja() {
               <Link href="/loja/quadros-canvas">
                 <Card className="bg-[#111111] border-[#333] hover:border-[#20B2AA] transition-all duration-300 group cursor-pointer">
                   <CardContent className="p-4">
-                    <div className="w-full h-24 rounded-lg mx-auto mb-4 overflow-hidden bg-gradient-to-br from-[#20B2AA]/20 to-[#4169E1]/20 flex items-center justify-center">
-                      <span className="text-4xl">🖼️</span>
+                    <div className="w-full h-24 rounded-lg mx-auto mb-4 overflow-hidden">
+                      <img 
+                        src={quadrosCanvasCover} 
+                        alt="Quadros em Canvas" 
+                        className="w-full h-full object-cover rounded-lg"
+                      />
                     </div>
                     
                     <h3 className="text-lg font-bold group-hover:text-[#20B2AA] transition-colors text-center">
