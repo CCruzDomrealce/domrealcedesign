@@ -64,7 +64,7 @@ export default function Contactos() {
         ...formData,
         ficheiros: uploadedFiles
       };
-      
+
       const validatedData = insertContactSchema.parse(dataToSubmit);
       mutation.mutate(validatedData);
     } catch (error) {
@@ -119,7 +119,7 @@ export default function Contactos() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="pt-28 pb-4 bg-black">
         <div className="container mx-auto px-4 text-center">
@@ -150,9 +150,29 @@ export default function Contactos() {
               <h3 className="text-lg font-semibold mb-2 text-brand-coral">Morada</h3>
               <p className="text-white/80 text-sm">
                 Rua de Rebolido, 42<br />
-                4580-264 Gondalães, Paredes
+                4580-402 Gondalães, Paredes
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Google Maps Section */}
+      <section className="py-6 bg-black/90">
+        <div className="container mx-auto px-4 text-center">
+          <h3 className="text-xl font-semibold text-brand-yellow mb-4">Onde Estamos</h3>
+          <div className="w-full h-96 rounded-lg overflow-hidden border-2 border-brand-yellow/30">
+            <iframe
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              style={{ border: 0 }}
+              src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=pt&amp;q=Rua%20de%20Rebolido%2042%2C%204580-402%20Gondalães%2C%20Paredes+(DOMREALCE)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Localização DOMREALCE - Rua de Rebolido 42, 4580-402 Gondalães, Paredes"
+            ></iframe>
           </div>
         </div>
       </section>
@@ -168,11 +188,11 @@ export default function Contactos() {
                   <span className="text-brand-turquoise">Formulário</span> <span className="text-white">Seguro</span>
                 </h2>
               </div>
-              
+
               <p className="text-white/80 mb-6 text-sm">
                 Todos os dados são protegidos e processados de forma segura. Máximo 5 tentativas por 15 minutos.
               </p>
-              
+
               <form id="formulario" onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
@@ -189,7 +209,7 @@ export default function Contactos() {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="text-white/80 mb-2 block text-sm font-medium">
                       Email *
@@ -220,7 +240,7 @@ export default function Contactos() {
                       placeholder="+351 xxx xxx xxx"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="text-white/80 mb-2 block text-sm font-medium">
                       Empresa
@@ -235,7 +255,7 @@ export default function Contactos() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="text-white/80 mb-2 block text-sm font-medium">
                     Mensagem *
@@ -258,7 +278,7 @@ export default function Contactos() {
                   <p className="text-white/60 text-xs mb-3">
                     Formatos aceites: PDF, DOC, DOCX, JPG, PNG, GIF, AI, PSD, EPS. Máximo 10MB por ficheiro.
                   </p>
-                  
+
                   <ObjectUploader
                     maxNumberOfFiles={5}
                     maxFileSize={10485760}
@@ -294,7 +314,7 @@ export default function Contactos() {
                     </div>
                   )}
                 </div>
-                
+
                 <Button 
                   type="submit"
                   disabled={isSubmitting || mutation.isPending}
@@ -318,38 +338,6 @@ export default function Contactos() {
                   .
                 </p>
               </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Additional Contact Options */}
-      <section className="py-6 bg-gray-900/20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-            <div className="bg-black/50 rounded-xl p-6 border border-brand-turquoise/20">
-              <h3 className="text-xl font-semibold text-brand-yellow mb-3">Atendimento Personalizado</h3>
-              <p className="text-white/80 mb-4 text-sm">
-                Com 40 anos de experiência, oferecemos um atendimento personalizado focado na qualidade, pontualidade e honestidade.
-              </p>
-              <Link href="/sobre" className="text-brand-turquoise hover:text-brand-turquoise transition-colors text-sm">
-                Conhecer a Nossa História
-              </Link>
-            </div>
-            
-            <div className="bg-black/50 rounded-xl p-6 border border-brand-coral/20">
-              <h3 className="text-xl font-semibold text-brand-coral mb-3">Orçamentos Gratuitos</h3>
-              <p className="text-white/80 mb-4 text-sm">
-                Solicite um orçamento sem compromisso. Analisamos cada projeto individualmente para oferecer a melhor solução.
-              </p>
-              <a 
-                href="https://wa.me/351930682725?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento." 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-brand-yellow hover:text-brand-yellow transition-colors text-sm"
-              >
-                WhatsApp Direto
-              </a>
             </div>
           </div>
         </div>
