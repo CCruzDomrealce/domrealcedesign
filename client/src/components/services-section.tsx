@@ -39,7 +39,7 @@ const services = [
   {
     icon: Shield,
     title: "Películas de Proteção Solar",
-    description: "Reduzem o calor, protegem do UV e proporcionam privacidade, mantendo a luminosidade natural",
+    description: "Reduzem o calor, protegem dos raios UV e proporcionam privacidade, mantendo a luminosidade natural",
     color: "from-brand-yellow to-brand-turquoise",
     titleColor: "text-brand-yellow",
     link: "/servico-peliculas-protecao-solar"
@@ -47,7 +47,7 @@ const services = [
   {
     icon: Car,
     title: "Decoração de Viaturas",
-    description: "Destacamo-nos em camiões, máquinas de obras e viaturas de competição",
+    description: "Destacamo-nos em decoração de camiões, máquinas de obras e viaturas de competição",
     color: "from-brand-turquoise to-brand-coral",
     titleColor: "text-brand-turquoise",
     link: "/servico-decoracao-viaturas"
