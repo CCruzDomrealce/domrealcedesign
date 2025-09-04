@@ -124,7 +124,7 @@ export default function Carrinho() {
 
   const calculateTotalWithShippingAndIVA = () => {
     const subtotal = calculateTotal();
-    const shipping = subtotal >= 100 ? 0 : 15;
+    const shipping = subtotal >= 100 ? 0 : 10;
     const subtotalWithShipping = subtotal + shipping;
     const iva = subtotalWithShipping * 0.23; // 23% IVA
     return {

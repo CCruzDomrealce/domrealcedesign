@@ -25,14 +25,14 @@ interface SizeOption {
 
 // Preços por tamanho (baseado em Telas Artísticas)
 const sizeOptions: SizeOption[] = [
-  { size: '20x30', width: 20, height: 30, price: 25.00 },
-  { size: '30x40', width: 30, height: 40, price: 35.00 },
-  { size: '40x50', width: 40, height: 50, price: 45.00 },
-  { size: '50x70', width: 50, height: 70, price: 65.00 },
-  { size: '60x80', width: 60, height: 80, price: 85.00 },
-  { size: '70x100', width: 70, height: 100, price: 125.00 },
-  { size: '80x120', width: 80, height: 120, price: 165.00 },
-  { size: '100x150', width: 100, height: 150, price: 245.00 },
+  { size: '20x30', width: 20, height: 30, price: 15.00 },
+  { size: '30x40', width: 30, height: 40, price: 25.00 },
+  { size: '40x50', width: 40, height: 50, price: 35.00 },
+  { size: '50x70', width: 50, height: 70, price: 50.00 },
+  { size: '60x80', width: 60, height: 80, price: 70.00 },
+  { size: '70x100', width: 70, height: 95, price: 90.00 },
+  { size: '80x120', width: 90, height: 120, price: 120.00 },
+  { size: '100x150', width: 95, height: 150, price: 150.00 },
 ];
 
 export default function LojaCanvasDetalhes() {

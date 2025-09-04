@@ -162,7 +162,7 @@ function getStructuredDataForPage(path: string): any {
         },
         "areaServed": {
           "@type": "Place",
-          "name": "Lisboa, Portugal"
+          "name": "Paredes, Portugal"
         },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
@@ -200,7 +200,7 @@ function getStructuredDataForPage(path: string): any {
         },
         "areaServed": {
           "@type": "Place",
-          "name": "Lisboa, Portugal"
+          "name": "Paredes, Portugal"
         },
         "offers": {
           "@type": "Offer",
@@ -257,7 +257,7 @@ function getStructuredDataForPage(path: string): any {
           "address": {
             "@type": "PostalAddress",
             "addressCountry": "PT",
-            "addressLocality": "Lisboa"
+            "addressLocality": "Paredes"
           },
           "openingHours": [
             "Mo-Fr 09:00-18:00"
