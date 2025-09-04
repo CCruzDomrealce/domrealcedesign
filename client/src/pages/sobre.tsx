@@ -62,16 +62,16 @@ export default function Sobre() {
                 <p>{carlosStory3}</p>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative flex justify-center">
               <img 
                 src={carlosCruzImage} 
                 alt="Carlos Cruz - Fundador da DOMREALCE"
-                className="w-full h-auto rounded-lg shadow-2xl"
+                className="w-3/4 h-auto rounded-lg shadow-2xl max-w-sm"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-lg"></div>
-              <div className="absolute bottom-4 left-4 right-4 text-white">
-                <h4 className="text-xl font-bold mb-2">Carlos Cruz</h4>
+              <div className="absolute bottom-4 left-4 right-4 text-white text-center">
+                <h4 className="text-xl font-bold mb-1">Carlos Cruz</h4>
                 <p className="text-sm opacity-90">Responsável de produção</p>
               </div>
             </div>
