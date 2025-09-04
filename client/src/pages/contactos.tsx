@@ -157,22 +157,36 @@ export default function Contactos() {
         </div>
       </section>
 
-      {/* Google Maps Section */}
+      {/* Location Section */}
       <section className="py-6 bg-black/90">
         <div className="container mx-auto px-4 text-center">
           <h3 className="text-xl font-semibold text-brand-yellow mb-4">Onde Estamos</h3>
-          <div className="w-full h-96 rounded-lg overflow-hidden border-2 border-brand-yellow/30">
-            <iframe
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              style={{ border: 0 }}
-              src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=pt&amp;q=Rua%20de%20Rebolido%2042%2C%204580-402%20Gondalães%2C%20Paredes+(DOMREALCE)&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Localização DOMREALCE - Rua de Rebolido 42, 4580-402 Gondalães, Paredes"
-            ></iframe>
+          <div className="w-full max-w-2xl mx-auto">
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-brand-yellow/30">
+              <div className="space-y-4">
+                <div className="text-lg text-white font-semibold">
+                  📍 DOMREALCE
+                </div>
+                <div className="text-white/80">
+                  Rua de Rebolido, 42<br />
+                  4580-402 Gondalães, Paredes<br />
+                  Portugal
+                </div>
+                <div className="pt-4">
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Rua+de+Rebolido+42%2C+4580-402+Gondalães%2C+Paredes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-yellow to-brand-coral text-black font-semibold rounded-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    🗺️ Ver no Google Maps
+                  </a>
+                </div>
+                <div className="pt-2 text-sm text-white/60">
+                  Clique para abrir as direções no Google Maps
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
