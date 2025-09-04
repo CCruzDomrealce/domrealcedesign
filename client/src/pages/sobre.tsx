@@ -33,7 +33,7 @@ export default function Sobre() {
         canonicalUrl="https://www.domrealce.com/sobre"
       />
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -53,23 +53,24 @@ export default function Sobre() {
             <div>
               <h2 className="text-3xl font-bold mb-4 text-[#FFD700]">{carlosTitle}</h2>
               <p className="text-lg text-gray-300 mb-6">{carlosSubtitle}</p>
-              
+
               <h3 className="text-2xl font-bold mb-4">{carlosStoryTitle}</h3>
-              
+
               <div className="space-y-4 text-gray-300">
                 <p>{carlosStory1}</p>
                 <p>{carlosStory2}</p>
                 <p>{carlosStory3}</p>
               </div>
             </div>
-            <div className="relative flex justify-center">
+
+            {/* Imagem Ajustada sem caixilho preto */}
+            <div className="relative">
               <img 
                 src={carlosCruzImage} 
                 alt="Carlos Cruz - Fundador da DOMREALCE"
-                className="w-3/4 h-auto rounded-lg shadow-2xl max-w-sm"
+                className="w-full h-auto max-h-[500px] object-contain rounded-lg shadow-2xl"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-lg"></div>
               <div className="absolute bottom-4 left-4 right-4 text-white text-center">
                 <h4 className="text-xl font-bold mb-1">Carlos Cruz</h4>
                 <p className="text-sm opacity-90">Responsável de produção</p>
@@ -79,14 +80,15 @@ export default function Sobre() {
         </div>
       </section>
 
+
       {/* Values Section */}
-      <section className="pt-0 pb-8 px-4 bg-black">
+      <section className="pt-14 pb-8 px-4 bg-black">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Nossos Valores</h2>
             <p className="text-gray-300">Os princípios que guiam o nosso trabalho.</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="bg-[#0a0a0a] border-[#333] hover:border-[#FFD700] transition-colors">
               <CardContent className="p-6 text-center">
@@ -135,7 +137,7 @@ export default function Sobre() {
               <p className="text-lg">{companyText1}</p>
               <p className="text-lg">{companyText2}</p>
             </div>
-            
+
             <div className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] p-8 rounded-lg mt-12">
               <blockquote className="text-xl font-bold text-black italic">
                 "{companyQuote}"
@@ -152,7 +154,7 @@ export default function Sobre() {
           <p className="text-gray-300 mb-8 text-lg">
             Descubra como a nossa experiência e dedicação podem transformar o seu projeto em realidade.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild className="bg-gradient-to-r from-[#FFD700] to-[#20B2AA] text-black font-bold hover:opacity-90 transition-opacity">
               <Link href="/contactos">Contactar-nos</Link>
