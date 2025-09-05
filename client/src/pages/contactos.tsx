@@ -157,63 +157,52 @@ export default function Contactos() {
         </div>
       </section>
 
-      {/* Location Section */}
+      {/* Google Maps Section */}
       <section className="py-6 bg-black/90">
-        <div className="container mx-auto px-4 text-center">
-          <h3 className="text-xl font-semibold text-brand-yellow mb-4">Onde Estamos</h3>
-          <div className="w-full max-w-4xl mx-auto">
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-brand-yellow/30">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                {/* Map Image */}
-                <div className="relative">
-                  <div className="w-full h-64 bg-gray-800 rounded-lg border border-brand-yellow/20 overflow-hidden">
-                    <img
-                      src="https://maps.googleapis.com/maps/api/staticmap?center=Rua+de+Rebolido+42,+4580-402+Gondalães,+Paredes&zoom=15&size=400x300&maptype=roadmap&markers=color:red%7Clabel:D%7CRua+de+Rebolido+42,+4580-402+Gondalães,+Paredes&key=&style=feature:all%7Celement:geometry%7Ccolor:0x212121&style=feature:all%7Celement:labels.icon%7Cvisibility:off&style=feature:all%7Celement:labels.text.fill%7Ccolor:0x757575&style=feature:all%7Celement:labels.text.stroke%7Ccolor:0x212121&style=feature:landscape%7Celement:geometry%7Ccolor:0x212121&style=feature:poi%7Celement:geometry%7Ccolor:0x181818&style=feature:road%7Celement:geometry.fill%7Ccolor:0x2c2c2c&style=feature:road%7Celement:labels.text.fill%7Ccolor:0x8a8a8a&style=feature:road.arterial%7Celement:geometry%7Ccolor:0x373737&style=feature:road.highway%7Celement:geometry%7Ccolor:0x3c3c3c&style=feature:road.highway.controlled_access%7Celement:geometry%7Ccolor:0x4e4e4e&style=feature:road.local%7Celement:labels.text.fill%7Ccolor:0x616161&style=feature:transit%7Celement:labels.text.fill%7Ccolor:0x757575&style=feature:water%7Celement:geometry%7Ccolor:0x000000"
-                      alt="Mapa da localização DOMREALCE"
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        // Fallback se a imagem não carregar
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling!.style.display = 'flex';
-                      }}
-                    />
-                    {/* Fallback visual */}
-                    <div className="hidden w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center text-center p-4">
-                      <div>
-                        <div className="text-4xl mb-2">📍</div>
-                        <div className="text-brand-yellow font-semibold">DOMREALCE</div>
-                        <div className="text-sm text-white/60 mt-1">Gondalães, Paredes</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div className="container mx-auto px-4">
+          <h3 className="text-xl font-semibold text-brand-yellow mb-6 text-center">Onde Estamos</h3>
+          
+          {/* Full Width Google Maps */}
+          <div className="w-full h-96 rounded-lg overflow-hidden border-2 border-brand-yellow/30 mb-6">
+            <iframe
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              style={{ border: 0 }}
+              src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_API_KEY || ''}&q=Rua+de+Rebolido+42,+4580-402+Gondalães,+Paredes&zoom=15&maptype=roadmap`}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Localização DOMREALCE - Rua de Rebolido 42, 4580-402 Gondalães, Paredes"
+            ></iframe>
+          </div>
 
-                {/* Location Info */}
-                <div className="space-y-4">
-                  <div className="text-lg text-white font-semibold">
-                    📍 DOMREALCE
-                  </div>
-                  <div className="text-white/80">
-                    Rua de Rebolido, 42<br />
-                    4580-402 Gondalães, Paredes<br />
-                    Portugal
-                  </div>
-                  <div className="space-y-2 text-sm text-white/60">
-                    <div>🚗 Estacionamento gratuito disponível</div>
-                    <div>🕒 Horário: Segunda a Sexta, 9h-18h</div>
-                    <div>📞 Ligue antes da visita: +351 930 682 725</div>
-                  </div>
-                  <div className="pt-4">
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText('Rua de Rebolido 42, 4580-402 Gondalães, Paredes');
-                        alert('Morada copiada para a área de transferência!');
-                      }}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-brand-yellow/20 border border-brand-yellow text-brand-yellow rounded-lg hover:bg-brand-yellow hover:text-black transition-all duration-300"
-                    >
-                      📋 Copiar Morada
-                    </button>
-                  </div>
+          {/* Address Info Below Map */}
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-brand-yellow/30">
+              <div className="space-y-4">
+                <div className="text-lg text-white font-semibold">
+                  📍 DOMREALCE
+                </div>
+                <div className="text-white/80">
+                  Rua de Rebolido, 42<br />
+                  4580-402 Gondalães, Paredes<br />
+                  Portugal
+                </div>
+                <div className="space-y-2 text-sm text-white/60">
+                  <div>🕒 Horário: Segunda a Sexta, 9h-18h</div>
+                  <div>📞 Ligue antes da visita: +351 930 682 725</div>
+                </div>
+                <div className="pt-4">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText('Rua de Rebolido 42, 4580-402 Gondalães, Paredes');
+                      alert('Morada copiada para a área de transferência!');
+                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand-yellow/20 border border-brand-yellow text-brand-yellow rounded-lg hover:bg-brand-yellow hover:text-black transition-all duration-300"
+                  >
+                    📋 Copiar Morada
+                  </button>
                 </div>
               </div>
             </div>
