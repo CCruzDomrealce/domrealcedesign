@@ -15,7 +15,7 @@ export default function Contactos() {
   const { toast } = useToast();
   
   // Fetch Google Maps API key
-  const { data: mapsConfig } = useQuery({
+  const { data: mapsConfig } = useQuery<{ apiKey: string }>({
     queryKey: ['/api/config/google-maps-key'],
   });
   const [formData, setFormData] = useState({
@@ -138,30 +138,6 @@ export default function Contactos() {
         </div>
       </section>
 
-      {/* Contact Information */}
-      <section className="py-4 bg-black/90">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-4 mb-6">
-            <div className="text-center p-2">
-              <h3 className="text-lg font-semibold mb-2 text-brand-yellow">Telefone</h3>
-              <p className="text-white/80 text-sm">+351 930 682 725</p>
-            </div>
-
-            <div className="text-center p-2">
-              <h3 className="text-lg font-semibold mb-2 text-brand-turquoise">Email</h3>
-              <p className="text-white/80 text-sm">carloscruz@domrealce.com</p>
-            </div>
-
-            <div className="text-center p-2">
-              <h3 className="text-lg font-semibold mb-2 text-brand-coral">Morada</h3>
-              <p className="text-white/80 text-sm">
-                Rua de Rebolido, 42<br />
-                4580-402 Gondalães, Paredes
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Google Maps Section */}
       <section className="py-6 bg-black/90">
@@ -173,10 +149,10 @@ export default function Contactos() {
             <GoogleMap
               apiKey={mapsConfig.apiKey}
               center={{
-                lat: 41.2033,
-                lng: -8.3590
+                lat: 41.1971,
+                lng: -8.3289
               }}
-              zoom={16}
+              zoom={17}
               className="w-full h-96 mb-6"
               address="Rua de Rebolido, 42, 4580-402 Gondalães, Paredes, Portugal"
               companyName="DOMREALCE"
@@ -202,9 +178,19 @@ export default function Contactos() {
                   4580-402 Gondalães, Paredes<br />
                   Portugal
                 </div>
-                <div className="space-y-2 text-sm text-white/60">
-                  <div>🕒 Horário: Segunda a Sexta, 9h-18h</div>
-                  <div>📞 Ligue antes da visita: +351 930 682 725</div>
+                <div className="grid md:grid-cols-3 gap-4 mt-6">
+                  <div className="text-center p-2">
+                    <h4 className="text-md font-semibold mb-2 text-brand-yellow">Telefone</h4>
+                    <p className="text-white/80 text-sm">+351 930 682 725</p>
+                  </div>
+                  <div className="text-center p-2">
+                    <h4 className="text-md font-semibold mb-2 text-brand-turquoise">Email</h4>
+                    <p className="text-white/80 text-sm">carloscruz@domrealce.com</p>
+                  </div>
+                  <div className="text-center p-2">
+                    <h4 className="text-md font-semibold mb-2 text-brand-coral">Horário</h4>
+                    <p className="text-white/80 text-sm">Seg-Sex: 9h-18h</p>
+                  </div>
                 </div>
                 <div className="pt-4">
                   <button
