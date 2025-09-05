@@ -38,6 +38,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // IfthenPay service
   const ifthenPayService = createIfthenPayService();
 
+  // Google Maps API Key endpoint
+  app.get("/api/config/google-maps-key", (req, res) => {
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Google Maps API key not configured' });
+    }
+    res.json({ apiKey });
+  });
+
   // Sitemap.xml generator
   app.get("/sitemap.xml", (req, res) => {
     const baseUrl = 'https://www.domrealce.com';

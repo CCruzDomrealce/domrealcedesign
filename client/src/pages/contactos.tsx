@@ -1,8 +1,9 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import GoogleMap from "@/components/GoogleMap";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { insertContactSchema, type InsertContact } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { Link } from "wouter";
@@ -12,6 +13,11 @@ import { Shield, Upload, FileText, X } from "lucide-react";
 
 export default function Contactos() {
   const { toast } = useToast();
+  
+  // Fetch Google Maps API key
+  const { data: mapsConfig } = useQuery({
+    queryKey: ['/api/config/google-maps-key'],
+  });
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -162,60 +168,27 @@ export default function Contactos() {
         <div className="container mx-auto px-4">
           <h3 className="text-xl font-semibold text-brand-yellow mb-6 text-center">Onde Estamos</h3>
           
-          {/* Location Map */}
-          <div className="w-full h-96 rounded-lg overflow-hidden border-2 border-brand-yellow/30 mb-6">
-            <div className="w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative">
-              {/* Map-like background */}
-              <div className="absolute inset-0 opacity-20">
-                <div className="w-full h-full bg-gray-600" style={{
-                  backgroundImage: `
-                    radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.3) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.2) 0%, transparent 50%),
-                    linear-gradient(45deg, transparent 49%, rgba(156, 163, 175, 0.1) 50%, transparent 51%),
-                    linear-gradient(-45deg, transparent 49%, rgba(156, 163, 175, 0.1) 50%, transparent 51%)
-                  `,
-                  backgroundSize: '200px 200px, 150px 150px, 20px 20px, 20px 20px'
-                }}></div>
+          {/* Interactive Google Map */}
+          {mapsConfig?.apiKey ? (
+            <GoogleMap
+              apiKey={mapsConfig.apiKey}
+              center={{
+                lat: 41.2033,
+                lng: -8.3590
+              }}
+              zoom={16}
+              className="w-full h-96 mb-6"
+              address="Rua de Rebolido, 42, 4580-402 Gondalães, Paredes, Portugal"
+              companyName="DOMREALCE"
+            />
+          ) : (
+            <div className="w-full h-96 mb-6 bg-gray-900 rounded-lg border-2 border-brand-yellow/30 flex items-center justify-center">
+              <div className="text-center text-brand-yellow">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-yellow mx-auto mb-4"></div>
+                <p>A carregar mapa...</p>
               </div>
-              
-              {/* Location marker and info */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-6 bg-black/70 backdrop-blur-sm rounded-2xl border border-brand-yellow/30 max-w-md mx-4">
-                  <div className="text-6xl mb-4 animate-bounce">📍</div>
-                  <div className="text-brand-yellow font-bold text-xl mb-2">DOMREALCE</div>
-                  <div className="text-white/90 text-sm mb-4">
-                    Rua de Rebolido, 42<br />
-                    4580-402 Gondalães, Paredes<br />
-                    Portugal
-                  </div>
-                  <div className="space-y-2">
-                    <button
-                      onClick={() => {
-                        window.open('https://www.google.com/maps/search/?api=1&query=Rua+de+Rebolido+42%2C+4580-402+Gondalães%2C+Paredes', '_blank');
-                      }}
-                      className="w-full px-4 py-2 bg-brand-yellow text-black rounded-lg font-semibold hover:bg-brand-yellow/90 transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      🗺️ Ver no Google Maps
-                    </button>
-                    <button
-                      onClick={() => {
-                        window.open('https://waze.com/ul?q=Rua+de+Rebolido+42+Gondalães+Paredes', '_blank');
-                      }}
-                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      🚗 Abrir no Waze
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute top-4 left-4 w-8 h-8 border-2 border-brand-yellow/40 rounded-full"></div>
-              <div className="absolute top-8 right-8 w-4 h-4 bg-brand-coral/60 rounded-full"></div>
-              <div className="absolute bottom-6 left-8 w-6 h-6 border-2 border-brand-turquoise/50 rounded-full"></div>
-              <div className="absolute bottom-4 right-4 w-3 h-3 bg-brand-yellow/70 rounded-full"></div>
             </div>
-          </div>
+          )}
 
           {/* Address Info Below Map */}
           <div className="max-w-2xl mx-auto text-center">

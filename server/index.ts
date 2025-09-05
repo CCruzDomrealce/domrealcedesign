@@ -16,11 +16,11 @@ app.use((req, res, next) => {
   // Content Security Policy
   res.setHeader('Content-Security-Policy', 
     "default-src 'self'; " +
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data: blob: https: http:; " +
-    "connect-src 'self' https://www.google-analytics.com; " +
+    "img-src 'self' data: blob: https: http: https://maps.gstatic.com https://maps.googleapis.com; " +
+    "connect-src 'self' https://www.google-analytics.com https://maps.googleapis.com; " +
     "frame-src 'none';"
   );
   
