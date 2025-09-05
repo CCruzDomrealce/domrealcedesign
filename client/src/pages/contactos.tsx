@@ -162,40 +162,59 @@ export default function Contactos() {
         <div className="container mx-auto px-4">
           <h3 className="text-xl font-semibold text-brand-yellow mb-6 text-center">Onde Estamos</h3>
           
-          {/* Full Width Google Maps */}
+          {/* Location Map */}
           <div className="w-full h-96 rounded-lg overflow-hidden border-2 border-brand-yellow/30 mb-6">
-            {import.meta.env.VITE_GOOGLE_API_KEY ? (
-              <iframe
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ border: 0 }}
-                src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_API_KEY}&q=Rua+de+Rebolido+42,+4580-402+Gondalães,+Paredes&zoom=15&maptype=roadmap`}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Localização DOMREALCE - Rua de Rebolido 42, 4580-402 Gondalães, Paredes"
-              ></iframe>
-            ) : (
-              <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-                <div className="text-center p-6">
-                  <div className="text-4xl mb-4">📍</div>
-                  <div className="text-brand-yellow font-semibold text-lg mb-2">DOMREALCE</div>
-                  <div className="text-white/80 mb-4">
+            <div className="w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative">
+              {/* Map-like background */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="w-full h-full bg-gray-600" style={{
+                  backgroundImage: `
+                    radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.2) 0%, transparent 50%),
+                    linear-gradient(45deg, transparent 49%, rgba(156, 163, 175, 0.1) 50%, transparent 51%),
+                    linear-gradient(-45deg, transparent 49%, rgba(156, 163, 175, 0.1) 50%, transparent 51%)
+                  `,
+                  backgroundSize: '200px 200px, 150px 150px, 20px 20px, 20px 20px'
+                }}></div>
+              </div>
+              
+              {/* Location marker and info */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center p-6 bg-black/70 backdrop-blur-sm rounded-2xl border border-brand-yellow/30 max-w-md mx-4">
+                  <div className="text-6xl mb-4 animate-bounce">📍</div>
+                  <div className="text-brand-yellow font-bold text-xl mb-2">DOMREALCE</div>
+                  <div className="text-white/90 text-sm mb-4">
                     Rua de Rebolido, 42<br />
-                    4580-402 Gondalães, Paredes
+                    4580-402 Gondalães, Paredes<br />
+                    Portugal
                   </div>
-                  <a
-                    href="https://www.google.com/maps/search/?api=1&query=Rua+de+Rebolido+42%2C+4580-402+Gondalães%2C+Paredes"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand-yellow text-black rounded-lg hover:bg-brand-yellow/90 transition-colors"
-                  >
-                    🗺️ Ver no Google Maps
-                  </a>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => {
+                        window.open('https://www.google.com/maps/search/?api=1&query=Rua+de+Rebolido+42%2C+4580-402+Gondalães%2C+Paredes', '_blank');
+                      }}
+                      className="w-full px-4 py-2 bg-brand-yellow text-black rounded-lg font-semibold hover:bg-brand-yellow/90 transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      🗺️ Ver no Google Maps
+                    </button>
+                    <button
+                      onClick={() => {
+                        window.open('https://waze.com/ul?q=Rua+de+Rebolido+42+Gondalães+Paredes', '_blank');
+                      }}
+                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                      🚗 Abrir no Waze
+                    </button>
+                  </div>
                 </div>
               </div>
-            )}
+
+              {/* Decorative elements */}
+              <div className="absolute top-4 left-4 w-8 h-8 border-2 border-brand-yellow/40 rounded-full"></div>
+              <div className="absolute top-8 right-8 w-4 h-4 bg-brand-coral/60 rounded-full"></div>
+              <div className="absolute bottom-6 left-8 w-6 h-6 border-2 border-brand-turquoise/50 rounded-full"></div>
+              <div className="absolute bottom-4 right-4 w-3 h-3 bg-brand-yellow/70 rounded-full"></div>
+            </div>
           </div>
 
           {/* Address Info Below Map */}
