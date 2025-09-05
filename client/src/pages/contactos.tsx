@@ -164,17 +164,38 @@ export default function Contactos() {
           
           {/* Full Width Google Maps */}
           <div className="w-full h-96 rounded-lg overflow-hidden border-2 border-brand-yellow/30 mb-6">
-            <iframe
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              style={{ border: 0 }}
-              src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_API_KEY || ''}&q=Rua+de+Rebolido+42,+4580-402+Gondalães,+Paredes&zoom=15&maptype=roadmap`}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Localização DOMREALCE - Rua de Rebolido 42, 4580-402 Gondalães, Paredes"
-            ></iframe>
+            {import.meta.env.VITE_GOOGLE_API_KEY ? (
+              <iframe
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_API_KEY}&q=Rua+de+Rebolido+42,+4580-402+Gondalães,+Paredes&zoom=15&maptype=roadmap`}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Localização DOMREALCE - Rua de Rebolido 42, 4580-402 Gondalães, Paredes"
+              ></iframe>
+            ) : (
+              <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+                <div className="text-center p-6">
+                  <div className="text-4xl mb-4">📍</div>
+                  <div className="text-brand-yellow font-semibold text-lg mb-2">DOMREALCE</div>
+                  <div className="text-white/80 mb-4">
+                    Rua de Rebolido, 42<br />
+                    4580-402 Gondalães, Paredes
+                  </div>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Rua+de+Rebolido+42%2C+4580-402+Gondalães%2C+Paredes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand-yellow text-black rounded-lg hover:bg-brand-yellow/90 transition-colors"
+                  >
+                    🗺️ Ver no Google Maps
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Address Info Below Map */}
