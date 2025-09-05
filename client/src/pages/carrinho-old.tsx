@@ -82,7 +82,7 @@ export default function Carrinho() {
         
         // Recalculate total price based on area
         const area = updatedItem.area || 0.01;
-        const basePrice = updatedItem.preco * area;
+        const basePrice = (updatedItem.preco || 0) * area;
         const laminacaoPrice = updatedItem.laminacao ? 8 * area : 0;
         updatedItem.precoTotal = basePrice + laminacaoPrice;
         
@@ -275,30 +275,30 @@ export default function Carrinho() {
                                   value={item.tipoCola || 'com-cola'} 
                                   onValueChange={(value: 'com-cola' | 'sem-cola') => updateItem(item.id, { tipoCola: value })}
                                 >
-                              <SelectTrigger className="bg-[#0a0a0a] border-[#333] text-white">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent className="bg-[#111111] border-[#333]">
-                                <SelectItem value="com-cola" className="text-white hover:bg-[#333]">
-                                  <div className="flex items-center gap-2">
-                                    <div className="h-4 w-4 bg-[#20B2AA] rounded-full"></div>
-                                    Com Cola (Vinil autocolante)
-                                  </div>
-                                </SelectItem>
-                                <SelectItem value="sem-cola" className="text-white hover:bg-[#333]">
-                                  <div className="flex items-center gap-2">
-                                    <div className="h-4 w-4 bg-[#FFD700] rounded-full"></div>
-                                    Sem Cola (Cola comprada separadamente)
-                                  </div>
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <p className="text-xs text-gray-400 mt-1">
-                              <a href="/como-aplicar-papel-parede" className="text-[#FFD700] hover:text-[#20B2AA] underline">
-                                Download de manuais de aplicação
-                              </a>
-                            </p>
-                          </div>
+                                  <SelectTrigger className="bg-[#0a0a0a] border-[#333] text-white">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent className="bg-[#111111] border-[#333]">
+                                    <SelectItem value="com-cola" className="text-white hover:bg-[#333]">
+                                      <div className="flex items-center gap-2">
+                                        <div className="h-4 w-4 bg-[#20B2AA] rounded-full"></div>
+                                        Com Cola (Vinil autocolante)
+                                      </div>
+                                    </SelectItem>
+                                    <SelectItem value="sem-cola" className="text-white hover:bg-[#333]">
+                                      <div className="flex items-center gap-2">
+                                        <div className="h-4 w-4 bg-[#FFD700] rounded-full"></div>
+                                        Sem Cola (Cola comprada separadamente)
+                                      </div>
+                                    </SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <p className="text-xs text-gray-400 mt-1">
+                                  <a href="/como-aplicar-papel-parede" className="text-[#FFD700] hover:text-[#20B2AA] underline">
+                                    Download de manuais de aplicação
+                                  </a>
+                                </p>
+                              </div>
 
                           {/* Informação sobre medidas mínimas */}
                           <div className="mb-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
@@ -420,6 +420,9 @@ export default function Carrinho() {
                             <Sparkles className="h-4 w-4 text-[#FFD700]" />
                           </div>
 
+                            </>
+                          )}
+
                           {/* Quantity */}
                           <div>
                             <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -497,7 +500,7 @@ export default function Carrinho() {
                     {cartItems.map((item) => (
                       <div key={item.id} className="flex justify-between text-sm">
                         <span className="text-brand-yellow">
-                          {item.textureName.substring(0, 25)}... x{item.quantidade || 1}
+                          {(item.textureName || item.canvasName || 'Produto')?.substring(0, 25)}... x{item.quantidade || 1}
                         </span>
                         <span className="text-white font-semibold">
                           €{(item.precoTotal * (item.quantidade || 1)).toFixed(2)}

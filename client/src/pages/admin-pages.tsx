@@ -71,7 +71,7 @@ function ImageSelector({ value, onChange }: ImageSelectorProps) {
     }
   };
 
-  const allImages = (galleryData?.images || []).map((img: string) => `/public-objects/${img}`);
+  const allImages = ((galleryData as any)?.images || []).map((img: string) => `/public-objects/${img}`);
 
   return (
     <div className="space-y-4">
@@ -133,7 +133,7 @@ function ImageSelector({ value, onChange }: ImageSelectorProps) {
             type="button"
             variant="outline"
             className="w-full border-[#00d4aa] text-[#00d4aa] hover:bg-[#00d4aa] hover:text-black"
-            onClick={() => document.querySelector('input[type="file"]')?.click()}
+            onClick={() => (document.querySelector('input[type="file"]') as HTMLInputElement)?.click()}
           >
             <Upload className="h-4 w-4 mr-2" />
             Fazer Upload de Nova Imagem
@@ -146,7 +146,7 @@ function ImageSelector({ value, onChange }: ImageSelectorProps) {
         <div className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-600">
           <h4 className="text-white font-medium mb-3">Selecionar da Galeria:</h4>
           <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 max-h-64 overflow-y-auto">
-            {allImages.map((imgUrl, index) => (
+            {allImages.map((imgUrl: string, index: number) => (
               <button
                 key={index}
                 type="button"
