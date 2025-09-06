@@ -81,14 +81,12 @@ export default function Contactos() {
       <Navigation />
 
       {/* Hero Section with Background Image */}
-      <section className="relative h-96 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src="/api/objects/public/Contactos/cabine_telefónica.webp"
-            alt="Contacto DOMREALCE"
-            className="w-full h-full object-cover"
-          />
-        </div>
+      <section 
+        className="relative h-96 flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url("/api/objects/public/Contactos/cabine_telefónica.webp")'
+        }}
+      >
         <div className="relative z-10 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
             Contacto
