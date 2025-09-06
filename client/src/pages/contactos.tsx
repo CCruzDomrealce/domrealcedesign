@@ -80,9 +80,9 @@ export default function Contactos() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
-      {/* Hero Section with Background Image */}
+      {/* Hero Section with Background Image - No spacing */}
       <section 
-        className="relative h-[500px] flex items-center justify-center overflow-hidden bg-contain bg-center bg-no-repeat bg-black"
+        className="relative h-[500px] flex items-center justify-center overflow-hidden bg-contain bg-center bg-no-repeat bg-black -mt-6"
         style={{
           backgroundImage: `url(${cabineTelefonica})`
         }}
@@ -97,7 +97,7 @@ export default function Contactos() {
         </div>
       </section>
       {/* Google Maps Section - Full Width */}
-      <section className="bg-black">
+      <section className="bg-black -mt-1">
         {/* Interactive Google Map - Full Width */}
         {mapsConfig?.apiKey ? (
           <GoogleMap
