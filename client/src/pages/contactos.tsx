@@ -82,7 +82,7 @@ export default function Contactos() {
       <Navigation />
       {/* Hero Section with Background Image - No spacing */}
       <section 
-        className="relative h-[600px] flex items-center justify-center overflow-hidden bg-contain md:bg-center bg-right bg-no-repeat bg-black -mt-12"
+        className="relative h-[600px] flex items-center justify-center overflow-hidden md:bg-contain bg-cover md:bg-center bg-right bg-no-repeat bg-black -mt-12"
         style={{
           backgroundImage: `url(${cabineTelefonica})`
         }}
