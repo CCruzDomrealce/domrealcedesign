@@ -104,7 +104,7 @@ export default function Contactos() {
             apiKey={mapsConfig.apiKey}
             center={{
               lat: 41.22940,
-              lng: -8.32379
+              lng: -8.3237
             }}
             zoom={17}
             className="w-full h-[700px]"
