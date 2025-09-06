@@ -13,12 +13,12 @@ import { Shield, Upload, FileText, X } from "lucide-react";
 
 export default function Contactos() {
   const { toast } = useToast();
-  
+
   // Fetch Google Maps API key
   const { data: mapsConfig } = useQuery<{ apiKey: string }>({
     queryKey: ['/api/config/google-maps-key'],
   });
-  
+
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -81,11 +81,16 @@ export default function Contactos() {
       <Navigation />
 
       {/* Hero Section with Background Image */}
-      <section className="relative h-96 bg-gradient-to-r from-black/80 via-gray-900/80 to-black/80 flex items-center justify-center overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJkb3RzIiB4PSIwIiB5PSIwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICA8Y2lyY2xlIGN4PSIxMCIgY3k9IjEwIiByPSIxLjUiIGZpbGw9InJnYmEoMjU1LCAyMzQsIDc3LCAwLjEpIi8+CiAgICA8L3BhdHRlcm4+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZG90cykiLz4KPC9zdmc+')] opacity-30"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/70"></div>
-        
+      <section className="relative h-96 flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="/api/objects/public/Contactos/cabine_telefónica.webp"
+            alt="Contacto DOMREALCE"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        {/* Dark Overlay for text readability */}
+        <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-10 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
             Contacto
@@ -119,7 +124,7 @@ export default function Contactos() {
             </div>
           </div>
         )}
-        
+
         {/* Map Directions Button - Below Map */}
         <div className="container mx-auto px-4 py-4">
           <div className="text-center">
@@ -149,12 +154,12 @@ export default function Contactos() {
       <section className="py-12 bg-black/90">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            
+
             {/* Address and Contact Info - Left Side */}
             <div className="lg:col-span-1">
               <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border border-brand-yellow/30 h-full">
                 <h3 className="text-xl font-bold text-brand-yellow mb-6">Morada</h3>
-                
+
                 <div className="space-y-4">
                   <div>
                     <h4 className="text-lg text-white font-semibold mb-2">
@@ -166,7 +171,7 @@ export default function Contactos() {
                       Portugal
                     </div>
                   </div>
-                  
+
                   <div className="border-t border-white/10 pt-4">
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
@@ -176,7 +181,7 @@ export default function Contactos() {
                           <p className="text-white font-medium">+351 930 682 725</p>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-3">
                         <span className="text-brand-turquoise">✉️</span>
                         <div>
@@ -184,7 +189,7 @@ export default function Contactos() {
                           <p className="text-white font-medium">carloscruz@domrealce.com</p>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-3">
                         <span className="text-brand-coral">🕰️</span>
                         <div>
@@ -194,7 +199,7 @@ export default function Contactos() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="pt-4">
                     <button
                       onClick={() => {
@@ -209,12 +214,12 @@ export default function Contactos() {
                 </div>
               </div>
             </div>
-            
+
             {/* Contact Form - Right Side */}
             <div className="lg:col-span-2">
               <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-brand-yellow/30">
                 <h3 className="text-2xl font-bold text-brand-yellow mb-6">Formulário de Contacto</h3>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
@@ -228,7 +233,7 @@ export default function Contactos() {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-white/80 mb-2 font-medium">Email *</label>
                       <input
@@ -241,7 +246,7 @@ export default function Contactos() {
                       />
                     </div>
                   </div>
-                  
+
                   <div>
                     <label className="block text-white/80 mb-2 font-medium">Telefone</label>
                     <input
@@ -252,7 +257,7 @@ export default function Contactos() {
                       placeholder="+351 900 000 000 (opcional)"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-white/80 mb-2 font-medium">Assunto *</label>
                     <input
@@ -264,7 +269,7 @@ export default function Contactos() {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-white/80 mb-2 font-medium">Mensagem *</label>
                     <textarea
@@ -276,7 +281,7 @@ export default function Contactos() {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-white/80 mb-2 font-medium">Anexos (opcional)</label>
                     <ObjectUploader
@@ -285,7 +290,7 @@ export default function Contactos() {
                       acceptedTypes={['image/*', '.pdf', '.doc', '.docx']}
                       className="w-full"
                     />
-                    
+
                     {formData.anexos && formData.anexos.length > 0 && (
                       <div className="mt-3">
                         <p className="text-white/60 mb-2 text-sm">Ficheiros anexados:</p>
@@ -317,7 +322,7 @@ export default function Contactos() {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
                     <button
                       type="submit"
@@ -333,7 +338,7 @@ export default function Contactos() {
                         'Enviar Mensagem'
                       )}
                     </button>
-                    
+
                     <Link href={`https://wa.me/351930682725?text=${encodeURIComponent('Olá! Gostaria de saber mais sobre os vossos serviços.')}`}>
                       <button
                         type="button"
