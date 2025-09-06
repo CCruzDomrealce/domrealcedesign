@@ -174,29 +174,7 @@ export default function GoogleMap({
         }
       });
 
-      // Add info window
-      const infoWindow = new (window as any).google.maps.InfoWindow({
-        content: `
-          <div style="padding: 10px; color: #333; font-family: Arial, sans-serif;">
-            <h3 style="margin: 0 0 8px 0; color: #FFD700; font-size: 16px;">${companyName}</h3>
-            <p style="margin: 0; font-size: 14px; line-height: 1.4;">
-              ${address}<br>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}" 
-                 target="_blank" 
-                 style="color: #00d4aa; text-decoration: none; font-weight: bold;">
-                🗺️ Ver direções
-              </a>
-            </p>
-          </div>
-        `
-      });
-
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-      });
-
-      // Open info window by default
-      infoWindow.open(map, marker);
+      // Info window removed - no popup on map
 
     } catch (err) {
       setError('Erro ao inicializar o mapa');
