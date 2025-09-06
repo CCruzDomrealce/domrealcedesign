@@ -83,7 +83,7 @@ export default function Contactos() {
 
       {/* Hero Section with Background Image */}
       <section 
-        className="relative h-96 flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative h-[500px] flex items-center justify-center overflow-hidden bg-contain bg-center bg-no-repeat bg-black"
         style={{
           backgroundImage: `url(${cabineTelefonica})`
         }}
