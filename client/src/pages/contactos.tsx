@@ -87,36 +87,61 @@ export default function Contactos() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/70"></div>
         
         <div className="relative z-10 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
+          <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
             Contacto
           </h1>
+          <p className="text-xl text-white/80 drop-shadow-md">
+            Entre em contacto connosco. Estamos aqui para ajudar com o seu projeto!
+          </p>
         </div>
       </section>
 
-      {/* Google Maps Section */}
+      {/* Google Maps Section - Full Width */}
       <section className="bg-black">
-        <div className="container mx-auto px-0">
-          {/* Interactive Google Map */}
-          {mapsConfig?.apiKey ? (
-            <GoogleMap
-              apiKey={mapsConfig.apiKey}
-              center={{
-                lat: 41.1971,
-                lng: -8.3289
-              }}
-              zoom={17}
-              className="w-full h-96"
-              address="Rua de Rebolido, 42, 4580-402 Gondalães, Paredes, Portugal"
-              companyName="DOMREALCE"
-            />
-          ) : (
-            <div className="w-full h-96 bg-gray-900 flex items-center justify-center">
-              <div className="text-center text-brand-yellow">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-yellow mx-auto mb-4"></div>
-                <p>A carregar mapa...</p>
-              </div>
+        {/* Interactive Google Map - Full Width */}
+        {mapsConfig?.apiKey ? (
+          <GoogleMap
+            apiKey={mapsConfig.apiKey}
+            center={{
+              lat: 41.1971,
+              lng: -8.3289
+            }}
+            zoom={17}
+            className="w-full h-[500px]"
+            address="Rua de Rebolido, 42, 4580-402 Gondalães, Paredes, Portugal"
+            companyName="DOMREALCE"
+          />
+        ) : (
+          <div className="w-full h-[500px] bg-gray-900 flex items-center justify-center">
+            <div className="text-center text-brand-yellow">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-yellow mx-auto mb-4"></div>
+              <p>A carregar mapa...</p>
             </div>
-          )}
+          </div>
+        )}
+        
+        {/* Map Directions Button - Below Map */}
+        <div className="container mx-auto px-4 py-4">
+          <div className="text-center">
+            <div className="inline-flex gap-4">
+              <button
+                onClick={() => {
+                  window.open('https://www.google.com/maps/search/?api=1&query=Rua+de+Rebolido+42%2C+4580-402+Gondalães%2C+Paredes', '_blank');
+                }}
+                className="px-6 py-3 bg-brand-yellow text-black rounded-lg font-semibold hover:bg-brand-yellow/90 transition-all duration-300 flex items-center gap-2"
+              >
+                🗺️ Ver Direções no Google Maps
+              </button>
+              <button
+                onClick={() => {
+                  window.open('https://waze.com/ul?q=Rua+de+Rebolido+42+Gondalães+Paredes', '_blank');
+                }}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 flex items-center gap-2"
+              >
+                🚗 Abrir no Waze
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -329,16 +354,10 @@ export default function Contactos() {
       <section className="py-12 bg-gradient-to-b from-black/90 to-black">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
-            <p className="text-2xl md:text-3xl font-italic text-white/90 mb-6">
+            <p className="text-2xl md:text-3xl font-italic text-white/90">
               "Estamos prontos para fazer seu projeto brilhar! 
               <span className="text-brand-yellow font-semibold"> Juntos, vamos mais longe.</span>"
             </p>
-            <button
-              onClick={() => window.location.href = 'mailto:carloscruz@domrealce.com'}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand-yellow to-brand-coral text-black font-bold text-lg rounded-lg hover:from-brand-yellow/90 hover:to-brand-coral/90 transition-all duration-300 transform hover:scale-[1.05] shadow-lg hover:shadow-xl"
-            >
-              ✉️ Entrar em contacto
-            </button>
           </div>
         </div>
       </section>
