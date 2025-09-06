@@ -81,17 +81,19 @@ export default function Contactos() {
     <div className="min-h-screen bg-black">
       <Navigation />
       {/* Hero Section with Background Image - No spacing */}
-      <section 
-        className="relative h-[600px] flex items-center justify-center overflow-hidden md:bg-contain bg-cover md:bg-center bg-right bg-no-repeat bg-black -mt-12"
+      <section
+        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat bg-black"
         style={{
-          backgroundImage: `url(${cabineTelefonica})`
+          backgroundImage: `url(${cabineTelefonica})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'right center',
         }}
       >
-        <div className="relative z-10 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
+        <div className="relative z-10 text-center px-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
             Contacto
           </h1>
-          <p className="text-xl text-white/80 drop-shadow-md">
+          <p className="text-lg md:text-xl text-white/80 drop-shadow-md">
             Entre em contacto connosco. Estamos aqui para ajudar com o seu projeto!
           </p>
         </div>
