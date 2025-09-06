@@ -89,8 +89,6 @@ export default function Contactos() {
             className="w-full h-full object-cover"
           />
         </div>
-        {/* Dark Overlay for text readability */}
-        <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-10 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
             Contacto
