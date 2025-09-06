@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import { ObjectUploader } from "@/components/ObjectUploader";
 import { Button } from "@/components/ui/button";
 import { Shield, Upload, FileText, X } from "lucide-react";
+import cabineTelefonica from "@assets/cabine_telefónica_1757173064310.webp";
 
 export default function Contactos() {
   const { toast } = useToast();
@@ -84,7 +85,7 @@ export default function Contactos() {
       <section 
         className="relative h-96 flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("/api/objects/public/Contactos/cabine_telefónica.webp")'
+          backgroundImage: `url(${cabineTelefonica})`
         }}
       >
         <div className="relative z-10 text-center">
