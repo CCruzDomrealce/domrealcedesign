@@ -80,7 +80,6 @@ export default function Contactos() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
-
       {/* Hero Section with Background Image */}
       <section 
         className="relative h-[500px] flex items-center justify-center overflow-hidden bg-contain bg-center bg-no-repeat bg-black"
@@ -97,7 +96,6 @@ export default function Contactos() {
           </p>
         </div>
       </section>
-
       {/* Google Maps Section - Full Width */}
       <section className="bg-black">
         {/* Interactive Google Map - Full Width */}
