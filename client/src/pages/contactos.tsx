@@ -103,11 +103,11 @@ export default function Contactos() {
           <GoogleMap
             apiKey={mapsConfig.apiKey}
             center={{
-              lat: 41.1971,
-              lng: -8.3289
+              lat: 41.22940,
+              lng: -8.32379
             }}
             zoom={17}
-            className="w-full h-[500px]"
+            className="w-full h-[700px]"
             address="Rua de Rebolido, 42, 4580-402 Gondalães, Paredes, Portugal"
             companyName="DOMREALCE"
           />
