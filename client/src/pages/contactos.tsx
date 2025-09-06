@@ -97,7 +97,7 @@ export default function Contactos() {
         </div>
       </section>
       {/* Google Maps Section - Full Width */}
-      <section className="bg-black -mt-1">
+      <section className="bg-black -mt-8">
         {/* Interactive Google Map - Full Width */}
         {mapsConfig?.apiKey ? (
           <GoogleMap
