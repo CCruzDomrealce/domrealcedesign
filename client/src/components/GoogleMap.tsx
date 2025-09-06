@@ -194,7 +194,7 @@ export default function GoogleMap({
   }
 
   return (
-    <div className={`relative rounded-lg overflow-hidden border-2 border-brand-yellow/30 ${className}`}>
+    <div className={`relative ${className}`}>
       <div 
         ref={mapRef} 
         className="w-full h-full"
