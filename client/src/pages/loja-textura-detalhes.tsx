@@ -108,6 +108,7 @@ export default function LojaTexturaDetalhes() {
 
     const cartItem = {
       id: Date.now().toString(),
+      type: 'papel-parede' as const,
       textureName: `${textura?.toUpperCase()} - ${selectedTexture.split('/').pop()?.replace(/\.(jpg|jpeg|png|gif|webp)$/i, '') || ''}`,
       textureImage: selectedTexture,
       category: textura || '',
