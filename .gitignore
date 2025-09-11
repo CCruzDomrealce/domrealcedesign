@@ -83,7 +83,7 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
+/public
 
 # Vuepress build output
 .vuepress/dist
@@ -133,17 +133,12 @@ logs
 *.backup
 *.bak
 
-# Archive files (but keep project files)
+# Archive files (but keep project backups)
 *.tar.gz
 *.zip
+!backups/**/*.tar.gz
+!backups/**/*.zip
 
-# Keep these important project directories and files
-!client/
-!server/
-!shared/
-!scripts/
-!loja/
-!portfolio/
-!attached_assets/
-!temp-content/
-!backups/
+# Ensure important directories are included
+!client/public/**
+!server/public/**
